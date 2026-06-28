@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import DeleteCertificateButton from "@/components/DeleteCertificateButton";
+import DeletePropertyButton from "@/components/DeletePropertyButton";
 import NavBar from "@/components/NavBar";
 import TrafficLight from "@/components/TrafficLight";
 import { getCertificateDocumentUrl } from "@/lib/certificate-documents";
@@ -57,6 +59,10 @@ export default async function PropertyDetailPage({
       return getCertificateDocumentUrl(supabase, cert.document_path);
     })
   );
+
+  const documentPaths = certificateList
+    .map((cert) => cert.document_path)
+    .filter((path): path is string => Boolean(path));
 
   const statusBadgeClasses = {
     green: "bg-green-50 text-green-700",
@@ -126,6 +132,9 @@ export default async function PropertyDetailPage({
                   <th className="px-5 py-3 font-medium text-slate-700">
                     Status
                   </th>
+                  <th className="px-5 py-3 font-medium text-slate-700">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -174,6 +183,15 @@ export default async function PropertyDetailPage({
                           {getStatusLabel(status)}
                         </span>
                       </td>
+                      <td className="px-5 py-4">
+                        <DeleteCertificateButton
+                          certificateId={cert.id}
+                          certificateLabel={
+                            CERTIFICATE_LABELS[cert.certificate_type]
+                          }
+                          documentPath={cert.document_path}
+                        />
+                      </td>
                     </tr>
                   );
                 })}
@@ -181,6 +199,12 @@ export default async function PropertyDetailPage({
             </table>
           </div>
         )}
+
+        <DeletePropertyButton
+          propertyId={id}
+          propertyAddress={typedProperty.address}
+          documentPaths={documentPaths}
+        />
       </main>
     </div>
   );

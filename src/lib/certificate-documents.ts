@@ -15,3 +15,16 @@ export async function getCertificateDocumentUrl(
 
   return data.signedUrl;
 }
+
+export async function deleteCertificateDocuments(
+  supabase: SupabaseClient,
+  documentPaths: string[]
+): Promise<void> {
+  if (documentPaths.length === 0) {
+    return;
+  }
+
+  await supabase.storage
+    .from(CERTIFICATE_DOCUMENTS_BUCKET)
+    .remove(documentPaths);
+}
