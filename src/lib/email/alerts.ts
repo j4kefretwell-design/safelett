@@ -1,6 +1,6 @@
 import {
-  EXPIRY_ALERT_DAYS,
   formatDate,
+  getApplicableAlertTiers,
   getDaysUntilExpiry,
   type ExpiryAlertDay,
 } from "@/lib/compliance";
@@ -64,13 +64,13 @@ async function getUserEmail(
 async function hasAlertBeenSent(
   admin: ReturnType<typeof createAdminClient>,
   certificateId: string,
-  alertDays: ExpiryAlertDay
+  alertTier: ExpiryAlertDay
 ): Promise<boolean> {
   const { data, error } = await admin
     .from("certificate_alerts")
     .select("id")
     .eq("certificate_id", certificateId)
-    .eq("alert_days", alertDays)
+    .eq("alert_days", alertTier)
     .maybeSingle();
 
   if (error) {
@@ -83,11 +83,11 @@ async function hasAlertBeenSent(
 async function recordAlertSent(
   admin: ReturnType<typeof createAdminClient>,
   certificateId: string,
-  alertDays: ExpiryAlertDay
+  alertTier: ExpiryAlertDay
 ) {
   const { error } = await admin.from("certificate_alerts").insert({
     certificate_id: certificateId,
-    alert_days: alertDays,
+    alert_days: alertTier,
   });
 
   if (error) {
@@ -134,56 +134,58 @@ export async function sendCertificateExpiryAlerts(): Promise<SendAlertsResult> {
     }
 
     const daysUntilExpiry = getDaysUntilExpiry(certificate.expiry_date);
+    const alertTiers = getApplicableAlertTiers(daysUntilExpiry);
 
-    if (!EXPIRY_ALERT_DAYS.includes(daysUntilExpiry as ExpiryAlertDay)) {
+    if (alertTiers.length === 0) {
       result.skipped += 1;
       continue;
     }
 
-    const alertDays = daysUntilExpiry as ExpiryAlertDay;
-
-    try {
-      const alreadySent = await hasAlertBeenSent(
-        admin,
-        certificate.id,
-        alertDays
-      );
-
-      if (alreadySent) {
-        result.skipped += 1;
-        continue;
-      }
-
-      const email = await getUserEmail(admin, property.user_id, emailCache);
-
-      if (!email) {
-        result.errors.push(
-          `No email found for user ${property.user_id} (certificate ${certificate.id})`
+    for (const alertTier of alertTiers) {
+      try {
+        const alreadySent = await hasAlertBeenSent(
+          admin,
+          certificate.id,
+          alertTier
         );
-        continue;
+
+        if (alreadySent) {
+          result.skipped += 1;
+          continue;
+        }
+
+        const email = await getUserEmail(admin, property.user_id, emailCache);
+
+        if (!email) {
+          result.errors.push(
+            `No email found for user ${property.user_id} (certificate ${certificate.id})`
+          );
+          continue;
+        }
+
+        const sendResult = await sendExpiryAlertEmail({
+          to: email,
+          propertyAddress: property.address,
+          certificateLabel: CERTIFICATE_LABELS[certificate.certificate_type],
+          expiryDate: formatDate(certificate.expiry_date),
+          daysRemaining: daysUntilExpiry,
+          alertTier,
+        });
+
+        if (sendResult.error) {
+          result.errors.push(sendResult.error.message);
+          continue;
+        }
+
+        await recordAlertSent(admin, certificate.id, alertTier);
+        result.sent += 1;
+      } catch (alertError) {
+        result.errors.push(
+          alertError instanceof Error
+            ? alertError.message
+            : "Unknown alert processing error"
+        );
       }
-
-      const sendResult = await sendExpiryAlertEmail({
-        to: email,
-        propertyAddress: property.address,
-        certificateLabel: CERTIFICATE_LABELS[certificate.certificate_type],
-        expiryDate: formatDate(certificate.expiry_date),
-        daysRemaining: alertDays,
-      });
-
-      if (sendResult.error) {
-        result.errors.push(sendResult.error.message);
-        continue;
-      }
-
-      await recordAlertSent(admin, certificate.id, alertDays);
-      result.sent += 1;
-    } catch (alertError) {
-      result.errors.push(
-        alertError instanceof Error
-          ? alertError.message
-          : "Unknown alert processing error"
-      );
     }
   }
 

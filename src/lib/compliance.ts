@@ -62,3 +62,23 @@ export function getDaysUntilExpiry(expiryDate: string): number {
     (expiry.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
   );
 }
+
+export function getApplicableAlertTiers(
+  daysUntilExpiry: number
+): ExpiryAlertDay[] {
+  const tiers: ExpiryAlertDay[] = [];
+
+  if (daysUntilExpiry <= 60) {
+    tiers.push(60);
+  }
+
+  if (daysUntilExpiry <= 30) {
+    tiers.push(30);
+  }
+
+  if (daysUntilExpiry <= 7) {
+    tiers.push(7);
+  }
+
+  return tiers;
+}

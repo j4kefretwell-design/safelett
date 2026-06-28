@@ -50,7 +50,41 @@ interface ExpiryAlertEmailParams {
   certificateLabel: string;
   expiryDate: string;
   daysRemaining: number;
+  alertTier: number;
   dashboardUrl: string;
+}
+
+function getExpirySummary(daysRemaining: number): string {
+  if (daysRemaining < 0) {
+    const daysOverdue = Math.abs(daysRemaining);
+    return daysOverdue === 1
+      ? "Expired 1 day ago"
+      : `Expired ${daysOverdue} days ago`;
+  }
+
+  if (daysRemaining === 0) {
+    return "Expires today";
+  }
+
+  return daysRemaining === 1
+    ? "Expires in 1 day"
+    : `Expires in ${daysRemaining} days`;
+}
+
+function getExpirySubject(
+  certificateLabel: string,
+  daysRemaining: number,
+  alertTier: number
+): string {
+  if (daysRemaining < 0) {
+    return `SafeLett Alert: ${certificateLabel} has expired`;
+  }
+
+  if (daysRemaining === 0) {
+    return `SafeLett Alert: ${certificateLabel} expires today`;
+  }
+
+  return `SafeLett Alert: ${certificateLabel} expires within ${alertTier} days`;
 }
 
 export function buildExpiryAlertEmail({
@@ -58,12 +92,14 @@ export function buildExpiryAlertEmail({
   certificateLabel,
   expiryDate,
   daysRemaining,
+  alertTier,
   dashboardUrl,
 }: ExpiryAlertEmailParams) {
   const safeAddress = escapeHtml(propertyAddress);
   const safeCertificate = escapeHtml(certificateLabel);
   const safeExpiryDate = escapeHtml(expiryDate);
-  const subject = `SafeLett Alert: ${certificateLabel} expires in ${daysRemaining} days`;
+  const expirySummary = escapeHtml(getExpirySummary(daysRemaining));
+  const subject = getExpirySubject(certificateLabel, daysRemaining, alertTier);
 
   const html = emailLayout(`
     <h1 style="margin:0 0 12px;font-size:20px;font-weight:700;color:#0f172a;">Certificate expiry reminder</h1>
@@ -87,7 +123,7 @@ export function buildExpiryAlertEmail({
         <td style="padding:16px 20px;">
           <p style="margin:0 0 4px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;color:#64748b;">Expiry date</p>
           <p style="margin:0;font-size:15px;font-weight:600;color:#b45309;">${safeExpiryDate}</p>
-          <p style="margin:8px 0 0;font-size:13px;color:#64748b;">Expires in ${daysRemaining} days</p>
+          <p style="margin:8px 0 0;font-size:13px;color:#64748b;">${expirySummary}</p>
         </td>
       </tr>
     </table>
@@ -112,7 +148,7 @@ export function buildWelcomeEmail({ dashboardUrl }: WelcomeEmailParams) {
       Your account is ready. SafeLett helps you track property compliance certificates across your portfolio, so you always know what needs attention.
     </p>
     <p style="margin:0 0 24px;font-size:15px;line-height:1.6;color:#475569;">
-      Add your properties, upload certificates, and we will send you email reminders when renewals are due at 60, 30, and 7 days before expiry.
+      Add your properties, upload certificates, and we will send you email reminders when renewals are due within 60, 30, and 7 days of expiry.
     </p>
     <a href="${dashboardUrl}" style="display:inline-block;background-color:#0f172a;color:#ffffff;text-decoration:none;font-size:14px;font-weight:600;padding:12px 20px;border-radius:8px;">
       Go to your dashboard

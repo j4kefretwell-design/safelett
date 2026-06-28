@@ -1,3 +1,4 @@
+import type { ExpiryAlertDay } from "@/lib/compliance";
 import { getFromEmail, getResendClient } from "./resend";
 import {
   buildExpiryAlertEmail,
@@ -14,18 +15,21 @@ export async function sendExpiryAlertEmail({
   certificateLabel,
   expiryDate,
   daysRemaining,
+  alertTier,
 }: {
   to: string;
   propertyAddress: string;
   certificateLabel: string;
   expiryDate: string;
   daysRemaining: number;
+  alertTier: ExpiryAlertDay;
 }) {
   const { subject, html } = buildExpiryAlertEmail({
     propertyAddress,
     certificateLabel,
     expiryDate,
     daysRemaining,
+    alertTier,
     dashboardUrl: `${getAppUrl()}/dashboard`,
   });
 

@@ -9,7 +9,7 @@ Property compliance tracking for UK property managers. Built with Next.js and Su
 - Add and manage properties (address, type, bedrooms)
 - Track compliance certificates (Gas Safety, EICR, EPC, and more)
 - Optional PDF/JPEG upload for certificate documents via Supabase Storage
-- Automated expiry email alerts at 60, 30, and 7 days via Resend
+- Automated expiry email alerts within 60, 30, and 7 days of expiry via Resend
 - Welcome email when a new user signs up
 - Automatic status calculation: green (valid), amber (expiring within 60 days), red (expired or expiring within 30 days)
 
@@ -98,7 +98,7 @@ Open [http://localhost:3000](http://localhost:3000), sign up for an account, and
 
 ## Email alerts
 
-SafeLett sends automated expiry reminders when a certificate is **exactly** 60, 30, or 7 days from its expiry date. Alerts are triggered by calling:
+SafeLett sends automated expiry reminders when a certificate is expiring **within** 60, 30, or 7 days. Each threshold alert is sent once per certificate (e.g. a 60-day alert when it enters the 60-day window, then a 30-day alert when it enters the 30-day window, and so on). Alerts are triggered by calling:
 
 ```bash
 curl -X POST https://your-app-url/api/send-alerts \
