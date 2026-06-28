@@ -46,3 +46,19 @@ export function formatDate(dateString: string): string {
     year: "numeric",
   });
 }
+
+export const EXPIRY_ALERT_DAYS = [60, 30, 7] as const;
+
+export type ExpiryAlertDay = (typeof EXPIRY_ALERT_DAYS)[number];
+
+export function getDaysUntilExpiry(expiryDate: string): number {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const expiry = new Date(expiryDate);
+  expiry.setHours(0, 0, 0, 0);
+
+  return Math.ceil(
+    (expiry.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
+  );
+}

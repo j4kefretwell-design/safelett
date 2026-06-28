@@ -41,6 +41,18 @@ CREATE TABLE certificates (
 CREATE INDEX idx_properties_user_id ON properties(user_id);
 CREATE INDEX idx_certificates_property_id ON certificates(property_id);
 
+CREATE TABLE certificate_alerts (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  certificate_id UUID NOT NULL REFERENCES certificates(id) ON DELETE CASCADE,
+  alert_days INTEGER NOT NULL CHECK (alert_days IN (7, 30, 60)),
+  sent_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  UNIQUE (certificate_id, alert_days)
+);
+
+CREATE INDEX idx_certificate_alerts_certificate_id ON certificate_alerts(certificate_id);
+
+ALTER TABLE certificate_alerts ENABLE ROW LEVEL SECURITY;
+
 ALTER TABLE properties ENABLE ROW LEVEL SECURITY;
 ALTER TABLE certificates ENABLE ROW LEVEL SECURITY;
 

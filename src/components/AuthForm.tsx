@@ -34,6 +34,8 @@ export default function AuthForm({ mode }: AuthFormProps) {
         setLoading(false);
         return;
       }
+
+      await fetch("/api/welcome-email", { method: "POST" });
     } else {
       const { error: signInError } = await supabase.auth.signInWithPassword({
         email,

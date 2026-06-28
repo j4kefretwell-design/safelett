@@ -9,6 +9,8 @@ Property compliance tracking for UK property managers. Built with Next.js and Su
 - Add and manage properties (address, type, bedrooms)
 - Track compliance certificates (Gas Safety, EICR, EPC, and more)
 - Optional PDF/JPEG upload for certificate documents via Supabase Storage
+- Automated expiry email alerts at 60, 30, and 7 days via Resend
+- Welcome email when a new user signs up
 - Automatic status calculation: green (valid), amber (expiring within 60 days), red (expired or expiring within 30 days)
 
 ## Prerequisites
@@ -39,7 +41,9 @@ npm install
 
 This creates the `properties` and `certificates` tables with row-level security so each user only sees their own data. It also creates a private `certificate-documents` storage bucket for optional certificate file uploads.
 
-If you already ran an older version of `schema.sql`, run `supabase/storage.sql` instead to add the `document_path` column and storage bucket.
+If you already ran an older version of `schema.sql`, run the migration files as needed:
+- `supabase/storage.sql` — certificate document uploads
+- `supabase/alerts.sql` — email alert tracking
 
 ## Step 4: Configure authentication
 
@@ -60,7 +64,16 @@ If you already ran an older version of `schema.sql`, run `supabase/storage.sql` 
 ```env
 NEXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+
+RESEND_API_KEY=re_your_resend_api_key
+RESEND_FROM_EMAIL=SafeLett <alerts@yourdomain.com>
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+
+CRON_SECRET=your-random-secret-key
 ```
+
+The **service role key** is used by the alerts API to read certificates across all users. Keep it secret and never expose it in the browser.
 
 You can also copy `.env.example` and fill in your values:
 
@@ -68,13 +81,33 @@ You can also copy `.env.example` and fill in your values:
 cp .env.example .env.local
 ```
 
-## Step 6: Run the app
+## Step 6: Set up Resend
+
+1. Create an account at [resend.com](https://resend.com)
+2. Add and verify your sending domain (or use `onboarding@resend.dev` for testing)
+3. Create an API key and add it to `.env.local` as `RESEND_API_KEY`
+4. Set `RESEND_FROM_EMAIL` to a verified sender address
+
+## Step 7: Run the app
 
 ```bash
 npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000), sign up for an account, and start adding properties and certificates.
+
+## Email alerts
+
+SafeLett sends automated expiry reminders when a certificate is **exactly** 60, 30, or 7 days from its expiry date. Alerts are triggered by calling:
+
+```bash
+curl -X POST https://your-app-url/api/send-alerts \
+  -H "x-cron-secret: your-random-secret-key"
+```
+
+On Vercel, a daily cron job is configured in `vercel.json` (8:00 AM UTC). Set `CRON_SECRET` in your Vercel environment variables — Vercel sends it automatically as a Bearer token.
+
+Each alert is only sent once per certificate and threshold, tracked in the `certificate_alerts` table.
 
 ## Deploying to production
 
