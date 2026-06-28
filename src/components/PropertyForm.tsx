@@ -1,25 +1,37 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import {
   btnPrimaryClassName,
+  btnSecondaryClassName,
   inputClassName,
   labelClassName,
   selectClassName,
+  textareaClassName,
 } from "@/lib/ui";
 import {
   PROPERTY_TYPE_LABELS,
   PROPERTY_TYPES,
+  type Property,
   type PropertyType,
 } from "@/lib/types";
 
-export default function PropertyForm() {
+interface PropertyFormProps {
+  property?: Property;
+}
+
+export default function PropertyForm({ property }: PropertyFormProps) {
   const router = useRouter();
-  const [address, setAddress] = useState("");
-  const [propertyType, setPropertyType] = useState<PropertyType>("standard_rental");
-  const [bedrooms, setBedrooms] = useState(1);
+  const isEditing = Boolean(property);
+  const [address, setAddress] = useState(property?.address ?? "");
+  const [propertyType, setPropertyType] = useState<PropertyType>(
+    property?.property_type ?? "standard_rental"
+  );
+  const [bedrooms, setBedrooms] = useState(property?.bedrooms ?? 1);
+  const [notes, setNotes] = useState(property?.notes ?? "");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -34,8 +46,31 @@ export default function PropertyForm() {
     } = await supabase.auth.getUser();
 
     if (!user) {
-      setError("You must be signed in to add a property.");
+      setError("You must be signed in.");
       setLoading(false);
+      return;
+    }
+
+    if (isEditing && property) {
+      const { error: updateError } = await supabase
+        .from("properties")
+        .update({
+          address,
+          property_type: propertyType,
+          bedrooms,
+          notes: notes.trim() || null,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", property.id);
+
+      if (updateError) {
+        setError(updateError.message);
+        setLoading(false);
+        return;
+      }
+
+      router.push(`/properties/${property.id}`);
+      router.refresh();
       return;
     }
 
@@ -46,6 +81,7 @@ export default function PropertyForm() {
         address,
         property_type: propertyType,
         bedrooms,
+        notes: notes.trim() || null,
       })
       .select("id")
       .single();
@@ -110,15 +146,42 @@ export default function PropertyForm() {
         />
       </div>
 
+      {isEditing && (
+        <div>
+          <label htmlFor="notes" className={labelClassName}>
+            Property Notes
+          </label>
+          <textarea
+            id="notes"
+            rows={4}
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            className={textareaClassName}
+            placeholder='e.g. "Boiler located in kitchen cupboard"'
+          />
+        </div>
+      )}
+
       {error && (
         <p className="rounded-lg border border-red-200 bg-urgent-light px-4 py-3 text-sm text-urgent">
           {error}
         </p>
       )}
 
-      <button type="submit" disabled={loading} className={btnPrimaryClassName}>
-        {loading ? "Saving..." : "Add Property"}
-      </button>
+      <div className="flex flex-wrap gap-3">
+        <button type="submit" disabled={loading} className={btnPrimaryClassName}>
+          {loading
+            ? "Saving..."
+            : isEditing
+              ? "Save Changes"
+              : "Add Property"}
+        </button>
+        {isEditing && property && (
+          <Link href={`/properties/${property.id}`} className={btnSecondaryClassName}>
+            Cancel
+          </Link>
+        )}
+      </div>
     </form>
   );
 }

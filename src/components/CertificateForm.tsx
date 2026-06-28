@@ -8,6 +8,7 @@ import {
   CERTIFICATE_TYPE_HINTS,
   CERTIFICATE_TYPES,
   getCertificateDateLabels,
+  type Certificate,
   type CertificateType,
 } from "@/lib/types";
 import {
@@ -17,23 +18,31 @@ import {
 } from "@/lib/storage";
 import {
   btnPrimaryClassName,
+  btnSecondaryClassName,
   inputClassName,
   labelClassName,
   selectClassName,
   textareaClassName,
 } from "@/lib/ui";
+import Link from "next/link";
 
 interface CertificateFormProps {
   propertyId: string;
+  certificate?: Certificate;
 }
 
-export default function CertificateForm({ propertyId }: CertificateFormProps) {
+export default function CertificateForm({
+  propertyId,
+  certificate,
+}: CertificateFormProps) {
   const router = useRouter();
-  const [certificateType, setCertificateType] =
-    useState<CertificateType>("gas_safety");
-  const [issueDate, setIssueDate] = useState("");
-  const [expiryDate, setExpiryDate] = useState("");
-  const [notes, setNotes] = useState("");
+  const isEditing = Boolean(certificate);
+  const [certificateType, setCertificateType] = useState<CertificateType>(
+    certificate?.certificate_type ?? "gas_safety"
+  );
+  const [issueDate, setIssueDate] = useState(certificate?.issue_date ?? "");
+  const [expiryDate, setExpiryDate] = useState(certificate?.expiry_date ?? "");
+  const [notes, setNotes] = useState(certificate?.notes ?? "");
   const [document, setDocument] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -58,12 +67,68 @@ export default function CertificateForm({ propertyId }: CertificateFormProps) {
     } = await supabase.auth.getUser();
 
     if (!user) {
-      setError("You must be signed in to add a certificate.");
+      setError("You must be signed in.");
       setLoading(false);
       return;
     }
 
-    const { data: certificate, error: insertError } = await supabase
+    if (isEditing && certificate) {
+      const { error: updateError } = await supabase
+        .from("certificates")
+        .update({
+          certificate_type: certificateType,
+          issue_date: issueDate,
+          expiry_date: expiryDate,
+          notes: notes.trim() || null,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", certificate.id);
+
+      if (updateError) {
+        setError(updateError.message);
+        setLoading(false);
+        return;
+      }
+
+      if (document) {
+        const documentPath = buildCertificateDocumentPath(
+          user.id,
+          propertyId,
+          certificate.id,
+          document.name
+        );
+
+        if (certificate.document_path) {
+          await supabase.storage
+            .from(CERTIFICATE_DOCUMENTS_BUCKET)
+            .remove([certificate.document_path]);
+        }
+
+        const { error: uploadError } = await supabase.storage
+          .from(CERTIFICATE_DOCUMENTS_BUCKET)
+          .upload(documentPath, document, {
+            cacheControl: "3600",
+            upsert: true,
+          });
+
+        if (uploadError) {
+          setError(uploadError.message);
+          setLoading(false);
+          return;
+        }
+
+        await supabase
+          .from("certificates")
+          .update({ document_path: documentPath })
+          .eq("id", certificate.id);
+      }
+
+      router.push(`/properties/${propertyId}`);
+      router.refresh();
+      return;
+    }
+
+    const { data: newCertificate, error: insertError } = await supabase
       .from("certificates")
       .insert({
         property_id: propertyId,
@@ -75,7 +140,7 @@ export default function CertificateForm({ propertyId }: CertificateFormProps) {
       .select("id")
       .single();
 
-    if (insertError || !certificate) {
+    if (insertError || !newCertificate) {
       setError(insertError?.message ?? "Failed to add certificate.");
       setLoading(false);
       return;
@@ -85,7 +150,7 @@ export default function CertificateForm({ propertyId }: CertificateFormProps) {
       const documentPath = buildCertificateDocumentPath(
         user.id,
         propertyId,
-        certificate.id,
+        newCertificate.id,
         document.name
       );
 
@@ -97,26 +162,16 @@ export default function CertificateForm({ propertyId }: CertificateFormProps) {
         });
 
       if (uploadError) {
-        await supabase.from("certificates").delete().eq("id", certificate.id);
+        await supabase.from("certificates").delete().eq("id", newCertificate.id);
         setError(uploadError.message);
         setLoading(false);
         return;
       }
 
-      const { error: updateError } = await supabase
+      await supabase
         .from("certificates")
         .update({ document_path: documentPath })
-        .eq("id", certificate.id);
-
-      if (updateError) {
-        await supabase.storage
-          .from(CERTIFICATE_DOCUMENTS_BUCKET)
-          .remove([documentPath]);
-        await supabase.from("certificates").delete().eq("id", certificate.id);
-        setError(updateError.message);
-        setLoading(false);
-        return;
-      }
+        .eq("id", newCertificate.id);
     }
 
     router.push(`/properties/${propertyId}`);
@@ -206,6 +261,9 @@ export default function CertificateForm({ propertyId }: CertificateFormProps) {
         />
         <p className="mt-2 text-xs text-mahogany-900/60">
           PDF or JPEG, up to 10 MB.
+          {isEditing && certificate?.document_path
+            ? " Upload a new file to replace the existing document."
+            : ""}
         </p>
       </div>
 
@@ -215,9 +273,23 @@ export default function CertificateForm({ propertyId }: CertificateFormProps) {
         </p>
       )}
 
-      <button type="submit" disabled={loading} className={btnPrimaryClassName}>
-        {loading ? "Saving..." : "Add Certificate"}
-      </button>
+      <div className="flex flex-wrap gap-3">
+        <button type="submit" disabled={loading} className={btnPrimaryClassName}>
+          {loading
+            ? "Saving..."
+            : isEditing
+              ? "Save Changes"
+              : "Add Certificate"}
+        </button>
+        {isEditing && (
+          <Link
+            href={`/properties/${propertyId}`}
+            className={btnSecondaryClassName}
+          >
+            Cancel
+          </Link>
+        )}
+      </div>
     </form>
   );
 }

@@ -24,6 +24,7 @@ export interface Property {
   property_type: PropertyType;
   bedrooms: number;
   notes: string | null;
+  share_token: string | null;
   created_at: string;
   updated_at: string;
 }

@@ -26,6 +26,7 @@ CREATE TABLE properties (
   property_type property_type NOT NULL,
   bedrooms INTEGER NOT NULL CHECK (bedrooms > 0),
   notes TEXT,
+  share_token UUID UNIQUE,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );

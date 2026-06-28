@@ -23,7 +23,7 @@ export const btnDangerClassName =
 export const cardClassName =
   "rounded-xl border border-gold-muted/60 bg-ivory shadow-sm";
 
-export const formCardClassName = `${cardClassName} p-8`;
+export const formCardClassName = `${cardClassName} p-6 sm:p-8`;
 
 export const sectionTitleClassName =
   "text-lg font-serif font-semibold text-mahogany-950";

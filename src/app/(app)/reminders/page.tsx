@@ -69,8 +69,46 @@ export default async function RemindersPage() {
           </p>
         </div>
       ) : (
-        <div className={`${cardClassName} overflow-hidden`}>
-          <table className="w-full text-left text-sm">
+        <>
+          <div className="space-y-4 md:hidden">
+            {reminders.map((reminder) => (
+              <div
+                key={reminder.certificate.id}
+                className={`${cardClassName} p-5`}
+              >
+                <div className="flex items-start gap-3">
+                  <TrafficLight status={reminder.status} />
+                  <div className="min-w-0 flex-1">
+                    <p className="font-medium text-mahogany-950">
+                      {reminder.daysUntilExpiry < 0
+                        ? `${Math.abs(reminder.daysUntilExpiry)} days overdue`
+                        : reminder.daysUntilExpiry === 0
+                          ? "Due today"
+                          : `${reminder.daysUntilExpiry} days`}
+                    </p>
+                    <Link
+                      href={`/properties/${reminder.property.id}`}
+                      className="mt-2 block text-sm font-medium text-forest-900 hover:underline"
+                    >
+                      {reminder.property.address}
+                    </Link>
+                    <p className="mt-2 text-sm text-mahogany-900/80">
+                      {CERTIFICATE_LABELS[reminder.certificate.certificate_type]}
+                    </p>
+                    <p className="mt-1 text-sm text-mahogany-900/60">
+                      Expires {formatDate(reminder.certificate.expiry_date)}
+                    </p>
+                    <div className="mt-3">
+                      <StatusBadge status={reminder.status} size="sm" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className={`${cardClassName} hidden overflow-x-auto md:block`}>
+            <table className="w-full min-w-[640px] text-left text-sm">
             <thead>
               <tr className="border-b border-gold-muted/60 bg-cream/80">
                 <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-mahogany-900/60">
@@ -130,6 +168,7 @@ export default async function RemindersPage() {
             </tbody>
           </table>
         </div>
+        </>
       )}
 
       {reminders.length > 0 && (

@@ -3,6 +3,7 @@ import DeleteCertificateButton from "@/components/DeleteCertificateButton";
 import DeletePropertyButton from "@/components/DeletePropertyButton";
 import PageHeader from "@/components/layout/PageHeader";
 import PropertyNotes from "@/components/PropertyNotes";
+import ShareWithLandlordButton from "@/components/ShareWithLandlordButton";
 import StatusBadge from "@/components/StatusBadge";
 import TrafficLight from "@/components/TrafficLight";
 import { getCertificateDocumentUrl } from "@/lib/certificate-documents";
@@ -11,7 +12,11 @@ import {
   getCertificateStatus,
   getPropertyStatus,
 } from "@/lib/compliance";
-import { btnPrimaryClassName, cardClassName } from "@/lib/ui";
+import {
+  btnPrimaryClassName,
+  btnSecondaryClassName,
+  cardClassName,
+} from "@/lib/ui";
 import { createClient } from "@/lib/supabase/server";
 import {
   CERTIFICATE_LABELS,
@@ -76,9 +81,23 @@ export default async function PropertyDetailPage({
         backLabel="Back to Dashboard"
         actionHref={`/properties/${id}/certificates/new`}
         actionLabel="Add Certificate"
+        secondaryAction={
+          <div className="flex flex-wrap items-center gap-3">
+            <Link
+              href={`/properties/${id}/edit`}
+              className={btnSecondaryClassName}
+            >
+              Edit Property
+            </Link>
+            <ShareWithLandlordButton
+              propertyId={id}
+              shareToken={typedProperty.share_token}
+            />
+          </div>
+        }
       />
 
-      <div className={`${cardClassName} mb-8 flex items-center gap-4 p-6`}>
+      <div className={`${cardClassName} mb-8 flex flex-col gap-4 p-6 sm:flex-row sm:items-center`}>
         <TrafficLight status={propertyStatus} size="lg" />
         <div>
           <p className="text-sm font-medium text-mahogany-900/60">Overall status</p>
@@ -96,7 +115,7 @@ export default async function PropertyDetailPage({
         </h2>
 
         {certificateList.length === 0 ? (
-          <div className={`${cardClassName} px-8 py-12 text-center`}>
+          <div className={`${cardClassName} px-6 py-12 text-center sm:px-8`}>
             <p className="text-sm text-mahogany-900/60">
               No certificates added yet. Add certificates to track compliance
               status.
@@ -109,89 +128,166 @@ export default async function PropertyDetailPage({
             </Link>
           </div>
         ) : (
-          <div className={`${cardClassName} overflow-hidden`}>
-            <table className="w-full text-left text-sm">
-              <thead>
-                <tr className="border-b border-gold-muted/40 bg-cream/80">
-                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-mahogany-900/60">
-                    Certificate
-                  </th>
-                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-mahogany-900/60">
-                    Issued / Completed
-                  </th>
-                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-mahogany-900/60">
-                    Expires / Review
-                  </th>
-                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-mahogany-900/60">
-                    Status
-                  </th>
-                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-mahogany-900/60">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {certificateList.map((cert, index) => {
-                  const status = getCertificateStatus(cert.expiry_date);
-                  const documentUrl = documentUrls[index];
-                  const dateLabels = getCertificateDateLabels(
-                    cert.certificate_type
-                  );
+          <>
+            <div className="space-y-4 md:hidden">
+              {certificateList.map((cert, index) => {
+                const status = getCertificateStatus(cert.expiry_date);
+                const documentUrl = documentUrls[index];
+                const dateLabels = getCertificateDateLabels(
+                  cert.certificate_type
+                );
 
-                  return (
-                    <tr
-                      key={cert.id}
-                      className="border-b border-gold-muted/40 last:border-0"
-                    >
-                      <td className="px-6 py-5">
-                        <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                          <TrafficLight status={status} />
-                          <span className="font-medium text-mahogany-950">
-                            {CERTIFICATE_LABELS[cert.certificate_type]}
-                          </span>
+                return (
+                  <div
+                    key={cert.id}
+                    className={`${cardClassName} p-5`}
+                  >
+                    <div className="flex items-start gap-3">
+                      <TrafficLight status={status} />
+                      <div className="min-w-0 flex-1">
+                        <p className="font-medium text-mahogany-950">
+                          {CERTIFICATE_LABELS[cert.certificate_type]}
+                        </p>
+                        {cert.notes && (
+                          <p className="mt-1 text-xs text-mahogany-900/60">
+                            {cert.notes}
+                          </p>
+                        )}
+                        <div className="mt-3 space-y-1 text-sm text-mahogany-900/80">
+                          <p>
+                            {dateLabels.issue}: {formatDate(cert.issue_date)}
+                          </p>
+                          <p>
+                            {dateLabels.expiry}: {formatDate(cert.expiry_date)}
+                          </p>
+                        </div>
+                        <div className="mt-3 flex flex-wrap items-center gap-3">
+                          <StatusBadge status={status} size="sm" />
                           {documentUrl && (
                             <a
                               href={documentUrl}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-sm font-medium text-forest-900 underline decoration-gold-muted underline-offset-2 transition hover:text-mahogany-950"
+                              className="text-sm font-medium text-forest-900 underline decoration-gold-muted underline-offset-2"
                             >
                               View Certificate
                             </a>
                           )}
                         </div>
-                        {cert.notes && (
-                          <p className="mt-1.5 pl-6 text-xs text-mahogany-900/60">
-                            {cert.notes}
-                          </p>
-                        )}
-                      </td>
-                      <td className="px-6 py-5 text-mahogany-900/80">
-                        <span className="sr-only">{dateLabels.issue}: </span>
-                        {formatDate(cert.issue_date)}
-                      </td>
-                      <td className="px-6 py-5 text-mahogany-900/80">
-                        <span className="sr-only">{dateLabels.expiry}: </span>
-                        {formatDate(cert.expiry_date)}
-                      </td>
-                      <td className="px-6 py-5">
-                        <StatusBadge status={status} size="sm" />
-                      </td>
-                      <td className="px-6 py-5">
-                        <DeleteCertificateButton
-                          certificateId={cert.id}
-                          certificateLabel={
-                            CERTIFICATE_LABELS[cert.certificate_type]
-                          }
-                          documentPath={cert.document_path}
-                        />
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+                        <div className="mt-4 flex flex-wrap gap-4">
+                          <Link
+                            href={`/properties/${id}/certificates/${cert.id}/edit`}
+                            className="text-sm font-semibold text-forest-900 hover:underline"
+                          >
+                            Edit
+                          </Link>
+                          <DeleteCertificateButton
+                            certificateId={cert.id}
+                            certificateLabel={
+                              CERTIFICATE_LABELS[cert.certificate_type]
+                            }
+                            documentPath={cert.document_path}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className={`${cardClassName} hidden overflow-x-auto md:block`}>
+              <table className="w-full min-w-[720px] text-left text-sm">
+                <thead>
+                  <tr className="border-b border-gold-muted/40 bg-cream/80">
+                    <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-mahogany-900/60">
+                      Certificate
+                    </th>
+                    <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-mahogany-900/60">
+                      Issued / Completed
+                    </th>
+                    <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-mahogany-900/60">
+                      Expires / Review
+                    </th>
+                    <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-mahogany-900/60">
+                      Status
+                    </th>
+                    <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-mahogany-900/60">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {certificateList.map((cert, index) => {
+                    const status = getCertificateStatus(cert.expiry_date);
+                    const documentUrl = documentUrls[index];
+                    const dateLabels = getCertificateDateLabels(
+                      cert.certificate_type
+                    );
+
+                    return (
+                      <tr
+                        key={cert.id}
+                        className="border-b border-gold-muted/40 last:border-0"
+                      >
+                        <td className="px-6 py-5">
+                          <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                            <TrafficLight status={status} />
+                            <span className="font-medium text-mahogany-950">
+                              {CERTIFICATE_LABELS[cert.certificate_type]}
+                            </span>
+                            {documentUrl && (
+                              <a
+                                href={documentUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-sm font-medium text-forest-900 underline decoration-gold-muted underline-offset-2 transition hover:text-mahogany-950"
+                              >
+                                View Certificate
+                              </a>
+                            )}
+                          </div>
+                          {cert.notes && (
+                            <p className="mt-1.5 pl-6 text-xs text-mahogany-900/60">
+                              {cert.notes}
+                            </p>
+                          )}
+                        </td>
+                        <td className="px-6 py-5 text-mahogany-900/80">
+                          <span className="sr-only">{dateLabels.issue}: </span>
+                          {formatDate(cert.issue_date)}
+                        </td>
+                        <td className="px-6 py-5 text-mahogany-900/80">
+                          <span className="sr-only">{dateLabels.expiry}: </span>
+                          {formatDate(cert.expiry_date)}
+                        </td>
+                        <td className="px-6 py-5">
+                          <StatusBadge status={status} size="sm" />
+                        </td>
+                        <td className="px-6 py-5">
+                          <div className="flex flex-wrap gap-4">
+                            <Link
+                              href={`/properties/${id}/certificates/${cert.id}/edit`}
+                              className="text-sm font-semibold text-forest-900 transition hover:underline"
+                            >
+                              Edit
+                            </Link>
+                            <DeleteCertificateButton
+                              certificateId={cert.id}
+                              certificateLabel={
+                                CERTIFICATE_LABELS[cert.certificate_type]
+                              }
+                              documentPath={cert.document_path}
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </>
         )}
       </div>
 
