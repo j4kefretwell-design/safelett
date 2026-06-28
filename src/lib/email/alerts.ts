@@ -65,37 +65,56 @@ async function getUserEmail(
   return data.user.email;
 }
 
-async function hasAlertBeenSent(
+function isUniqueViolation(error: { code?: string; message?: string }) {
+  return error.code === "23505";
+}
+
+/**
+ * Atomically claim an alert slot before sending email.
+ * Returns true only when this run inserted the row (alert not sent before).
+ */
+async function claimAlertSlot(
   admin: ReturnType<typeof createAdminClient>,
   certificateId: string,
   alertTier: ExpiryAlertDay
 ): Promise<boolean> {
   const { data, error } = await admin
     .from("certificate_alerts")
+    .insert({
+      certificate_id: certificateId,
+      alert_days: alertTier,
+    })
     .select("id")
-    .eq("certificate_id", certificateId)
-    .eq("alert_days", alertTier)
     .maybeSingle();
 
   if (error) {
-    throw new Error(error.message);
+    if (isUniqueViolation(error)) {
+      return false;
+    }
+
+    throw new Error(
+      `Failed to record alert for certificate ${certificateId} (${alertTier}-day tier): ${error.message}`
+    );
   }
 
   return Boolean(data);
 }
 
-async function recordAlertSent(
+async function releaseAlertSlot(
   admin: ReturnType<typeof createAdminClient>,
   certificateId: string,
   alertTier: ExpiryAlertDay
 ) {
-  const { error } = await admin.from("certificate_alerts").insert({
-    certificate_id: certificateId,
-    alert_days: alertTier,
-  });
+  const { error } = await admin
+    .from("certificate_alerts")
+    .delete()
+    .eq("certificate_id", certificateId)
+    .eq("alert_days", alertTier);
 
   if (error) {
-    throw new Error(error.message);
+    throw new Error(
+      `Failed to release alert slot for certificate ${certificateId} (${alertTier}-day tier): ${error.message}`
+    );
   }
 }
 
@@ -127,7 +146,10 @@ export async function sendCertificateExpiryAlerts(): Promise<SendAlertsResult> {
   }
 
   const emailCache = new Map<string, string | null>();
-  const profileCache = new Map<string, Awaited<ReturnType<typeof getUserProfileById>>>();
+  const profileCache = new Map<
+    string,
+    Awaited<ReturnType<typeof getUserProfileById>>
+  >();
 
   for (const certificate of (certificates ?? []) as CertificateRow[]) {
     result.checked += 1;
@@ -158,14 +180,12 @@ export async function sendCertificateExpiryAlerts(): Promise<SendAlertsResult> {
     }
 
     for (const alertTier of enabledTiers) {
-      try {
-        const alreadySent = await hasAlertBeenSent(
-          admin,
-          certificate.id,
-          alertTier
-        );
+      let claimed = false;
 
-        if (alreadySent) {
+      try {
+        claimed = await claimAlertSlot(admin, certificate.id, alertTier);
+
+        if (!claimed) {
           result.skipped += 1;
           continue;
         }
@@ -173,6 +193,7 @@ export async function sendCertificateExpiryAlerts(): Promise<SendAlertsResult> {
         const email = await getUserEmail(admin, property.user_id, emailCache);
 
         if (!email) {
+          await releaseAlertSlot(admin, certificate.id, alertTier);
           result.errors.push(
             `No email found for user ${property.user_id} (certificate ${certificate.id})`
           );
@@ -189,13 +210,25 @@ export async function sendCertificateExpiryAlerts(): Promise<SendAlertsResult> {
         });
 
         if (sendResult.error) {
+          await releaseAlertSlot(admin, certificate.id, alertTier);
           result.errors.push(sendResult.error.message);
           continue;
         }
 
-        await recordAlertSent(admin, certificate.id, alertTier);
         result.sent += 1;
       } catch (alertError) {
+        if (claimed) {
+          try {
+            await releaseAlertSlot(admin, certificate.id, alertTier);
+          } catch (releaseError) {
+            result.errors.push(
+              releaseError instanceof Error
+                ? releaseError.message
+                : "Failed to release alert slot after error"
+            );
+          }
+        }
+
         result.errors.push(
           alertError instanceof Error
             ? alertError.message

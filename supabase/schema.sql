@@ -57,7 +57,8 @@ CREATE TABLE certificate_alerts (
 
 CREATE INDEX idx_certificate_alerts_certificate_id ON certificate_alerts(certificate_id);
 
-ALTER TABLE certificate_alerts ENABLE ROW LEVEL SECURITY;
+-- Internal deduplication table; only accessed by the service role via /api/send-alerts.
+ALTER TABLE certificate_alerts DISABLE ROW LEVEL SECURITY;
 
 CREATE TABLE user_profiles (
   id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
