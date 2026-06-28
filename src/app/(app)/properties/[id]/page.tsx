@@ -81,7 +81,7 @@ export default async function PropertyDetailPage({
       <div className={`${cardClassName} mb-8 flex items-center gap-4 p-6`}>
         <TrafficLight status={propertyStatus} size="lg" />
         <div>
-          <p className="text-sm font-medium text-slate-500">Overall status</p>
+          <p className="text-sm font-medium text-mahogany-900/60">Overall status</p>
           <div className="mt-2">
             <StatusBadge status={propertyStatus} />
           </div>
@@ -91,13 +91,13 @@ export default async function PropertyDetailPage({
       <PropertyNotes propertyId={id} initialNotes={typedProperty.notes} />
 
       <div className="mt-10">
-        <h2 className="mb-4 text-lg font-semibold text-navy-950">
+        <h2 className="mb-4 font-serif text-xl font-semibold text-mahogany-950">
           Compliance Certificates
         </h2>
 
         {certificateList.length === 0 ? (
           <div className={`${cardClassName} px-8 py-12 text-center`}>
-            <p className="text-sm text-slate-500">
+            <p className="text-sm text-mahogany-900/60">
               No certificates added yet. Add certificates to track compliance
               status.
             </p>
@@ -112,20 +112,20 @@ export default async function PropertyDetailPage({
           <div className={`${cardClassName} overflow-hidden`}>
             <table className="w-full text-left text-sm">
               <thead>
-                <tr className="border-b border-slate-100 bg-slate-50/80">
-                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                <tr className="border-b border-gold-muted/40 bg-cream/80">
+                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-mahogany-900/60">
                     Certificate
                   </th>
-                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-mahogany-900/60">
                     Issued / Completed
                   </th>
-                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-mahogany-900/60">
                     Expires / Review
                   </th>
-                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-mahogany-900/60">
                     Status
                   </th>
-                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-mahogany-900/60">
                     Actions
                   </th>
                 </tr>
@@ -141,12 +141,12 @@ export default async function PropertyDetailPage({
                   return (
                     <tr
                       key={cert.id}
-                      className="border-b border-slate-100 last:border-0"
+                      className="border-b border-gold-muted/40 last:border-0"
                     >
                       <td className="px-6 py-5">
                         <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                           <TrafficLight status={status} />
-                          <span className="font-medium text-navy-950">
+                          <span className="font-medium text-mahogany-950">
                             {CERTIFICATE_LABELS[cert.certificate_type]}
                           </span>
                           {documentUrl && (
@@ -154,23 +154,23 @@ export default async function PropertyDetailPage({
                               href={documentUrl}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-sm font-medium text-navy-700 underline decoration-slate-300 underline-offset-2 transition hover:text-navy-900"
+                              className="text-sm font-medium text-forest-900 underline decoration-gold-muted underline-offset-2 transition hover:text-mahogany-950"
                             >
                               View Certificate
                             </a>
                           )}
                         </div>
                         {cert.notes && (
-                          <p className="mt-1.5 pl-6 text-xs text-slate-500">
+                          <p className="mt-1.5 pl-6 text-xs text-mahogany-900/60">
                             {cert.notes}
                           </p>
                         )}
                       </td>
-                      <td className="px-6 py-5 text-slate-600">
+                      <td className="px-6 py-5 text-mahogany-900/80">
                         <span className="sr-only">{dateLabels.issue}: </span>
                         {formatDate(cert.issue_date)}
                       </td>
-                      <td className="px-6 py-5 text-slate-600">
+                      <td className="px-6 py-5 text-mahogany-900/80">
                         <span className="sr-only">{dateLabels.expiry}: </span>
                         {formatDate(cert.expiry_date)}
                       </td>

@@ -31,11 +31,11 @@ export function getPropertyStatus(
 export function getStatusLabel(status: ComplianceStatus): string {
   switch (status) {
     case "green":
-      return "Valid";
+      return "Compliant";
     case "amber":
-      return "Expiring Soon";
-    case "red":
       return "Needs Attention";
+    case "red":
+      return "Overdue";
   }
 }
 

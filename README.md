@@ -45,6 +45,7 @@ If you already ran an older version of `schema.sql`, run the migration files as 
 - `supabase/storage.sql` — certificate document uploads
 - `supabase/alerts.sql` — email alert tracking
 - `supabase/certificate-types.sql` — additional certificate types and property notes
+- `supabase/user-profiles.sql` — user settings and notification preferences
 
 ## Step 4: Configure authentication
 

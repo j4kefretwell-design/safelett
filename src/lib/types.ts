@@ -40,6 +40,28 @@ export interface Certificate {
   updated_at: string;
 }
 
+export interface UserProfile {
+  id: string;
+  full_name: string | null;
+  email_alerts_enabled: boolean;
+  alert_at_60: boolean;
+  alert_at_30: boolean;
+  alert_at_7: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export const DEFAULT_USER_PROFILE: Omit<
+  UserProfile,
+  "id" | "created_at" | "updated_at"
+> = {
+  full_name: null,
+  email_alerts_enabled: true,
+  alert_at_60: true,
+  alert_at_30: true,
+  alert_at_7: true,
+};
+
 export const PROPERTY_TYPE_LABELS: Record<PropertyType, string> = {
   standard_rental: "Standard Rental",
   hmo: "HMO",

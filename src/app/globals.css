@@ -1,19 +1,35 @@
 @import "tailwindcss";
 
 @theme {
-  --color-navy-950: #0a1628;
-  --color-navy-900: #0f1f3d;
-  --color-navy-800: #162d52;
-  --color-navy-700: #1e3a66;
-  --color-surface: #f4f6f9;
-  --color-compliant: #059669;
-  --color-compliant-light: #ecfdf5;
-  --color-attention: #d97706;
-  --color-attention-light: #fffbeb;
-  --color-urgent: #dc2626;
-  --color-urgent-light: #fef2f2;
+  --color-forest-950: #14241c;
+  --color-forest-900: #1b3a2f;
+  --color-forest-800: #234b3d;
+  --color-forest-700: #2d5c4a;
+  --color-mahogany-950: #2c1810;
+  --color-mahogany-900: #3d2314;
+  --color-mahogany-800: #4a2c1a;
+  --color-cream: #f8f4ec;
+  --color-ivory: #fffdf8;
+  --color-gold: #b8943f;
+  --color-gold-light: #d4bc82;
+  --color-gold-muted: #e8dcc0;
+  --color-compliant: #2d5c4a;
+  --color-compliant-light: #e8f0eb;
+  --color-attention: #9a6b2f;
+  --color-attention-light: #f7f0e4;
+  --color-urgent: #8b2e2e;
+  --color-urgent-light: #f9ecec;
+  --font-serif: var(--font-source-serif), "Georgia", "Times New Roman", serif;
+  --font-sans: var(--font-source-sans), "Helvetica Neue", Arial, sans-serif;
 }
 
 body {
-  @apply bg-surface text-navy-950 antialiased;
+  @apply bg-cream font-sans text-mahogany-950 antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  @apply font-serif;
 }

@@ -48,8 +48,8 @@ export default function PropertyNotes({
 
   return (
     <div className={`${cardClassName} mt-8 p-6`}>
-      <h2 className="text-lg font-semibold text-navy-950">Property Notes</h2>
-      <p className="mt-1 text-sm text-slate-500">
+      <h2 className="font-serif text-lg font-semibold text-mahogany-950">Property Notes</h2>
+      <p className="mt-1 text-sm text-mahogany-900/60">
         Add free text notes about this property — for example boiler location or
         licence applications in progress.
       </p>

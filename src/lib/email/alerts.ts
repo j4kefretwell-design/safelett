@@ -4,6 +4,10 @@ import {
   getDaysUntilExpiry,
   type ExpiryAlertDay,
 } from "@/lib/compliance";
+import {
+  filterAlertTiersByProfile,
+  getUserProfileById,
+} from "@/lib/user-profile";
 import { sendExpiryAlertEmail } from "@/lib/email/send";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { CERTIFICATE_LABELS, type CertificateType } from "@/lib/types";
@@ -123,6 +127,7 @@ export async function sendCertificateExpiryAlerts(): Promise<SendAlertsResult> {
   }
 
   const emailCache = new Map<string, string | null>();
+  const profileCache = new Map<string, Awaited<ReturnType<typeof getUserProfileById>>>();
 
   for (const certificate of (certificates ?? []) as CertificateRow[]) {
     result.checked += 1;
@@ -136,12 +141,23 @@ export async function sendCertificateExpiryAlerts(): Promise<SendAlertsResult> {
     const daysUntilExpiry = getDaysUntilExpiry(certificate.expiry_date);
     const alertTiers = getApplicableAlertTiers(daysUntilExpiry);
 
-    if (alertTiers.length === 0) {
+    let userProfile = profileCache.get(property.user_id);
+    if (userProfile === undefined) {
+      userProfile = await getUserProfileById(admin, property.user_id);
+      profileCache.set(property.user_id, userProfile);
+    }
+
+    const enabledTiers = filterAlertTiersByProfile(
+      alertTiers,
+      userProfile
+    ) as ExpiryAlertDay[];
+
+    if (enabledTiers.length === 0) {
       result.skipped += 1;
       continue;
     }
 
-    for (const alertTier of alertTiers) {
+    for (const alertTier of enabledTiers) {
       try {
         const alreadySent = await hasAlertBeenSent(
           admin,

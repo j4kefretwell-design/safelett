@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { btnPrimaryClassName } from "@/lib/ui";
+import { btnGoldClassName, btnPrimaryClassName } from "@/lib/ui";
 
 interface PageHeaderProps {
   title: string;
@@ -8,6 +8,7 @@ interface PageHeaderProps {
   backLabel?: string;
   actionHref?: string;
   actionLabel?: string;
+  secondaryAction?: React.ReactNode;
 }
 
 export default function PageHeader({
@@ -17,32 +18,38 @@ export default function PageHeader({
   backLabel = "Back",
   actionHref,
   actionLabel,
+  secondaryAction,
 }: PageHeaderProps) {
   return (
     <div className="mb-8">
       {backHref && (
         <Link
           href={backHref}
-          className="mb-4 inline-flex items-center text-sm font-medium text-slate-500 transition hover:text-navy-900"
+          className="mb-4 inline-flex items-center text-sm font-medium text-mahogany-900/60 transition hover:text-mahogany-950"
         >
           ← {backLabel}
         </Link>
       )}
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-navy-950">
+          <h1 className="font-serif text-3xl font-semibold tracking-tight text-mahogany-950">
             {title}
           </h1>
           {description && (
-            <p className="mt-1.5 text-sm text-slate-500">{description}</p>
+            <p className="mt-2 text-sm text-mahogany-900/60">{description}</p>
           )}
         </div>
-        {actionHref && actionLabel && (
-          <Link href={actionHref} className={btnPrimaryClassName}>
-            {actionLabel}
-          </Link>
-        )}
+        <div className="flex flex-wrap items-center gap-3">
+          {secondaryAction}
+          {actionHref && actionLabel && (
+            <Link href={actionHref} className={btnPrimaryClassName}>
+              {actionLabel}
+            </Link>
+          )}
+        </div>
       </div>
     </div>
   );
 }
+
+export { btnGoldClassName, btnPrimaryClassName };

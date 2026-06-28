@@ -147,7 +147,7 @@ export default function CertificateForm({ propertyId }: CertificateFormProps) {
           ))}
         </select>
         {typeHint && (
-          <p className="mt-1 text-xs text-slate-500">{typeHint}</p>
+          <p className="mt-1 text-xs text-mahogany-900/60">{typeHint}</p>
         )}
       </div>
 
@@ -202,9 +202,9 @@ export default function CertificateForm({ propertyId }: CertificateFormProps) {
           type="file"
           accept=".pdf,.jpg,.jpeg,application/pdf,image/jpeg"
           onChange={(e) => setDocument(e.target.files?.[0] ?? null)}
-          className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-navy-950 shadow-sm file:mr-3 file:rounded-md file:border-0 file:bg-slate-100 file:px-3 file:py-1.5 file:text-sm file:font-semibold file:text-navy-900"
+          className="w-full rounded-lg border border-gold-muted/80 bg-ivory px-4 py-2.5 text-sm text-mahogany-950 shadow-sm file:mr-3 file:rounded-md file:border-0 file:bg-cream file:px-3 file:py-1.5 file:text-sm file:font-semibold file:text-mahogany-900"
         />
-        <p className="mt-2 text-xs text-slate-500">
+        <p className="mt-2 text-xs text-mahogany-900/60">
           PDF or JPEG, up to 10 MB.
         </p>
       </div>

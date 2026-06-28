@@ -12,9 +12,9 @@ const sizeClasses = {
 };
 
 const colorClasses: Record<ComplianceStatus, string> = {
-  green: "bg-compliant shadow-[0_0_0_3px_rgba(5,150,105,0.15)]",
-  amber: "bg-attention shadow-[0_0_0_3px_rgba(217,119,6,0.15)]",
-  red: "bg-urgent shadow-[0_0_0_3px_rgba(220,38,38,0.15)]",
+  green: "bg-compliant shadow-[0_0_0_3px_rgba(45,92,74,0.15)]",
+  amber: "bg-attention shadow-[0_0_0_3px_rgba(154,107,47,0.15)]",
+  red: "bg-urgent shadow-[0_0_0_3px_rgba(139,46,46,0.15)]",
 };
 
 export default function TrafficLight({ status, size = "md" }: TrafficLightProps) {

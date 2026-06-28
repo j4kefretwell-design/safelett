@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { sendWelcomeEmail } from "@/lib/email/send";
+import { getUserProfile } from "@/lib/user-profile";
 import { createClient } from "@/lib/supabase/server";
 
 export async function POST() {
@@ -13,6 +14,8 @@ export async function POST() {
   }
 
   try {
+    await getUserProfile(supabase, user.id);
+
     const result = await sendWelcomeEmail({ to: user.email });
 
     if (result.error) {
