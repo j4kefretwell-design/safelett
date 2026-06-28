@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import NavBar from "@/components/NavBar";
 import TrafficLight from "@/components/TrafficLight";
+import { getCertificateDocumentUrl } from "@/lib/certificate-documents";
 import {
   formatDate,
   getCertificateStatus,
@@ -46,6 +47,16 @@ export default async function PropertyDetailPage({
 
   const certificateList = (certificates ?? []) as Certificate[];
   const propertyStatus = getPropertyStatus(certificateList);
+
+  const documentUrls = await Promise.all(
+    certificateList.map(async (cert) => {
+      if (!cert.document_path) {
+        return null;
+      }
+
+      return getCertificateDocumentUrl(supabase, cert.document_path);
+    })
+  );
 
   const statusBadgeClasses = {
     green: "bg-green-50 text-green-700",
@@ -118,19 +129,31 @@ export default async function PropertyDetailPage({
                 </tr>
               </thead>
               <tbody>
-                {certificateList.map((cert) => {
+                {certificateList.map((cert, index) => {
                   const status = getCertificateStatus(cert.expiry_date);
+                  const documentUrl = documentUrls[index];
+
                   return (
                     <tr
                       key={cert.id}
                       className="border-b border-slate-100 last:border-0"
                     >
                       <td className="px-5 py-4">
-                        <div className="flex items-center gap-3">
+                        <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                           <TrafficLight status={status} />
                           <span className="font-medium text-slate-900">
                             {CERTIFICATE_LABELS[cert.certificate_type]}
                           </span>
+                          {documentUrl && (
+                            <a
+                              href={documentUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-sm font-medium text-slate-600 underline decoration-slate-300 underline-offset-2 transition hover:text-slate-900"
+                            >
+                              View Certificate
+                            </a>
+                          )}
                         </div>
                         {cert.notes && (
                           <p className="mt-1 pl-7 text-xs text-slate-500">

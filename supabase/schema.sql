@@ -32,6 +32,7 @@ CREATE TABLE certificates (
   issue_date DATE NOT NULL,
   expiry_date DATE NOT NULL,
   notes TEXT,
+  document_path TEXT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   CHECK (expiry_date >= issue_date)
@@ -98,3 +99,46 @@ CREATE POLICY "Users can delete certificates for own properties"
       AND properties.user_id = auth.uid()
     )
   );
+
+-- Certificate document storage (private bucket)
+INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+VALUES (
+  'certificate-documents',
+  'certificate-documents',
+  false,
+  10485760,
+  ARRAY['application/pdf', 'image/jpeg', 'image/jpg']
+)
+ON CONFLICT (id) DO NOTHING;
+
+CREATE POLICY "Users can upload certificate documents"
+ON storage.objects FOR INSERT
+TO authenticated
+WITH CHECK (
+  bucket_id = 'certificate-documents'
+  AND (storage.foldername(name))[1] = auth.uid()::text
+);
+
+CREATE POLICY "Users can view own certificate documents"
+ON storage.objects FOR SELECT
+TO authenticated
+USING (
+  bucket_id = 'certificate-documents'
+  AND (storage.foldername(name))[1] = auth.uid()::text
+);
+
+CREATE POLICY "Users can update own certificate documents"
+ON storage.objects FOR UPDATE
+TO authenticated
+USING (
+  bucket_id = 'certificate-documents'
+  AND (storage.foldername(name))[1] = auth.uid()::text
+);
+
+CREATE POLICY "Users can delete own certificate documents"
+ON storage.objects FOR DELETE
+TO authenticated
+USING (
+  bucket_id = 'certificate-documents'
+  AND (storage.foldername(name))[1] = auth.uid()::text
+);

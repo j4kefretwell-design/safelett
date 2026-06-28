@@ -30,6 +30,7 @@ export interface Certificate {
   issue_date: string;
   expiry_date: string;
   notes: string | null;
+  document_path: string | null;
   created_at: string;
   updated_at: string;
 }

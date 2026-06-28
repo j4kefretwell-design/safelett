@@ -8,6 +8,7 @@ Property compliance tracking for UK property managers. Built with Next.js and Su
 - Dashboard with compliance overview and traffic-light status per property
 - Add and manage properties (address, type, bedrooms)
 - Track compliance certificates (Gas Safety, EICR, EPC, and more)
+- Optional PDF/JPEG upload for certificate documents via Supabase Storage
 - Automatic status calculation: green (valid), amber (expiring within 60 days), red (expired or expiring within 30 days)
 
 ## Prerequisites
@@ -36,7 +37,9 @@ npm install
 3. Copy the entire contents of `supabase/schema.sql` and paste it into the editor
 4. Click **Run**
 
-This creates the `properties` and `certificates` tables with row-level security so each user only sees their own data.
+This creates the `properties` and `certificates` tables with row-level security so each user only sees their own data. It also creates a private `certificate-documents` storage bucket for optional certificate file uploads.
+
+If you already ran an older version of `schema.sql`, run `supabase/storage.sql` instead to add the `document_path` column and storage bucket.
 
 ## Step 4: Configure authentication
 
