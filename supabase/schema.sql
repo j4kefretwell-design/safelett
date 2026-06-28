@@ -12,7 +12,11 @@ CREATE TYPE certificate_type AS ENUM (
   'emergency_lighting_check',
   'fire_extinguisher_service',
   'deposit_protection',
-  'right_to_rent'
+  'right_to_rent',
+  'hmo_licence',
+  'legionella_risk_assessment',
+  'pat',
+  'asbestos_survey'
 );
 
 CREATE TABLE properties (
@@ -21,6 +25,7 @@ CREATE TABLE properties (
   address TEXT NOT NULL,
   property_type property_type NOT NULL,
   bedrooms INTEGER NOT NULL CHECK (bedrooms > 0),
+  notes TEXT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );

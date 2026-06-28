@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import DeleteCertificateButton from "@/components/DeleteCertificateButton";
 import DeletePropertyButton from "@/components/DeletePropertyButton";
 import NavBar from "@/components/NavBar";
+import PropertyNotes from "@/components/PropertyNotes";
 import TrafficLight from "@/components/TrafficLight";
 import { getCertificateDocumentUrl } from "@/lib/certificate-documents";
 import {
@@ -14,6 +15,7 @@ import {
 import { createClient } from "@/lib/supabase/server";
 import {
   CERTIFICATE_LABELS,
+  getCertificateDateLabels,
   PROPERTY_TYPE_LABELS,
   type Certificate,
   type Property,
@@ -96,6 +98,11 @@ export default async function PropertyDetailPage({
           </div>
         </div>
 
+        <PropertyNotes
+          propertyId={id}
+          initialNotes={typedProperty.notes}
+        />
+
         <div className="mt-8 flex items-center justify-between">
           <h2 className="text-lg font-semibold text-slate-900">
             Compliance Certificates
@@ -124,10 +131,10 @@ export default async function PropertyDetailPage({
                     Certificate
                   </th>
                   <th className="px-5 py-3 font-medium text-slate-700">
-                    Issue Date
+                    Issued / Completed
                   </th>
                   <th className="px-5 py-3 font-medium text-slate-700">
-                    Expiry Date
+                    Expires / Review
                   </th>
                   <th className="px-5 py-3 font-medium text-slate-700">
                     Status
@@ -141,6 +148,7 @@ export default async function PropertyDetailPage({
                 {certificateList.map((cert, index) => {
                   const status = getCertificateStatus(cert.expiry_date);
                   const documentUrl = documentUrls[index];
+                  const dateLabels = getCertificateDateLabels(cert.certificate_type);
 
                   return (
                     <tr
@@ -171,9 +179,11 @@ export default async function PropertyDetailPage({
                         )}
                       </td>
                       <td className="px-5 py-4 text-slate-600">
+                        <span className="sr-only">{dateLabels.issue}: </span>
                         {formatDate(cert.issue_date)}
                       </td>
                       <td className="px-5 py-4 text-slate-600">
+                        <span className="sr-only">{dateLabels.expiry}: </span>
                         {formatDate(cert.expiry_date)}
                       </td>
                       <td className="px-5 py-4">

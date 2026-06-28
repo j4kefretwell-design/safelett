@@ -5,7 +5,9 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import {
   CERTIFICATE_LABELS,
+  CERTIFICATE_TYPE_HINTS,
   CERTIFICATE_TYPES,
+  getCertificateDateLabels,
   type CertificateType,
 } from "@/lib/types";
 import {
@@ -114,6 +116,9 @@ export default function CertificateForm({ propertyId }: CertificateFormProps) {
     router.refresh();
   }
 
+  const dateLabels = getCertificateDateLabels(certificateType);
+  const typeHint = CERTIFICATE_TYPE_HINTS[certificateType];
+
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       <div>
@@ -137,6 +142,9 @@ export default function CertificateForm({ propertyId }: CertificateFormProps) {
             </option>
           ))}
         </select>
+        {typeHint && (
+          <p className="mt-1 text-xs text-slate-500">{typeHint}</p>
+        )}
       </div>
 
       <div>
@@ -144,7 +152,7 @@ export default function CertificateForm({ propertyId }: CertificateFormProps) {
           htmlFor="issueDate"
           className="mb-1 block text-sm font-medium text-slate-700"
         >
-          Issue Date
+          {dateLabels.issue}
         </label>
         <input
           id="issueDate"
@@ -161,7 +169,7 @@ export default function CertificateForm({ propertyId }: CertificateFormProps) {
           htmlFor="expiryDate"
           className="mb-1 block text-sm font-medium text-slate-700"
         >
-          Expiry Date
+          {dateLabels.expiry}
         </label>
         <input
           id="expiryDate"

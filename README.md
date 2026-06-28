@@ -44,6 +44,7 @@ This creates the `properties` and `certificates` tables with row-level security 
 If you already ran an older version of `schema.sql`, run the migration files as needed:
 - `supabase/storage.sql` — certificate document uploads
 - `supabase/alerts.sql` — email alert tracking
+- `supabase/certificate-types.sql` — additional certificate types and property notes
 
 ## Step 4: Configure authentication
 
