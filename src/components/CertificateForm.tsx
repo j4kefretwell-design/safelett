@@ -15,6 +15,13 @@ import {
   CERTIFICATE_DOCUMENTS_BUCKET,
   validateCertificateFile,
 } from "@/lib/storage";
+import {
+  btnPrimaryClassName,
+  inputClassName,
+  labelClassName,
+  selectClassName,
+  textareaClassName,
+} from "@/lib/ui";
 
 interface CertificateFormProps {
   propertyId: string;
@@ -120,12 +127,9 @@ export default function CertificateForm({ propertyId }: CertificateFormProps) {
   const typeHint = CERTIFICATE_TYPE_HINTS[certificateType];
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form onSubmit={handleSubmit} className="space-y-6">
       <div>
-        <label
-          htmlFor="certificateType"
-          className="mb-1 block text-sm font-medium text-slate-700"
-        >
+        <label htmlFor="certificateType" className={labelClassName}>
           Certificate Type
         </label>
         <select
@@ -134,7 +138,7 @@ export default function CertificateForm({ propertyId }: CertificateFormProps) {
           onChange={(e) =>
             setCertificateType(e.target.value as CertificateType)
           }
-          className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 outline-none focus:border-slate-500 focus:ring-1 focus:ring-slate-500"
+          className={selectClassName}
         >
           {CERTIFICATE_TYPES.map((type) => (
             <option key={type} value={type}>
@@ -148,10 +152,7 @@ export default function CertificateForm({ propertyId }: CertificateFormProps) {
       </div>
 
       <div>
-        <label
-          htmlFor="issueDate"
-          className="mb-1 block text-sm font-medium text-slate-700"
-        >
+        <label htmlFor="issueDate" className={labelClassName}>
           {dateLabels.issue}
         </label>
         <input
@@ -160,15 +161,12 @@ export default function CertificateForm({ propertyId }: CertificateFormProps) {
           required
           value={issueDate}
           onChange={(e) => setIssueDate(e.target.value)}
-          className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 outline-none focus:border-slate-500 focus:ring-1 focus:ring-slate-500"
+          className={inputClassName}
         />
       </div>
 
       <div>
-        <label
-          htmlFor="expiryDate"
-          className="mb-1 block text-sm font-medium text-slate-700"
-        >
+        <label htmlFor="expiryDate" className={labelClassName}>
           {dateLabels.expiry}
         </label>
         <input
@@ -177,15 +175,12 @@ export default function CertificateForm({ propertyId }: CertificateFormProps) {
           required
           value={expiryDate}
           onChange={(e) => setExpiryDate(e.target.value)}
-          className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 outline-none focus:border-slate-500 focus:ring-1 focus:ring-slate-500"
+          className={inputClassName}
         />
       </div>
 
       <div>
-        <label
-          htmlFor="notes"
-          className="mb-1 block text-sm font-medium text-slate-700"
-        >
+        <label htmlFor="notes" className={labelClassName}>
           Notes (optional)
         </label>
         <textarea
@@ -193,16 +188,13 @@ export default function CertificateForm({ propertyId }: CertificateFormProps) {
           rows={3}
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
-          className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 outline-none focus:border-slate-500 focus:ring-1 focus:ring-slate-500"
+          className={textareaClassName}
           placeholder="Any additional details..."
         />
       </div>
 
       <div>
-        <label
-          htmlFor="document"
-          className="mb-1 block text-sm font-medium text-slate-700"
-        >
+        <label htmlFor="document" className={labelClassName}>
           Certificate Document (optional)
         </label>
         <input
@@ -210,24 +202,20 @@ export default function CertificateForm({ propertyId }: CertificateFormProps) {
           type="file"
           accept=".pdf,.jpg,.jpeg,application/pdf,image/jpeg"
           onChange={(e) => setDocument(e.target.files?.[0] ?? null)}
-          className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 file:mr-3 file:rounded-md file:border-0 file:bg-slate-100 file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-slate-700"
+          className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-navy-950 shadow-sm file:mr-3 file:rounded-md file:border-0 file:bg-slate-100 file:px-3 file:py-1.5 file:text-sm file:font-semibold file:text-navy-900"
         />
-        <p className="mt-1 text-xs text-slate-500">
+        <p className="mt-2 text-xs text-slate-500">
           PDF or JPEG, up to 10 MB.
         </p>
       </div>
 
       {error && (
-        <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600">
+        <p className="rounded-lg border border-red-200 bg-urgent-light px-4 py-3 text-sm text-urgent">
           {error}
         </p>
       )}
 
-      <button
-        type="submit"
-        disabled={loading}
-        className="rounded-lg bg-slate-900 px-6 py-2.5 text-sm font-medium text-white transition hover:bg-slate-700 disabled:opacity-50"
-      >
+      <button type="submit" disabled={loading} className={btnPrimaryClassName}>
         {loading ? "Saving..." : "Add Certificate"}
       </button>
     </form>

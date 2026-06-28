@@ -1,5 +1,19 @@
 @import "tailwindcss";
 
+@theme {
+  --color-navy-950: #0a1628;
+  --color-navy-900: #0f1f3d;
+  --color-navy-800: #162d52;
+  --color-navy-700: #1e3a66;
+  --color-surface: #f4f6f9;
+  --color-compliant: #059669;
+  --color-compliant-light: #ecfdf5;
+  --color-attention: #d97706;
+  --color-attention-light: #fffbeb;
+  --color-urgent: #dc2626;
+  --color-urgent-light: #fef2f2;
+}
+
 body {
-  @apply bg-slate-50 text-slate-900 antialiased;
+  @apply bg-surface text-navy-950 antialiased;
 }

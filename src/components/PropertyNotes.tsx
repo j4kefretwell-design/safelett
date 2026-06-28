@@ -3,6 +3,11 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import {
+  btnPrimaryClassName,
+  cardClassName,
+  textareaClassName,
+} from "@/lib/ui";
 
 interface PropertyNotesProps {
   propertyId: string;
@@ -42,9 +47,9 @@ export default function PropertyNotes({
   }
 
   return (
-    <div className="mt-8 rounded-xl border border-slate-200 bg-white p-6">
-      <h2 className="text-lg font-semibold text-slate-900">Property Notes</h2>
-      <p className="mt-1 text-sm text-slate-600">
+    <div className={`${cardClassName} mt-8 p-6`}>
+      <h2 className="text-lg font-semibold text-navy-950">Property Notes</h2>
+      <p className="mt-1 text-sm text-slate-500">
         Add free text notes about this property — for example boiler location or
         licence applications in progress.
       </p>
@@ -57,11 +62,11 @@ export default function PropertyNotes({
         }}
         rows={4}
         placeholder='e.g. "Boiler located in kitchen cupboard" or "HMO licence application in progress"'
-        className="mt-4 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none focus:border-slate-500 focus:ring-1 focus:ring-slate-500"
+        className={`${textareaClassName} mt-4`}
       />
 
       {error && (
-        <p className="mt-3 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600">
+        <p className="mt-3 rounded-lg border border-red-200 bg-urgent-light px-4 py-3 text-sm text-urgent">
           {error}
         </p>
       )}
@@ -71,12 +76,12 @@ export default function PropertyNotes({
           type="button"
           onClick={handleSave}
           disabled={loading}
-          className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-700 disabled:opacity-50"
+          className={btnPrimaryClassName}
         >
           {loading ? "Saving..." : "Save Notes"}
         </button>
         {saved && (
-          <span className="text-sm text-green-600">Notes saved.</span>
+          <span className="text-sm font-medium text-compliant">Notes saved.</span>
         )}
       </div>
     </div>

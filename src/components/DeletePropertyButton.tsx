@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { deleteCertificateDocuments } from "@/lib/certificate-documents";
 import { createClient } from "@/lib/supabase/client";
+import { btnDangerClassName, cardClassName } from "@/lib/ui";
 
 interface DeletePropertyButtonProps {
   propertyId: string;
@@ -52,13 +53,13 @@ export default function DeletePropertyButton({
   }
 
   return (
-    <div className="mt-8 rounded-xl border border-red-200 bg-white p-6">
-      <h2 className="text-sm font-semibold text-slate-900">Delete Property</h2>
-      <p className="mt-1 text-sm text-slate-600">
+    <div className={`${cardClassName} mt-10 border-red-200 p-6`}>
+      <h2 className="text-sm font-semibold text-navy-950">Delete Property</h2>
+      <p className="mt-1 text-sm text-slate-500">
         Permanently remove this property and all associated certificates.
       </p>
       {error && (
-        <p className="mt-3 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600">
+        <p className="mt-3 rounded-lg border border-red-200 bg-urgent-light px-4 py-3 text-sm text-urgent">
           {error}
         </p>
       )}
@@ -66,7 +67,7 @@ export default function DeletePropertyButton({
         type="button"
         onClick={handleDelete}
         disabled={loading}
-        className="mt-4 rounded-lg border border-red-300 bg-white px-4 py-2 text-sm font-medium text-red-600 transition hover:bg-red-50 disabled:opacity-50"
+        className={`${btnDangerClassName} mt-4`}
       >
         {loading ? "Deleting..." : "Delete Property"}
       </button>

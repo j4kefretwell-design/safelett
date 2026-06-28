@@ -4,6 +4,12 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import {
+  btnPrimaryClassName,
+  inputClassName,
+  labelClassName,
+  selectClassName,
+} from "@/lib/ui";
+import {
   PROPERTY_TYPE_LABELS,
   PROPERTY_TYPES,
   type PropertyType,
@@ -55,12 +61,9 @@ export default function PropertyForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form onSubmit={handleSubmit} className="space-y-6">
       <div>
-        <label
-          htmlFor="address"
-          className="mb-1 block text-sm font-medium text-slate-700"
-        >
+        <label htmlFor="address" className={labelClassName}>
           Property Address
         </label>
         <input
@@ -69,23 +72,20 @@ export default function PropertyForm() {
           required
           value={address}
           onChange={(e) => setAddress(e.target.value)}
-          className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 outline-none focus:border-slate-500 focus:ring-1 focus:ring-slate-500"
+          className={inputClassName}
           placeholder="123 High Street, London, SW1A 1AA"
         />
       </div>
 
       <div>
-        <label
-          htmlFor="propertyType"
-          className="mb-1 block text-sm font-medium text-slate-700"
-        >
+        <label htmlFor="propertyType" className={labelClassName}>
           Property Type
         </label>
         <select
           id="propertyType"
           value={propertyType}
           onChange={(e) => setPropertyType(e.target.value as PropertyType)}
-          className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 outline-none focus:border-slate-500 focus:ring-1 focus:ring-slate-500"
+          className={selectClassName}
         >
           {PROPERTY_TYPES.map((type) => (
             <option key={type} value={type}>
@@ -96,10 +96,7 @@ export default function PropertyForm() {
       </div>
 
       <div>
-        <label
-          htmlFor="bedrooms"
-          className="mb-1 block text-sm font-medium text-slate-700"
-        >
+        <label htmlFor="bedrooms" className={labelClassName}>
           Number of Bedrooms
         </label>
         <input
@@ -109,21 +106,17 @@ export default function PropertyForm() {
           min={1}
           value={bedrooms}
           onChange={(e) => setBedrooms(parseInt(e.target.value, 10))}
-          className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 outline-none focus:border-slate-500 focus:ring-1 focus:ring-slate-500"
+          className={inputClassName}
         />
       </div>
 
       {error && (
-        <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600">
+        <p className="rounded-lg border border-red-200 bg-urgent-light px-4 py-3 text-sm text-urgent">
           {error}
         </p>
       )}
 
-      <button
-        type="submit"
-        disabled={loading}
-        className="rounded-lg bg-slate-900 px-6 py-2.5 text-sm font-medium text-white transition hover:bg-slate-700 disabled:opacity-50"
-      >
+      <button type="submit" disabled={loading} className={btnPrimaryClassName}>
         {loading ? "Saving..." : "Add Property"}
       </button>
     </form>
