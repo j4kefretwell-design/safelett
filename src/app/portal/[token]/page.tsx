@@ -75,21 +75,21 @@ export default async function PortalPage({ params }: PortalPageProps) {
   const propertyStatus = getPropertyStatus(certificateList);
 
   return (
-    <div className="min-h-screen bg-off-white">
-      <header className="border-b border-border bg-white">
+    <div className="min-h-screen bg-ivory">
+      <header className="border-b border-gold/20 bg-burgundy">
         <div className="mx-auto max-w-4xl px-5 py-10 sm:px-8 sm:py-12">
-          <span className="font-serif text-2xl font-medium text-burgundy sm:text-3xl">
+          <span className="font-serif text-2xl font-medium text-gold sm:text-3xl">
             {BRAND_NAME}
           </span>
-          <p className="mt-1 text-xs uppercase tracking-[0.14em] text-charcoal-muted">
+          <p className="mt-1 text-xs uppercase tracking-[0.14em] text-cream/60">
             Landlord Portal
           </p>
-          <div className="mt-8">
-            <p className="text-sm text-charcoal-muted">Property compliance overview</p>
-            <h1 className="mt-2 font-serif text-2xl font-medium leading-snug text-charcoal sm:text-3xl">
+          <div className="mt-8 border-t border-gold/20 pt-8">
+            <p className="text-sm text-cream/70">Property compliance overview</p>
+            <h1 className="mt-2 font-serif text-2xl font-medium leading-snug text-cream sm:text-3xl">
               {typedProperty.address}
             </h1>
-            <p className="mt-2 text-sm text-charcoal-muted">
+            <p className="mt-2 text-sm text-cream/70">
               {PROPERTY_TYPE_LABELS[typedProperty.property_type]} ·{" "}
               {typedProperty.bedrooms}{" "}
               {typedProperty.bedrooms === 1 ? "bedroom" : "bedrooms"}
@@ -204,7 +204,7 @@ export default async function PortalPage({ params }: PortalPageProps) {
           )}
         </section>
 
-        <footer className="mt-12 border-t border-border pt-8 text-center text-xs text-charcoal-muted/70">
+        <footer className="mt-12 border-t border-gold-light pt-8 text-center text-xs text-charcoal-muted/70">
           Powered by {BRAND_NAME}
         </footer>
       </main>

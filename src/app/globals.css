@@ -1,26 +1,31 @@
 @import "tailwindcss";
 
 @theme {
-  --color-burgundy: #7b2d3e;
-  --color-burgundy-dark: #632435;
-  --color-off-white: #fafaf8;
+  --color-burgundy: #5c1a2e;
+  --color-burgundy-dark: #4a1525;
+  --color-burgundy-urgent: #8b1a2e;
+  --color-ivory: #fafaf7;
+  --color-cream: #f5f0e6;
+  --color-cream-muted: #e8e2d4;
   --color-charcoal: #1a1a1a;
-  --color-charcoal-muted: #6b6b6b;
-  --color-gold: #b8962e;
-  --color-border: #e8e8e6;
-  --color-white: #ffffff;
-  --color-compliant: #5a7054;
-  --color-compliant-light: #f4f6f3;
-  --color-attention: #9a8544;
-  --color-attention-light: #faf8f2;
-  --color-urgent: #7b2d3e;
-  --color-urgent-light: #f8f0f2;
+  --color-charcoal-muted: #6b6560;
+  --color-gold: #c9a84c;
+  --color-gold-light: #e8d5a3;
+  --color-gold-muted: #f0e6c8;
+  --color-border: #e8d5a3;
+  --color-panel: #fffdf8;
+  --color-compliant: #2d5a3d;
+  --color-compliant-light: #eef4f0;
+  --color-attention: #c17f24;
+  --color-attention-light: #faf3e8;
+  --color-urgent: #8b1a2e;
+  --color-urgent-light: #f8eef0;
   --font-serif: var(--font-playfair), "Georgia", "Times New Roman", serif;
   --font-sans: var(--font-inter), "Helvetica Neue", Arial, sans-serif;
 }
 
 body {
-  @apply bg-off-white font-sans text-charcoal antialiased;
+  @apply bg-ivory font-sans text-charcoal antialiased;
 }
 
 h1,

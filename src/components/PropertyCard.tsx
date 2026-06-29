@@ -17,7 +17,7 @@ export default function PropertyCard({ property, status }: PropertyCardProps) {
   return (
     <Link
       href={`/properties/${property.id}`}
-      className={`${cardClassName} group block p-6 transition hover:border-charcoal/15 hover:shadow-[0_2px_8px_rgba(26,26,26,0.06)]`}
+      className={`${cardClassName} group block p-6 transition hover:border-gold hover:shadow-[0_4px_16px_rgba(92,26,46,0.08)]`}
     >
       <div className="flex items-start justify-between gap-4">
         <div className="flex min-w-0 items-start gap-3">

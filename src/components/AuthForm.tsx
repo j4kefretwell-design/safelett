@@ -7,6 +7,7 @@ import { createClient } from "@/lib/supabase/client";
 import { BRAND_NAME } from "@/lib/brand";
 import {
   btnPrimaryClassName,
+  cardClassName,
   inputClassName,
   labelClassName,
   linkClassName,
@@ -61,113 +62,91 @@ export default function AuthForm({ mode }: AuthFormProps) {
   }
 
   return (
-    <div className="flex min-h-screen">
-      <div className="hidden w-1/2 flex-col justify-between border-r border-border bg-off-white p-14 lg:flex">
-        <div>
-          <span className="font-serif text-3xl font-medium tracking-tight text-burgundy">
-            {BRAND_NAME}
-          </span>
-        </div>
-        <div>
-          <p className="max-w-sm font-serif text-3xl font-medium leading-snug text-charcoal">
-            Property compliance, handled with care.
-          </p>
-          <p className="mt-6 max-w-sm text-sm leading-relaxed text-charcoal-muted">
-            Monitor certificates, track expiry dates, and stay ahead of
-            regulatory requirements across your portfolio.
-          </p>
-        </div>
-        <p className="text-xs text-charcoal-muted/70">
-          For professional property management teams.
-        </p>
+    <div className="flex min-h-screen flex-col items-center bg-burgundy px-6 py-12">
+      <div className="mb-10 text-center">
+        <span className="font-serif text-3xl font-medium tracking-tight text-gold sm:text-4xl">
+          {BRAND_NAME}
+        </span>
       </div>
 
-      <div className="flex flex-1 items-center justify-center bg-white px-6 py-16">
-        <div className="w-full max-w-md">
-          <div className="mb-10 lg:hidden">
-            <span className="font-serif text-2xl font-medium tracking-tight text-burgundy">
-              {BRAND_NAME}
-            </span>
+      <div className={`${cardClassName} w-full max-w-md p-8 sm:p-10`}>
+        <h1 className="font-serif text-2xl font-medium tracking-tight text-charcoal sm:text-3xl">
+          {mode === "login" ? "Sign in" : "Create account"}
+        </h1>
+        <p className="mt-3 text-sm text-charcoal-muted">
+          {mode === "login"
+            ? "Welcome back."
+            : "Begin tracking compliance across your portfolio."}
+        </p>
+
+        <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+          <div>
+            <label htmlFor="email" className={labelClassName}>
+              Email address
+            </label>
+            <input
+              id="email"
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className={inputClassName}
+              placeholder="you@company.com"
+            />
           </div>
 
-          <h1 className="font-serif text-3xl font-medium tracking-tight text-charcoal">
-            {mode === "login" ? "Sign in" : "Create account"}
-          </h1>
-          <p className="mt-3 text-sm text-charcoal-muted">
-            {mode === "login"
-              ? "Welcome back."
-              : "Begin tracking compliance across your portfolio."}
-          </p>
+          <div>
+            <label htmlFor="password" className={labelClassName}>
+              Password
+            </label>
+            <input
+              id="password"
+              type="password"
+              required
+              minLength={6}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className={inputClassName}
+              placeholder="••••••••"
+            />
+          </div>
 
-          <form onSubmit={handleSubmit} className="mt-10 space-y-6">
-            <div>
-              <label htmlFor="email" className={labelClassName}>
-                Email address
-              </label>
-              <input
-                id="email"
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className={inputClassName}
-                placeholder="you@company.com"
-              />
-            </div>
+          {error && (
+            <p className="rounded-sm border border-urgent/30 bg-urgent-light px-4 py-3 text-sm text-urgent">
+              {error}
+            </p>
+          )}
 
-            <div>
-              <label htmlFor="password" className={labelClassName}>
-                Password
-              </label>
-              <input
-                id="password"
-                type="password"
-                required
-                minLength={6}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className={inputClassName}
-                placeholder="••••••••"
-              />
-            </div>
+          <button
+            type="submit"
+            disabled={loading}
+            className={`${btnPrimaryClassName} w-full`}
+          >
+            {loading
+              ? "Please wait..."
+              : mode === "login"
+                ? "Sign In"
+                : "Create Account"}
+          </button>
+        </form>
 
-            {error && (
-              <p className="rounded-sm border border-urgent/20 bg-urgent-light px-4 py-3 text-sm text-urgent">
-                {error}
-              </p>
-            )}
-
-            <button
-              type="submit"
-              disabled={loading}
-              className={`${btnPrimaryClassName} w-full`}
-            >
-              {loading
-                ? "Please wait..."
-                : mode === "login"
-                  ? "Sign In"
-                  : "Create Account"}
-            </button>
-          </form>
-
-          <p className="mt-10 text-center text-sm text-charcoal-muted">
-            {mode === "login" ? (
-              <>
-                Don&apos;t have an account?{" "}
-                <Link href="/signup" className={linkClassName}>
-                  Sign up
-                </Link>
-              </>
-            ) : (
-              <>
-                Already have an account?{" "}
-                <Link href="/login" className={linkClassName}>
-                  Sign in
-                </Link>
-              </>
-            )}
-          </p>
-        </div>
+        <p className="mt-8 border-t border-gold-light pt-8 text-center text-sm text-charcoal-muted">
+          {mode === "login" ? (
+            <>
+              Don&apos;t have an account?{" "}
+              <Link href="/signup" className={linkClassName}>
+                Sign up
+              </Link>
+            </>
+          ) : (
+            <>
+              Already have an account?{" "}
+              <Link href="/login" className={linkClassName}>
+                Sign in
+              </Link>
+            </>
+          )}
+        </p>
       </div>
     </div>
   );

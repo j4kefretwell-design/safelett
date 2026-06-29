@@ -82,7 +82,7 @@ export default function SettingsNotifications({
             type="checkbox"
             checked={emailAlertsEnabled}
             onChange={(e) => setEmailAlertsEnabled(e.target.checked)}
-            className="mt-1 h-4 w-4 rounded-sm border-border text-burgundy focus:ring-burgundy"
+            className="mt-1 h-4 w-4 rounded-sm border-gold-light text-burgundy focus:ring-gold"
           />
           <span>
             <span className="block text-sm font-medium text-charcoal">
@@ -94,7 +94,7 @@ export default function SettingsNotifications({
           </span>
         </label>
 
-        <div className="space-y-3 border-t border-border pt-5">
+        <div className="space-y-3 border-t border-gold-light pt-5">
           <p className="text-sm font-medium text-charcoal">
             Notify me when certificates are expiring within:
           </p>
@@ -110,7 +110,7 @@ export default function SettingsNotifications({
                 checked={option.value}
                 disabled={!emailAlertsEnabled}
                 onChange={(e) => option.setter(e.target.checked)}
-                className="h-4 w-4 rounded-sm border-border text-burgundy focus:ring-burgundy disabled:opacity-40"
+                className="h-4 w-4 rounded-sm border-gold-light text-burgundy focus:ring-gold disabled:opacity-40"
               />
               <span className="text-sm text-charcoal-muted">{option.label}</span>
             </label>

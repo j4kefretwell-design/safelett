@@ -1,22 +1,15 @@
-const accentBorder = {
-  burgundy: "border-t-burgundy",
-  green: "border-t-compliant",
-  amber: "border-t-attention",
-  red: "border-t-urgent",
-};
-
 interface SummaryCardProps {
   label: string;
   value: number;
-  accent: keyof typeof accentBorder;
+  accent?: "burgundy" | "green" | "amber" | "red";
 }
 
-export default function SummaryCard({ label, value, accent }: SummaryCardProps) {
+export default function SummaryCard({ label, value }: SummaryCardProps) {
   return (
     <div
-      className={`rounded-sm border border-border border-t-2 bg-white px-6 py-7 shadow-[0_1px_3px_rgba(26,26,26,0.04)] ${accentBorder[accent]}`}
+      className="rounded-sm border border-gold-light border-t-2 border-t-gold bg-panel px-6 py-7 shadow-[0_2px_12px_rgba(92,26,46,0.06)]"
     >
-      <p className="text-xs font-medium uppercase tracking-[0.12em] text-charcoal-muted">
+      <p className="text-xs font-medium uppercase tracking-[0.12em] text-gold">
         {label}
       </p>
       <p className="mt-3 font-serif text-4xl font-medium tracking-tight text-charcoal">

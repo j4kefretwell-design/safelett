@@ -36,13 +36,13 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
 
   return (
     <aside
-      className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-border bg-off-white transition-transform duration-200 lg:translate-x-0 ${
+      className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col bg-burgundy transition-transform duration-200 lg:translate-x-0 ${
         open ? "translate-x-0" : "-translate-x-full"
       }`}
     >
-      <div className="border-b border-border px-8 py-10">
+      <div className="border-b border-gold/20 px-8 py-10">
         <Link href="/dashboard" className="block" onClick={onClose}>
-          <span className="font-serif text-[1.65rem] font-medium tracking-tight text-burgundy">
+          <span className="font-serif text-[1.65rem] font-medium tracking-tight text-gold">
             {BRAND_NAME}
           </span>
         </Link>
@@ -59,8 +59,8 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
               onClick={onClose}
               className={`block border-l-2 py-2.5 pl-4 pr-3 text-sm transition ${
                 isActive
-                  ? "border-burgundy text-burgundy"
-                  : "border-transparent text-charcoal-muted hover:text-charcoal"
+                  ? "border-gold text-gold"
+                  : "border-transparent text-cream/70 hover:text-cream"
               }`}
             >
               {item.label}
@@ -69,7 +69,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
         })}
       </nav>
 
-      <div className="border-t border-border px-4 py-6">
+      <div className="border-t border-gold/20 px-4 py-6">
         <SignOutButton />
       </div>
     </aside>

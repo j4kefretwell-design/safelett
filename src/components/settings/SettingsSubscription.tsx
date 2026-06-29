@@ -9,7 +9,7 @@ export default function SettingsSubscription() {
         Manage your {BRAND_NAME} subscription.
       </p>
 
-      <div className="mt-6 rounded-sm border border-border bg-off-white p-6">
+      <div className="mt-6 rounded-sm border border-gold-light bg-panel p-6">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <p className="text-xs font-medium uppercase tracking-[0.12em] text-gold">

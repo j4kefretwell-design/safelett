@@ -172,7 +172,7 @@ export default async function PropertyDetailPage({
                               href={documentUrl}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className={`${linkClassName} underline decoration-border underline-offset-2`}
+                              className={`${linkClassName} underline decoration-gold-light underline-offset-2`}
                             >
                               View Certificate
                             </a>
@@ -235,7 +235,7 @@ export default async function PropertyDetailPage({
                                 href={documentUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className={`${linkClassName} underline decoration-border underline-offset-2 transition hover:text-burgundy-dark`}
+                                className={`${linkClassName} underline decoration-gold-light underline-offset-2`}
                               >
                                 View Certificate
                               </a>
