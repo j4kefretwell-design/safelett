@@ -1,4 +1,27 @@
 @import "tailwindcss";
+@config "../../tailwind.config.ts";
+
+/* Explicit content sources for reliable class detection in production builds */
+@source "../**/*.{js,ts,jsx,tsx,mdx}";
+
+/*
+ * Safelist heritage design utilities referenced from lib/ui.ts string exports.
+ * Ensures production CSS includes the full burgundy/gold theme on Vercel.
+ */
+@source inline(
+  "bg-burgundy bg-burgundy-dark bg-ivory bg-cream bg-panel bg-compliant-light bg-attention-light bg-urgent-light bg-gold-muted",
+  "text-cream text-charcoal text-charcoal-muted text-burgundy text-gold text-urgent text-compliant",
+  "border-gold border-gold-light border-gold/20 border-gold/50 border-urgent/20 border-urgent/30 border-gold-light/60",
+  "border-t-gold border-t-compliant border-t-attention border-t-urgent",
+  "border-l-2 border-gold border-transparent",
+  "hover:bg-burgundy-dark hover:text-cream hover:text-gold hover:border-gold hover:bg-gold-muted hover:text-burgundy hover:bg-urgent-light hover:shadow-[0_4px_16px_rgba(92,26,46,0.08)]",
+  "focus:border-gold focus:ring-gold focus:ring-gold/20 focus:ring-1",
+  "text-cream/60 text-cream/70 text-charcoal-muted/60 text-charcoal-muted/70 bg-burgundy/40",
+  "placeholder:text-charcoal-muted/60 decoration-gold-light underline-offset-2",
+  "font-serif font-sans rounded-sm shadow-sm",
+  "shadow-[0_2px_12px_rgba(92,26,46,0.06)] shadow-[0_4px_16px_rgba(92,26,46,0.08)]",
+  "group-hover:text-burgundy disabled:cursor-not-allowed disabled:opacity-50 disabled:opacity-40"
+);
 
 @theme {
   --color-burgundy: #5c1a2e;
@@ -22,6 +45,24 @@
   --color-urgent-light: #f8eef0;
   --font-serif: var(--font-playfair), "Georgia", "Times New Roman", serif;
   --font-sans: var(--font-inter), "Helvetica Neue", Arial, sans-serif;
+}
+
+:root {
+  --color-burgundy: #5c1a2e;
+  --color-burgundy-dark: #4a1525;
+  --color-ivory: #fafaf7;
+  --color-cream: #f5f0e6;
+  --color-gold: #c9a84c;
+  --color-gold-light: #e8d5a3;
+  --color-panel: #fffdf8;
+  --color-charcoal: #1a1a1a;
+  --color-charcoal-muted: #6b6560;
+  --color-compliant: #2d5a3d;
+  --color-compliant-light: #eef4f0;
+  --color-attention: #c17f24;
+  --color-attention-light: #faf3e8;
+  --color-urgent: #8b1a2e;
+  --color-urgent-light: #f8eef0;
 }
 
 body {
