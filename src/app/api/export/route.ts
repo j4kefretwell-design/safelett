@@ -36,7 +36,7 @@ export async function GET() {
 
   const rows = buildExportRows(propertyList, certificatesByProperty);
   const csv = buildComplianceCsv(rows);
-  const filename = `safelett-compliance-${new Date().toISOString().slice(0, 10)}.csv`;
+  const filename = `fretwell-co-compliance-${new Date().toISOString().slice(0, 10)}.csv`;
 
   return new NextResponse(csv, {
     headers: {

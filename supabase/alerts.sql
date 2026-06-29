@@ -1,5 +1,5 @@
 -- Migration for email alerts
--- Run this in the Supabase SQL Editor if you already have an existing SafeLett database
+-- Run this in the Supabase SQL Editor if you already have an existing Fretwell & Co database
 
 CREATE TABLE IF NOT EXISTS certificate_alerts (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import SignOutButton from "@/components/SignOutButton";
+import { BRAND_NAME } from "@/lib/brand";
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard" },
@@ -42,7 +43,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
       <div className="border-b border-border px-8 py-10">
         <Link href="/dashboard" className="block" onClick={onClose}>
           <span className="font-serif text-[1.65rem] font-medium tracking-tight text-burgundy">
-            SafeLett
+            {BRAND_NAME}
           </span>
         </Link>
       </div>

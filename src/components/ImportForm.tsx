@@ -88,7 +88,7 @@ export default function ImportForm({ templateUrl }: ImportFormProps) {
         </p>
         <a
           href={templateUrl}
-          download="safelett-import-template.csv"
+          download="fretwell-co-import-template.csv"
           className={`${btnSecondaryClassName} mt-4`}
         >
           Download CSV Template

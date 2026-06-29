@@ -14,6 +14,7 @@ import {
   tableRowClassName,
 } from "@/lib/ui";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { BRAND_NAME } from "@/lib/brand";
 import {
   CERTIFICATE_LABELS,
   getCertificateDateLabels,
@@ -39,12 +40,12 @@ export async function generateMetadata({
     .single();
 
   if (!property) {
-    return { title: "Portal Not Found — SafeLett" };
+    return { title: `Portal Not Found — ${BRAND_NAME}` };
   }
 
   return {
-    title: `${property.address} — Landlord Portal | SafeLett`,
-    description: "Read-only compliance overview shared via SafeLett.",
+    title: `${property.address} — Landlord Portal | ${BRAND_NAME}`,
+    description: `Read-only compliance overview shared via ${BRAND_NAME}.`,
   };
 }
 
@@ -78,7 +79,7 @@ export default async function PortalPage({ params }: PortalPageProps) {
       <header className="border-b border-border bg-white">
         <div className="mx-auto max-w-4xl px-5 py-10 sm:px-8 sm:py-12">
           <span className="font-serif text-2xl font-medium text-burgundy sm:text-3xl">
-            SafeLett
+            {BRAND_NAME}
           </span>
           <p className="mt-1 text-xs uppercase tracking-[0.14em] text-charcoal-muted">
             Landlord Portal
@@ -110,7 +111,7 @@ export default async function PortalPage({ params }: PortalPageProps) {
           </div>
           <p className={`${mutedTextClassName} mt-5 leading-relaxed`}>
             This read-only portal is shared by your property manager. Certificate
-            details below are updated as records change in SafeLett.
+            details below are updated as records change in {BRAND_NAME}.
           </p>
         </div>
 
@@ -204,7 +205,7 @@ export default async function PortalPage({ params }: PortalPageProps) {
         </section>
 
         <footer className="mt-12 border-t border-border pt-8 text-center text-xs text-charcoal-muted/70">
-          Powered by SafeLett
+          Powered by {BRAND_NAME}
         </footer>
       </main>
     </div>

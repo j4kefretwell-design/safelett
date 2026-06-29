@@ -1,4 +1,4 @@
--- Migration for existing SafeLett projects
+-- Migration for existing Fretwell & Co projects
 -- Run this in the Supabase SQL Editor if you already ran schema.sql without document upload support
 
 ALTER TABLE certificates

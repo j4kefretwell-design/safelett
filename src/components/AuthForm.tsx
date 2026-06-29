@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { BRAND_NAME } from "@/lib/brand";
 import {
   btnPrimaryClassName,
   inputClassName,
@@ -64,7 +65,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
       <div className="hidden w-1/2 flex-col justify-between border-r border-border bg-off-white p-14 lg:flex">
         <div>
           <span className="font-serif text-3xl font-medium tracking-tight text-burgundy">
-            SafeLett
+            {BRAND_NAME}
           </span>
         </div>
         <div>
@@ -85,7 +86,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
         <div className="w-full max-w-md">
           <div className="mb-10 lg:hidden">
             <span className="font-serif text-2xl font-medium tracking-tight text-burgundy">
-              SafeLett
+              {BRAND_NAME}
             </span>
           </div>
 

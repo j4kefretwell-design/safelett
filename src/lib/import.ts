@@ -1,5 +1,6 @@
 import { PROPERTY_TYPE_LABELS, type PropertyType } from "@/lib/types";
 import { CERTIFICATE_LABELS, CERTIFICATE_TYPES, type CertificateType } from "@/lib/types";
+import { BRAND_NAME } from "@/lib/brand";
 
 export const IMPORT_TEMPLATE_HEADERS = [
   "address",
@@ -31,7 +32,7 @@ export function buildImportTemplateCsv(): string {
   ].join(",");
 
   const instructions = [
-    "# SafeLett Bulk Import Template",
+    `# ${BRAND_NAME} Bulk Import Template`,
     "# property_type: standard_rental | hmo | student_let",
     `# certificate_type: ${CERTIFICATE_TYPES.join(" | ")}`,
     "# Leave certificate columns empty for property-only rows",

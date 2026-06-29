@@ -1,4 +1,4 @@
-# SafeLett
+# Fretwell & Co
 
 Property compliance tracking for UK property managers. Built with Next.js and Supabase.
 
@@ -29,7 +29,7 @@ npm install
 
 1. Go to [https://supabase.com/dashboard](https://supabase.com/dashboard)
 2. Click **New project**
-3. Choose an organisation, name the project (e.g. `safelett`), set a database password, and select **London (eu-west-2)** for UK users
+3. Choose an organisation, name the project (e.g. `fretwell-co`), set a database password, and select **London (eu-west-2)** for UK users
 4. Wait for the project to finish provisioning
 
 ## Step 3: Set up the database
@@ -69,7 +69,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 
 RESEND_API_KEY=re_your_resend_api_key
-RESEND_FROM_EMAIL=SafeLett <alerts@yourdomain.com>
+RESEND_FROM_EMAIL=Fretwell & Co <alerts@yourdomain.com>
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 
 CRON_SECRET=your-random-secret-key
@@ -100,7 +100,7 @@ Open [http://localhost:3000](http://localhost:3000), sign up for an account, and
 
 ## Email alerts
 
-SafeLett sends automated expiry reminders when a certificate is expiring **within** 60, 30, or 7 days. Each threshold alert is sent once per certificate (e.g. a 60-day alert when it enters the 60-day window, then a 30-day alert when it enters the 30-day window, and so on). Alerts are triggered by calling:
+Fretwell & Co sends automated expiry reminders when a certificate is expiring **within** 60, 30, or 7 days. Each threshold alert is sent once per certificate (e.g. a 60-day alert when it enters the 60-day window, then a 30-day alert when it enters the 30-day window, and so on). Alerts are triggered by calling:
 
 ```bash
 curl -X POST https://your-app-url/api/send-alerts \
@@ -116,7 +116,7 @@ Each alert is only sent once per certificate and threshold, tracked in the `cert
 1. Deploy the app on [Vercel](https://vercel.com) (or another host)
 2. Add the same environment variables in your hosting dashboard
 3. In Supabase **Authentication → URL Configuration**, update:
-   - **Site URL** to your production URL (e.g. `https://safelett.vercel.app`)
+   - **Site URL** to your production URL (e.g. `https://fretwell-co.vercel.app`)
    - **Redirect URLs** to include your production URL
 
 ## Project structure

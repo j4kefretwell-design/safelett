@@ -1,4 +1,4 @@
--- SafeLett database schema
+-- Fretwell & Co database schema
 -- Run this in the Supabase SQL Editor (Dashboard → SQL → New query)
 
 CREATE TYPE property_type AS ENUM ('standard_rental', 'hmo', 'student_let');

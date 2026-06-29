@@ -1,5 +1,5 @@
 -- Migration: user profiles for settings and notification preferences
--- Run this in the Supabase SQL Editor on existing SafeLett databases
+-- Run this in the Supabase SQL Editor on existing Fretwell & Co databases
 
 CREATE TABLE IF NOT EXISTS user_profiles (
   id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,

@@ -1,5 +1,5 @@
 -- Migration: landlord share portal tokens
--- Run this in the Supabase SQL Editor on existing SafeLett databases
+-- Run this in the Supabase SQL Editor on existing Fretwell & Co databases
 
 ALTER TABLE properties ADD COLUMN IF NOT EXISTS share_token UUID UNIQUE;
 

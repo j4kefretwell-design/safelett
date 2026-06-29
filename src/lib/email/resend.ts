@@ -1,4 +1,5 @@
 import { Resend } from "resend";
+import { BRAND_NAME } from "@/lib/brand";
 
 let resendClient: Resend | null = null;
 
@@ -15,5 +16,5 @@ export function getResendClient() {
 }
 
 export function getFromEmail() {
-  return process.env.RESEND_FROM_EMAIL ?? "SafeLett <onboarding@resend.dev>";
+  return process.env.RESEND_FROM_EMAIL ?? `${BRAND_NAME} <onboarding@resend.dev>`;
 }

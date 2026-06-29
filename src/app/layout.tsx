@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
+import { BRAND_NAME } from "@/lib/brand";
 import "./globals.css";
 
 const inter = Inter({
@@ -13,7 +14,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "SafeLett — Property Compliance Tracking",
+  title: `${BRAND_NAME} — Property Compliance Tracking`,
   description:
     "Track property compliance certificates for UK property managers",
 };

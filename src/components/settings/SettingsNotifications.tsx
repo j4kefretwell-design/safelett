@@ -10,6 +10,7 @@ import {
   mutedTextClassName,
 } from "@/lib/ui";
 import type { UserProfile } from "@/lib/types";
+import { BRAND_NAME } from "@/lib/brand";
 
 interface SettingsNotificationsProps {
   profile: UserProfile;
@@ -72,7 +73,7 @@ export default function SettingsNotifications({
     <section className={`${cardClassName} p-8`}>
       <h2 className={sectionTitleClassName}>Notification Preferences</h2>
       <p className={`${mutedTextClassName} mt-1`}>
-        Control when SafeLett sends expiry reminder emails.
+        Control when {BRAND_NAME} sends expiry reminder emails.
       </p>
 
       <form onSubmit={handleSave} className="mt-6 space-y-5">

@@ -7,7 +7,7 @@ export async function GET() {
     headers: {
       "Content-Type": "text/csv; charset=utf-8",
       "Content-Disposition":
-        'attachment; filename="safelett-import-template.csv"',
+        'attachment; filename="fretwell-co-import-template.csv"',
     },
   });
 }

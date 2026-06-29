@@ -55,7 +55,7 @@ export default function DashboardClient({
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
-      link.download = `safelett-compliance-${new Date().toISOString().slice(0, 10)}.csv`;
+      link.download = `fretwell-co-compliance-${new Date().toISOString().slice(0, 10)}.csv`;
       link.click();
       window.URL.revokeObjectURL(url);
     } catch {

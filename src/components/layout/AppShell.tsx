@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Sidebar from "./Sidebar";
+import { BRAND_NAME } from "@/lib/brand";
 import { btnSecondaryClassName } from "@/lib/ui";
 
 interface AppShellProps {
@@ -35,7 +36,7 @@ export default function AppShell({ children }: AppShellProps) {
             Menu
           </button>
           <span className="font-serif text-lg font-medium text-burgundy">
-            SafeLett
+            {BRAND_NAME}
           </span>
           <div className="w-14" />
         </header>
