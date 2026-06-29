@@ -21,22 +21,24 @@ export default function PageHeader({
   secondaryAction,
 }: PageHeaderProps) {
   return (
-    <div className="mb-8">
+    <div className="mb-10 lg:mb-12">
       {backHref && (
         <Link
           href={backHref}
-          className="mb-4 inline-flex items-center text-sm font-medium text-mahogany-900/60 transition hover:text-mahogany-950"
+          className="mb-6 inline-flex items-center text-sm text-charcoal-muted transition hover:text-charcoal"
         >
           ← {backLabel}
         </Link>
       )}
-      <div className="flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <h1 className="font-serif text-2xl font-semibold tracking-tight text-mahogany-950 sm:text-3xl">
+      <div className="flex flex-wrap items-start justify-between gap-6">
+        <div className="max-w-2xl">
+          <h1 className="font-serif text-3xl font-medium tracking-tight text-charcoal sm:text-4xl">
             {title}
           </h1>
           {description && (
-            <p className="mt-2 text-sm text-mahogany-900/60">{description}</p>
+            <p className="mt-3 text-sm leading-relaxed text-charcoal-muted">
+              {description}
+            </p>
           )}
         </div>
         <div className="flex flex-wrap items-center gap-3">

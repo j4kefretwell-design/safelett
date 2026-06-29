@@ -56,7 +56,7 @@ export default function DeleteCertificateButton({
       type="button"
       onClick={handleDelete}
       disabled={loading}
-      className="text-sm font-semibold text-urgent transition hover:text-red-700 disabled:opacity-50"
+      className="text-sm font-medium text-urgent transition hover:text-burgundy-dark disabled:opacity-50"
     >
       {loading ? "Deleting..." : "Delete"}
     </button>

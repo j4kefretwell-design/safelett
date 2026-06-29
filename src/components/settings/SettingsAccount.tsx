@@ -8,6 +8,7 @@ import {
   cardClassName,
   inputClassName,
   labelClassName,
+  mutedTextClassName,
   sectionTitleClassName,
 } from "@/lib/ui";
 
@@ -81,7 +82,7 @@ export default function SettingsAccount({
   return (
     <section className={`${cardClassName} p-8`}>
       <h2 className={sectionTitleClassName}>Account Settings</h2>
-      <p className="mt-1 text-sm text-mahogany-900/60">
+      <p className={`${mutedTextClassName} mt-1`}>
         Update your name and email address.
       </p>
 
@@ -115,12 +116,12 @@ export default function SettingsAccount({
         </div>
 
         {error && (
-          <p className="rounded-lg border border-urgent/20 bg-urgent-light px-4 py-3 text-sm text-urgent">
+          <p className="rounded-sm border border-urgent/20 bg-urgent-light px-4 py-3 text-sm text-urgent">
             {error}
           </p>
         )}
         {message && (
-          <p className="rounded-lg border border-compliant/20 bg-compliant-light px-4 py-3 text-sm text-compliant">
+          <p className="rounded-sm border border-compliant/20 bg-compliant-light px-4 py-3 text-sm text-compliant">
             {message}
           </p>
         )}

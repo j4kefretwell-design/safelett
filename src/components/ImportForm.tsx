@@ -6,6 +6,7 @@ import {
   btnPrimaryClassName,
   btnSecondaryClassName,
   cardClassName,
+  fileInputClassName,
   mutedTextClassName,
 } from "@/lib/ui";
 
@@ -77,7 +78,7 @@ export default function ImportForm({ templateUrl }: ImportFormProps) {
   return (
     <div className="space-y-6">
       <div className={`${cardClassName} p-6 sm:p-8`}>
-        <h2 className="font-serif text-lg font-semibold text-mahogany-950">
+        <h2 className="font-serif text-lg font-medium text-charcoal">
           Step 1 — Download template
         </h2>
         <p className={`${mutedTextClassName} mt-2`}>
@@ -95,7 +96,7 @@ export default function ImportForm({ templateUrl }: ImportFormProps) {
       </div>
 
       <form onSubmit={handleSubmit} className={`${cardClassName} p-6 sm:p-8`}>
-        <h2 className="font-serif text-lg font-semibold text-mahogany-950">
+        <h2 className="font-serif text-lg font-medium text-charcoal">
           Step 2 — Upload completed file
         </h2>
         <p className={`${mutedTextClassName} mt-2`}>
@@ -107,17 +108,17 @@ export default function ImportForm({ templateUrl }: ImportFormProps) {
           type="file"
           accept=".csv,text/csv"
           onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-          className="mt-4 w-full rounded-lg border border-gold-muted/80 bg-ivory px-4 py-2.5 text-sm text-mahogany-950 shadow-sm file:mr-3 file:rounded-md file:border-0 file:bg-cream file:px-3 file:py-1.5 file:text-sm file:font-semibold file:text-mahogany-900"
+          className={`${fileInputClassName} mt-4`}
         />
 
         {error && (
-          <p className="mt-4 rounded-lg border border-red-200 bg-urgent-light px-4 py-3 text-sm text-urgent">
+          <p className="mt-4 rounded-sm border border-red-200 bg-urgent-light px-4 py-3 text-sm text-urgent">
             {error}
           </p>
         )}
 
         {result && (
-          <p className="mt-4 rounded-lg border border-compliant/20 bg-compliant-light px-4 py-3 text-sm text-compliant">
+          <p className="mt-4 rounded-sm border border-compliant/20 bg-compliant-light px-4 py-3 text-sm text-compliant">
             Import complete — {result.propertiesCreated}{" "}
             {result.propertiesCreated === 1 ? "property" : "properties"} and{" "}
             {result.certificatesCreated}{" "}

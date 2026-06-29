@@ -6,6 +6,8 @@ import { createClient } from "@/lib/supabase/client";
 import {
   btnPrimaryClassName,
   cardClassName,
+  mutedTextClassName,
+  sectionTitleClassName,
   textareaClassName,
 } from "@/lib/ui";
 
@@ -48,8 +50,8 @@ export default function PropertyNotes({
 
   return (
     <div className={`${cardClassName} mt-8 p-6`}>
-      <h2 className="font-serif text-lg font-semibold text-mahogany-950">Property Notes</h2>
-      <p className="mt-1 text-sm text-mahogany-900/60">
+      <h2 className={sectionTitleClassName}>Property Notes</h2>
+      <p className={`${mutedTextClassName} mt-1`}>
         Add free text notes about this property — for example boiler location or
         licence applications in progress.
       </p>
@@ -66,7 +68,7 @@ export default function PropertyNotes({
       />
 
       {error && (
-        <p className="mt-3 rounded-lg border border-red-200 bg-urgent-light px-4 py-3 text-sm text-urgent">
+        <p className="mt-3 rounded-sm border border-red-200 bg-urgent-light px-4 py-3 text-sm text-urgent">
           {error}
         </p>
       )}

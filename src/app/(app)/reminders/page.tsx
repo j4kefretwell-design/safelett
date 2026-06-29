@@ -7,7 +7,7 @@ import {
   getCertificateStatus,
   getDaysUntilExpiry,
 } from "@/lib/compliance";
-import { cardClassName } from "@/lib/ui";
+import { cardClassName, mutedTextClassName, tableHeaderClassName, tableRowClassName } from "@/lib/ui";
 import { createClient } from "@/lib/supabase/server";
 import {
   CERTIFICATE_LABELS,
@@ -61,10 +61,10 @@ export default async function RemindersPage() {
 
       {reminders.length === 0 ? (
         <div className={`${cardClassName} px-8 py-16 text-center`}>
-          <p className="font-serif text-lg font-semibold text-mahogany-950">
+          <p className="font-serif text-xl font-medium text-charcoal">
             No upcoming reminders
           </p>
-          <p className="mt-2 text-sm text-mahogany-900/60">
+          <p className={`${mutedTextClassName} mt-3`}>
             Nothing is due within the next 90 days across your portfolio.
           </p>
         </div>
@@ -79,7 +79,7 @@ export default async function RemindersPage() {
                 <div className="flex items-start gap-3">
                   <TrafficLight status={reminder.status} />
                   <div className="min-w-0 flex-1">
-                    <p className="font-medium text-mahogany-950">
+                    <p className="font-medium text-charcoal">
                       {reminder.daysUntilExpiry < 0
                         ? `${Math.abs(reminder.daysUntilExpiry)} days overdue`
                         : reminder.daysUntilExpiry === 0
@@ -88,14 +88,14 @@ export default async function RemindersPage() {
                     </p>
                     <Link
                       href={`/properties/${reminder.property.id}`}
-                      className="mt-2 block text-sm font-medium text-forest-900 hover:underline"
+                      className="mt-2 block text-sm font-medium text-burgundy hover:underline"
                     >
                       {reminder.property.address}
                     </Link>
-                    <p className="mt-2 text-sm text-mahogany-900/80">
+                    <p className="mt-2 text-sm text-charcoal-muted">
                       {CERTIFICATE_LABELS[reminder.certificate.certificate_type]}
                     </p>
-                    <p className="mt-1 text-sm text-mahogany-900/60">
+                    <p className="mt-1 text-sm text-charcoal-muted">
                       Expires {formatDate(reminder.certificate.expiry_date)}
                     </p>
                     <div className="mt-3">
@@ -110,34 +110,24 @@ export default async function RemindersPage() {
           <div className={`${cardClassName} hidden overflow-x-auto md:block`}>
             <table className="w-full min-w-[640px] text-left text-sm">
             <thead>
-              <tr className="border-b border-gold-muted/60 bg-cream/80">
-                <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-mahogany-900/60">
-                  Due
-                </th>
-                <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-mahogany-900/60">
-                  Property
-                </th>
-                <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-mahogany-900/60">
-                  Certificate
-                </th>
-                <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-mahogany-900/60">
-                  Expiry Date
-                </th>
-                <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-mahogany-900/60">
-                  Status
-                </th>
+              <tr className={tableHeaderClassName}>
+                <th className="px-6 py-4">Due</th>
+                <th className="px-6 py-4">Property</th>
+                <th className="px-6 py-4">Certificate</th>
+                <th className="px-6 py-4">Expiry Date</th>
+                <th className="px-6 py-4">Status</th>
               </tr>
             </thead>
             <tbody>
               {reminders.map((reminder) => (
                 <tr
                   key={reminder.certificate.id}
-                  className="border-b border-gold-muted/40 last:border-0"
+                  className={tableRowClassName}
                 >
                   <td className="px-6 py-5">
                     <div className="flex items-center gap-3">
                       <TrafficLight status={reminder.status} />
-                      <span className="font-medium text-mahogany-950">
+                      <span className="font-medium text-charcoal">
                         {reminder.daysUntilExpiry < 0
                           ? `${Math.abs(reminder.daysUntilExpiry)} days overdue`
                           : reminder.daysUntilExpiry === 0
@@ -149,15 +139,15 @@ export default async function RemindersPage() {
                   <td className="px-6 py-5">
                     <Link
                       href={`/properties/${reminder.property.id}`}
-                      className="font-medium text-forest-900 hover:underline"
+                      className="font-medium text-burgundy hover:underline"
                     >
                       {reminder.property.address}
                     </Link>
                   </td>
-                  <td className="px-6 py-5 text-mahogany-900/80">
+                  <td className="px-6 py-5 text-charcoal-muted">
                     {CERTIFICATE_LABELS[reminder.certificate.certificate_type]}
                   </td>
-                  <td className="px-6 py-5 text-mahogany-900/80">
+                  <td className="px-6 py-5 text-charcoal-muted">
                     {formatDate(reminder.certificate.expiry_date)}
                   </td>
                   <td className="px-6 py-5">
@@ -172,7 +162,7 @@ export default async function RemindersPage() {
       )}
 
       {reminders.length > 0 && (
-        <p className="mt-4 text-sm text-mahogany-900/60">
+        <p className={`${mutedTextClassName} mt-6`}>
           Showing {reminders.length}{" "}
           {reminders.length === 1 ? "certificate" : "certificates"} due within
           90 days.

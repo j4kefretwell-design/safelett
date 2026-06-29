@@ -8,6 +8,7 @@ import {
   inputClassName,
   labelClassName,
   sectionTitleClassName,
+  mutedTextClassName,
 } from "@/lib/ui";
 
 export default function SettingsPassword() {
@@ -52,7 +53,7 @@ export default function SettingsPassword() {
   return (
     <section className={`${cardClassName} p-8`}>
       <h2 className={sectionTitleClassName}>Change Password</h2>
-      <p className="mt-1 text-sm text-mahogany-900/60">
+      <p className={`${mutedTextClassName} mt-1`}>
         Choose a strong password for your account.
       </p>
 
@@ -88,12 +89,12 @@ export default function SettingsPassword() {
         </div>
 
         {error && (
-          <p className="rounded-lg border border-urgent/20 bg-urgent-light px-4 py-3 text-sm text-urgent">
+          <p className="rounded-sm border border-urgent/20 bg-urgent-light px-4 py-3 text-sm text-urgent">
             {error}
           </p>
         )}
         {message && (
-          <p className="rounded-lg border border-compliant/20 bg-compliant-light px-4 py-3 text-sm text-compliant">
+          <p className="rounded-sm border border-compliant/20 bg-compliant-light px-4 py-3 text-sm text-compliant">
             {message}
           </p>
         )}

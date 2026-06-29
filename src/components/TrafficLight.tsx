@@ -5,24 +5,32 @@ interface TrafficLightProps {
   size?: "sm" | "md" | "lg";
 }
 
-const sizeClasses = {
-  sm: "h-2.5 w-2.5",
-  md: "h-3.5 w-3.5",
-  lg: "h-4 w-4",
+const dotSizes = {
+  sm: "h-1.5 w-1.5",
+  md: "h-2 w-2",
+  lg: "h-2.5 w-2.5",
 };
 
-const colorClasses: Record<ComplianceStatus, string> = {
-  green: "bg-compliant shadow-[0_0_0_3px_rgba(45,92,74,0.15)]",
-  amber: "bg-attention shadow-[0_0_0_3px_rgba(154,107,47,0.15)]",
-  red: "bg-urgent shadow-[0_0_0_3px_rgba(139,46,46,0.15)]",
+const tintClasses: Record<ComplianceStatus, string> = {
+  green: "bg-compliant-light",
+  amber: "bg-attention-light",
+  red: "bg-urgent-light",
+};
+
+const dotClasses: Record<ComplianceStatus, string> = {
+  green: "bg-compliant",
+  amber: "bg-attention",
+  red: "bg-urgent",
 };
 
 export default function TrafficLight({ status, size = "md" }: TrafficLightProps) {
   return (
     <span
-      className={`mt-1 inline-block shrink-0 rounded-full ${sizeClasses[size]} ${colorClasses[status]}`}
+      className={`inline-flex shrink-0 items-center justify-center rounded-full p-1.5 ${tintClasses[status]}`}
       title={status}
       aria-label={`Status: ${status}`}
-    />
+    >
+      <span className={`rounded-full ${dotSizes[size]} ${dotClasses[status]}`} />
+    </span>
   );
 }

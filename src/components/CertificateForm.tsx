@@ -19,8 +19,10 @@ import {
 import {
   btnPrimaryClassName,
   btnSecondaryClassName,
+  fileInputClassName,
   inputClassName,
   labelClassName,
+  mutedTextClassName,
   selectClassName,
   textareaClassName,
 } from "@/lib/ui";
@@ -202,7 +204,7 @@ export default function CertificateForm({
           ))}
         </select>
         {typeHint && (
-          <p className="mt-1 text-xs text-mahogany-900/60">{typeHint}</p>
+          <p className={`${mutedTextClassName} mt-1`}>{typeHint}</p>
         )}
       </div>
 
@@ -257,9 +259,9 @@ export default function CertificateForm({
           type="file"
           accept=".pdf,.jpg,.jpeg,application/pdf,image/jpeg"
           onChange={(e) => setDocument(e.target.files?.[0] ?? null)}
-          className="w-full rounded-lg border border-gold-muted/80 bg-ivory px-4 py-2.5 text-sm text-mahogany-950 shadow-sm file:mr-3 file:rounded-md file:border-0 file:bg-cream file:px-3 file:py-1.5 file:text-sm file:font-semibold file:text-mahogany-900"
+          className={fileInputClassName}
         />
-        <p className="mt-2 text-xs text-mahogany-900/60">
+        <p className={`${mutedTextClassName} mt-2`}>
           PDF or JPEG, up to 10 MB.
           {isEditing && certificate?.document_path
             ? " Upload a new file to replace the existing document."
@@ -268,7 +270,7 @@ export default function CertificateForm({
       </div>
 
       {error && (
-        <p className="rounded-lg border border-red-200 bg-urgent-light px-4 py-3 text-sm text-urgent">
+        <p className="rounded-sm border border-red-200 bg-urgent-light px-4 py-3 text-sm text-urgent">
           {error}
         </p>
       )}

@@ -35,22 +35,19 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
 
   return (
     <aside
-      className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col bg-forest-950 text-ivory transition-transform duration-200 lg:translate-x-0 ${
+      className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-border bg-off-white transition-transform duration-200 lg:translate-x-0 ${
         open ? "translate-x-0" : "-translate-x-full"
       }`}
     >
-      <div className="border-b border-gold/20 px-6 py-7">
-        <Link href="/dashboard" className="group block" onClick={onClose}>
-          <span className="font-serif text-2xl font-semibold tracking-tight text-ivory">
-            Safe<span className="text-gold-light">Lett</span>
-          </span>
-          <span className="mt-1 block text-[11px] font-medium uppercase tracking-[0.2em] text-gold-light/70">
-            Compliance Platform
+      <div className="border-b border-border px-8 py-10">
+        <Link href="/dashboard" className="block" onClick={onClose}>
+          <span className="font-serif text-[1.65rem] font-medium tracking-tight text-burgundy">
+            SafeLett
           </span>
         </Link>
       </div>
 
-      <nav className="flex-1 space-y-1 overflow-y-auto px-4 py-6">
+      <nav className="flex-1 space-y-0.5 overflow-y-auto px-4 py-8">
         {navItems.map((item) => {
           const isActive = isNavActive(pathname, item.href);
 
@@ -59,10 +56,10 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
               key={item.href}
               href={item.href}
               onClick={onClose}
-              className={`block rounded-lg px-4 py-2.5 text-sm font-medium transition ${
+              className={`block border-l-2 py-2.5 pl-4 pr-3 text-sm transition ${
                 isActive
-                  ? "bg-gold/15 text-gold-light"
-                  : "text-ivory/70 hover:bg-ivory/5 hover:text-ivory"
+                  ? "border-burgundy text-burgundy"
+                  : "border-transparent text-charcoal-muted hover:text-charcoal"
               }`}
             >
               {item.label}
@@ -71,7 +68,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
         })}
       </nav>
 
-      <div className="border-t border-gold/20 px-4 py-5">
+      <div className="border-t border-border px-4 py-6">
         <SignOutButton />
       </div>
     </aside>

@@ -82,7 +82,7 @@ export default function ShareWithLandlordButton({
             : "Share with Landlord"}
       </button>
       {shareToken && (
-        <p className="max-w-xs break-all text-right text-xs text-mahogany-900/60">
+        <p className="max-w-xs break-all text-right text-xs text-charcoal-muted">
           Portal link ready — click to copy again.
         </p>
       )}

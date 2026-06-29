@@ -53,13 +53,13 @@ export default function DeletePropertyButton({
   }
 
   return (
-    <div className={`${cardClassName} mt-10 border-red-200 p-6`}>
-      <h2 className="font-serif text-lg font-semibold text-mahogany-950">Delete Property</h2>
-      <p className="mt-1 text-sm text-mahogany-900/60">
+    <div className={`${cardClassName} mt-12 p-6`}>
+      <h2 className="font-serif text-lg font-medium text-charcoal">Delete Property</h2>
+      <p className="mt-1 text-sm text-charcoal-muted">
         Permanently remove this property and all associated certificates.
       </p>
       {error && (
-        <p className="mt-3 rounded-lg border border-red-200 bg-urgent-light px-4 py-3 text-sm text-urgent">
+        <p className="mt-3 rounded-sm border border-red-200 bg-urgent-light px-4 py-3 text-sm text-urgent">
           {error}
         </p>
       )}

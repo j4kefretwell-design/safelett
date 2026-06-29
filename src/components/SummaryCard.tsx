@@ -1,17 +1,8 @@
 const accentBorder = {
-  forest: "border-l-forest-900",
-  green: "border-l-compliant",
-  amber: "border-l-attention",
-  red: "border-l-urgent",
-  gold: "border-l-gold",
-};
-
-const accentValue = {
-  forest: "text-forest-900",
-  green: "text-compliant",
-  amber: "text-attention",
-  red: "text-urgent",
-  gold: "text-gold",
+  burgundy: "border-t-burgundy",
+  green: "border-t-compliant",
+  amber: "border-t-attention",
+  red: "border-t-urgent",
 };
 
 interface SummaryCardProps {
@@ -23,12 +14,12 @@ interface SummaryCardProps {
 export default function SummaryCard({ label, value, accent }: SummaryCardProps) {
   return (
     <div
-      className={`rounded-xl border border-gold-muted/60 border-l-4 bg-ivory p-6 shadow-sm ${accentBorder[accent]}`}
+      className={`rounded-sm border border-border border-t-2 bg-white px-6 py-7 shadow-[0_1px_3px_rgba(26,26,26,0.04)] ${accentBorder[accent]}`}
     >
-      <p className="text-sm font-medium text-mahogany-900/60">{label}</p>
-      <p
-        className={`mt-2 font-serif text-3xl font-semibold tracking-tight ${accentValue[accent]}`}
-      >
+      <p className="text-xs font-medium uppercase tracking-[0.12em] text-charcoal-muted">
+        {label}
+      </p>
+      <p className="mt-3 font-serif text-4xl font-medium tracking-tight text-charcoal">
         {value}
       </p>
     </div>

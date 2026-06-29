@@ -68,7 +68,7 @@ export default function DashboardClient({
   return (
     <>
       <div className="mb-10 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
-        <SummaryCard label="Total Properties" value={stats.total} accent="forest" />
+        <SummaryCard label="Total Properties" value={stats.total} accent="burgundy" />
         <SummaryCard label="Compliant" value={stats.compliant} accent="green" />
         <SummaryCard
           label="Needs Attention"
@@ -103,18 +103,18 @@ export default function DashboardClient({
       </div>
 
       <div>
-        <h2 className="mb-4 font-serif text-xl font-semibold text-mahogany-950">
+        <h2 className="mb-5 font-serif text-xl font-medium text-charcoal">
           Your Properties
         </h2>
 
         {properties.length === 0 ? (
           <div
-            className={`${cardClassName} flex flex-col items-center px-8 py-16 text-center`}
+            className={`${cardClassName} flex flex-col items-center px-8 py-20 text-center`}
           >
-            <p className="font-serif text-lg font-semibold text-mahogany-950">
+            <p className="font-serif text-xl font-medium text-charcoal">
               No properties yet
             </p>
-            <p className="mt-2 max-w-md text-sm text-mahogany-900/60">
+            <p className="mt-3 max-w-md text-sm leading-relaxed text-charcoal-muted">
               Add your first property to start tracking compliance certificates
               across your portfolio.
             </p>
@@ -123,8 +123,8 @@ export default function DashboardClient({
             </Link>
           </div>
         ) : filteredProperties.length === 0 ? (
-          <div className={`${cardClassName} px-8 py-12 text-center`}>
-            <p className="text-sm text-mahogany-900/60">
+          <div className={`${cardClassName} px-8 py-14 text-center`}>
+            <p className="text-sm text-charcoal-muted">
               No properties match your search.
             </p>
           </div>

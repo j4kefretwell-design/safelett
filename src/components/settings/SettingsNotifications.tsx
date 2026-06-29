@@ -7,6 +7,7 @@ import {
   btnPrimaryClassName,
   cardClassName,
   sectionTitleClassName,
+  mutedTextClassName,
 } from "@/lib/ui";
 import type { UserProfile } from "@/lib/types";
 
@@ -70,7 +71,7 @@ export default function SettingsNotifications({
   return (
     <section className={`${cardClassName} p-8`}>
       <h2 className={sectionTitleClassName}>Notification Preferences</h2>
-      <p className="mt-1 text-sm text-mahogany-900/60">
+      <p className={`${mutedTextClassName} mt-1`}>
         Control when SafeLett sends expiry reminder emails.
       </p>
 
@@ -80,20 +81,20 @@ export default function SettingsNotifications({
             type="checkbox"
             checked={emailAlertsEnabled}
             onChange={(e) => setEmailAlertsEnabled(e.target.checked)}
-            className="mt-1 h-4 w-4 rounded border-gold-muted text-forest-900 focus:ring-forest-700"
+            className="mt-1 h-4 w-4 rounded-sm border-border text-burgundy focus:ring-burgundy"
           />
           <span>
-            <span className="block text-sm font-medium text-mahogany-950">
+            <span className="block text-sm font-medium text-charcoal">
               Email alerts enabled
             </span>
-            <span className="block text-sm text-mahogany-900/60">
+            <span className="block text-sm text-charcoal-muted">
               Receive automated expiry reminders by email.
             </span>
           </span>
         </label>
 
-        <div className="space-y-3 border-t border-gold-muted/60 pt-5">
-          <p className="text-sm font-medium text-mahogany-950">
+        <div className="space-y-3 border-t border-border pt-5">
+          <p className="text-sm font-medium text-charcoal">
             Notify me when certificates are expiring within:
           </p>
 
@@ -108,20 +109,20 @@ export default function SettingsNotifications({
                 checked={option.value}
                 disabled={!emailAlertsEnabled}
                 onChange={(e) => option.setter(e.target.checked)}
-                className="h-4 w-4 rounded border-gold-muted text-forest-900 focus:ring-forest-700 disabled:opacity-40"
+                className="h-4 w-4 rounded-sm border-border text-burgundy focus:ring-burgundy disabled:opacity-40"
               />
-              <span className="text-sm text-mahogany-900/80">{option.label}</span>
+              <span className="text-sm text-charcoal-muted">{option.label}</span>
             </label>
           ))}
         </div>
 
         {error && (
-          <p className="rounded-lg border border-urgent/20 bg-urgent-light px-4 py-3 text-sm text-urgent">
+          <p className="rounded-sm border border-urgent/20 bg-urgent-light px-4 py-3 text-sm text-urgent">
             {error}
           </p>
         )}
         {message && (
-          <p className="rounded-lg border border-compliant/20 bg-compliant-light px-4 py-3 text-sm text-compliant">
+          <p className="rounded-sm border border-compliant/20 bg-compliant-light px-4 py-3 text-sm text-compliant">
             {message}
           </p>
         )}
