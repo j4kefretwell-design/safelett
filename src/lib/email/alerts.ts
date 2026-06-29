@@ -10,10 +10,11 @@ import {
 } from "@/lib/user-profile";
 import { sendExpiryAlertEmail } from "@/lib/email/send";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { CERTIFICATE_LABELS, type CertificateType } from "@/lib/types";
+import { CERTIFICATE_LABELS, type CertificateType, type PropertyContractor } from "@/lib/types";
 
 interface CertificateRow {
   id: string;
+  property_id: string;
   certificate_type: CertificateType;
   expiry_date: string;
   properties:
@@ -36,6 +37,38 @@ function getPropertyFromCertificate(certificate: CertificateRow) {
   return Array.isArray(certificate.properties)
     ? certificate.properties[0] ?? null
     : certificate.properties;
+}
+
+function buildContractorLookup(contractors: PropertyContractor[]) {
+  const lookup = new Map<string, PropertyContractor>();
+
+  for (const contractor of contractors) {
+    lookup.set(
+      `${contractor.property_id}:${contractor.certificate_type}`,
+      contractor
+    );
+  }
+
+  return lookup;
+}
+
+function getContractorForCertificate(
+  lookup: Map<string, PropertyContractor>,
+  propertyId: string,
+  certificateType: CertificateType
+) {
+  const contractor = lookup.get(`${propertyId}:${certificateType}`);
+
+  if (!contractor) {
+    return undefined;
+  }
+
+  return {
+    name: contractor.name,
+    companyName: contractor.company_name,
+    phone: contractor.phone,
+    email: contractor.email,
+  };
 }
 
 export interface SendAlertsResult {
@@ -132,6 +165,7 @@ export async function sendCertificateExpiryAlerts(): Promise<SendAlertsResult> {
     .select(
       `
       id,
+      property_id,
       certificate_type,
       expiry_date,
       properties (
@@ -144,6 +178,18 @@ export async function sendCertificateExpiryAlerts(): Promise<SendAlertsResult> {
   if (error) {
     throw new Error(error.message);
   }
+
+  const { data: contractors, error: contractorsError } = await admin
+    .from("property_contractors")
+    .select("*");
+
+  if (contractorsError) {
+    throw new Error(contractorsError.message);
+  }
+
+  const contractorLookup = buildContractorLookup(
+    (contractors ?? []) as PropertyContractor[]
+  );
 
   const emailCache = new Map<string, string | null>();
   const profileCache = new Map<
@@ -207,6 +253,11 @@ export async function sendCertificateExpiryAlerts(): Promise<SendAlertsResult> {
           expiryDate: formatDate(certificate.expiry_date),
           daysRemaining: daysUntilExpiry,
           alertTier,
+          contractor: getContractorForCertificate(
+            contractorLookup,
+            certificate.property_id,
+            certificate.certificate_type
+          ),
         });
 
         if (sendResult.error) {

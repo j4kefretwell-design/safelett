@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import DeleteCertificateButton from "@/components/DeleteCertificateButton";
 import DeletePropertyButton from "@/components/DeletePropertyButton";
 import PageHeader from "@/components/layout/PageHeader";
+import PropertyContractors from "@/components/PropertyContractors";
 import PropertyNotes from "@/components/PropertyNotes";
 import ShareWithLandlordButton from "@/components/ShareWithLandlordButton";
 import StatusBadge from "@/components/StatusBadge";
@@ -28,6 +29,7 @@ import {
   PROPERTY_TYPE_LABELS,
   type Certificate,
   type Property,
+  type PropertyContractor,
 } from "@/lib/types";
 import Link from "next/link";
 
@@ -61,6 +63,14 @@ export default async function PropertyDetailPage({
 
   const certificateList = (certificates ?? []) as Certificate[];
   const propertyStatus = getPropertyStatus(certificateList);
+
+  const { data: contractors } = await supabase
+    .from("property_contractors")
+    .select("*")
+    .eq("property_id", id)
+    .order("certificate_type", { ascending: true });
+
+  const contractorList = (contractors ?? []) as PropertyContractor[];
 
   const documentUrls = await Promise.all(
     certificateList.map(async (cert) => {
@@ -284,6 +294,11 @@ export default async function PropertyDetailPage({
           </>
         )}
       </div>
+
+      <PropertyContractors
+        propertyId={id}
+        initialContractors={contractorList}
+      />
 
       <DeletePropertyButton
         propertyId={id}

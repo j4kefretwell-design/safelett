@@ -16,6 +16,7 @@ export async function sendExpiryAlertEmail({
   expiryDate,
   daysRemaining,
   alertTier,
+  contractor,
 }: {
   to: string;
   propertyAddress: string;
@@ -23,6 +24,12 @@ export async function sendExpiryAlertEmail({
   expiryDate: string;
   daysRemaining: number;
   alertTier: ExpiryAlertDay;
+  contractor?: {
+    name: string;
+    companyName: string;
+    phone: string;
+    email: string;
+  };
 }) {
   const { subject, html } = buildExpiryAlertEmail({
     propertyAddress,
@@ -31,6 +38,7 @@ export async function sendExpiryAlertEmail({
     daysRemaining,
     alertTier,
     dashboardUrl: `${getAppUrl()}/dashboard`,
+    contractor,
   });
 
   const resend = getResendClient();

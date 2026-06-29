@@ -54,6 +54,39 @@ interface ExpiryAlertEmailParams {
   daysRemaining: number;
   alertTier: number;
   dashboardUrl: string;
+  contractor?: {
+    name: string;
+    companyName: string;
+    phone: string;
+    email: string;
+  };
+}
+
+function buildContractorSection(
+  contractor: NonNullable<ExpiryAlertEmailParams["contractor"]>
+): string {
+  const safeName = escapeHtml(contractor.name);
+  const safeCompany = escapeHtml(contractor.companyName);
+  const safePhone = escapeHtml(contractor.phone);
+  const safeEmail = escapeHtml(contractor.email);
+  const phoneHref = escapeHtml(contractor.phone.replace(/\s/g, ""));
+
+  return `
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color:#fffdf8;border:1px solid #e8d5a3;border-radius:8px;margin-bottom:24px;">
+      <tr>
+        <td style="padding:16px 20px;">
+          <p style="margin:0 0 12px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;color:#64748b;">Your contractor</p>
+          <p style="margin:0;font-size:15px;font-weight:600;color:#0f172a;">${safeName}</p>
+          <p style="margin:4px 0 0;font-size:14px;color:#475569;">${safeCompany}</p>
+          <p style="margin:12px 0 0;font-size:14px;line-height:1.6;color:#475569;">
+            <a href="tel:${phoneHref}" style="color:#5c1a2e;text-decoration:none;font-weight:600;">${safePhone}</a>
+            &nbsp;·&nbsp;
+            <a href="mailto:${safeEmail}" style="color:#5c1a2e;text-decoration:none;font-weight:600;">${safeEmail}</a>
+          </p>
+        </td>
+      </tr>
+    </table>
+  `;
 }
 
 function getExpirySummary(daysRemaining: number): string {
@@ -96,6 +129,7 @@ export function buildExpiryAlertEmail({
   daysRemaining,
   alertTier,
   dashboardUrl,
+  contractor,
 }: ExpiryAlertEmailParams) {
   const safeAddress = escapeHtml(propertyAddress);
   const safeCertificate = escapeHtml(certificateLabel);
@@ -129,6 +163,7 @@ export function buildExpiryAlertEmail({
         </td>
       </tr>
     </table>
+    ${contractor ? buildContractorSection(contractor) : ""}
     <a href="${dashboardUrl}" style="display:inline-block;background-color:#0f172a;color:#ffffff;text-decoration:none;font-size:14px;font-weight:600;padding:12px 20px;border-radius:8px;">
       View in ${BRAND_NAME}
     </a>

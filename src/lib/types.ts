@@ -41,6 +41,18 @@ export interface Certificate {
   updated_at: string;
 }
 
+export interface PropertyContractor {
+  id: string;
+  property_id: string;
+  certificate_type: CertificateType;
+  name: string;
+  company_name: string;
+  phone: string;
+  email: string;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface UserProfile {
   id: string;
   full_name: string | null;
