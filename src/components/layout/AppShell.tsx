@@ -41,7 +41,7 @@ export default function AppShell({ children }: AppShellProps) {
           <div className="w-14" />
         </header>
 
-        <main className="mx-auto max-w-5xl px-5 py-8 sm:px-8 lg:px-12 lg:py-14">
+        <main className="mx-auto max-w-5xl px-6 py-10 sm:px-10 lg:px-14 lg:py-16">
           {children}
         </main>
       </div>

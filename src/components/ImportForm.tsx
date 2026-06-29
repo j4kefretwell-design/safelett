@@ -76,7 +76,7 @@ export default function ImportForm({ templateUrl }: ImportFormProps) {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div className={`${cardClassName} p-6 sm:p-8`}>
         <h2 className="font-serif text-lg font-medium text-charcoal">
           Step 1 — Download template

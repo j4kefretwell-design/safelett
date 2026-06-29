@@ -67,7 +67,7 @@ export default function DashboardClient({
 
   return (
     <>
-      <div className="mb-10 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="mb-14 grid gap-6 sm:grid-cols-2 lg:gap-8 xl:grid-cols-4">
         <SummaryCard label="Total Properties" value={stats.total} accent="burgundy" />
         <SummaryCard label="Compliant" value={stats.compliant} accent="green" />
         <SummaryCard
@@ -78,7 +78,7 @@ export default function DashboardClient({
         <SummaryCard label="Overdue" value={stats.overdue} accent="red" />
       </div>
 
-      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mb-10 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex-1 sm:max-w-md">
           <label htmlFor="property-search" className="sr-only">
             Search properties
@@ -103,13 +103,13 @@ export default function DashboardClient({
       </div>
 
       <div>
-        <h2 className="mb-5 font-serif text-xl font-medium text-charcoal">
+        <h2 className="mb-8 font-serif text-xl font-medium tracking-tight text-charcoal">
           Your Properties
         </h2>
 
         {properties.length === 0 ? (
           <div
-            className={`${cardClassName} flex flex-col items-center px-8 py-20 text-center`}
+            className={`${cardClassName} flex flex-col items-center px-10 py-24 text-center`}
           >
             <p className="font-serif text-xl font-medium text-charcoal">
               No properties yet
@@ -118,7 +118,7 @@ export default function DashboardClient({
               Add your first property to start tracking compliance certificates
               across your portfolio.
             </p>
-            <Link href="/properties/new" className={`${btnPrimaryClassName} mt-6`}>
+            <Link href="/properties/new" className={`${btnPrimaryClassName} mt-8`}>
               Add Property
             </Link>
           </div>
@@ -129,7 +129,7 @@ export default function DashboardClient({
             </p>
           </div>
         ) : (
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid gap-6 md:grid-cols-2">
             {filteredProperties.map((property) => (
               <PropertyCard
                 key={property.id}

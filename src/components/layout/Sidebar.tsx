@@ -36,11 +36,11 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
 
   return (
     <aside
-      className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col bg-burgundy transition-transform duration-200 lg:translate-x-0 ${
+      className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col bg-burgundy transition-transform duration-300 ease-out lg:translate-x-0 ${
         open ? "translate-x-0" : "-translate-x-full"
       }`}
     >
-      <div className="border-b border-gold/20 px-8 py-10">
+      <div className="border-b border-gold/15 px-8 py-12">
         <Link href="/dashboard" className="block" onClick={onClose}>
           <span className="font-serif text-[1.65rem] font-medium tracking-tight text-gold">
             {BRAND_NAME}
@@ -48,7 +48,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
         </Link>
       </div>
 
-      <nav className="flex-1 space-y-0.5 overflow-y-auto px-4 py-8">
+      <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-10">
         {navItems.map((item) => {
           const isActive = isNavActive(pathname, item.href);
 
@@ -57,10 +57,10 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
               key={item.href}
               href={item.href}
               onClick={onClose}
-              className={`block border-l-2 py-2.5 pl-4 pr-3 text-sm transition ${
+              className={`group relative block border-l-2 py-3 pl-5 pr-4 text-sm tracking-[0.08em] transition-all duration-200 ${
                 isActive
-                  ? "border-gold text-gold"
-                  : "border-transparent text-cream/70 hover:text-cream"
+                  ? "border-gold bg-[rgba(255,255,255,0.06)] text-gold shadow-[inset_0_0_20px_rgba(92,26,46,0.15)]"
+                  : "border-transparent text-cream/60 hover:border-gold/50 hover:bg-[rgba(255,255,255,0.03)] hover:pl-6 hover:text-cream"
               }`}
             >
               {item.label}
@@ -69,7 +69,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
         })}
       </nav>
 
-      <div className="border-t border-gold/20 px-4 py-6">
+      <div className="border-t border-gold/15 px-3 py-8">
         <SignOutButton />
       </div>
     </aside>

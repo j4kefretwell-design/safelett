@@ -1,5 +1,9 @@
 import Link from "next/link";
-import { btnGoldClassName, btnPrimaryClassName, pageTitleClassName } from "@/lib/ui";
+import {
+  btnPrimaryClassName,
+  pageTitleClassName,
+  pageTitleRuleClassName,
+} from "@/lib/ui";
 
 interface PageHeaderProps {
   title: string;
@@ -21,25 +25,26 @@ export default function PageHeader({
   secondaryAction,
 }: PageHeaderProps) {
   return (
-    <div className="mb-10 border-b border-gold-light pb-10 lg:mb-12">
+    <div className="mb-12 lg:mb-16">
       {backHref && (
         <Link
           href={backHref}
-          className="mb-6 inline-flex items-center text-sm text-charcoal-muted transition hover:text-burgundy"
+          className="mb-8 inline-flex items-center text-sm tracking-wide text-charcoal-muted transition hover:text-burgundy"
         >
           ← {backLabel}
         </Link>
       )}
-      <div className="flex flex-wrap items-start justify-between gap-6">
+      <div className="flex flex-wrap items-start justify-between gap-8">
         <div className="max-w-2xl">
           <h1 className={pageTitleClassName}>{title}</h1>
+          <div className={pageTitleRuleClassName} aria-hidden="true" />
           {description && (
-            <p className="mt-3 text-sm leading-relaxed text-charcoal-muted">
+            <p className="mt-5 max-w-xl text-sm leading-relaxed text-charcoal-muted">
               {description}
             </p>
           )}
         </div>
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-wrap items-center gap-4">
           {secondaryAction}
           {actionHref && actionLabel && (
             <Link href={actionHref} className={btnPrimaryClassName}>
@@ -51,5 +56,3 @@ export default function PageHeader({
     </div>
   );
 }
-
-export { btnGoldClassName, btnPrimaryClassName };

@@ -184,7 +184,7 @@ export default function CertificateForm({
   const typeHint = CERTIFICATE_TYPE_HINTS[certificateType];
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-8">
       <div>
         <label htmlFor="certificateType" className={labelClassName}>
           Certificate Type

@@ -11,6 +11,7 @@ import {
   inputClassName,
   labelClassName,
   linkClassName,
+  pageTitleRuleClassName,
 } from "@/lib/ui";
 
 interface AuthFormProps {
@@ -73,13 +74,14 @@ export default function AuthForm({ mode }: AuthFormProps) {
         <h1 className="font-serif text-2xl font-medium tracking-tight text-charcoal sm:text-3xl">
           {mode === "login" ? "Sign in" : "Create account"}
         </h1>
-        <p className="mt-3 text-sm text-charcoal-muted">
+        <div className={pageTitleRuleClassName} aria-hidden="true" />
+        <p className="mt-5 text-sm leading-relaxed text-charcoal-muted">
           {mode === "login"
             ? "Welcome back."
             : "Begin tracking compliance across your portfolio."}
         </p>
 
-        <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+        <form onSubmit={handleSubmit} className="mt-10 space-y-8">
           <div>
             <label htmlFor="email" className={labelClassName}>
               Email address

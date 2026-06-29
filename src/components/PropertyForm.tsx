@@ -97,7 +97,7 @@ export default function PropertyForm({ property }: PropertyFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-8">
       <div>
         <label htmlFor="address" className={labelClassName}>
           Property Address
