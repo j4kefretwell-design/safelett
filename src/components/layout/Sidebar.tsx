@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import SignOutButton from "@/components/SignOutButton";
-import { BRAND_NAME } from "@/lib/brand";
+import BrandWordmark from "@/components/BrandWordmark";
 import { NAV_ICONS } from "@/lib/icons";
 
 const navItems = [
@@ -41,12 +41,8 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
         open ? "translate-x-0" : "-translate-x-full"
       }`}
     >
-      <div className="border-b border-gold/15 px-8 py-12">
-        <Link href="/dashboard" className="block" onClick={onClose}>
-          <span className="font-serif text-[1.65rem] font-medium tracking-tight text-gold">
-            {BRAND_NAME}
-          </span>
-        </Link>
+      <div className="border-b border-gold/15 px-7 py-10">
+        <BrandWordmark onClick={onClose} />
       </div>
 
       <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-10">

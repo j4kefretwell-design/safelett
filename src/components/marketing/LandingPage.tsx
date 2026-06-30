@@ -62,8 +62,8 @@ export default function LandingPage() {
         </div>
       </header>
 
-      <section className="hero-texture relative overflow-hidden bg-burgundy px-6 py-24 sm:py-32">
-        <div className="relative mx-auto max-w-4xl text-center">
+      <section className="hero-texture relative overflow-hidden px-6 py-24 sm:py-32">
+        <div className="relative z-10 mx-auto max-w-4xl text-center">
           <p className="text-xs font-medium uppercase tracking-[0.2em] text-gold/90">
             {BRAND_NAME}
           </p>
