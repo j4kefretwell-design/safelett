@@ -13,6 +13,7 @@ import {
   linkClassName,
   pageTitleRuleClassName,
 } from "@/lib/ui";
+import PasswordInput from "@/components/PasswordInput";
 
 interface AuthFormProps {
   mode: "login" | "signup";
@@ -97,21 +98,13 @@ export default function AuthForm({ mode }: AuthFormProps) {
             />
           </div>
 
-          <div>
-            <label htmlFor="password" className={labelClassName}>
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              required
-              minLength={6}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className={inputClassName}
-              placeholder="••••••••"
-            />
-          </div>
+          <PasswordInput
+            id="password"
+            label="Password"
+            value={password}
+            onChange={setPassword}
+            minLength={6}
+          />
 
           {error && (
             <p className="rounded-sm border border-urgent/30 bg-urgent-light px-4 py-3 text-sm text-urgent">

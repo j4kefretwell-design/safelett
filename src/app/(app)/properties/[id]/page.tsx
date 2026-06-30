@@ -8,6 +8,7 @@ import ShareWithLandlordButton from "@/components/ShareWithLandlordButton";
 import StatusBadge from "@/components/StatusBadge";
 import TrafficLight from "@/components/TrafficLight";
 import { getCertificateDocumentUrl } from "@/lib/certificate-documents";
+import { CertificateTypeIcon } from "@/lib/icons";
 import {
   formatDate,
   getCertificateStatus,
@@ -159,7 +160,11 @@ export default async function PropertyDetailPage({
                     <div className="flex items-start gap-3">
                       <TrafficLight status={status} />
                       <div className="min-w-0 flex-1">
-                        <p className="font-medium text-charcoal">
+                        <p className="flex items-center gap-2 font-medium text-charcoal">
+                          <CertificateTypeIcon
+                            type={cert.certificate_type}
+                            className="h-4 w-4 shrink-0 text-burgundy/70"
+                          />
                           {CERTIFICATE_LABELS[cert.certificate_type]}
                         </p>
                         {cert.notes && (
@@ -237,7 +242,11 @@ export default async function PropertyDetailPage({
                         <td className="px-6 py-5">
                           <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                             <TrafficLight status={status} />
-                            <span className="font-medium text-charcoal">
+                            <span className="flex items-center gap-2 font-medium text-charcoal">
+                              <CertificateTypeIcon
+                                type={cert.certificate_type}
+                                className="h-4 w-4 shrink-0 text-burgundy/70"
+                              />
                               {CERTIFICATE_LABELS[cert.certificate_type]}
                             </span>
                             {documentUrl && (

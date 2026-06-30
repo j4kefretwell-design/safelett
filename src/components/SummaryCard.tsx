@@ -1,15 +1,36 @@
+import { STAT_ICONS } from "@/lib/icons";
 import { goldLabelClassName, plaqueClassName } from "@/lib/ui";
 
 interface SummaryCardProps {
   label: string;
   value: number;
-  accent?: "burgundy" | "green" | "amber" | "red";
+  accent?: "total" | "compliant" | "attention" | "overdue";
 }
 
-export default function SummaryCard({ label, value }: SummaryCardProps) {
+const accentColors = {
+  total: "text-burgundy",
+  compliant: "text-compliant",
+  attention: "text-attention",
+  overdue: "text-urgent",
+};
+
+export default function SummaryCard({
+  label,
+  value,
+  accent = "total",
+}: SummaryCardProps) {
+  const Icon = STAT_ICONS[accent];
+
   return (
     <div className={plaqueClassName}>
-      <p className={goldLabelClassName}>{label}</p>
+      <div className="relative flex items-start justify-between gap-3">
+        <p className={goldLabelClassName}>{label}</p>
+        <Icon
+          className={`h-4 w-4 shrink-0 ${accentColors[accent]}`}
+          strokeWidth={1.75}
+          aria-hidden
+        />
+      </div>
       <p className="relative mt-4 font-serif text-4xl font-medium tracking-tight text-charcoal">
         {value}
       </p>

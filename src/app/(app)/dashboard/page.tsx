@@ -36,13 +36,19 @@ export default async function DashboardPage() {
     overdue: propertiesWithStatus.filter((p) => p.status === "red").length,
   };
 
+  const hasProperties = propertyList.length > 0;
+
   return (
     <>
       <PageHeader
-        title="Dashboard"
-        description="Overview of compliance across your property portfolio."
-        actionHref="/properties/new"
-        actionLabel="Add Property"
+        title={hasProperties ? "Dashboard" : "Welcome"}
+        description={
+          hasProperties
+            ? "Overview of compliance across your property portfolio."
+            : "You're just a few steps away from complete compliance peace of mind."
+        }
+        actionHref={hasProperties ? "/properties/new" : undefined}
+        actionLabel={hasProperties ? "Add Property" : undefined}
       />
 
       <DashboardClient

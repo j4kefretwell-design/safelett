@@ -2,6 +2,7 @@ import Link from "next/link";
 import PageHeader from "@/components/layout/PageHeader";
 import StatusBadge from "@/components/StatusBadge";
 import TrafficLight from "@/components/TrafficLight";
+import { CertificateTypeIcon } from "@/lib/icons";
 import {
   formatDate,
   getCertificateStatus,
@@ -92,7 +93,11 @@ export default async function RemindersPage() {
                     >
                       {reminder.property.address}
                     </Link>
-                    <p className="mt-2 text-sm text-charcoal-muted">
+                    <p className="mt-2 flex items-center gap-2 text-sm text-charcoal-muted">
+                      <CertificateTypeIcon
+                        type={reminder.certificate.certificate_type}
+                        className="h-3.5 w-3.5 shrink-0 text-burgundy/60"
+                      />
                       {CERTIFICATE_LABELS[reminder.certificate.certificate_type]}
                     </p>
                     <p className="mt-1 text-sm text-charcoal-muted">
@@ -145,7 +150,13 @@ export default async function RemindersPage() {
                     </Link>
                   </td>
                   <td className="px-6 py-5 text-charcoal-muted">
-                    {CERTIFICATE_LABELS[reminder.certificate.certificate_type]}
+                    <span className="flex items-center gap-2">
+                      <CertificateTypeIcon
+                        type={reminder.certificate.certificate_type}
+                        className="h-3.5 w-3.5 shrink-0 text-burgundy/60"
+                      />
+                      {CERTIFICATE_LABELS[reminder.certificate.certificate_type]}
+                    </span>
                   </td>
                   <td className="px-6 py-5 text-charcoal-muted">
                     {formatDate(reminder.certificate.expiry_date)}

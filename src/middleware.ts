@@ -40,7 +40,9 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith("/login") ||
     pathname.startsWith("/signup");
 
-  if (!user && !isAuthPage) {
+  const isPublicPage = pathname === "/" || isAuthPage;
+
+  if (!user && !isPublicPage) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
     return NextResponse.redirect(url);

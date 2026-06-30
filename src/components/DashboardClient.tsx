@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import DashboardEmptyState from "@/components/DashboardEmptyState";
 import PropertyCard from "@/components/PropertyCard";
 import SummaryCard from "@/components/SummaryCard";
 import {
   btnGoldClassName,
-  btnPrimaryClassName,
   cardClassName,
   inputClassName,
 } from "@/lib/ui";
@@ -65,17 +65,21 @@ export default function DashboardClient({
     }
   }
 
+  if (properties.length === 0) {
+    return <DashboardEmptyState />;
+  }
+
   return (
     <>
       <div className="mb-14 grid gap-6 sm:grid-cols-2 lg:gap-8 xl:grid-cols-4">
-        <SummaryCard label="Total Properties" value={stats.total} accent="burgundy" />
-        <SummaryCard label="Compliant" value={stats.compliant} accent="green" />
+        <SummaryCard label="Total Properties" value={stats.total} accent="total" />
+        <SummaryCard label="Compliant" value={stats.compliant} accent="compliant" />
         <SummaryCard
           label="Needs Attention"
           value={stats.attention}
-          accent="amber"
+          accent="attention"
         />
-        <SummaryCard label="Overdue" value={stats.overdue} accent="red" />
+        <SummaryCard label="Overdue" value={stats.overdue} accent="overdue" />
       </div>
 
       <div className="mb-10 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
@@ -95,7 +99,7 @@ export default function DashboardClient({
         <button
           type="button"
           onClick={handleExport}
-          disabled={exporting || properties.length === 0}
+          disabled={exporting}
           className={btnGoldClassName}
         >
           {exporting ? "Exporting..." : "Export CSV"}
@@ -107,22 +111,7 @@ export default function DashboardClient({
           Your Properties
         </h2>
 
-        {properties.length === 0 ? (
-          <div
-            className={`${cardClassName} flex flex-col items-center px-10 py-24 text-center`}
-          >
-            <p className="font-serif text-xl font-medium text-charcoal">
-              No properties yet
-            </p>
-            <p className="mt-3 max-w-md text-sm leading-relaxed text-charcoal-muted">
-              Add your first property to start tracking compliance certificates
-              across your portfolio.
-            </p>
-            <Link href="/properties/new" className={`${btnPrimaryClassName} mt-8`}>
-              Add Property
-            </Link>
-          </div>
-        ) : filteredProperties.length === 0 ? (
+        {filteredProperties.length === 0 ? (
           <div className={`${cardClassName} px-8 py-14 text-center`}>
             <p className="text-sm text-charcoal-muted">
               No properties match your search.
