@@ -8,7 +8,7 @@ interface SummaryCardProps {
 }
 
 const accentColors = {
-  total: "text-burgundy",
+  total: "text-raspberry",
   compliant: "text-compliant",
   attention: "text-attention",
   overdue: "text-urgent",
@@ -27,11 +27,11 @@ export default function SummaryCard({
         <p className={goldLabelClassName}>{label}</p>
         <Icon
           className={`h-4 w-4 shrink-0 ${accentColors[accent]}`}
-          strokeWidth={1.75}
+          strokeWidth={1.5}
           aria-hidden
         />
       </div>
-      <p className="relative mt-4 font-serif text-4xl font-medium tracking-tight text-charcoal">
+      <p className="relative mt-4 font-serif text-4xl tracking-wide text-text">
         {value}
       </p>
     </div>

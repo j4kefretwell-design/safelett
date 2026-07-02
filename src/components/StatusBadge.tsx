@@ -17,7 +17,7 @@ export default function StatusBadge({ status, size = "md" }: StatusBadgeProps) {
 
   return (
     <span
-      className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border border-gold-light/45 bg-gradient-to-b from-panel to-cream/20 shadow-[inset_0_1px_2px_rgba(92,26,46,0.06),0_1px_2px_rgba(92,26,46,0.04)] ${
+      className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border border-cocoa/15 bg-beige/80 ${
         isSmall ? "px-2 py-0.5" : "px-2.5 py-1"
       }`}
       title={getStatusLabel(status)}
@@ -28,7 +28,7 @@ export default function StatusBadge({ status, size = "md" }: StatusBadgeProps) {
         }`}
       />
       <span
-        className={`font-normal uppercase text-charcoal-muted/75 ${
+        className={`font-light uppercase text-cocoa ${
           isSmall
             ? "text-[10px] tracking-[0.1em]"
             : "text-[11px] tracking-[0.08em]"

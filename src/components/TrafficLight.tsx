@@ -18,6 +18,12 @@ const dotSizes = {
   lg: "h-2 w-2",
 };
 
+const tintClasses: Record<ComplianceStatus, string> = {
+  green: "bg-compliant-light",
+  amber: "bg-attention-light",
+  red: "bg-urgent-light",
+};
+
 const dotClasses: Record<ComplianceStatus, string> = {
   green: "bg-compliant",
   amber: "bg-attention",
@@ -27,7 +33,7 @@ const dotClasses: Record<ComplianceStatus, string> = {
 export default function TrafficLight({ status, size = "md" }: TrafficLightProps) {
   return (
     <span
-      className={`inline-flex shrink-0 items-center justify-center rounded-full border border-gold-light/40 bg-gradient-to-b from-panel to-cream/30 shadow-[inset_0_1px_2px_rgba(92,26,46,0.08)] ${containerSizes[size]}`}
+      className={`inline-flex shrink-0 items-center justify-center rounded-full border border-cocoa/10 ${tintClasses[status]} ${containerSizes[size]}`}
       title={getStatusLabel(status)}
       aria-label={`Status: ${getStatusLabel(status)}`}
     >

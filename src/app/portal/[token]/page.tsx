@@ -13,8 +13,7 @@ import {
   tableHeaderClassName,
   tableRowClassName,
 } from "@/lib/ui";
-import { createAdminClient } from "@/lib/supabase/admin";
-import { BRAND_NAME } from "@/lib/brand";
+import BrandWordmark from "@/components/BrandWordmark";
 import {
   CERTIFICATE_LABELS,
   getCertificateDateLabels,
@@ -22,6 +21,8 @@ import {
   type Certificate,
   type Property,
 } from "@/lib/types";
+import { createAdminClient } from "@/lib/supabase/admin";
+import { BRAND_NAME } from "@/lib/brand";
 
 interface PortalPageProps {
   params: Promise<{ token: string }>;
@@ -75,21 +76,21 @@ export default async function PortalPage({ params }: PortalPageProps) {
   const propertyStatus = getPropertyStatus(certificateList);
 
   return (
-    <div className="min-h-screen bg-ivory">
-      <header className="border-b border-gold/20 bg-burgundy">
+    <div className="min-h-screen bg-dusty-cream">
+      <header className="border-b border-dusty-cream/10 bg-raspberry">
         <div className="mx-auto max-w-4xl px-5 py-10 sm:px-8 sm:py-12">
-          <span className="font-serif text-2xl font-medium text-gold sm:text-3xl">
-            {BRAND_NAME}
-          </span>
-          <p className="mt-1 text-xs uppercase tracking-[0.14em] text-cream/60">
+          <BrandWordmark href="/" variant="hero" />
+          <p className="mt-3 text-xs font-light uppercase tracking-[0.14em] text-dusty-cream/55">
             Landlord Portal
           </p>
-          <div className="mt-8 border-t border-gold/20 pt-8">
-            <p className="text-sm text-cream/70">Property compliance overview</p>
-            <h1 className="mt-2 font-serif text-2xl font-medium leading-snug text-cream sm:text-3xl">
+          <div className="mt-8 border-t border-dusty-cream/10 pt-8">
+            <p className="text-sm font-light text-dusty-cream/65">
+              Property compliance overview
+            </p>
+            <h1 className="mt-2 font-serif text-2xl leading-snug tracking-wide text-dusty-cream sm:text-3xl">
               {typedProperty.address}
             </h1>
-            <p className="mt-2 text-sm text-cream/70">
+            <p className="mt-2 text-sm font-light text-dusty-cream/65">
               {PROPERTY_TYPE_LABELS[typedProperty.property_type]} ·{" "}
               {typedProperty.bedrooms}{" "}
               {typedProperty.bedrooms === 1 ? "bedroom" : "bedrooms"}

@@ -4,7 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { BRAND_NAME } from "@/lib/brand";
+import BrandWordmark from "@/components/BrandWordmark";
+import PasswordInput from "@/components/PasswordInput";
 import {
   btnPrimaryClassName,
   cardClassName,
@@ -13,7 +14,6 @@ import {
   linkClassName,
   pageTitleRuleClassName,
 } from "@/lib/ui";
-import PasswordInput from "@/components/PasswordInput";
 
 interface AuthFormProps {
   mode: "login" | "signup";
@@ -64,19 +64,17 @@ export default function AuthForm({ mode }: AuthFormProps) {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center bg-burgundy px-6 py-12">
-      <div className="mb-10 text-center">
-        <span className="font-serif text-3xl font-medium tracking-tight text-gold sm:text-4xl">
-          {BRAND_NAME}
-        </span>
+    <div className="flex min-h-screen flex-col items-center bg-raspberry px-6 py-12">
+      <div className="mb-10">
+        <BrandWordmark href="/" variant="hero" />
       </div>
 
       <div className={`${cardClassName} w-full max-w-md p-8 sm:p-10`}>
-        <h1 className="font-serif text-2xl font-medium tracking-tight text-charcoal sm:text-3xl">
+        <h1 className="font-serif text-2xl tracking-wide text-text sm:text-3xl">
           {mode === "login" ? "Sign in" : "Create account"}
         </h1>
         <div className={pageTitleRuleClassName} aria-hidden="true" />
-        <p className="mt-5 text-sm leading-relaxed text-charcoal-muted">
+        <p className="mt-5 text-sm font-light leading-relaxed text-cocoa">
           {mode === "login"
             ? "Welcome back."
             : "Begin tracking compliance across your portfolio."}
@@ -107,7 +105,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
           />
 
           {error && (
-            <p className="rounded-sm border border-urgent/30 bg-urgent-light px-4 py-3 text-sm text-urgent">
+            <p className="rounded-[6px] border border-urgent/25 bg-urgent-light px-4 py-3 text-sm text-urgent">
               {error}
             </p>
           )}
@@ -125,7 +123,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
           </button>
         </form>
 
-        <p className="mt-8 border-t border-gold-light pt-8 text-center text-sm text-charcoal-muted">
+        <p className="mt-8 border-t border-cocoa/15 pt-8 text-center text-sm font-light text-cocoa">
           {mode === "login" ? (
             <>
               Don&apos;t have an account?{" "}

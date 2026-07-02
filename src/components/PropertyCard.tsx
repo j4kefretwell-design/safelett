@@ -20,10 +20,10 @@ export default function PropertyCard({ property, status }: PropertyCardProps) {
       href={`/properties/${property.id}`}
       className={`${cardClassName} property-card group relative block overflow-hidden p-7 sm:p-8`}
     >
-      <div className="property-card-texture pointer-events-none absolute inset-0 opacity-70" />
+      <div className="property-card-texture pointer-events-none absolute inset-0" />
 
       <Building2
-        className="absolute top-5 right-5 h-4 w-4 text-gold/35 transition group-hover:text-gold/55"
+        className="absolute top-5 right-5 h-4 w-4 text-cocoa/25 transition group-hover:text-cocoa/45"
         strokeWidth={1.5}
         aria-hidden
       />
@@ -32,10 +32,10 @@ export default function PropertyCard({ property, status }: PropertyCardProps) {
         <div className="flex min-w-0 items-start gap-4">
           <TrafficLight status={status} size="md" />
           <div className="min-w-0">
-            <h3 className="truncate font-serif text-lg font-medium tracking-tight text-charcoal transition group-hover:text-burgundy">
+            <h3 className="truncate font-serif text-lg tracking-wide text-text transition group-hover:text-raspberry">
               {property.address}
             </h3>
-            <p className="mt-2 text-sm leading-relaxed text-charcoal-muted">
+            <p className="mt-2 text-sm font-light leading-relaxed text-cocoa">
               {PROPERTY_TYPE_LABELS[property.property_type]} · {property.bedrooms}{" "}
               {property.bedrooms === 1 ? "bedroom" : "bedrooms"}
             </p>

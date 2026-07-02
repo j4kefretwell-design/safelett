@@ -2,7 +2,7 @@ import Link from "next/link";
 
 interface BrandWordmarkProps {
   href?: string;
-  variant?: "sidebar" | "compact";
+  variant?: "sidebar" | "compact" | "hero" | "footer" | "light";
   onClick?: () => void;
   className?: string;
 }
@@ -14,36 +14,44 @@ export default function BrandWordmark({
   className = "",
 }: BrandWordmarkProps) {
   const isSidebar = variant === "sidebar";
+  const isHero = variant === "hero";
+  const isFooter = variant === "footer";
+  const isLight = variant === "light";
+
+  const textClass = isHero
+    ? "text-[2rem] sm:text-[2.35rem]"
+    : isSidebar
+      ? "text-[1.85rem]"
+      : isFooter
+        ? "text-2xl"
+        : "text-xl";
+
+  const nameClass = isLight ? "text-text" : "text-dusty-cream";
 
   const content = (
-    <span
-      className={`brand-wordmark relative inline-block ${isSidebar ? "px-1 py-2" : ""} ${className}`}
-    >
-      <span className="brand-wordmark-glow" aria-hidden="true" />
+    <span className={`brand-wordmark inline-block ${className}`}>
       <span
-        className={`relative block font-serif font-medium leading-none tracking-tight ${
-          isSidebar ? "text-[1.95rem]" : "text-xl"
-        }`}
+        className={`block font-serif font-normal leading-none tracking-[0.04em] ${textClass}`}
       >
-        <span className="text-cream">Fretwell</span>
+        <span className={nameClass}>Fretwell</span>
         <span
-          className={`mx-[0.12em] font-serif italic text-gold ${
-            isSidebar ? "text-[1.35em]" : "text-[1.25em]"
+          className={`mx-[0.1em] font-serif italic text-gold ${
+            isHero ? "text-[1.3em]" : "text-[1.22em]"
           }`}
         >
           &amp;
         </span>
-        <span className="text-cream">Co</span>
+        <span className={nameClass}>Co</span>
       </span>
       {isSidebar && (
-        <span className="brand-wordmark-rule mt-4 block" aria-hidden="true" />
+        <span className="brand-wordmark-rule mt-4 block w-full max-w-[140px]" aria-hidden="true" />
       )}
     </span>
   );
 
   if (href) {
     return (
-      <Link href={href} className="block" onClick={onClick}>
+      <Link href={href} className="inline-block" onClick={onClick}>
         {content}
       </Link>
     );

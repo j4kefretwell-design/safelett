@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { DM_Sans, Inter, Playfair_Display } from "next/font/google";
 import { BRAND_NAME } from "@/lib/brand";
 import "./globals.css";
+
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
+  subsets: ["latin"],
+  weight: ["300", "400", "500"],
+});
 
 const inter = Inter({
   variable: "--font-inter",
@@ -25,8 +31,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
-      <body className={`${inter.className} bg-ivory font-sans text-charcoal antialiased`}>
+    <html lang="en" className={`${dmSans.variable} ${inter.variable} ${playfair.variable}`}>
+      <body className={`${dmSans.className} bg-dusty-cream font-light text-text antialiased`}>
         {children}
       </body>
     </html>

@@ -3,27 +3,36 @@
 @source "../**/*.{js,ts,jsx,tsx,mdx}";
 
 @theme {
-  --color-burgundy: #5c1a2e;
-  --color-burgundy-dark: #4a1525;
-  --color-burgundy-urgent: #8b1a2e;
-  --color-ivory: #fafaf7;
-  --color-cream: #f5f0e6;
-  --color-cream-muted: #e8e2d4;
-  --color-charcoal: #1a1a1a;
-  --color-charcoal-muted: #6b6560;
-  --color-gold: #c9a84c;
-  --color-gold-light: #e8d5a3;
-  --color-gold-muted: #f0e6c8;
-  --color-border: #e8d5a3;
-  --color-panel: #fffdf8;
-  --color-compliant: #2d5a3d;
-  --color-compliant-light: #eef4f0;
-  --color-attention: #c17f24;
-  --color-attention-light: #faf3e8;
-  --color-urgent: #8b1a2e;
-  --color-urgent-light: #f8eef0;
+  --color-raspberry: #33181c;
+  --color-raspberry-dark: #281218;
+  --color-cocoa: #6f5f4d;
+  --color-dusty-cream: #eaece4;
+  --color-beige: #ddd9c9;
+  --color-text: #1a1008;
+  --color-gold: #c4a35a;
+
+  /* Semantic aliases used across the app */
+  --color-burgundy: #33181c;
+  --color-burgundy-dark: #281218;
+  --color-ivory: #eaece4;
+  --color-cream: #eaece4;
+  --color-cream-muted: #6f5f4d;
+  --color-charcoal: #1a1008;
+  --color-charcoal-muted: #6f5f4d;
+  --color-gold-light: #6f5f4d;
+  --color-gold-muted: #ddd9c9;
+  --color-border: #6f5f4d;
+  --color-panel: #ddd9c9;
+  --color-compliant: #4a6b55;
+  --color-compliant-light: #e3ebe5;
+  --color-attention: #8b7355;
+  --color-attention-light: #ebe6dc;
+  --color-urgent: #7a4048;
+  --color-urgent-light: #ede3e4;
+
   --font-serif: var(--font-playfair), "Georgia", "Times New Roman", serif;
-  --font-sans: var(--font-inter), "Helvetica Neue", Arial, sans-serif;
+  --font-sans: var(--font-dm-sans), var(--font-inter), "Helvetica Neue", Arial,
+    sans-serif;
 }
 
 @layer components {
@@ -32,88 +41,11 @@
     overflow: hidden;
   }
 
-  .heritage-card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      var(--color-gold-light) 20%,
-      var(--color-gold) 50%,
-      var(--color-gold-light) 80%,
-      transparent 100%
-    );
-    opacity: 0.85;
-  }
-
   .heritage-plaque {
     position: relative;
-    border: 1px solid color-mix(in oklab, var(--color-gold-light) 70%, transparent);
-    background: linear-gradient(
-      165deg,
-      var(--color-panel) 0%,
-      color-mix(in oklab, var(--color-cream) 35%, var(--color-panel)) 100%
-    );
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.85),
-      inset 0 0 0 1px rgba(201, 168, 76, 0.12),
-      0 2px 10px rgba(92, 26, 46, 0.05);
-  }
-
-  .heritage-plaque::after {
-    content: "";
-    position: absolute;
-    inset: 5px;
-    border: 1px solid rgba(201, 168, 76, 0.18);
-    border-radius: 3px;
-    pointer-events: none;
-  }
-
-  .hero-texture {
-    position: relative;
-    isolation: isolate;
-    background-color: var(--color-burgundy);
-    background-image: radial-gradient(
-      ellipse 90% 70% at 50% 35%,
-      rgba(201, 168, 76, 0.07) 0%,
-      transparent 65%
-    );
-  }
-
-  .hero-texture::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image: url("/patterns/hero-ornament.svg");
-    background-size: 120px 120px;
-    opacity: 0.55;
-    pointer-events: none;
-  }
-
-  .hero-texture::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    opacity: 0.045;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-    mix-blend-mode: soft-light;
-    pointer-events: none;
-  }
-
-  .brand-wordmark-glow {
-    position: absolute;
-    inset: -12px -8px -4px;
-    background: radial-gradient(
-      ellipse at 50% 45%,
-      rgba(201, 168, 76, 0.22) 0%,
-      rgba(201, 168, 76, 0.06) 45%,
-      transparent 72%
-    );
-    pointer-events: none;
+    border: 1px solid color-mix(in oklab, var(--color-cocoa) 25%, transparent);
+    background: var(--color-beige);
+    box-shadow: 0 2px 12px rgba(26, 16, 8, 0.04);
   }
 
   .brand-wordmark-rule {
@@ -121,58 +53,89 @@
     background: linear-gradient(
       90deg,
       transparent 0%,
-      rgba(201, 168, 76, 0.15) 8%,
-      rgba(201, 168, 76, 0.55) 50%,
-      rgba(201, 168, 76, 0.15) 92%,
+      rgba(196, 163, 90, 0.35) 50%,
       transparent 100%
     );
   }
 
-  .brand-wordmark-rule::after {
-    content: "";
-    display: block;
-    width: 28px;
-    height: 1px;
-    margin: 3px auto 0;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(232, 213, 163, 0.7),
-      transparent
+  .property-card-texture {
+    background-image: linear-gradient(
+      160deg,
+      rgba(255, 255, 255, 0.12) 0%,
+      transparent 55%
     );
   }
 
-  .property-card-texture {
-    background-image:
-      radial-gradient(
-        circle at 100% 0%,
-        rgba(201, 168, 76, 0.06) 0%,
-        transparent 50%
-      ),
-      linear-gradient(
-        160deg,
-        rgba(245, 240, 230, 0.4) 0%,
-        transparent 60%
-      );
+  .scroll-reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+      opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  .property-card::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    box-shadow: inset 0 0 0 1px rgba(201, 168, 76, 0.08);
-    pointer-events: none;
+  .scroll-reveal-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .btn-outline-light {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(234, 236, 228, 0.55);
+    padding: 0.875rem 2rem;
+    font-size: 0.875rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-dusty-cream);
+    transition:
+      background-color 0.25s ease,
+      border-color 0.25s ease;
+  }
+
+  .btn-outline-light:hover {
+    background-color: rgba(234, 236, 228, 0.08);
+    border-color: rgba(234, 236, 228, 0.75);
+  }
+
+  .btn-outline-dark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid color-mix(in oklab, var(--color-cocoa) 45%, transparent);
+    padding: 0.875rem 2rem;
+    font-size: 0.875rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: var(--color-text);
+    transition:
+      background-color 0.25s ease,
+      border-color 0.25s ease;
+  }
+
+  .btn-outline-dark:hover {
+    background-color: rgba(26, 16, 8, 0.04);
+    border-color: var(--color-cocoa);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }
 
 body {
-  @apply bg-ivory font-sans text-charcoal antialiased;
+  @apply bg-dusty-cream font-sans font-light text-text antialiased;
 }
 
 h1,
 h2,
 h3,
 h4 {
-  @apply font-serif;
+  @apply font-serif font-normal tracking-wide;
 }

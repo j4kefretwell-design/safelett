@@ -37,15 +37,15 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
 
   return (
     <aside
-      className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col bg-burgundy transition-transform duration-300 ease-out lg:translate-x-0 ${
+      className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col bg-raspberry transition-transform duration-300 ease-out lg:translate-x-0 ${
         open ? "translate-x-0" : "-translate-x-full"
       }`}
     >
-      <div className="border-b border-gold/15 px-7 py-10">
+      <div className="border-b border-dusty-cream/10 px-7 py-10">
         <BrandWordmark onClick={onClose} />
       </div>
 
-      <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-10">
+      <nav className="flex-1 space-y-0.5 overflow-y-auto px-3 py-10">
         {navItems.map((item) => {
           const isActive = isNavActive(pathname, item.href);
           const Icon = item.icon;
@@ -55,20 +55,20 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
               key={item.href}
               href={item.href}
               onClick={onClose}
-              className={`group relative flex items-center gap-3 border-l-2 py-3 pl-5 pr-4 text-sm tracking-[0.08em] transition-all duration-200 ${
+              className={`group relative flex items-center gap-3 border-l py-3 pl-5 pr-4 text-sm font-light tracking-[0.06em] transition-all duration-200 ${
                 isActive
-                  ? "border-gold bg-[rgba(255,255,255,0.06)] text-gold shadow-[inset_0_0_20px_rgba(92,26,46,0.15)]"
-                  : "border-transparent text-cream/60 hover:border-gold/50 hover:bg-[rgba(255,255,255,0.03)] hover:pl-6 hover:text-cream"
+                  ? "border-l border-gold bg-dusty-cream/[0.06] text-dusty-cream"
+                  : "border-transparent text-dusty-cream/55 hover:border-dusty-cream/20 hover:bg-dusty-cream/[0.03] hover:text-dusty-cream/85"
               }`}
             >
-              <Icon className="h-4 w-4 shrink-0 opacity-80" strokeWidth={1.75} />
+              <Icon className="h-4 w-4 shrink-0 opacity-70" strokeWidth={1.5} />
               {item.label}
             </Link>
           );
         })}
       </nav>
 
-      <div className="border-t border-gold/15 px-3 py-8">
+      <div className="border-t border-dusty-cream/10 px-3 py-8">
         <SignOutButton />
       </div>
     </aside>
