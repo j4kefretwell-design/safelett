@@ -1,4 +1,5 @@
 import DashboardClient from "@/components/DashboardClient";
+import { AnimateIn } from "@/components/AnimateIn";
 import PageHeader from "@/components/layout/PageHeader";
 import { getPropertyStatus } from "@/lib/compliance";
 import { createClient } from "@/lib/supabase/server";
@@ -40,16 +41,18 @@ export default async function DashboardPage() {
 
   return (
     <>
-      <PageHeader
-        title={hasProperties ? "Dashboard" : "Welcome"}
-        description={
-          hasProperties
-            ? "Overview of compliance across your property portfolio."
-            : "You're just a few steps away from complete compliance peace of mind."
-        }
-        actionHref={hasProperties ? "/properties/new" : undefined}
-        actionLabel={hasProperties ? "Add Property" : undefined}
-      />
+      <AnimateIn>
+        <PageHeader
+          title={hasProperties ? "Dashboard" : "Welcome"}
+          description={
+            hasProperties
+              ? "Overview of compliance across your property portfolio."
+              : "You're just a few steps away from complete compliance peace of mind."
+          }
+          actionHref={hasProperties ? "/properties/new" : undefined}
+          actionLabel={hasProperties ? "Add Property" : undefined}
+        />
+      </AnimateIn>
 
       <DashboardClient
         properties={

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import DeleteCertificateButton from "@/components/DeleteCertificateButton";
 import DeletePropertyButton from "@/components/DeletePropertyButton";
+import { AnimateIn } from "@/components/AnimateIn";
 import PropertyContractors from "@/components/PropertyContractors";
 import PropertyNotes from "@/components/PropertyNotes";
 import ShareWithLandlordButton from "@/components/ShareWithLandlordButton";
@@ -92,7 +93,8 @@ export default async function PropertyDetailPage({
 
   return (
     <>
-      <PropertyPageHeader
+      <AnimateIn>
+        <PropertyPageHeader
         title={typedProperty.address}
         description={`${PROPERTY_TYPE_LABELS[typedProperty.property_type]} · ${typedProperty.bedrooms} ${typedProperty.bedrooms === 1 ? "bedroom" : "bedrooms"}`}
         backHref="/dashboard"
@@ -114,7 +116,9 @@ export default async function PropertyDetailPage({
           </div>
         }
       />
+      </AnimateIn>
 
+      <AnimateIn delay={100}>
       <div className={`${cardClassName} mb-10 flex items-center justify-between p-6`}>
         <div>
           <p className={goldLabelClassName}>Overall Status</p>
@@ -124,9 +128,13 @@ export default async function PropertyDetailPage({
         </div>
         <StatusDot status={propertyStatus} showLabel />
       </div>
+      </AnimateIn>
 
+      <AnimateIn delay={150}>
       <PropertyNotes propertyId={id} initialNotes={typedProperty.notes} />
+      </AnimateIn>
 
+      <AnimateIn delay={200}>
       <div className="mt-14">
         <h2 className={formSectionTitleClassName}>Compliance Certificates</h2>
         <div className={formSectionRuleClassName} aria-hidden="true" />
@@ -288,17 +296,22 @@ export default async function PropertyDetailPage({
           </div>
         )}
       </div>
+      </AnimateIn>
 
+      <AnimateIn delay={250}>
       <PropertyContractors
         propertyId={id}
         initialContractors={contractorList}
       />
+      </AnimateIn>
 
+      <AnimateIn delay={300}>
       <DeletePropertyButton
         propertyId={id}
         propertyAddress={typedProperty.address}
         documentPaths={documentPaths}
       />
+      </AnimateIn>
     </>
   );
 }

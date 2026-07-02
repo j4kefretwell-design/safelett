@@ -66,7 +66,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
   return (
     <div className="relative flex min-h-screen items-center justify-center px-6 py-16">
       <Image
-        src="/anthony-fomin-zjBxPUHE_ok-unsplash.jpg"
+        src="/vojtech-bartonicek-wgG7jLQ7M0U-unsplash.jpg"
         alt=""
         fill
         priority

@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { AnimateIn } from "@/components/AnimateIn";
 import CertificateForm from "@/components/CertificateForm";
 import PageHeader from "@/components/layout/PageHeader";
 import { formCardClassName } from "@/lib/ui";
@@ -29,16 +30,20 @@ export default async function NewCertificatePage({
 
   return (
     <>
-      <PageHeader
-        title="Add Certificate"
-        description={typedProperty.address}
-        backHref={`/properties/${id}`}
-        backLabel="Back to Property"
-      />
+      <AnimateIn>
+        <PageHeader
+          title="Add Certificate"
+          description={typedProperty.address}
+          backHref={`/properties/${id}`}
+          backLabel="Back to Property"
+        />
+      </AnimateIn>
 
-      <div className={`${formCardClassName} max-w-xl`}>
-        <CertificateForm propertyId={id} />
-      </div>
+      <AnimateIn delay={100}>
+        <div className={`${formCardClassName} max-w-xl`}>
+          <CertificateForm propertyId={id} />
+        </div>
+      </AnimateIn>
     </>
   );
 }

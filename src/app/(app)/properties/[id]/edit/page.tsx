@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { AnimateIn } from "@/components/AnimateIn";
 import PageHeader from "@/components/layout/PageHeader";
 import PropertyForm from "@/components/PropertyForm";
 import { formCardClassName } from "@/lib/ui";
@@ -27,16 +28,20 @@ export default async function EditPropertyPage({ params }: EditPropertyPageProps
 
   return (
     <>
-      <PageHeader
-        title="Edit Property"
-        description={typedProperty.address}
-        backHref={`/properties/${id}`}
-        backLabel="Back to Property"
-      />
+      <AnimateIn>
+        <PageHeader
+          title="Edit Property"
+          description={typedProperty.address}
+          backHref={`/properties/${id}`}
+          backLabel="Back to Property"
+        />
+      </AnimateIn>
 
-      <div className={`${formCardClassName} max-w-xl`}>
-        <PropertyForm property={typedProperty} />
-      </div>
+      <AnimateIn delay={100}>
+        <div className={`${formCardClassName} max-w-xl`}>
+          <PropertyForm property={typedProperty} />
+        </div>
+      </AnimateIn>
     </>
   );
 }

@@ -27,7 +27,7 @@ export default function BrandWordmark({
       : isHero
       ? "text-[2rem] sm:text-[2.35rem]"
       : isSidebar
-        ? "text-[2.15rem]"
+        ? "text-[2.45rem]"
         : isFooter
           ? "text-2xl"
           : "text-xl";
@@ -53,7 +53,7 @@ export default function BrandWordmark({
       </span>
       {isSidebar && (
         <span
-          className="mt-5 block h-px w-full max-w-[160px] bg-gold/50"
+          className="mt-6 block h-px w-full max-w-[180px] bg-gold/55"
           aria-hidden="true"
         />
       )}

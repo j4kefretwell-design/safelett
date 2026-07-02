@@ -68,10 +68,25 @@
 
   .scroll-reveal {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(20px);
     transition:
-      opacity 0.7s ease,
-      transform 0.7s ease;
+      opacity 0.6s ease,
+      transform 0.6s ease;
+  }
+
+  .sidebar-editorial {
+    position: relative;
+    background-color: var(--color-raspberry);
+  }
+
+  .sidebar-editorial::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.045;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    mix-blend-mode: soft-light;
+    pointer-events: none;
   }
 
   .scroll-reveal-visible {
