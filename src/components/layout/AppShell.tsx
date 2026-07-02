@@ -25,7 +25,7 @@ export default function AppShell({ children }: AppShellProps) {
 
       <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      <div className="lg:pl-64">
+      <div className="lg:pl-72">
         <header className="sticky top-0 z-20 flex items-center justify-between border-b border-cocoa/15 bg-dusty-cream/95 px-4 py-4 backdrop-blur lg:hidden">
           <button
             type="button"

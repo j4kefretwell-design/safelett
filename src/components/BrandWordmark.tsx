@@ -2,7 +2,7 @@ import Link from "next/link";
 
 interface BrandWordmarkProps {
   href?: string;
-  variant?: "sidebar" | "compact" | "hero" | "footer" | "light";
+  variant?: "sidebar" | "compact" | "hero" | "footer" | "light" | "nav";
   onClick?: () => void;
   className?: string;
 }
@@ -17,26 +17,31 @@ export default function BrandWordmark({
   const isHero = variant === "hero";
   const isFooter = variant === "footer";
   const isLight = variant === "light";
+  const isNav = variant === "nav";
 
-  const textClass = isHero
-    ? "text-[2rem] sm:text-[2.35rem]"
-    : isSidebar
-      ? "text-[1.85rem]"
-      : isFooter
-        ? "text-2xl"
-        : "text-xl";
+  const textClass = isNav
+    ? "text-sm uppercase tracking-[0.22em]"
+    : isHero
+      ? "text-[2rem] sm:text-[2.35rem]"
+      : isSidebar
+        ? "text-[2.15rem]"
+        : isFooter
+          ? "text-2xl"
+          : "text-xl";
 
   const nameClass = isLight ? "text-text" : "text-dusty-cream";
 
   const content = (
     <span className={`brand-wordmark inline-block ${className}`}>
       <span
-        className={`block font-serif font-normal leading-none tracking-[0.04em] ${textClass}`}
+        className={`block font-serif font-normal leading-none ${
+          isNav ? "tracking-[0.22em]" : "tracking-[0.04em]"
+        } ${textClass}`}
       >
         <span className={nameClass}>Fretwell</span>
         <span
           className={`mx-[0.1em] font-serif italic text-gold ${
-            isHero ? "text-[1.3em]" : "text-[1.22em]"
+            isNav ? "text-[1.15em]" : isHero ? "text-[1.3em]" : "text-[1.25em]"
           }`}
         >
           &amp;
@@ -44,7 +49,10 @@ export default function BrandWordmark({
         <span className={nameClass}>Co</span>
       </span>
       {isSidebar && (
-        <span className="brand-wordmark-rule mt-4 block w-full max-w-[140px]" aria-hidden="true" />
+        <span
+          className="mt-5 block h-px w-full max-w-[160px] bg-gold/50"
+          aria-hidden="true"
+        />
       )}
     </span>
   );

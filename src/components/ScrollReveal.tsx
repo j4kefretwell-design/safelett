@@ -1,6 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import {
+  Children,
+  useEffect,
+  useRef,
+  useState,
+  type ReactElement,
+  type ReactNode,
+} from "react";
 
 interface ScrollRevealProps {
   children: ReactNode;
@@ -29,7 +36,7 @@ export default function ScrollReveal({
           observer.unobserve(element);
         }
       },
-      { threshold: 0.12, rootMargin: "0px 0px -48px 0px" }
+      { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
     );
 
     observer.observe(element);
@@ -43,6 +50,57 @@ export default function ScrollReveal({
       style={{ transitionDelay: `${delay}ms` }}
     >
       {children}
+    </div>
+  );
+}
+
+interface ScrollRevealGroupProps {
+  children: ReactNode;
+  className?: string;
+  staggerMs?: number;
+}
+
+export function ScrollRevealGroup({
+  children,
+  className = "",
+  staggerMs = 100,
+}: ScrollRevealGroupProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const element = ref.current;
+    if (!element) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.unobserve(element);
+        }
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
+  const items = Children.toArray(children).filter(Boolean);
+
+  return (
+    <div ref={ref} className={className}>
+      {items.map((child, index) => (
+        <div
+          key={index}
+          className={`scroll-reveal ${visible ? "scroll-reveal-visible" : ""}`}
+          style={{ transitionDelay: `${index * staggerMs}ms` }}
+        >
+          {child as ReactElement}
+        </div>
+      ))}
     </div>
   );
 }
