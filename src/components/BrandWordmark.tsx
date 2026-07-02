@@ -2,7 +2,7 @@ import Link from "next/link";
 
 interface BrandWordmarkProps {
   href?: string;
-  variant?: "sidebar" | "compact" | "hero" | "footer" | "light" | "nav";
+  variant?: "sidebar" | "compact" | "hero" | "footer" | "light" | "nav" | "card";
   onClick?: () => void;
   className?: string;
 }
@@ -18,10 +18,13 @@ export default function BrandWordmark({
   const isFooter = variant === "footer";
   const isLight = variant === "light";
   const isNav = variant === "nav";
+  const isCard = variant === "card";
 
   const textClass = isNav
     ? "text-sm uppercase tracking-[0.22em]"
-    : isHero
+    : isCard
+      ? "text-[1.65rem]"
+      : isHero
       ? "text-[2rem] sm:text-[2.35rem]"
       : isSidebar
         ? "text-[2.15rem]"
@@ -29,7 +32,7 @@ export default function BrandWordmark({
           ? "text-2xl"
           : "text-xl";
 
-  const nameClass = isLight ? "text-text" : "text-dusty-cream";
+  const nameClass = isLight || isCard ? "text-text" : "text-dusty-cream";
 
   const content = (
     <span className={`brand-wordmark inline-block ${className}`}>

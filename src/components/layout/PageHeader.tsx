@@ -25,11 +25,11 @@ export default function PageHeader({
   secondaryAction,
 }: PageHeaderProps) {
   return (
-    <div className="mb-12 lg:mb-16">
+    <div className="mb-12 lg:mb-14">
       {backHref && (
         <Link
           href={backHref}
-          className="mb-8 inline-flex items-center text-sm tracking-wide text-charcoal-muted transition hover:text-burgundy"
+          className="mb-8 inline-flex text-xs font-light tracking-[0.1em] text-cocoa transition hover:text-text"
         >
           ← {backLabel}
         </Link>
@@ -39,7 +39,7 @@ export default function PageHeader({
           <h1 className={pageTitleClassName}>{title}</h1>
           <div className={pageTitleRuleClassName} aria-hidden="true" />
           {description && (
-            <p className="mt-5 max-w-xl text-sm leading-relaxed text-charcoal-muted">
+            <p className="mt-5 max-w-xl text-sm font-light leading-relaxed text-cocoa">
               {description}
             </p>
           )}

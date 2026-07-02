@@ -1,14 +1,19 @@
 import Link from "next/link";
 import PageHeader from "@/components/layout/PageHeader";
-import StatusBadge from "@/components/StatusBadge";
-import TrafficLight from "@/components/TrafficLight";
-import { CertificateTypeIcon } from "@/lib/icons";
+import StatusDot from "@/components/StatusDot";
 import {
   formatDate,
   getCertificateStatus,
   getDaysUntilExpiry,
 } from "@/lib/compliance";
-import { cardClassName, mutedTextClassName, tableHeaderClassName, tableRowClassName } from "@/lib/ui";
+import {
+  cardClassName,
+  editorialListRowClassName,
+  goldLabelClassName,
+  mutedTextClassName,
+  tableRowEvenClassName,
+  tableRowOddClassName,
+} from "@/lib/ui";
 import { createClient } from "@/lib/supabase/server";
 import {
   CERTIFICATE_LABELS,
@@ -21,6 +26,21 @@ interface ReminderRow {
   property: Property;
   daysUntilExpiry: number;
   status: ReturnType<typeof getCertificateStatus>;
+}
+
+function formatDueLabel(daysUntilExpiry: number): string {
+  if (daysUntilExpiry < 0) {
+    const days = Math.abs(daysUntilExpiry);
+    return days === 1 ? "1 day overdue" : `${days} days overdue`;
+  }
+
+  if (daysUntilExpiry === 0) {
+    return "Due today";
+  }
+
+  return daysUntilExpiry === 1
+    ? "1 day remaining"
+    : `${daysUntilExpiry} days remaining`;
 }
 
 export default async function RemindersPage() {
@@ -57,126 +77,66 @@ export default async function RemindersPage() {
     <>
       <PageHeader
         title="Reminders"
-        description="All certificate expiries due within the next 90 days, sorted by urgency."
+        description="Certificate expiries due within the next 90 days."
       />
 
       {reminders.length === 0 ? (
-        <div className={`${cardClassName} px-8 py-16 text-center`}>
-          <p className="font-serif text-xl font-medium text-charcoal">
+        <div className={`${cardClassName} px-8 py-20 text-center`}>
+          <p className="font-serif text-2xl tracking-wide text-text">
             No upcoming reminders
           </p>
-          <p className={`${mutedTextClassName} mt-3`}>
+          <p className={`${mutedTextClassName} mt-4`}>
             Nothing is due within the next 90 days across your portfolio.
           </p>
         </div>
       ) : (
-        <>
-          <div className="space-y-4 md:hidden">
-            {reminders.map((reminder) => (
+        <div className="overflow-hidden border border-cocoa/15">
+          {reminders.map((reminder, index) => {
+            const rowClass =
+              index % 2 === 0 ? tableRowEvenClassName : tableRowOddClassName;
+
+            return (
               <div
                 key={reminder.certificate.id}
-                className={`${cardClassName} p-5`}
+                className={`${editorialListRowClassName} ${rowClass}`}
               >
-                <div className="flex items-start gap-3">
-                  <TrafficLight status={reminder.status} />
-                  <div className="min-w-0 flex-1">
-                    <p className="font-medium text-charcoal">
-                      {reminder.daysUntilExpiry < 0
-                        ? `${Math.abs(reminder.daysUntilExpiry)} days overdue`
-                        : reminder.daysUntilExpiry === 0
-                          ? "Due today"
-                          : `${reminder.daysUntilExpiry} days`}
-                    </p>
-                    <Link
-                      href={`/properties/${reminder.property.id}`}
-                      className="mt-2 block text-sm font-medium text-burgundy hover:underline"
-                    >
-                      {reminder.property.address}
-                    </Link>
-                    <p className="mt-2 flex items-center gap-2 text-sm text-charcoal-muted">
-                      <CertificateTypeIcon
-                        type={reminder.certificate.certificate_type}
-                        className="h-3.5 w-3.5 shrink-0 text-burgundy/60"
-                      />
-                      {CERTIFICATE_LABELS[reminder.certificate.certificate_type]}
-                    </p>
-                    <p className="mt-1 text-sm text-charcoal-muted">
-                      Expires {formatDate(reminder.certificate.expiry_date)}
-                    </p>
-                    <div className="mt-3">
-                      <StatusBadge status={reminder.status} size="sm" />
-                    </div>
-                  </div>
+                <div className="w-28 shrink-0 sm:w-36">
+                  <p className="text-xs font-light uppercase tracking-[0.14em] text-cocoa">
+                    {formatDueLabel(reminder.daysUntilExpiry)}
+                  </p>
+                  <p className="mt-2 text-xs font-light text-cocoa/70">
+                    {formatDate(reminder.certificate.expiry_date)}
+                  </p>
+                </div>
+
+                <div className="min-w-0 flex-1">
+                  <Link
+                    href={`/properties/${reminder.property.id}`}
+                    className="block font-serif text-lg tracking-wide text-text transition hover:text-raspberry"
+                  >
+                    {reminder.property.address}
+                  </Link>
+                  <p className="mt-2 text-sm font-light text-cocoa">
+                    {CERTIFICATE_LABELS[reminder.certificate.certificate_type]}
+                  </p>
+                </div>
+
+                <div className="shrink-0">
+                  <StatusDot status={reminder.status} />
                 </div>
               </div>
-            ))}
-          </div>
-
-          <div className={`${cardClassName} hidden overflow-x-auto md:block`}>
-            <table className="w-full min-w-[640px] text-left text-sm">
-            <thead>
-              <tr className={tableHeaderClassName}>
-                <th className="px-6 py-4">Due</th>
-                <th className="px-6 py-4">Property</th>
-                <th className="px-6 py-4">Certificate</th>
-                <th className="px-6 py-4">Expiry Date</th>
-                <th className="px-6 py-4">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {reminders.map((reminder) => (
-                <tr
-                  key={reminder.certificate.id}
-                  className={tableRowClassName}
-                >
-                  <td className="px-6 py-5">
-                    <div className="flex items-center gap-3">
-                      <TrafficLight status={reminder.status} />
-                      <span className="font-medium text-charcoal">
-                        {reminder.daysUntilExpiry < 0
-                          ? `${Math.abs(reminder.daysUntilExpiry)} days overdue`
-                          : reminder.daysUntilExpiry === 0
-                            ? "Due today"
-                            : `${reminder.daysUntilExpiry} days`}
-                      </span>
-                    </div>
-                  </td>
-                  <td className="px-6 py-5">
-                    <Link
-                      href={`/properties/${reminder.property.id}`}
-                      className="font-medium text-burgundy hover:underline"
-                    >
-                      {reminder.property.address}
-                    </Link>
-                  </td>
-                  <td className="px-6 py-5 text-charcoal-muted">
-                    <span className="flex items-center gap-2">
-                      <CertificateTypeIcon
-                        type={reminder.certificate.certificate_type}
-                        className="h-3.5 w-3.5 shrink-0 text-burgundy/60"
-                      />
-                      {CERTIFICATE_LABELS[reminder.certificate.certificate_type]}
-                    </span>
-                  </td>
-                  <td className="px-6 py-5 text-charcoal-muted">
-                    {formatDate(reminder.certificate.expiry_date)}
-                  </td>
-                  <td className="px-6 py-5">
-                    <StatusBadge status={reminder.status} size="sm" />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+            );
+          })}
         </div>
-        </>
       )}
 
       {reminders.length > 0 && (
-        <p className={`${mutedTextClassName} mt-6`}>
-          Showing {reminders.length}{" "}
-          {reminders.length === 1 ? "certificate" : "certificates"} due within
-          90 days.
+        <p className={`${mutedTextClassName} mt-8`}>
+          <span className={goldLabelClassName}>
+            {reminders.length}{" "}
+            {reminders.length === 1 ? "certificate" : "certificates"}
+          </span>{" "}
+          due within 90 days.
         </p>
       )}
     </>

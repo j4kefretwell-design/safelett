@@ -22,10 +22,10 @@ export default async function SettingsPage() {
     <>
       <PageHeader
         title="Settings"
-        description="Manage your account, notifications, and subscription."
+        description="Your account, notifications, and preferences."
       />
 
-      <div className="space-y-8">
+      <div className="max-w-2xl">
         <SettingsAccount
           initialName={profile.full_name ?? ""}
           initialEmail={user.email ?? ""}

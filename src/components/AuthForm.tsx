@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -7,12 +8,11 @@ import { createClient } from "@/lib/supabase/client";
 import BrandWordmark from "@/components/BrandWordmark";
 import PasswordInput from "@/components/PasswordInput";
 import {
+  authCardClassName,
   btnPrimaryClassName,
-  cardClassName,
   inputClassName,
   labelClassName,
   linkClassName,
-  pageTitleRuleClassName,
 } from "@/lib/ui";
 
 interface AuthFormProps {
@@ -64,20 +64,29 @@ export default function AuthForm({ mode }: AuthFormProps) {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center bg-raspberry px-6 py-12">
-      <div className="mb-10">
-        <BrandWordmark href="/" variant="hero" />
-      </div>
+    <div className="relative flex min-h-screen items-center justify-center px-6 py-16">
+      <Image
+        src="/anthony-fomin-zjBxPUHE_ok-unsplash.jpg"
+        alt=""
+        fill
+        priority
+        className="object-cover"
+        sizes="100vw"
+      />
+      <div className="absolute inset-0 bg-[#1A0A0C]/70" />
 
-      <div className={`${cardClassName} w-full max-w-md p-8 sm:p-10`}>
+      <div className={`relative z-10 ${authCardClassName}`}>
+        <div className="mb-10 text-center">
+          <BrandWordmark href="/" variant="card" />
+        </div>
+
         <h1 className="font-serif text-2xl tracking-wide text-text sm:text-3xl">
           {mode === "login" ? "Sign in" : "Create account"}
         </h1>
-        <div className={pageTitleRuleClassName} aria-hidden="true" />
-        <p className="mt-5 text-sm font-light leading-relaxed text-cocoa">
+        <p className="mt-4 text-sm font-light leading-relaxed text-cocoa">
           {mode === "login"
-            ? "Welcome back."
-            : "Begin tracking compliance across your portfolio."}
+            ? "Welcome back to your portfolio."
+            : "Begin tracking compliance with confidence."}
         </p>
 
         <form onSubmit={handleSubmit} className="mt-10 space-y-8">
@@ -105,7 +114,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
           />
 
           {error && (
-            <p className="rounded-[6px] border border-urgent/25 bg-urgent-light px-4 py-3 text-sm text-urgent">
+            <p className="border border-urgent/20 bg-urgent-light/50 px-4 py-3 text-sm text-urgent">
               {error}
             </p>
           )}
@@ -123,7 +132,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
           </button>
         </form>
 
-        <p className="mt-8 border-t border-cocoa/15 pt-8 text-center text-sm font-light text-cocoa">
+        <p className="mt-10 border-t border-cocoa/15 pt-8 text-center text-sm font-light text-cocoa">
           {mode === "login" ? (
             <>
               Don&apos;t have an account?{" "}

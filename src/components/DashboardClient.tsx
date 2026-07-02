@@ -2,12 +2,14 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import ComplianceBanner from "@/components/ComplianceBanner";
 import DashboardEmptyState from "@/components/DashboardEmptyState";
 import PropertyCard from "@/components/PropertyCard";
 import SummaryCard from "@/components/SummaryCard";
 import {
   btnGoldClassName,
   cardClassName,
+  goldLabelClassName,
   inputClassName,
 } from "@/lib/ui";
 import type { ComplianceStatus, Property } from "@/lib/types";
@@ -71,6 +73,8 @@ export default function DashboardClient({
 
   return (
     <>
+      <ComplianceBanner stats={stats} />
+
       <div className="mb-14 grid gap-6 sm:grid-cols-2 lg:gap-8 xl:grid-cols-4">
         <SummaryCard label="Total Properties" value={stats.total} accent="total" />
         <SummaryCard label="Compliant" value={stats.compliant} accent="compliant" />
@@ -82,18 +86,18 @@ export default function DashboardClient({
         <SummaryCard label="Overdue" value={stats.overdue} accent="overdue" />
       </div>
 
-      <div className="mb-10 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mb-12 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
         <div className="flex-1 sm:max-w-md">
-          <label htmlFor="property-search" className="sr-only">
-            Search properties
+          <label htmlFor="property-search" className={goldLabelClassName}>
+            Search
           </label>
           <input
             id="property-search"
             type="search"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search by property address..."
-            className={inputClassName}
+            placeholder="Search by address..."
+            className={`${inputClassName} mt-2`}
           />
         </div>
         <button
@@ -107,18 +111,16 @@ export default function DashboardClient({
       </div>
 
       <div>
-        <h2 className="mb-8 font-serif text-xl font-medium tracking-tight text-charcoal">
-          Your Properties
-        </h2>
+        <p className={goldLabelClassName}>Your Properties</p>
 
         {filteredProperties.length === 0 ? (
-          <div className={`${cardClassName} px-8 py-14 text-center`}>
-            <p className="text-sm text-charcoal-muted">
+          <div className={`${cardClassName} mt-6 px-8 py-14 text-center`}>
+            <p className="text-sm font-light text-cocoa">
               No properties match your search.
             </p>
           </div>
         ) : (
-          <div className="grid gap-6 md:grid-cols-2">
+          <div className="mt-6 grid gap-6 md:grid-cols-2">
             {filteredProperties.map((property) => (
               <PropertyCard
                 key={property.id}

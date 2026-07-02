@@ -5,12 +5,12 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import {
   btnPrimaryClassName,
-  cardClassName,
+  btnSecondaryClassName,
   inputClassName,
   labelClassName,
-  mutedTextClassName,
-  sectionTitleClassName,
+  selectClassName,
 } from "@/lib/ui";
+import SettingsSection from "@/components/settings/SettingsSection";
 
 interface SettingsAccountProps {
   initialName: string;
@@ -80,13 +80,12 @@ export default function SettingsAccount({
   }
 
   return (
-    <section className={`${cardClassName} p-8`}>
-      <h2 className={sectionTitleClassName}>Account Settings</h2>
-      <p className={`${mutedTextClassName} mt-1`}>
-        Update your name and email address.
-      </p>
-
-      <form onSubmit={handleSave} className="mt-6 space-y-5">
+    <SettingsSection
+      title="Account"
+      description="Update your name and email address."
+      first
+    >
+      <form onSubmit={handleSave} className="max-w-md space-y-8">
         <div>
           <label htmlFor="fullName" className={labelClassName}>
             Full Name
@@ -116,20 +115,20 @@ export default function SettingsAccount({
         </div>
 
         {error && (
-          <p className="rounded-sm border border-urgent/20 bg-urgent-light px-4 py-3 text-sm text-urgent">
+          <p className="border border-urgent/20 bg-urgent-light/50 px-4 py-3 text-sm text-urgent">
             {error}
           </p>
         )}
         {message && (
-          <p className="rounded-sm border border-compliant/20 bg-compliant-light px-4 py-3 text-sm text-compliant">
+          <p className="border border-compliant/20 bg-compliant-light/50 px-4 py-3 text-sm text-compliant">
             {message}
           </p>
         )}
 
         <button type="submit" disabled={loading} className={btnPrimaryClassName}>
-          {loading ? "Saving..." : "Save Account Settings"}
+          {loading ? "Saving..." : "Save Account"}
         </button>
       </form>
-    </section>
+    </SettingsSection>
   );
 }

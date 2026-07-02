@@ -3,12 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import {
-  btnPrimaryClassName,
-  cardClassName,
-  sectionTitleClassName,
-  mutedTextClassName,
-} from "@/lib/ui";
+import { btnPrimaryClassName } from "@/lib/ui";
+import SettingsSection from "@/components/settings/SettingsSection";
 import type { UserProfile } from "@/lib/types";
 import { BRAND_NAME } from "@/lib/brand";
 
@@ -70,33 +66,31 @@ export default function SettingsNotifications({
   }
 
   return (
-    <section className={`${cardClassName} p-8`}>
-      <h2 className={sectionTitleClassName}>Notification Preferences</h2>
-      <p className={`${mutedTextClassName} mt-1`}>
-        Control when {BRAND_NAME} sends expiry reminder emails.
-      </p>
-
-      <form onSubmit={handleSave} className="mt-6 space-y-5">
-        <label className="flex items-start gap-3">
+    <SettingsSection
+      title="Notifications"
+      description={`Control when ${BRAND_NAME} sends expiry reminder emails.`}
+    >
+      <form onSubmit={handleSave} className="max-w-md space-y-8">
+        <label className="flex items-start gap-4">
           <input
             type="checkbox"
             checked={emailAlertsEnabled}
             onChange={(e) => setEmailAlertsEnabled(e.target.checked)}
-            className="mt-1 h-4 w-4 rounded-sm border-gold-light text-burgundy focus:ring-gold"
+            className="mt-1 h-4 w-4 border-cocoa/30 text-raspberry focus:ring-cocoa/20"
           />
           <span>
-            <span className="block text-sm font-medium text-charcoal">
+            <span className="block text-sm font-light text-text">
               Email alerts enabled
             </span>
-            <span className="block text-sm text-charcoal-muted">
+            <span className="mt-1 block text-sm font-light text-cocoa">
               Receive automated expiry reminders by email.
             </span>
           </span>
         </label>
 
-        <div className="space-y-3 border-t border-gold-light pt-5">
-          <p className="text-sm font-medium text-charcoal">
-            Notify me when certificates are expiring within:
+        <div className="space-y-4 border-t border-cocoa/15 pt-8">
+          <p className="text-xs font-normal uppercase tracking-[0.16em] text-cocoa">
+            Notify within
           </p>
 
           {[
@@ -104,26 +98,26 @@ export default function SettingsNotifications({
             { label: "30 days", value: alertAt30, setter: setAlertAt30 },
             { label: "7 days", value: alertAt7, setter: setAlertAt7 },
           ].map((option) => (
-            <label key={option.label} className="flex items-center gap-3">
+            <label key={option.label} className="flex items-center gap-4">
               <input
                 type="checkbox"
                 checked={option.value}
                 disabled={!emailAlertsEnabled}
                 onChange={(e) => option.setter(e.target.checked)}
-                className="h-4 w-4 rounded-sm border-gold-light text-burgundy focus:ring-gold disabled:opacity-40"
+                className="h-4 w-4 border-cocoa/30 text-raspberry focus:ring-cocoa/20 disabled:opacity-40"
               />
-              <span className="text-sm text-charcoal-muted">{option.label}</span>
+              <span className="text-sm font-light text-cocoa">{option.label}</span>
             </label>
           ))}
         </div>
 
         {error && (
-          <p className="rounded-sm border border-urgent/20 bg-urgent-light px-4 py-3 text-sm text-urgent">
+          <p className="border border-urgent/20 bg-urgent-light/50 px-4 py-3 text-sm text-urgent">
             {error}
           </p>
         )}
         {message && (
-          <p className="rounded-sm border border-compliant/20 bg-compliant-light px-4 py-3 text-sm text-compliant">
+          <p className="border border-compliant/20 bg-compliant-light/50 px-4 py-3 text-sm text-compliant">
             {message}
           </p>
         )}
@@ -132,6 +126,6 @@ export default function SettingsNotifications({
           {loading ? "Saving..." : "Save Preferences"}
         </button>
       </form>
-    </section>
+    </SettingsSection>
   );
 }

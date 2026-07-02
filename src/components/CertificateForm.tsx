@@ -20,6 +20,8 @@ import {
   btnPrimaryClassName,
   btnSecondaryClassName,
   fileInputClassName,
+  formSectionRuleClassName,
+  formSectionTitleClassName,
   inputClassName,
   labelClassName,
   mutedTextClassName,
@@ -184,98 +186,114 @@ export default function CertificateForm({
   const typeHint = CERTIFICATE_TYPE_HINTS[certificateType];
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-8">
-      <div>
-        <label htmlFor="certificateType" className={labelClassName}>
-          Certificate Type
-        </label>
-        <select
-          id="certificateType"
-          value={certificateType}
-          onChange={(e) =>
-            setCertificateType(e.target.value as CertificateType)
-          }
-          className={selectClassName}
-        >
-          {CERTIFICATE_TYPES.map((type) => (
-            <option key={type} value={type}>
-              {CERTIFICATE_LABELS[type]}
-            </option>
-          ))}
-        </select>
-        {typeHint && (
-          <p className={`${mutedTextClassName} mt-1`}>{typeHint}</p>
-        )}
-      </div>
+    <form onSubmit={handleSubmit} className="space-y-12">
+      <section>
+        <h2 className={formSectionTitleClassName}>Certificate Type</h2>
+        <div className={formSectionRuleClassName} aria-hidden="true" />
+        <div className="mt-8">
+          <label htmlFor="certificateType" className={labelClassName}>
+            Type
+          </label>
+          <select
+            id="certificateType"
+            value={certificateType}
+            onChange={(e) =>
+              setCertificateType(e.target.value as CertificateType)
+            }
+            className={selectClassName}
+          >
+            {CERTIFICATE_TYPES.map((type) => (
+              <option key={type} value={type}>
+                {CERTIFICATE_LABELS[type]}
+              </option>
+            ))}
+          </select>
+          {typeHint && (
+            <p className={`${mutedTextClassName} mt-3`}>{typeHint}</p>
+          )}
+        </div>
+      </section>
 
-      <div>
-        <label htmlFor="issueDate" className={labelClassName}>
-          {dateLabels.issue}
-        </label>
-        <input
-          id="issueDate"
-          type="date"
-          required
-          value={issueDate}
-          onChange={(e) => setIssueDate(e.target.value)}
-          className={inputClassName}
-        />
-      </div>
+      <section>
+        <h2 className={formSectionTitleClassName}>Dates</h2>
+        <div className={formSectionRuleClassName} aria-hidden="true" />
+        <div className="mt-8 space-y-8">
+          <div>
+            <label htmlFor="issueDate" className={labelClassName}>
+              {dateLabels.issue}
+            </label>
+            <input
+              id="issueDate"
+              type="date"
+              required
+              value={issueDate}
+              onChange={(e) => setIssueDate(e.target.value)}
+              className={inputClassName}
+            />
+          </div>
 
-      <div>
-        <label htmlFor="expiryDate" className={labelClassName}>
-          {dateLabels.expiry}
-        </label>
-        <input
-          id="expiryDate"
-          type="date"
-          required
-          value={expiryDate}
-          onChange={(e) => setExpiryDate(e.target.value)}
-          className={inputClassName}
-        />
-      </div>
+          <div>
+            <label htmlFor="expiryDate" className={labelClassName}>
+              {dateLabels.expiry}
+            </label>
+            <input
+              id="expiryDate"
+              type="date"
+              required
+              value={expiryDate}
+              onChange={(e) => setExpiryDate(e.target.value)}
+              className={inputClassName}
+            />
+          </div>
+        </div>
+      </section>
 
-      <div>
-        <label htmlFor="notes" className={labelClassName}>
-          Notes (optional)
-        </label>
-        <textarea
-          id="notes"
-          rows={3}
-          value={notes}
-          onChange={(e) => setNotes(e.target.value)}
-          className={textareaClassName}
-          placeholder="Any additional details..."
-        />
-      </div>
+      <section>
+        <h2 className={formSectionTitleClassName}>Additional Details</h2>
+        <div className={formSectionRuleClassName} aria-hidden="true" />
+        <div className="mt-8 space-y-8">
+          <div>
+            <label htmlFor="notes" className={labelClassName}>
+              Notes (optional)
+            </label>
+            <textarea
+              id="notes"
+              rows={3}
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              className={textareaClassName}
+              placeholder="Any additional details..."
+            />
+          </div>
 
-      <div>
-        <label htmlFor="document" className={labelClassName}>
-          Certificate Document (optional)
-        </label>
-        <input
-          id="document"
-          type="file"
-          accept=".pdf,.jpg,.jpeg,application/pdf,image/jpeg"
-          onChange={(e) => setDocument(e.target.files?.[0] ?? null)}
-          className={fileInputClassName}
-        />
-        <p className={`${mutedTextClassName} mt-2`}>
-          PDF or JPEG, up to 10 MB.
-          {isEditing && certificate?.document_path
-            ? " Upload a new file to replace the existing document."
-            : ""}
-        </p>
-      </div>
+          <div>
+            <label htmlFor="document" className={labelClassName}>
+              Certificate Document (optional)
+            </label>
+            <input
+              id="document"
+              type="file"
+              accept=".pdf,.jpg,.jpeg,application/pdf,image/jpeg"
+              onChange={(e) => setDocument(e.target.files?.[0] ?? null)}
+              className={fileInputClassName}
+            />
+            <p className={`${mutedTextClassName} mt-3`}>
+              PDF or JPEG, up to 10 MB.
+              {isEditing && certificate?.document_path
+                ? " Upload a new file to replace the existing document."
+                : ""}
+            </p>
+          </div>
+        </div>
+      </section>
 
       {error && (
-        <p className="rounded-sm border border-red-200 bg-urgent-light px-4 py-3 text-sm text-urgent">
+        <p className="border border-urgent/20 bg-urgent-light/50 px-4 py-3 text-sm text-urgent">
           {error}
         </p>
       )}
 
-      <div className="flex flex-wrap gap-3">
+      <div className="flex flex-wrap gap-4 pt-2">
         <button type="submit" disabled={loading} className={btnPrimaryClassName}>
           {loading
             ? "Saving..."

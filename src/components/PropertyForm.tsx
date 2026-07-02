@@ -7,6 +7,8 @@ import { createClient } from "@/lib/supabase/client";
 import {
   btnPrimaryClassName,
   btnSecondaryClassName,
+  formSectionRuleClassName,
+  formSectionTitleClassName,
   inputClassName,
   labelClassName,
   selectClassName,
@@ -55,7 +57,7 @@ export default function PropertyForm({ property }: PropertyFormProps) {
       const { error: updateError } = await supabase
         .from("properties")
         .update({
-          address,
+          address: address.trim(),
           property_type: propertyType,
           bedrooms,
           notes: notes.trim() || null,
@@ -78,10 +80,9 @@ export default function PropertyForm({ property }: PropertyFormProps) {
       .from("properties")
       .insert({
         user_id: user.id,
-        address,
+        address: address.trim(),
         property_type: propertyType,
         bedrooms,
-        notes: notes.trim() || null,
       })
       .select("id")
       .single();
@@ -97,78 +98,88 @@ export default function PropertyForm({ property }: PropertyFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-8">
-      <div>
-        <label htmlFor="address" className={labelClassName}>
-          Property Address
-        </label>
-        <input
-          id="address"
-          type="text"
-          required
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-          className={inputClassName}
-          placeholder="123 High Street, London, SW1A 1AA"
-        />
-      </div>
+    <form onSubmit={handleSubmit} className="space-y-12">
+      <section>
+        <h2 className={formSectionTitleClassName}>Property Details</h2>
+        <div className={formSectionRuleClassName} aria-hidden="true" />
+        <div className="mt-8 space-y-8">
+          <div>
+            <label htmlFor="address" className={labelClassName}>
+              Property Address
+            </label>
+            <input
+              id="address"
+              type="text"
+              required
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              className={inputClassName}
+              placeholder="123 High Street, London, SW1A 1AA"
+            />
+          </div>
 
-      <div>
-        <label htmlFor="propertyType" className={labelClassName}>
-          Property Type
-        </label>
-        <select
-          id="propertyType"
-          value={propertyType}
-          onChange={(e) => setPropertyType(e.target.value as PropertyType)}
-          className={selectClassName}
-        >
-          {PROPERTY_TYPES.map((type) => (
-            <option key={type} value={type}>
-              {PROPERTY_TYPE_LABELS[type]}
-            </option>
-          ))}
-        </select>
-      </div>
+          <div>
+            <label htmlFor="propertyType" className={labelClassName}>
+              Property Type
+            </label>
+            <select
+              id="propertyType"
+              value={propertyType}
+              onChange={(e) => setPropertyType(e.target.value as PropertyType)}
+              className={selectClassName}
+            >
+              {PROPERTY_TYPES.map((type) => (
+                <option key={type} value={type}>
+                  {PROPERTY_TYPE_LABELS[type]}
+                </option>
+              ))}
+            </select>
+          </div>
 
-      <div>
-        <label htmlFor="bedrooms" className={labelClassName}>
-          Number of Bedrooms
-        </label>
-        <input
-          id="bedrooms"
-          type="number"
-          required
-          min={1}
-          value={bedrooms}
-          onChange={(e) => setBedrooms(parseInt(e.target.value, 10))}
-          className={inputClassName}
-        />
-      </div>
+          <div>
+            <label htmlFor="bedrooms" className={labelClassName}>
+              Number of Bedrooms
+            </label>
+            <input
+              id="bedrooms"
+              type="number"
+              required
+              min={1}
+              value={bedrooms}
+              onChange={(e) => setBedrooms(parseInt(e.target.value, 10))}
+              className={inputClassName}
+            />
+          </div>
+        </div>
+      </section>
 
       {isEditing && (
-        <div>
-          <label htmlFor="notes" className={labelClassName}>
-            Property Notes
-          </label>
-          <textarea
-            id="notes"
-            rows={4}
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
-            className={textareaClassName}
-            placeholder='e.g. "Boiler located in kitchen cupboard"'
-          />
-        </div>
+        <section>
+          <h2 className={formSectionTitleClassName}>Notes</h2>
+          <div className={formSectionRuleClassName} aria-hidden="true" />
+          <div className="mt-8">
+            <label htmlFor="notes" className={labelClassName}>
+              Property Notes
+            </label>
+            <textarea
+              id="notes"
+              rows={4}
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              className={textareaClassName}
+              placeholder='e.g. "Boiler located in kitchen cupboard"'
+            />
+          </div>
+        </section>
       )}
 
       {error && (
-        <p className="rounded-lg border border-red-200 bg-urgent-light px-4 py-3 text-sm text-urgent">
+        <p className="border border-urgent/20 bg-urgent-light/50 px-4 py-3 text-sm text-urgent">
           {error}
         </p>
       )}
 
-      <div className="flex flex-wrap gap-3">
+      <div className="flex flex-wrap gap-4 pt-2">
         <button type="submit" disabled={loading} className={btnPrimaryClassName}>
           {loading
             ? "Saving..."

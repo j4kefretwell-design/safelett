@@ -2,14 +2,9 @@
 
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import {
-  btnPrimaryClassName,
-  cardClassName,
-  inputClassName,
-  labelClassName,
-  sectionTitleClassName,
-  mutedTextClassName,
-} from "@/lib/ui";
+import PasswordInput from "@/components/PasswordInput";
+import SettingsSection from "@/components/settings/SettingsSection";
+import { btnPrimaryClassName } from "@/lib/ui";
 
 export default function SettingsPassword() {
   const [password, setPassword] = useState("");
@@ -51,50 +46,34 @@ export default function SettingsPassword() {
   }
 
   return (
-    <section className={`${cardClassName} p-8`}>
-      <h2 className={sectionTitleClassName}>Change Password</h2>
-      <p className={`${mutedTextClassName} mt-1`}>
-        Choose a strong password for your account.
-      </p>
+    <SettingsSection
+      title="Password"
+      description="Choose a strong password for your account."
+    >
+      <form onSubmit={handleSave} className="max-w-md space-y-8">
+        <PasswordInput
+          id="new-password"
+          label="New Password"
+          value={password}
+          onChange={setPassword}
+          minLength={6}
+        />
 
-      <form onSubmit={handleSave} className="mt-6 space-y-5">
-        <div>
-          <label htmlFor="password" className={labelClassName}>
-            New Password
-          </label>
-          <input
-            id="password"
-            type="password"
-            required
-            minLength={6}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className={inputClassName}
-          />
-        </div>
-
-        <div>
-          <label htmlFor="confirmPassword" className={labelClassName}>
-            Confirm New Password
-          </label>
-          <input
-            id="confirmPassword"
-            type="password"
-            required
-            minLength={6}
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            className={inputClassName}
-          />
-        </div>
+        <PasswordInput
+          id="confirm-password"
+          label="Confirm New Password"
+          value={confirmPassword}
+          onChange={setConfirmPassword}
+          minLength={6}
+        />
 
         {error && (
-          <p className="rounded-sm border border-urgent/20 bg-urgent-light px-4 py-3 text-sm text-urgent">
+          <p className="border border-urgent/20 bg-urgent-light/50 px-4 py-3 text-sm text-urgent">
             {error}
           </p>
         )}
         {message && (
-          <p className="rounded-sm border border-compliant/20 bg-compliant-light px-4 py-3 text-sm text-compliant">
+          <p className="border border-compliant/20 bg-compliant-light/50 px-4 py-3 text-sm text-compliant">
             {message}
           </p>
         )}
@@ -103,6 +82,6 @@ export default function SettingsPassword() {
           {loading ? "Updating..." : "Update Password"}
         </button>
       </form>
-    </section>
+    </SettingsSection>
   );
 }

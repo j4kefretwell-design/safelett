@@ -1,12 +1,12 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import DeleteCertificateButton from "@/components/DeleteCertificateButton";
 import DeletePropertyButton from "@/components/DeletePropertyButton";
-import PageHeader from "@/components/layout/PageHeader";
 import PropertyContractors from "@/components/PropertyContractors";
 import PropertyNotes from "@/components/PropertyNotes";
 import ShareWithLandlordButton from "@/components/ShareWithLandlordButton";
-import StatusBadge from "@/components/StatusBadge";
-import TrafficLight from "@/components/TrafficLight";
+import StatusDot from "@/components/StatusDot";
+import PropertyPageHeader from "@/components/layout/PropertyPageHeader";
 import { getCertificateDocumentUrl } from "@/lib/certificate-documents";
 import { CertificateTypeIcon } from "@/lib/icons";
 import {
@@ -18,10 +18,14 @@ import {
   btnPrimaryClassName,
   btnSecondaryClassName,
   cardClassName,
+  formSectionRuleClassName,
+  formSectionTitleClassName,
+  goldLabelClassName,
   linkClassName,
   mutedTextClassName,
   tableHeaderClassName,
-  tableRowClassName,
+  tableRowEvenClassName,
+  tableRowOddClassName,
 } from "@/lib/ui";
 import { createClient } from "@/lib/supabase/server";
 import {
@@ -32,7 +36,6 @@ import {
   type Property,
   type PropertyContractor,
 } from "@/lib/types";
-import Link from "next/link";
 
 interface PropertyDetailPageProps {
   params: Promise<{ id: string }>;
@@ -89,7 +92,7 @@ export default async function PropertyDetailPage({
 
   return (
     <>
-      <PageHeader
+      <PropertyPageHeader
         title={typedProperty.address}
         description={`${PROPERTY_TYPE_LABELS[typedProperty.property_type]} · ${typedProperty.bedrooms} ${typedProperty.bedrooms === 1 ? "bedroom" : "bedrooms"}`}
         backHref="/dashboard"
@@ -100,7 +103,7 @@ export default async function PropertyDetailPage({
           <div className="flex flex-wrap items-center gap-3">
             <Link
               href={`/properties/${id}/edit`}
-              className={btnSecondaryClassName}
+              className="inline-flex items-center justify-center border border-dusty-cream/30 px-5 py-2.5 text-xs font-light uppercase tracking-[0.1em] text-dusty-cream transition hover:border-dusty-cream/60"
             >
               Edit Property
             </Link>
@@ -112,67 +115,59 @@ export default async function PropertyDetailPage({
         }
       />
 
-      <div className={`${cardClassName} mb-8 flex flex-col gap-4 p-6 sm:flex-row sm:items-center`}>
-        <TrafficLight status={propertyStatus} size="lg" />
+      <div className={`${cardClassName} mb-10 flex items-center justify-between p-6`}>
         <div>
-          <p className="text-sm text-charcoal-muted">Overall status</p>
-          <div className="mt-2">
-            <StatusBadge status={propertyStatus} />
-          </div>
+          <p className={goldLabelClassName}>Overall Status</p>
+          <p className="mt-3 font-serif text-lg tracking-wide text-text">
+            Portfolio compliance for this property
+          </p>
         </div>
+        <StatusDot status={propertyStatus} showLabel />
       </div>
 
       <PropertyNotes propertyId={id} initialNotes={typedProperty.notes} />
 
-      <div className="mt-10">
-        <h2 className="mb-5 font-serif text-xl font-medium text-charcoal">
-          Compliance Certificates
-        </h2>
+      <div className="mt-14">
+        <h2 className={formSectionTitleClassName}>Compliance Certificates</h2>
+        <div className={formSectionRuleClassName} aria-hidden="true" />
 
         {certificateList.length === 0 ? (
-          <div className={`${cardClassName} px-6 py-14 text-center sm:px-8`}>
+          <div className={`${cardClassName} mt-8 px-8 py-16 text-center`}>
             <p className={mutedTextClassName}>
               No certificates added yet. Add certificates to track compliance
               status.
             </p>
             <Link
               href={`/properties/${id}/certificates/new`}
-              className={`${btnPrimaryClassName} mt-6`}
+              className={`${btnPrimaryClassName} mt-8`}
             >
               Add Certificate
             </Link>
           </div>
         ) : (
-          <>
-            <div className="space-y-4 md:hidden">
+          <div className="mt-8 overflow-hidden border border-cocoa/15">
+            <div className="space-y-0 md:hidden">
               {certificateList.map((cert, index) => {
                 const status = getCertificateStatus(cert.expiry_date);
                 const documentUrl = documentUrls[index];
                 const dateLabels = getCertificateDateLabels(
                   cert.certificate_type
                 );
+                const rowClass =
+                  index % 2 === 0 ? tableRowEvenClassName : tableRowOddClassName;
 
                 return (
-                  <div
-                    key={cert.id}
-                    className={`${cardClassName} p-5`}
-                  >
-                    <div className="flex items-start gap-3">
-                      <TrafficLight status={status} />
+                  <div key={cert.id} className={`${rowClass} p-6`}>
+                    <div className="flex items-start justify-between gap-4">
                       <div className="min-w-0 flex-1">
-                        <p className="flex items-center gap-2 font-medium text-charcoal">
+                        <p className="flex items-center gap-2 font-serif text-lg text-text">
                           <CertificateTypeIcon
                             type={cert.certificate_type}
-                            className="h-4 w-4 shrink-0 text-burgundy/70"
+                            className="h-4 w-4 shrink-0 text-cocoa/60"
                           />
                           {CERTIFICATE_LABELS[cert.certificate_type]}
                         </p>
-                        {cert.notes && (
-                          <p className="mt-1 text-xs text-charcoal-muted">
-                            {cert.notes}
-                          </p>
-                        )}
-                        <div className="mt-3 space-y-1 text-sm text-charcoal-muted">
+                        <div className="mt-4 space-y-1 text-sm font-light text-cocoa">
                           <p>
                             {dateLabels.issue}: {formatDate(cert.issue_date)}
                           </p>
@@ -180,20 +175,17 @@ export default async function PropertyDetailPage({
                             {dateLabels.expiry}: {formatDate(cert.expiry_date)}
                           </p>
                         </div>
-                        <div className="mt-3 flex flex-wrap items-center gap-3">
-                          <StatusBadge status={status} size="sm" />
-                          {documentUrl && (
-                            <a
-                              href={documentUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className={`${linkClassName} underline decoration-gold-light underline-offset-2`}
-                            >
-                              View Certificate
-                            </a>
-                          )}
-                        </div>
-                        <div className="mt-4 flex flex-wrap gap-4">
+                        {documentUrl && (
+                          <a
+                            href={documentUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={`${linkClassName} mt-4 inline-block`}
+                          >
+                            View document
+                          </a>
+                        )}
+                        <div className="mt-5 flex flex-wrap gap-4">
                           <Link
                             href={`/properties/${id}/certificates/${cert.id}/edit`}
                             className={linkClassName}
@@ -209,98 +201,91 @@ export default async function PropertyDetailPage({
                           />
                         </div>
                       </div>
+                      <StatusDot status={status} />
                     </div>
                   </div>
                 );
               })}
             </div>
 
-            <div className={`${cardClassName} hidden overflow-x-auto md:block`}>
-              <table className="w-full min-w-[720px] text-left text-sm">
-                <thead>
-                  <tr className={tableHeaderClassName}>
-                    <th className="px-6 py-4">Certificate</th>
-                    <th className="px-6 py-4">Issued / Completed</th>
-                    <th className="px-6 py-4">Expires / Review</th>
-                    <th className="px-6 py-4">Status</th>
-                    <th className="px-6 py-4">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {certificateList.map((cert, index) => {
-                    const status = getCertificateStatus(cert.expiry_date);
-                    const documentUrl = documentUrls[index];
-                    const dateLabels = getCertificateDateLabels(
-                      cert.certificate_type
-                    );
+            <table className="hidden w-full min-w-[720px] text-left text-sm md:table">
+              <thead>
+                <tr className={tableHeaderClassName}>
+                  <th className="px-8 py-5">Certificate</th>
+                  <th className="px-8 py-5">Issued</th>
+                  <th className="px-8 py-5">Expires</th>
+                  <th className="px-8 py-5">Status</th>
+                  <th className="px-8 py-5">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {certificateList.map((cert, index) => {
+                  const status = getCertificateStatus(cert.expiry_date);
+                  const documentUrl = documentUrls[index];
+                  const dateLabels = getCertificateDateLabels(
+                    cert.certificate_type
+                  );
+                  const rowClass =
+                    index % 2 === 0 ? tableRowEvenClassName : tableRowOddClassName;
 
-                    return (
-                      <tr
-                        key={cert.id}
-                        className={tableRowClassName}
-                      >
-                        <td className="px-6 py-5">
-                          <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                            <TrafficLight status={status} />
-                            <span className="flex items-center gap-2 font-medium text-charcoal">
-                              <CertificateTypeIcon
-                                type={cert.certificate_type}
-                                className="h-4 w-4 shrink-0 text-burgundy/70"
-                              />
-                              {CERTIFICATE_LABELS[cert.certificate_type]}
-                            </span>
-                            {documentUrl && (
-                              <a
-                                href={documentUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className={`${linkClassName} underline decoration-gold-light underline-offset-2`}
-                              >
-                                View Certificate
-                              </a>
-                            )}
-                          </div>
-                          {cert.notes && (
-                            <p className="mt-1.5 pl-6 text-xs text-charcoal-muted">
-                              {cert.notes}
-                            </p>
-                          )}
-                        </td>
-                        <td className="px-6 py-5 text-charcoal-muted">
-                          <span className="sr-only">{dateLabels.issue}: </span>
-                          {formatDate(cert.issue_date)}
-                        </td>
-                        <td className="px-6 py-5 text-charcoal-muted">
-                          <span className="sr-only">{dateLabels.expiry}: </span>
-                          {formatDate(cert.expiry_date)}
-                        </td>
-                        <td className="px-6 py-5">
-                          <StatusBadge status={status} size="sm" />
-                        </td>
-                        <td className="px-6 py-5">
-                          <div className="flex flex-wrap gap-4">
-                            <Link
-                              href={`/properties/${id}/certificates/${cert.id}/edit`}
-                              className="text-sm font-medium text-burgundy transition hover:underline"
-                            >
-                              Edit
-                            </Link>
-                            <DeleteCertificateButton
-                              certificateId={cert.id}
-                              certificateLabel={
-                                CERTIFICATE_LABELS[cert.certificate_type]
-                              }
-                              documentPath={cert.document_path}
-                            />
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          </>
+                  return (
+                    <tr key={cert.id} className={rowClass}>
+                      <td className="px-8 py-6">
+                        <span className="flex items-center gap-3 font-serif text-base text-text">
+                          <CertificateTypeIcon
+                            type={cert.certificate_type}
+                            className="h-4 w-4 shrink-0 text-cocoa/60"
+                          />
+                          {CERTIFICATE_LABELS[cert.certificate_type]}
+                        </span>
+                        {cert.notes && (
+                          <p className="mt-2 pl-7 text-xs font-light text-cocoa">
+                            {cert.notes}
+                          </p>
+                        )}
+                        {documentUrl && (
+                          <a
+                            href={documentUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={`${linkClassName} mt-2 inline-block pl-7`}
+                          >
+                            View document
+                          </a>
+                        )}
+                      </td>
+                      <td className="px-8 py-6 font-light text-cocoa">
+                        {formatDate(cert.issue_date)}
+                      </td>
+                      <td className="px-8 py-6 font-light text-cocoa">
+                        {formatDate(cert.expiry_date)}
+                      </td>
+                      <td className="px-8 py-6">
+                        <StatusDot status={status} />
+                      </td>
+                      <td className="px-8 py-6">
+                        <div className="flex flex-wrap gap-4">
+                          <Link
+                            href={`/properties/${id}/certificates/${cert.id}/edit`}
+                            className={linkClassName}
+                          >
+                            Edit
+                          </Link>
+                          <DeleteCertificateButton
+                            certificateId={cert.id}
+                            certificateLabel={
+                              CERTIFICATE_LABELS[cert.certificate_type]
+                            }
+                            documentPath={cert.document_path}
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
 

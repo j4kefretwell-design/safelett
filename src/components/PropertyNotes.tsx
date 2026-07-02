@@ -6,8 +6,9 @@ import { createClient } from "@/lib/supabase/client";
 import {
   btnPrimaryClassName,
   cardClassName,
+  formSectionRuleClassName,
+  formSectionTitleClassName,
   mutedTextClassName,
-  sectionTitleClassName,
   textareaClassName,
 } from "@/lib/ui";
 
@@ -49,11 +50,12 @@ export default function PropertyNotes({
   }
 
   return (
-    <div className={`${cardClassName} mt-8 p-6`}>
-      <h2 className={sectionTitleClassName}>Property Notes</h2>
-      <p className={`${mutedTextClassName} mt-1`}>
-        Add free text notes about this property — for example boiler location or
-        licence applications in progress.
+    <div className={`${cardClassName} p-8`}>
+      <h2 className={formSectionTitleClassName}>Property Notes</h2>
+      <div className={formSectionRuleClassName} aria-hidden="true" />
+      <p className={`${mutedTextClassName} mt-4`}>
+        Free text notes — boiler location, licence applications, and anything
+        else worth remembering.
       </p>
 
       <textarea
@@ -63,17 +65,17 @@ export default function PropertyNotes({
           setSaved(false);
         }}
         rows={4}
-        placeholder='e.g. "Boiler located in kitchen cupboard" or "HMO licence application in progress"'
-        className={`${textareaClassName} mt-4`}
+        placeholder='e.g. "Boiler located in kitchen cupboard"'
+        className={`${textareaClassName} mt-6`}
       />
 
       {error && (
-        <p className="mt-3 rounded-sm border border-red-200 bg-urgent-light px-4 py-3 text-sm text-urgent">
+        <p className="mt-4 border border-urgent/20 bg-urgent-light/50 px-4 py-3 text-sm text-urgent">
           {error}
         </p>
       )}
 
-      <div className="mt-4 flex items-center gap-3">
+      <div className="mt-6 flex items-center gap-4">
         <button
           type="button"
           onClick={handleSave}
@@ -83,7 +85,7 @@ export default function PropertyNotes({
           {loading ? "Saving..." : "Save Notes"}
         </button>
         {saved && (
-          <span className="text-sm font-medium text-compliant">Notes saved.</span>
+          <span className="text-sm font-light text-compliant">Saved.</span>
         )}
       </div>
     </div>
