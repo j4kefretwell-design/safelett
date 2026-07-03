@@ -74,6 +74,25 @@
       transform 0.6s ease;
   }
 
+  .bg-image-blur {
+    transition:
+      opacity 0.7s ease,
+      filter 0.7s ease,
+      transform 0.7s ease;
+  }
+
+  .bg-image-blur--loading {
+    opacity: 0;
+    filter: blur(8px);
+    transform: scale(1.02);
+  }
+
+  .bg-image-blur--loaded {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
+  }
+
   .sidebar-editorial {
     position: relative;
     background-color: var(--color-raspberry);

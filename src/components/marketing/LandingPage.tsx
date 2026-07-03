@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { Check } from "lucide-react";
+import BackgroundImage from "@/components/BackgroundImage";
 import BrandWordmark from "@/components/BrandWordmark";
 import ScrollReveal, { ScrollRevealGroup } from "@/components/ScrollReveal";
 
@@ -57,13 +57,11 @@ export default function LandingPage() {
 
       {/* Hero */}
       <section className="relative flex min-h-screen flex-col pt-16">
-        <Image
+        <BackgroundImage
           src="/anthony-fomin-zjBxPUHE_ok-unsplash.jpg"
           alt="Elegant property exterior"
-          fill
-          priority
-          className="object-cover"
           sizes="100vw"
+          priority
         />
         <div className="absolute inset-0 bg-[#1A0A0C]/55" />
 
@@ -98,15 +96,15 @@ export default function LandingPage() {
         </div>
       </section>
 
+      <div className="h-px w-full bg-gold" aria-hidden="true" />
+
       {/* Editorial split */}
       <ScrollReveal>
         <section id="why" className="grid min-h-[560px] lg:grid-cols-2">
           <div className="relative min-h-[320px] lg:min-h-full">
-            <Image
+            <BackgroundImage
               src="/brad-starkey-9QczXovmzCk-unsplash.jpg"
               alt="Refined interior"
-              fill
-              className="object-cover"
               sizes="(max-width: 1024px) 100vw, 50vw"
             />
             <div className="absolute inset-0 bg-[#1A0A0C]/25" />
@@ -195,11 +193,9 @@ export default function LandingPage() {
           </div>
 
           <div className="relative min-h-[320px] lg:min-h-full">
-            <Image
+            <BackgroundImage
               src="/hugo-kruip-i3Sx427bVXc-unsplash.jpg"
               alt="Architectural detail"
-              fill
-              className="object-cover"
               sizes="(max-width: 1024px) 100vw, 50vw"
             />
           </div>

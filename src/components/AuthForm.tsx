@@ -1,12 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
+import BackgroundImage from "@/components/BackgroundImage";
 import BrandWordmark from "@/components/BrandWordmark";
 import PasswordInput from "@/components/PasswordInput";
+import { createClient } from "@/lib/supabase/client";
 import {
   authCardClassName,
   btnPrimaryClassName,
@@ -65,13 +65,11 @@ export default function AuthForm({ mode }: AuthFormProps) {
 
   return (
     <div className="relative flex min-h-screen items-center justify-center px-6 py-16">
-      <Image
+      <BackgroundImage
         src="/vojtech-bartonicek-wgG7jLQ7M0U-unsplash.jpg"
         alt=""
-        fill
-        priority
-        className="object-cover"
         sizes="100vw"
+        priority
       />
       <div className="absolute inset-0 bg-[#1A0A0C]/70" />
 
