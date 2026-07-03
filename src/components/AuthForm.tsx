@@ -64,12 +64,15 @@ export default function AuthForm({ mode }: AuthFormProps) {
   }
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center px-6 py-16">
+    <div className="relative flex min-h-screen items-center justify-center bg-[#2C1810] px-6 py-16">
       <BackgroundImage
-        src="/vojtech-bartonicek-wgG7jLQ7M0U-unsplash.jpg"
+        src="/vojtech-bartonicek-wgG7jLQ7M0U-unsplash-auth.jpg"
         alt=""
-        sizes="100vw"
+        sizes="(max-width: 1920px) 100vw, 1920px"
         priority
+        quality={60}
+        placeholderColor="#2C1810"
+        effect="fade"
       />
       <div className="absolute inset-0 bg-[#1A0A0C]/70" />
 

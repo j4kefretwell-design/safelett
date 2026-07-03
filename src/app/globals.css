@@ -93,6 +93,18 @@
     transform: scale(1);
   }
 
+  .bg-image-fade {
+    transition: opacity 0.5s ease;
+  }
+
+  .bg-image-fade--loading {
+    opacity: 0;
+  }
+
+  .bg-image-fade--loaded {
+    opacity: 1;
+  }
+
   .sidebar-editorial {
     position: relative;
     background-color: var(--color-raspberry);
