@@ -7,7 +7,7 @@ interface SummaryCardProps {
 }
 
 const topBorderClasses = {
-  total: "border-t-cocoa",
+  total: "border-t-gold/70",
   compliant: "border-t-compliant",
   attention: "border-t-attention",
   overdue: "border-t-urgent",
@@ -20,8 +20,10 @@ export default function SummaryCard({
 }: SummaryCardProps) {
   return (
     <div className={`${statCardClassName} ${topBorderClasses[accent]}`}>
-      <p className={goldLabelClassName}>{label}</p>
-      <p className="mt-5 font-serif text-5xl tracking-wide text-text">{value}</p>
+      <p className="font-serif text-5xl tracking-wide text-text sm:text-6xl">
+        {value}
+      </p>
+      <p className={`${goldLabelClassName} mt-4`}>{label}</p>
     </div>
   );
 }

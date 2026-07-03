@@ -1,5 +1,8 @@
 export const inputClassName =
-  "w-full border-0 border-b border-cocoa/30 bg-transparent px-0 py-3 text-sm font-light text-text outline-none transition placeholder:text-cocoa/45 focus:border-b-2 focus:border-cocoa focus:pb-[calc(0.75rem-1px)]";
+  "w-full border-0 border-b border-cocoa/30 bg-transparent px-0 py-3 text-sm font-light text-text outline-none transition placeholder:italic placeholder:text-cocoa/45 focus:border-b-2 focus:border-cocoa focus:pb-[calc(0.75rem-1px)]";
+
+export const searchInputClassName =
+  "w-full border-0 border-b border-cocoa/25 bg-transparent px-0 py-3 text-sm font-light text-text outline-none transition placeholder:italic placeholder:text-cocoa/50 focus:border-b-2 focus:border-cocoa focus:pb-[calc(0.75rem-1px)]";
 
 export const labelClassName =
   "mb-2 block text-xs font-normal uppercase tracking-[0.14em] text-cocoa";
@@ -21,6 +24,9 @@ export const btnPrimaryClassName =
 export const btnSecondaryClassName =
   `${btnBaseClassName} border border-cocoa/35 text-text hover:border-cocoa hover:bg-beige/50`;
 
+export const btnOutlineClassName =
+  `${btnBaseClassName} border border-cocoa/40 bg-transparent px-5 py-2.5 text-cocoa hover:border-cocoa hover:text-text`;
+
 export const btnGoldClassName =
   `${btnBaseClassName} border border-cocoa/35 bg-beige text-text hover:border-cocoa`;
 
@@ -28,10 +34,10 @@ export const btnDangerClassName =
   `${btnBaseClassName} border border-urgent/30 text-urgent hover:bg-urgent-light/60`;
 
 export const cardClassName =
-  "rounded-[2px] border border-cocoa/20 bg-beige shadow-[0_2px_12px_rgba(26,16,8,0.04)] transition duration-300 ease-out";
+  "border border-cocoa/20 bg-beige shadow-[0_2px_12px_rgba(26,16,8,0.04)] transition duration-300 ease-out";
 
 export const propertyCardClassName =
-  "group relative block rounded-[2px] border border-cocoa bg-beige p-7 shadow-[0_2px_10px_rgba(26,16,8,0.03)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(26,16,8,0.08)] sm:p-8";
+  "group relative block border border-cocoa/15 bg-beige p-8 shadow-[0_2px_10px_rgba(26,16,8,0.03)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_28px_rgba(26,16,8,0.1)]";
 
 export const authCardClassName =
   "w-full max-w-md bg-dusty-cream p-10 shadow-[0_24px_64px_rgba(0,0,0,0.35)] sm:p-12";
@@ -40,7 +46,13 @@ export const formCardClassName =
   "rounded-[2px] border border-cocoa/15 bg-dusty-cream p-8 sm:p-10";
 
 export const statCardClassName =
-  "rounded-[2px] border-t-2 bg-beige px-7 py-8 shadow-[0_2px_10px_rgba(26,16,8,0.03)]";
+  "border-t-2 bg-beige px-8 py-10 shadow-[0_2px_10px_rgba(26,16,8,0.03)]";
+
+export const sectionBandClassName =
+  "bg-raspberry px-6 py-4 sm:px-10 lg:px-14";
+
+export const sectionBandLabelClassName =
+  "text-xs font-normal uppercase tracking-[0.24em] text-dusty-cream";
 
 export const sectionTitleClassName =
   "font-serif text-xl tracking-wide text-text";
@@ -79,4 +91,7 @@ export const settingsSectionLabelClassName =
   "text-xs font-normal uppercase tracking-[0.22em] text-cocoa";
 
 export const editorialListRowClassName =
-  "flex items-center gap-6 border-b border-cocoa/10 px-6 py-6 sm:px-8";
+  "flex items-center gap-6 border-b border-cocoa/10 px-6 py-7 sm:gap-8 sm:px-10";
+
+export const reminderGroupLabelClassName =
+  "bg-raspberry px-6 py-3 text-xs font-normal uppercase tracking-[0.2em] text-dusty-cream/80 sm:px-10";

@@ -15,8 +15,9 @@ export default function SettingsSection({
   first = false,
 }: SettingsSectionProps) {
   return (
-    <section className={first ? "pb-12" : "border-t border-gold/30 py-12"}>
+    <section className={first ? "pb-12" : "border-t border-gold/40 py-12"}>
       <p className={settingsSectionLabelClassName}>{title}</p>
+      <div className="mt-4 h-px w-16 bg-gold/50" aria-hidden="true" />
       {description && (
         <p className="mt-3 max-w-xl text-sm font-light leading-relaxed text-cocoa">
           {description}

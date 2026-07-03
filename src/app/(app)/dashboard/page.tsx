@@ -41,18 +41,14 @@ export default async function DashboardPage() {
 
   return (
     <>
-      <AnimateIn>
-        <PageHeader
-          title={hasProperties ? "Dashboard" : "Welcome"}
-          description={
-            hasProperties
-              ? "Overview of compliance across your property portfolio."
-              : "You're just a few steps away from complete compliance peace of mind."
-          }
-          actionHref={hasProperties ? "/properties/new" : undefined}
-          actionLabel={hasProperties ? "Add Property" : undefined}
-        />
-      </AnimateIn>
+      {!hasProperties && (
+        <AnimateIn>
+          <PageHeader
+            title="Welcome"
+            description="You're just a few steps away from complete compliance peace of mind."
+          />
+        </AnimateIn>
+      )}
 
       <DashboardClient
         properties={

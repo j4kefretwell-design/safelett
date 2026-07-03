@@ -18,17 +18,17 @@ export default function PropertyCard({ property, status }: PropertyCardProps) {
       href={`/properties/${property.id}`}
       className={propertyCardClassName}
     >
-      <div className="min-w-0 pr-8">
-        <h3 className="font-serif text-lg tracking-wide text-text transition group-hover:text-raspberry">
+      <div className="min-w-0 pr-24">
+        <h3 className="font-serif text-xl tracking-wide text-text transition group-hover:text-raspberry">
           {property.address}
         </h3>
-        <p className="mt-3 text-sm font-light text-cocoa">
+        <p className="mt-4 text-xs font-normal uppercase tracking-[0.14em] text-cocoa">
           {PROPERTY_TYPE_LABELS[property.property_type]} · {property.bedrooms}{" "}
           {property.bedrooms === 1 ? "bedroom" : "bedrooms"}
         </p>
       </div>
-      <div className="absolute bottom-6 right-6 sm:bottom-7 sm:right-7">
-        <StatusDot status={status} />
+      <div className="absolute bottom-8 right-8">
+        <StatusDot status={status} showLabel />
       </div>
     </Link>
   );

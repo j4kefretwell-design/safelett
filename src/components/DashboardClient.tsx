@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useMemo, useState } from "react";
 import { AnimateIn } from "@/components/AnimateIn";
 import DashboardEmptyState from "@/components/DashboardEmptyState";
@@ -9,10 +8,10 @@ import PropertyCard from "@/components/PropertyCard";
 import SummaryCard from "@/components/SummaryCard";
 import { ScrollRevealGroup } from "@/components/ScrollReveal";
 import {
-  btnGoldClassName,
   cardClassName,
-  goldLabelClassName,
-  inputClassName,
+  searchInputClassName,
+  sectionBandClassName,
+  sectionBandLabelClassName,
 } from "@/lib/ui";
 import type { ComplianceStatus, Property } from "@/lib/types";
 
@@ -83,7 +82,7 @@ export default function DashboardClient({
         <DashboardHeroBanner stats={stats} />
       </AnimateIn>
 
-      <ScrollRevealGroup className="mb-14 grid gap-6 sm:grid-cols-2 lg:gap-8 xl:grid-cols-4">
+      <ScrollRevealGroup className="mb-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <SummaryCard label="Total Properties" value={stats.total} accent="total" />
         <SummaryCard label="Compliant" value={stats.compliant} accent="compliant" />
         <SummaryCard
@@ -95,68 +94,38 @@ export default function DashboardClient({
       </ScrollRevealGroup>
 
       <AnimateIn delay={100}>
-        <div className="mb-12 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-          <div className="flex-1 sm:max-w-md">
-            <label htmlFor="property-search" className={goldLabelClassName}>
-              Search
-            </label>
+        <div className="-mx-6 sm:-mx-10 lg:-mx-14">
+          <div className={`${sectionBandClassName} flex items-center justify-between gap-4`}>
+            <p className={sectionBandLabelClassName}>Your Portfolio</p>
+            <button
+              type="button"
+              onClick={handleExport}
+              disabled={exporting}
+              className="shrink-0 border border-dusty-cream/30 px-4 py-2 text-[10px] font-normal uppercase tracking-[0.14em] text-dusty-cream/80 transition hover:border-dusty-cream/60 hover:text-dusty-cream disabled:opacity-50"
+            >
+              {exporting ? "Exporting..." : "Export CSV"}
+            </button>
+          </div>
+
+          <div className="border-x border-b border-cocoa/15 bg-dusty-cream px-6 py-8 sm:px-10 lg:px-14">
             <input
               id="property-search"
               type="search"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by address..."
-              className={`${inputClassName} mt-2`}
+              aria-label="Search properties"
+              className={`${searchInputClassName} max-w-md`}
             />
           </div>
-          <button
-            type="button"
-            onClick={handleExport}
-            disabled={exporting}
-            className={btnGoldClassName}
-          >
-            {exporting ? "Exporting..." : "Export CSV"}
-          </button>
         </div>
       </AnimateIn>
 
-      <div>
-        <AnimateIn delay={150}>
-          <div className="relative -mx-6 mb-8 flex items-stretch overflow-hidden border border-cocoa/15 sm:-mx-10 lg:-mx-14">
-            <div className="flex flex-1 flex-col justify-center px-8 py-7 sm:px-10 lg:px-14">
-              <p className={goldLabelClassName}>Your Portfolio</p>
-              <p className="mt-2 font-serif text-xl tracking-wide text-text sm:text-2xl">
-                {properties.length}{" "}
-                {properties.length === 1 ? "property" : "properties"} under management
-              </p>
-            </div>
-            <div className="hidden shrink-0 sm:flex">
-              <div className="relative h-full w-28 border-l border-cocoa/15">
-                <Image
-                  src="/ben-elliott-8WJtlR3nlQY-unsplash.jpg"
-                  alt=""
-                  fill
-                  className="object-cover opacity-90"
-                  sizes="112px"
-                />
-              </div>
-              <div className="relative h-full w-28 border-l border-cocoa/15">
-                <Image
-                  src="/ben-elliott-unPC3it1yDA-unsplash.jpg"
-                  alt=""
-                  fill
-                  className="object-cover opacity-90"
-                  sizes="112px"
-                />
-              </div>
-            </div>
-          </div>
-        </AnimateIn>
-
+      <div className="mt-10">
         {filteredProperties.length === 0 ? (
           <AnimateIn>
             <div className={`${cardClassName} px-8 py-14 text-center`}>
-              <p className="text-sm font-light text-cocoa">
+              <p className="text-sm font-light italic text-cocoa">
                 No properties match your search.
               </p>
             </div>

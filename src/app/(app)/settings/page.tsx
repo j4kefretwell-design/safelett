@@ -1,3 +1,4 @@
+import { AnimateIn } from "@/components/AnimateIn";
 import PageHeader from "@/components/layout/PageHeader";
 import SettingsAccount from "@/components/settings/SettingsAccount";
 import SettingsNotifications from "@/components/settings/SettingsNotifications";
@@ -20,19 +21,29 @@ export default async function SettingsPage() {
 
   return (
     <>
-      <PageHeader
-        title="Settings"
-        description="Your account, notifications, and preferences."
-      />
+      <AnimateIn>
+        <PageHeader
+          title="Settings"
+          description="Your account, notifications, and preferences."
+        />
+      </AnimateIn>
 
       <div className="max-w-2xl">
-        <SettingsAccount
-          initialName={profile.full_name ?? ""}
-          initialEmail={user.email ?? ""}
-        />
-        <SettingsNotifications profile={profile} />
-        <SettingsSubscription />
-        <SettingsPassword />
+        <AnimateIn delay={50}>
+          <SettingsAccount
+            initialName={profile.full_name ?? ""}
+            initialEmail={user.email ?? ""}
+          />
+        </AnimateIn>
+        <AnimateIn delay={100}>
+          <SettingsNotifications profile={profile} />
+        </AnimateIn>
+        <AnimateIn delay={150}>
+          <SettingsSubscription />
+        </AnimateIn>
+        <AnimateIn delay={200}>
+          <SettingsPassword />
+        </AnimateIn>
       </div>
     </>
   );

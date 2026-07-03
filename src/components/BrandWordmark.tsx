@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 interface BrandWordmarkProps {
-  href?: string;
+  href?: string | null;
   variant?: "sidebar" | "compact" | "hero" | "footer" | "light" | "nav" | "card";
   onClick?: () => void;
   className?: string;

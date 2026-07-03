@@ -23,9 +23,13 @@ import {
 
 interface PropertyFormProps {
   property?: Property;
+  fullWidthSubmit?: boolean;
 }
 
-export default function PropertyForm({ property }: PropertyFormProps) {
+export default function PropertyForm({
+  property,
+  fullWidthSubmit = false,
+}: PropertyFormProps) {
   const router = useRouter();
   const isEditing = Boolean(property);
   const [address, setAddress] = useState(property?.address ?? "");
@@ -100,7 +104,9 @@ export default function PropertyForm({ property }: PropertyFormProps) {
   return (
     <form onSubmit={handleSubmit} className="space-y-12">
       <section>
-        <h2 className={formSectionTitleClassName}>Property Details</h2>
+        <h2 className="text-xs font-normal uppercase tracking-[0.22em] text-cocoa">
+          Property Details
+        </h2>
         <div className={formSectionRuleClassName} aria-hidden="true" />
         <div className="mt-8 space-y-8">
           <div>
@@ -179,8 +185,12 @@ export default function PropertyForm({ property }: PropertyFormProps) {
         </p>
       )}
 
-      <div className="flex flex-wrap gap-4 pt-2">
-        <button type="submit" disabled={loading} className={btnPrimaryClassName}>
+      <div className={`flex flex-wrap gap-4 pt-2 ${fullWidthSubmit ? "flex-col" : ""}`}>
+        <button
+          type="submit"
+          disabled={loading}
+          className={`${btnPrimaryClassName}${fullWidthSubmit ? " w-full" : ""}`}
+        >
           {loading
             ? "Saving..."
             : isEditing

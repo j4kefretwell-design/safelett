@@ -1,19 +1,22 @@
+import { AnimateIn } from "@/components/AnimateIn";
 import ImportForm from "@/components/ImportForm";
 import PageHeader from "@/components/layout/PageHeader";
 
 export default function ImportPropertiesPage() {
   return (
     <>
-      <PageHeader
-        title="Bulk Import"
-        description="Download the CSV template, add your properties and certificates, then upload to import everything at once."
-        backHref="/dashboard"
-        backLabel="Back to Dashboard"
-      />
+      <AnimateIn>
+        <PageHeader
+          title="Bulk Import"
+          description="Import properties and certificates from a CSV file."
+          backHref="/dashboard"
+          backLabel="Back to Dashboard"
+        />
+      </AnimateIn>
 
-      <div className="max-w-2xl">
+      <AnimateIn delay={100}>
         <ImportForm templateUrl="/api/import/template" />
-      </div>
+      </AnimateIn>
     </>
   );
 }
