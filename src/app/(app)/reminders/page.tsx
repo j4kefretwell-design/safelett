@@ -4,7 +4,7 @@ import {
   getDaysUntilExpiry,
 } from "@/lib/compliance";
 import { createClient } from "@/lib/supabase/server";
-import type { Certificate, Property } from "@/lib/types";
+import type { Certificate, Property, PropertyContractor } from "@/lib/types";
 import type { ComplianceStatus } from "@/lib/types";
 
 interface ReminderRow {
@@ -44,5 +44,14 @@ export default async function RemindersPage() {
 
   reminders.sort((a, b) => a.daysUntilExpiry - b.daysUntilExpiry);
 
-  return <RemindersList reminders={reminders} />;
+  const { data: contractors } = await supabase
+    .from("property_contractors")
+    .select("*");
+
+  return (
+    <RemindersList
+      reminders={reminders}
+      contractors={(contractors ?? []) as PropertyContractor[]}
+    />
+  );
 }

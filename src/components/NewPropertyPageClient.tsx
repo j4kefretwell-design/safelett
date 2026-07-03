@@ -15,10 +15,10 @@ export default function NewPropertyPageClient() {
             alt=""
             sizes="50vw"
             quality={70}
-            placeholderColor="#33181C"
+            placeholderColor="#39281D"
             effect="fade"
           />
-          <div className="absolute inset-0 bg-[#1A0A0C]/50" />
+          <div className="absolute inset-0 bg-espresso/50" />
           <div className="relative z-10 flex h-full items-end p-12 xl:p-16">
             <blockquote className="max-w-md">
               <p className="font-serif text-2xl leading-snug tracking-wide text-dusty-cream lg:text-3xl xl:text-4xl">
@@ -33,9 +33,13 @@ export default function NewPropertyPageClient() {
             <p className="text-[10px] font-normal uppercase tracking-[0.32em] text-gold">
               Add a Property
             </p>
-            <h1 className="mt-5 font-serif text-4xl tracking-wide text-text sm:text-5xl lg:text-[3.25rem]">
-              Grow Your Portfolio.
+            <h1 className="mt-5 font-serif text-3xl tracking-wide text-text sm:text-4xl lg:text-[2.75rem] lg:leading-tight">
+              Add a New Property to Your Portfolio.
             </h1>
+            <p className="mt-5 max-w-lg text-sm font-light leading-relaxed text-leather">
+              Enter the property details below. You can add compliance certificates
+              once the property is saved.
+            </p>
           </div>
 
           <div className={`${editorialContentClassName} mt-14 flex-1`}>

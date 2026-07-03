@@ -68,6 +68,7 @@ export default function SettingsNotifications({
   return (
     <SettingsSection
       title="Notification Settings"
+      bandTone="espresso"
       description={`Control when ${BRAND_NAME} sends expiry reminder emails.`}
     >
       <form onSubmit={handleSave} className="max-w-md space-y-8">
@@ -76,20 +77,20 @@ export default function SettingsNotifications({
             type="checkbox"
             checked={emailAlertsEnabled}
             onChange={(e) => setEmailAlertsEnabled(e.target.checked)}
-            className="mt-1 h-4 w-4 border-cocoa/30 text-raspberry focus:ring-cocoa/20"
+            className="mt-1 h-4 w-4 border-leather/30 text-raspberry focus:ring-leather/20"
           />
           <span>
             <span className="block text-sm font-light text-text">
               Email alerts enabled
             </span>
-            <span className="mt-1 block text-sm font-light text-cocoa">
+            <span className="mt-1 block text-sm font-light text-leather">
               Receive automated expiry reminders by email.
             </span>
           </span>
         </label>
 
-        <div className="space-y-4 border-t border-cocoa/15 pt-8">
-          <p className="text-xs font-normal uppercase tracking-[0.16em] text-cocoa">
+        <div className="space-y-4 border-t border-leather/15 pt-8">
+          <p className="text-xs font-normal uppercase tracking-[0.16em] text-leather">
             Notify within
           </p>
 
@@ -104,9 +105,9 @@ export default function SettingsNotifications({
                 checked={option.value}
                 disabled={!emailAlertsEnabled}
                 onChange={(e) => option.setter(e.target.checked)}
-                className="h-4 w-4 border-cocoa/30 text-raspberry focus:ring-cocoa/20 disabled:opacity-40"
+                className="h-4 w-4 border-leather/30 text-raspberry focus:ring-leather/20 disabled:opacity-40"
               />
-              <span className="text-sm font-light text-cocoa">{option.label}</span>
+              <span className="text-sm font-light text-leather">{option.label}</span>
             </label>
           ))}
         </div>

@@ -12,7 +12,7 @@ import {
   editorialBleedClassName,
   editorialContentClassName,
   searchInputClassName,
-  sectionBandClassName,
+  sectionBandAlternateClassName,
   sectionBandLabelClassName,
 } from "@/lib/ui";
 import type { ComplianceStatus, Property } from "@/lib/types";
@@ -86,21 +86,37 @@ export default function DashboardClient({
 
       <section className="bg-dusty-cream py-16 sm:py-20">
         <div className={editorialContentClassName}>
-          <ScrollRevealGroup className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-12">
-            <SummaryCard label="Total Properties" value={stats.total} accent="total" />
-            <SummaryCard label="Compliant" value={stats.compliant} accent="compliant" />
+          <ScrollRevealGroup className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+            <SummaryCard
+              label="Total Properties"
+              value={stats.total}
+              description="across your portfolio"
+              accent="total"
+            />
+            <SummaryCard
+              label="Compliant"
+              value={stats.compliant}
+              description="certificates current"
+              accent="compliant"
+            />
             <SummaryCard
               label="Needs Attention"
               value={stats.attention}
+              description="action required"
               accent="attention"
             />
-            <SummaryCard label="Overdue" value={stats.overdue} accent="overdue" />
+            <SummaryCard
+              label="Overdue"
+              value={stats.overdue}
+              description="certificates expired"
+              accent="overdue"
+            />
           </ScrollRevealGroup>
         </div>
       </section>
 
       <AnimateIn delay={100}>
-        <section className={`${sectionBandClassName} ${editorialBleedClassName}`}>
+        <section className={`${sectionBandAlternateClassName} ${editorialBleedClassName}`}>
           <div className={`${editorialContentClassName} flex items-center justify-between gap-4 py-1`}>
             <p className={`${sectionBandLabelClassName} tracking-[0.32em]`}>
               Your Portfolio

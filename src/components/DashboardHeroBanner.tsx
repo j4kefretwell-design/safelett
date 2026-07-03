@@ -27,24 +27,25 @@ export default function DashboardHeroBanner({ stats }: DashboardHeroBannerProps)
           src="/anthony-fomin-zjBxPUHE_ok-unsplash.jpg"
           alt=""
           fill
-          className="object-cover opacity-[0.18]"
+          className="object-cover opacity-[0.38]"
           sizes="100vw"
           priority
         />
       </div>
-      <div className="absolute inset-0 bg-raspberry/75" />
+      <div className="absolute inset-0 bg-raspberry/55" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#1A0A0C]/85 via-transparent to-raspberry/20" />
 
       <div className="relative z-10 px-8 py-20 sm:px-12 sm:py-24 lg:px-16 lg:py-28">
-        <p className="text-[10px] font-normal uppercase tracking-[0.32em] text-dusty-cream/50">
-          Portfolio Status
+        <p className="font-serif text-sm italic tracking-wide text-gold">
+          Portfolio Status —
         </p>
-        <h1 className="mt-6 max-w-3xl font-serif text-3xl italic leading-tight tracking-wide text-dusty-cream sm:text-4xl lg:text-5xl">
+        <h1 className="mt-5 max-w-3xl font-serif text-3xl italic leading-tight tracking-wide text-dusty-cream sm:text-4xl lg:text-5xl">
           {isCompliant
             ? "All Properties Compliant"
             : `${needsAttention} ${needsAttention === 1 ? "Property" : "Properties"} Need Attention`}
         </h1>
         {!isCompliant && (
-          <p className="mt-5 max-w-lg text-sm font-light text-dusty-cream/60">
+          <p className="mt-5 max-w-lg text-sm font-light text-dusty-cream/70">
             {stats.overdue > 0 && (
               <span>
                 {stats.overdue} overdue

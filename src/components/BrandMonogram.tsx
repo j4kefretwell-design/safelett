@@ -15,8 +15,8 @@ export default function BrandMonogram({
 }: BrandMonogramProps) {
   const isCompact = size === "compact";
   const emblemSize = isCompact ? "h-14 w-14" : "h-[72px] w-[72px]";
-  const letterSize = isCompact ? "text-2xl" : "text-[2rem]";
-  const ampSize = isCompact ? "text-base" : "text-xl";
+  const markSize = isCompact ? "text-lg" : "text-[1.35rem]";
+  const ampSize = isCompact ? "text-sm" : "text-base";
 
   const content = (
     <div className={`flex flex-col items-center text-center ${className}`}>
@@ -38,26 +38,22 @@ export default function BrandMonogram({
           />
         </svg>
         <span
-          className={`relative font-serif ${letterSize} leading-none tracking-tight text-dusty-cream`}
+          className={`relative font-serif ${markSize} leading-none tracking-tight text-dusty-cream`}
         >
           F
           <span
-            className={`${ampSize} ml-0.5 align-super font-serif italic text-gold`}
+            className={`${ampSize} mx-px align-baseline font-serif italic text-gold`}
           >
             &amp;
           </span>
+          Co
         </span>
       </div>
 
       {!isCompact && (
-        <>
-          <p className="mt-6 text-[9px] font-normal uppercase tracking-[0.38em] text-dusty-cream/85">
-            Fretwell &amp; Co
-          </p>
-          <p className="mt-2 text-[7px] font-normal uppercase tracking-[0.32em] text-gold/75">
-            Est. 2025
-          </p>
-        </>
+        <p className="mt-6 text-[9px] font-normal uppercase tracking-[0.38em] text-dusty-cream/85">
+          Fretwell &amp; Co
+        </p>
       )}
     </div>
   );

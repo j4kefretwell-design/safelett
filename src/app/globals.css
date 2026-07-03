@@ -5,7 +5,11 @@
 @theme {
   --color-raspberry: #33181c;
   --color-raspberry-dark: #281218;
-  --color-cocoa: #6f5f4d;
+  --color-espresso: #39281d;
+  --color-leather: #6b503c;
+  --color-tan: #97795d;
+  --color-sand: #c5ac91;
+  --color-cocoa: #6b503c;
   --color-dusty-cream: #eaece4;
   --color-beige: #ddd9c9;
   --color-text: #1a1008;
@@ -16,13 +20,13 @@
   --color-burgundy-dark: #281218;
   --color-ivory: #eaece4;
   --color-cream: #eaece4;
-  --color-cream-muted: #6f5f4d;
+  --color-cream-muted: #97795d;
   --color-charcoal: #1a1008;
-  --color-charcoal-muted: #6f5f4d;
-  --color-gold-light: #6f5f4d;
-  --color-gold-muted: #ddd9c9;
-  --color-border: #6f5f4d;
-  --color-panel: #ddd9c9;
+  --color-charcoal-muted: #97795d;
+  --color-gold-light: #97795d;
+  --color-gold-muted: #c5ac91;
+  --color-border: #6b503c;
+  --color-panel: #c5ac91;
   --color-compliant: #4a6b55;
   --color-compliant-light: #e3ebe5;
   --color-attention: #8b7355;
@@ -43,8 +47,8 @@
 
   .heritage-plaque {
     position: relative;
-    border: 1px solid color-mix(in oklab, var(--color-cocoa) 25%, transparent);
-    background: var(--color-beige);
+    border: 1px solid color-mix(in oklab, var(--color-leather) 25%, transparent);
+    background: var(--color-sand);
     box-shadow: 0 2px 12px rgba(26, 16, 8, 0.04);
   }
 
@@ -107,7 +111,11 @@
 
   .sidebar-editorial {
     position: relative;
-    background-color: var(--color-raspberry);
+    background: linear-gradient(
+      180deg,
+      var(--color-raspberry) 0%,
+      var(--color-espresso) 100%
+    );
   }
 
   .sidebar-editorial::after {
@@ -150,7 +158,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid color-mix(in oklab, var(--color-cocoa) 45%, transparent);
+    border: 1px solid color-mix(in oklab, var(--color-leather) 45%, transparent);
     padding: 0.875rem 2rem;
     font-size: 0.875rem;
     font-weight: 400;
@@ -163,7 +171,7 @@
 
   .btn-outline-dark:hover {
     background-color: rgba(26, 16, 8, 0.04);
-    border-color: var(--color-cocoa);
+    border-color: var(--color-leather);
   }
 }
 
