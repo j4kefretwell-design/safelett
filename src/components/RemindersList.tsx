@@ -67,6 +67,15 @@ function groupReminders(reminders: ReminderRow[]) {
   })).filter((group) => group.items.length > 0);
 }
 
+function formatReminderDate(dateString: string): { day: string; rest: string } {
+  const formatted = formatDate(dateString);
+  const parts = formatted.split(" ");
+  return {
+    day: parts[0] ?? formatted,
+    rest: parts.slice(1).join(" ") || formatted,
+  };
+}
+
 export default function RemindersList({ reminders }: RemindersListProps) {
   if (reminders.length === 0) {
     return (
@@ -93,7 +102,6 @@ export default function RemindersList({ reminders }: RemindersListProps) {
   }
 
   const groups = groupReminders(reminders);
-  let rowIndex = 0;
 
   return (
     <>
@@ -114,10 +122,12 @@ export default function RemindersList({ reminders }: RemindersListProps) {
 
             <ScrollRevealGroup>
               <div className="border-x border-b border-cocoa/15">
-                {group.items.map((reminder) => {
-                  const isEven = rowIndex % 2 === 0;
-                  rowIndex += 1;
+                {group.items.map((reminder, index) => {
+                  const isEven = index % 2 === 0;
                   const rowBg = isEven ? "bg-dusty-cream" : "bg-beige";
+                  const { day, rest } = formatReminderDate(
+                    reminder.certificate.expiry_date
+                  );
 
                   return (
                     <div
@@ -126,10 +136,10 @@ export default function RemindersList({ reminders }: RemindersListProps) {
                     >
                       <div className="w-24 shrink-0 sm:w-32">
                         <p className="font-serif text-2xl tracking-wide text-cocoa sm:text-3xl">
-                          {formatDate(reminder.certificate.expiry_date).split(" ")[0]}
+                          {day}
                         </p>
                         <p className="mt-1 text-xs font-light uppercase tracking-[0.12em] text-cocoa/60">
-                          {formatDate(reminder.certificate.expiry_date).split(" ").slice(1).join(" ")}
+                          {rest}
                         </p>
                       </div>
 

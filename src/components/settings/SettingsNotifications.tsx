@@ -17,11 +17,11 @@ export default function SettingsNotifications({
 }: SettingsNotificationsProps) {
   const router = useRouter();
   const [emailAlertsEnabled, setEmailAlertsEnabled] = useState(
-    profile.email_alerts_enabled
+    profile.email_alerts_enabled ?? true
   );
-  const [alertAt60, setAlertAt60] = useState(profile.alert_at_60);
-  const [alertAt30, setAlertAt30] = useState(profile.alert_at_30);
-  const [alertAt7, setAlertAt7] = useState(profile.alert_at_7);
+  const [alertAt60, setAlertAt60] = useState(profile.alert_at_60 ?? true);
+  const [alertAt30, setAlertAt30] = useState(profile.alert_at_30 ?? true);
+  const [alertAt7, setAlertAt7] = useState(profile.alert_at_7 ?? true);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);

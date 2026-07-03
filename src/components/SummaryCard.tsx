@@ -1,3 +1,5 @@
+"use client";
+
 import { goldLabelClassName, statCardClassName } from "@/lib/ui";
 
 interface SummaryCardProps {

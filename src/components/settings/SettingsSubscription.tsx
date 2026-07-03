@@ -1,3 +1,5 @@
+"use client";
+
 import SettingsSection from "@/components/settings/SettingsSection";
 import { mutedTextClassName } from "@/lib/ui";
 

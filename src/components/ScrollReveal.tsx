@@ -2,6 +2,7 @@
 
 import {
   Children,
+  isValidElement,
   useEffect,
   useRef,
   useState,
@@ -92,15 +93,21 @@ export function ScrollRevealGroup({
 
   return (
     <div ref={ref} className={className}>
-      {items.map((child, index) => (
-        <div
-          key={index}
-          className={`scroll-reveal ${visible ? "scroll-reveal-visible" : ""}`}
-          style={{ transitionDelay: `${index * staggerMs}ms` }}
-        >
-          {child as ReactElement}
-        </div>
-      ))}
+      {items.map((child, index) => {
+        if (!isValidElement(child)) {
+          return null;
+        }
+
+        return (
+          <div
+            key={child.key ?? index}
+            className={`scroll-reveal ${visible ? "scroll-reveal-visible" : ""}`}
+            style={{ transitionDelay: `${index * staggerMs}ms` }}
+          >
+            {child as ReactElement}
+          </div>
+        );
+      })}
     </div>
   );
 }

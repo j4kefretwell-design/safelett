@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import BrandWordmark from "@/components/BrandWordmark";
 import { btnOutlineClassName } from "@/lib/ui";

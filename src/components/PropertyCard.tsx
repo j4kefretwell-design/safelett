@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import StatusDot from "@/components/StatusDot";
 import { propertyCardClassName } from "@/lib/ui";
