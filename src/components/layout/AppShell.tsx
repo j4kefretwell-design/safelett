@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Sidebar from "./Sidebar";
-import BrandWordmark from "@/components/BrandWordmark";
+import BrandMonogram from "@/components/BrandMonogram";
 import { btnSecondaryClassName } from "@/lib/ui";
 
 interface AppShellProps {
@@ -25,7 +25,7 @@ export default function AppShell({ children }: AppShellProps) {
 
       <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      <div className="lg:pl-72">
+      <div className="lg:pl-[15.5rem]">
         <header className="sticky top-0 z-20 flex items-center justify-between border-b border-cocoa/15 bg-dusty-cream/95 px-4 py-4 backdrop-blur lg:hidden">
           <button
             type="button"
@@ -35,11 +35,11 @@ export default function AppShell({ children }: AppShellProps) {
           >
             Menu
           </button>
-          <BrandWordmark href="/dashboard" variant="light" />
+          <BrandMonogram href="/dashboard" size="compact" />
           <div className="w-14" />
         </header>
 
-        <main className="mx-auto max-w-5xl px-6 py-10 sm:px-10 lg:px-14 lg:py-16">
+        <main className="w-full px-6 py-10 sm:px-10 lg:px-12 lg:py-12">
           {children}
         </main>
       </div>

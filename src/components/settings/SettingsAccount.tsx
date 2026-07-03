@@ -81,9 +81,8 @@ export default function SettingsAccount({
 
   return (
     <SettingsSection
-      title="Account"
+      title="Account Settings"
       description="Update your name and email address."
-      first
     >
       <form onSubmit={handleSave} className="max-w-md space-y-8">
         <div>

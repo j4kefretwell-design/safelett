@@ -1,29 +1,30 @@
 "use client";
 
 import Link from "next/link";
-import BrandWordmark from "@/components/BrandWordmark";
-import { btnOutlineClassName } from "@/lib/ui";
+import BrandMonogram from "@/components/BrandMonogram";
+import { btnOutlineClassName, editorialBleedClassName, editorialContentClassName } from "@/lib/ui";
 
 export default function DashboardEmptyState() {
   return (
-    <div className="relative flex min-h-[420px] flex-col items-center justify-center border border-cocoa/15 bg-beige px-8 py-24 text-center sm:px-16">
+    <section className={`bg-dusty-cream py-24 sm:py-32 ${editorialBleedClassName}`}>
       <div
-        className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-[0.04]"
-        aria-hidden="true"
+        className={`${editorialContentClassName} relative flex flex-col items-center text-center`}
       >
-        <BrandWordmark href={null} variant="hero" />
+        <div className="opacity-30" aria-hidden="true">
+          <BrandMonogram href={null} />
+        </div>
+
+        <p className="mt-16 font-serif text-3xl tracking-wide text-text sm:text-4xl lg:text-5xl">
+          Your portfolio awaits.
+        </p>
+
+        <Link
+          href="/properties/new"
+          className={`${btnOutlineClassName} mt-12`}
+        >
+          Add Your First Property
+        </Link>
       </div>
-
-      <p className="relative font-serif text-3xl tracking-wide text-text sm:text-4xl">
-        Your portfolio awaits.
-      </p>
-
-      <Link
-        href="/properties/new"
-        className={`${btnOutlineClassName} relative mt-10`}
-      >
-        Add Your First Property
-      </Link>
-    </div>
+    </section>
   );
 }

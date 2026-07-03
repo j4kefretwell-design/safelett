@@ -2,15 +2,13 @@
 
 import Link from "next/link";
 import { AnimateIn } from "@/components/AnimateIn";
+import BrandMonogram from "@/components/BrandMonogram";
 import { ScrollRevealGroup } from "@/components/ScrollReveal";
 import { formatDate } from "@/lib/compliance";
 import {
-  cardClassName,
-  editorialListRowClassName,
+  editorialBleedClassName,
+  editorialContentClassName,
   mutedTextClassName,
-  reminderGroupLabelClassName,
-  sectionBandClassName,
-  sectionBandLabelClassName,
 } from "@/lib/ui";
 import { CERTIFICATE_LABELS, type Certificate, type Property } from "@/lib/types";
 import type { ComplianceStatus } from "@/lib/types";
@@ -30,35 +28,34 @@ const URGENCY_GROUPS = [
   {
     key: "overdue",
     label: "Overdue",
+    bandClass: "bg-[#4a2428] text-dusty-cream",
     match: (days: number) => days < 0,
   },
   {
     key: "7days",
     label: "Due Within 7 Days",
+    bandClass: "bg-[#6b5344] text-dusty-cream",
     match: (days: number) => days >= 0 && days <= 7,
   },
   {
     key: "30days",
     label: "Due Within 30 Days",
+    bandClass: "bg-[#5a4838] text-dusty-cream/90",
     match: (days: number) => days > 7 && days <= 30,
   },
   {
     key: "60days",
     label: "Due Within 60 Days",
+    bandClass: "bg-raspberry text-dusty-cream/85",
     match: (days: number) => days > 30 && days <= 60,
   },
   {
     key: "90days",
     label: "Due Within 90 Days",
+    bandClass: "bg-[#2a1418] text-dusty-cream/80",
     match: (days: number) => days > 60 && days <= 90,
   },
 ] as const;
-
-const daysRemainingColor: Record<ComplianceStatus, string> = {
-  green: "text-compliant",
-  amber: "text-attention",
-  red: "text-urgent",
-};
 
 function groupReminders(reminders: ReminderRow[]) {
   return URGENCY_GROUPS.map((group) => ({
@@ -67,28 +64,38 @@ function groupReminders(reminders: ReminderRow[]) {
   })).filter((group) => group.items.length > 0);
 }
 
-function formatReminderDate(dateString: string): { day: string; rest: string } {
-  const formatted = formatDate(dateString);
-  const parts = formatted.split(" ");
-  return {
-    day: parts[0] ?? formatted,
-    rest: parts.slice(1).join(" ") || formatted,
-  };
+function formatTimelineDate(dateString: string): string {
+  return formatDate(dateString);
+}
+
+function formatHeaderDate(): string {
+  return new Date().toLocaleDateString("en-GB", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
 }
 
 export default function RemindersList({ reminders }: RemindersListProps) {
+  const headerDate = formatHeaderDate();
+
   if (reminders.length === 0) {
     return (
       <>
         <AnimateIn>
-          <div className={`-mx-6 sm:-mx-10 lg:-mx-14 ${sectionBandClassName}`}>
-            <p className={sectionBandLabelClassName}>Upcoming Compliance</p>
-            <p className="mt-2 font-serif text-2xl text-dusty-cream">0 items due</p>
-          </div>
+          <header className={`bg-raspberry px-8 py-16 sm:px-12 lg:px-16 lg:py-20 ${editorialBleedClassName}`}>
+            <p className="text-[10px] font-normal uppercase tracking-[0.32em] text-dusty-cream/60">
+              Compliance Reminders
+            </p>
+            <p className="mt-4 font-serif text-2xl italic tracking-wide text-gold sm:text-3xl">
+              {headerDate}
+            </p>
+          </header>
         </AnimateIn>
 
         <AnimateIn delay={100}>
-          <div className={`${cardClassName} mt-10 px-8 py-20 text-center`}>
+          <div className={`${editorialContentClassName} py-20 text-center`}>
             <p className="font-serif text-2xl tracking-wide text-text">
               No upcoming reminders
             </p>
@@ -106,75 +113,61 @@ export default function RemindersList({ reminders }: RemindersListProps) {
   return (
     <>
       <AnimateIn>
-        <div className={`-mx-6 sm:-mx-10 lg:-mx-14 ${sectionBandClassName}`}>
-          <p className={sectionBandLabelClassName}>Upcoming Compliance</p>
-          <p className="mt-2 font-serif text-2xl text-dusty-cream sm:text-3xl">
-            {reminders.length}{" "}
-            {reminders.length === 1 ? "item" : "items"} due
+        <header className={`bg-raspberry px-8 py-16 sm:px-12 lg:px-16 lg:py-20 ${editorialBleedClassName}`}>
+          <p className="text-[10px] font-normal uppercase tracking-[0.32em] text-dusty-cream/60">
+            Compliance Reminders
           </p>
-        </div>
+          <p className="mt-4 font-serif text-2xl italic tracking-wide text-gold sm:text-3xl lg:text-4xl">
+            {headerDate}
+          </p>
+          <p className="mt-6 text-sm font-light text-dusty-cream/50">
+            {reminders.length}{" "}
+            {reminders.length === 1 ? "certificate" : "certificates"} due within
+            90 days
+          </p>
+        </header>
       </AnimateIn>
 
-      <div className="-mx-6 mt-10 sm:-mx-10 lg:-mx-14">
+      <div className="space-y-0">
         {groups.map((group) => (
-          <div key={group.key} className="mb-10 last:mb-0">
-            <p className={reminderGroupLabelClassName}>{group.label}</p>
+          <div key={group.key}>
+            <p
+              className={`px-8 py-4 text-[10px] font-normal uppercase tracking-[0.28em] sm:px-12 lg:px-16 ${group.bandClass} ${editorialBleedClassName}`}
+            >
+              {group.label}
+            </p>
 
             <ScrollRevealGroup>
-              <div className="border-x border-b border-cocoa/15">
-                {group.items.map((reminder, index) => {
-                  const isEven = index % 2 === 0;
-                  const rowBg = isEven ? "bg-dusty-cream" : "bg-beige";
-                  const { day, rest } = formatReminderDate(
-                    reminder.certificate.expiry_date
-                  );
-
-                  return (
-                    <div
-                      key={reminder.certificate.id}
-                      className={`${editorialListRowClassName} ${rowBg}`}
-                    >
-                      <div className="w-24 shrink-0 sm:w-32">
-                        <p className="font-serif text-2xl tracking-wide text-cocoa sm:text-3xl">
-                          {day}
-                        </p>
-                        <p className="mt-1 text-xs font-light uppercase tracking-[0.12em] text-cocoa/60">
-                          {rest}
-                        </p>
-                      </div>
-
-                      <div
-                        className="hidden h-12 w-px shrink-0 bg-gold/50 sm:block"
-                        aria-hidden="true"
-                      />
-
-                      <div className="min-w-0 flex-1">
-                        <Link
-                          href={`/properties/${reminder.property.id}`}
-                          className="block font-serif text-lg tracking-wide text-text transition hover:text-raspberry sm:text-xl"
-                        >
-                          {reminder.property.address}
-                        </Link>
-                        <p className="mt-2 text-xs font-normal uppercase tracking-[0.14em] text-cocoa">
-                          {CERTIFICATE_LABELS[reminder.certificate.certificate_type]}
-                        </p>
-                      </div>
-
-                      <div className="shrink-0 text-right">
-                        <p
-                          className={`font-serif text-2xl tracking-wide ${daysRemainingColor[reminder.status]}`}
-                        >
-                          {reminder.daysUntilExpiry < 0
-                            ? Math.abs(reminder.daysUntilExpiry)
-                            : reminder.daysUntilExpiry}
-                        </p>
-                        <p className="mt-1 text-[10px] font-normal uppercase tracking-[0.12em] text-cocoa/60">
-                          {reminder.daysUntilExpiry < 0 ? "days overdue" : "days left"}
-                        </p>
-                      </div>
+              <div className="divide-y divide-cocoa/10 bg-dusty-cream">
+                {group.items.map((reminder) => (
+                  <div
+                    key={reminder.certificate.id}
+                    className={`${editorialContentClassName} grid gap-6 py-10 sm:grid-cols-[140px_1fr] sm:gap-12 sm:py-12`}
+                  >
+                    <div>
+                      <p className="font-serif text-3xl tracking-wide text-cocoa sm:text-4xl">
+                        {formatTimelineDate(reminder.certificate.expiry_date)}
+                      </p>
+                      <p className="mt-3 text-[10px] font-normal uppercase tracking-[0.16em] text-cocoa/50">
+                        {reminder.daysUntilExpiry < 0
+                          ? `${Math.abs(reminder.daysUntilExpiry)} days overdue`
+                          : `${reminder.daysUntilExpiry} days remaining`}
+                      </p>
                     </div>
-                  );
-                })}
+
+                    <div className="min-w-0 border-l border-gold/30 pl-0 sm:pl-10">
+                      <Link
+                        href={`/properties/${reminder.property.id}`}
+                        className="block font-serif text-xl tracking-wide text-text transition hover:text-raspberry sm:text-2xl"
+                      >
+                        {reminder.property.address}
+                      </Link>
+                      <p className="mt-4 text-[10px] font-normal uppercase tracking-[0.18em] text-cocoa">
+                        {CERTIFICATE_LABELS[reminder.certificate.certificate_type]}
+                      </p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </ScrollRevealGroup>
           </div>

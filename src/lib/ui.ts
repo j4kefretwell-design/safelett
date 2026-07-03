@@ -49,10 +49,16 @@ export const statCardClassName =
   "border-t-2 bg-beige px-8 py-10 shadow-[0_2px_10px_rgba(26,16,8,0.03)]";
 
 export const sectionBandClassName =
-  "bg-raspberry px-6 py-4 sm:px-10 lg:px-14";
+  "bg-raspberry px-8 py-5 sm:px-12 lg:px-16";
 
 export const sectionBandLabelClassName =
-  "text-xs font-normal uppercase tracking-[0.24em] text-dusty-cream";
+  "text-[10px] font-normal uppercase tracking-[0.32em] text-dusty-cream";
+
+export const editorialContentClassName =
+  "mx-auto w-full max-w-6xl px-8 sm:px-12 lg:px-16";
+
+export const editorialBleedClassName =
+  "-mx-6 w-[calc(100%+3rem)] sm:-mx-10 sm:w-[calc(100%+5rem)] lg:-mx-12 lg:w-[calc(100%+6rem)]";
 
 export const sectionTitleClassName =
   "font-serif text-xl tracking-wide text-text";

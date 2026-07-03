@@ -1,5 +1,3 @@
-import { AnimateIn } from "@/components/AnimateIn";
-import PageHeader from "@/components/layout/PageHeader";
 import RemindersList from "@/components/RemindersList";
 import {
   getCertificateStatus,
@@ -46,16 +44,5 @@ export default async function RemindersPage() {
 
   reminders.sort((a, b) => a.daysUntilExpiry - b.daysUntilExpiry);
 
-  return (
-    <>
-      <AnimateIn>
-        <PageHeader
-          title="Reminders"
-          description="Certificate expiries due within the next 90 days."
-        />
-      </AnimateIn>
-
-      <RemindersList reminders={reminders} />
-    </>
-  );
+  return <RemindersList reminders={reminders} />;
 }

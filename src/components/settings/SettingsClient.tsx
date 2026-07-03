@@ -14,7 +14,7 @@ interface SettingsClientProps {
 
 export default function SettingsClient({ profile, email }: SettingsClientProps) {
   return (
-    <div className="max-w-2xl">
+    <div className="space-y-0">
       <AnimateIn delay={50}>
         <SettingsAccount initialName={profile.full_name ?? ""} initialEmail={email} />
       </AnimateIn>

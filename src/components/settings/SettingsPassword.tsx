@@ -47,7 +47,7 @@ export default function SettingsPassword() {
 
   return (
     <SettingsSection
-      title="Security"
+      title="Security Settings"
       description="Choose a strong password for your account."
     >
       <form onSubmit={handleSave} className="max-w-md space-y-8">

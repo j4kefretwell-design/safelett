@@ -67,7 +67,7 @@ export default function SettingsNotifications({
 
   return (
     <SettingsSection
-      title="Notifications"
+      title="Notification Settings"
       description={`Control when ${BRAND_NAME} sends expiry reminder emails.`}
     >
       <form onSubmit={handleSave} className="max-w-md space-y-8">

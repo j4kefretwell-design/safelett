@@ -1,6 +1,6 @@
 "use client";
 
-import { goldLabelClassName, statCardClassName } from "@/lib/ui";
+import { goldLabelClassName } from "@/lib/ui";
 
 interface SummaryCardProps {
   label: string;
@@ -8,11 +8,11 @@ interface SummaryCardProps {
   accent?: "total" | "compliant" | "attention" | "overdue";
 }
 
-const topBorderClasses = {
-  total: "border-t-gold/70",
-  compliant: "border-t-compliant",
-  attention: "border-t-attention",
-  overdue: "border-t-urgent",
+const accentLineClasses = {
+  total: "bg-gold/70",
+  compliant: "bg-compliant",
+  attention: "bg-attention",
+  overdue: "bg-urgent",
 };
 
 export default function SummaryCard({
@@ -21,11 +21,17 @@ export default function SummaryCard({
   accent = "total",
 }: SummaryCardProps) {
   return (
-    <div className={`${statCardClassName} ${topBorderClasses[accent]}`}>
-      <p className="font-serif text-5xl tracking-wide text-text sm:text-6xl">
+    <div className="px-2 py-4 sm:px-4">
+      <div
+        className={`mb-6 h-px w-12 ${accentLineClasses[accent]}`}
+        aria-hidden="true"
+      />
+      <p className="font-serif text-5xl tracking-wide text-text sm:text-6xl lg:text-7xl">
         {value}
       </p>
-      <p className={`${goldLabelClassName} mt-4`}>{label}</p>
+      <p className={`${goldLabelClassName} mt-5 text-[10px] tracking-[0.24em]`}>
+        {label}
+      </p>
     </div>
   );
 }

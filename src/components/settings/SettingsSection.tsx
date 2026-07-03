@@ -1,31 +1,37 @@
 "use client";
 
 import { type ReactNode } from "react";
-import { settingsSectionLabelClassName } from "@/lib/ui";
+import { editorialBleedClassName } from "@/lib/ui";
 
 interface SettingsSectionProps {
   title: string;
   description?: string;
   children: ReactNode;
-  first?: boolean;
 }
 
 export default function SettingsSection({
   title,
   description,
   children,
-  first = false,
 }: SettingsSectionProps) {
   return (
-    <section className={first ? "pb-12" : "border-t border-gold/40 py-12"}>
-      <p className={settingsSectionLabelClassName}>{title}</p>
-      <div className="mt-4 h-px w-16 bg-gold/50" aria-hidden="true" />
-      {description && (
-        <p className="mt-3 max-w-xl text-sm font-light leading-relaxed text-cocoa">
-          {description}
+    <section>
+      <div className={`bg-raspberry px-8 py-4 sm:px-12 lg:px-16 ${editorialBleedClassName}`}>
+        <p className="text-[10px] font-normal uppercase tracking-[0.32em] text-dusty-cream/80">
+          {title}
         </p>
-      )}
-      <div className="mt-8">{children}</div>
+      </div>
+
+      <div className="bg-dusty-cream px-8 py-12 sm:px-12 lg:px-16 lg:py-16">
+        <div className="mx-auto max-w-xl">
+          {description && (
+            <p className="mb-10 max-w-lg text-sm font-light leading-relaxed text-cocoa">
+              {description}
+            </p>
+          )}
+          {children}
+        </div>
+      </div>
     </section>
   );
 }

@@ -9,6 +9,8 @@ import SummaryCard from "@/components/SummaryCard";
 import { ScrollRevealGroup } from "@/components/ScrollReveal";
 import {
   cardClassName,
+  editorialBleedClassName,
+  editorialContentClassName,
   searchInputClassName,
   sectionBandClassName,
   sectionBandLabelClassName,
@@ -77,71 +79,81 @@ export default function DashboardClient({
   }
 
   return (
-    <>
+    <div className="space-y-0">
       <AnimateIn>
         <DashboardHeroBanner stats={stats} />
       </AnimateIn>
 
-      <ScrollRevealGroup className="mb-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        <SummaryCard label="Total Properties" value={stats.total} accent="total" />
-        <SummaryCard label="Compliant" value={stats.compliant} accent="compliant" />
-        <SummaryCard
-          label="Needs Attention"
-          value={stats.attention}
-          accent="attention"
-        />
-        <SummaryCard label="Overdue" value={stats.overdue} accent="overdue" />
-      </ScrollRevealGroup>
+      <section className="bg-dusty-cream py-16 sm:py-20">
+        <div className={editorialContentClassName}>
+          <ScrollRevealGroup className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-12">
+            <SummaryCard label="Total Properties" value={stats.total} accent="total" />
+            <SummaryCard label="Compliant" value={stats.compliant} accent="compliant" />
+            <SummaryCard
+              label="Needs Attention"
+              value={stats.attention}
+              accent="attention"
+            />
+            <SummaryCard label="Overdue" value={stats.overdue} accent="overdue" />
+          </ScrollRevealGroup>
+        </div>
+      </section>
 
       <AnimateIn delay={100}>
-        <div className="-mx-6 sm:-mx-10 lg:-mx-14">
-          <div className={`${sectionBandClassName} flex items-center justify-between gap-4`}>
-            <p className={sectionBandLabelClassName}>Your Portfolio</p>
+        <section className={`${sectionBandClassName} ${editorialBleedClassName}`}>
+          <div className={`${editorialContentClassName} flex items-center justify-between gap-4 py-1`}>
+            <p className={`${sectionBandLabelClassName} tracking-[0.32em]`}>
+              Your Portfolio
+            </p>
             <button
               type="button"
               onClick={handleExport}
               disabled={exporting}
-              className="shrink-0 border border-dusty-cream/30 px-4 py-2 text-[10px] font-normal uppercase tracking-[0.14em] text-dusty-cream/80 transition hover:border-dusty-cream/60 hover:text-dusty-cream disabled:opacity-50"
+              className="shrink-0 border border-dusty-cream/25 px-4 py-2 text-[9px] font-normal uppercase tracking-[0.16em] text-dusty-cream/70 transition hover:border-dusty-cream/50 hover:text-dusty-cream disabled:opacity-50"
             >
               {exporting ? "Exporting..." : "Export CSV"}
             </button>
           </div>
-
-          <div className="border-x border-b border-cocoa/15 bg-dusty-cream px-6 py-8 sm:px-10 lg:px-14">
-            <input
-              id="property-search"
-              type="search"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search by address..."
-              aria-label="Search properties"
-              className={`${searchInputClassName} max-w-md`}
-            />
-          </div>
-        </div>
+        </section>
       </AnimateIn>
 
-      <div className="mt-10">
-        {filteredProperties.length === 0 ? (
-          <AnimateIn>
-            <div className={`${cardClassName} px-8 py-14 text-center`}>
-              <p className="text-sm font-light italic text-cocoa">
-                No properties match your search.
-              </p>
-            </div>
-          </AnimateIn>
-        ) : (
-          <ScrollRevealGroup className="grid gap-6 md:grid-cols-2">
-            {filteredProperties.map((property) => (
-              <PropertyCard
-                key={property.id}
-                property={property}
-                status={property.status}
-              />
-            ))}
-          </ScrollRevealGroup>
-        )}
-      </div>
-    </>
+      <section className="border-b border-cocoa/10 bg-dusty-cream py-10">
+        <div className={editorialContentClassName}>
+          <input
+            id="property-search"
+            type="search"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search by address..."
+            aria-label="Search properties"
+            className={`${searchInputClassName} max-w-md`}
+          />
+        </div>
+      </section>
+
+      <section className="bg-dusty-cream py-16 sm:py-20">
+        <div className={editorialContentClassName}>
+          {filteredProperties.length === 0 ? (
+            <AnimateIn>
+              <div className={`${cardClassName} px-8 py-14 text-center`}>
+                <p className="text-sm font-light italic text-cocoa">
+                  No properties match your search.
+                </p>
+              </div>
+            </AnimateIn>
+          ) : (
+            <ScrollRevealGroup className="grid gap-6 md:grid-cols-2 lg:gap-8">
+              {filteredProperties.map((property) => (
+                <PropertyCard
+                  key={property.id}
+                  property={property}
+                  status={property.status}
+                />
+              ))}
+            </ScrollRevealGroup>
+          )}
+        </div>
+      </section>
+    </div>
   );
 }

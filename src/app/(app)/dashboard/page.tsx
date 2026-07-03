@@ -1,6 +1,4 @@
 import DashboardClient from "@/components/DashboardClient";
-import { AnimateIn } from "@/components/AnimateIn";
-import PageHeader from "@/components/layout/PageHeader";
 import { getPropertyStatus } from "@/lib/compliance";
 import { createClient } from "@/lib/supabase/server";
 import type { Certificate, ComplianceStatus, Property } from "@/lib/types";
@@ -37,25 +35,12 @@ export default async function DashboardPage() {
     overdue: propertiesWithStatus.filter((p) => p.status === "red").length,
   };
 
-  const hasProperties = propertyList.length > 0;
-
   return (
-    <>
-      {!hasProperties && (
-        <AnimateIn>
-          <PageHeader
-            title="Welcome"
-            description="You're just a few steps away from complete compliance peace of mind."
-          />
-        </AnimateIn>
-      )}
-
-      <DashboardClient
-        properties={
-          propertiesWithStatus as (Property & { status: ComplianceStatus })[]
-        }
-        stats={stats}
-      />
-    </>
+    <DashboardClient
+      properties={
+        propertiesWithStatus as (Property & { status: ComplianceStatus })[]
+      }
+      stats={stats}
+    />
   );
 }
