@@ -1,6 +1,8 @@
 "use client";
 
 import { Menu, X } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
 
 interface TopNavProps {
   sidebarOpen: boolean;
@@ -8,6 +10,15 @@ interface TopNavProps {
 }
 
 export default function TopNav({ sidebarOpen, onMenuClick }: TopNavProps) {
+  const router = useRouter();
+
+  async function handleSignOut() {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    router.push("/login");
+    router.refresh();
+  }
+
   return (
     <header className="fixed inset-x-0 top-0 z-30 h-16 bg-raspberry">
       <div className="relative flex h-full items-center border-b border-gold px-6 lg:px-10">
@@ -28,7 +39,13 @@ export default function TopNav({ sidebarOpen, onMenuClick }: TopNavProps) {
           Fretwell <span className="text-gold">&amp;</span> Co
         </p>
 
-        <div className="ml-auto w-5 shrink-0 lg:w-5" aria-hidden="true" />
+        <button
+          type="button"
+          onClick={handleSignOut}
+          className="relative z-10 ml-auto shrink-0 text-[10px] font-normal uppercase tracking-[0.22em] text-dusty-cream transition hover:text-gold"
+        >
+          SIGN OUT
+        </button>
       </div>
     </header>
   );

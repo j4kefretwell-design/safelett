@@ -6,7 +6,7 @@ import { btnOutlineClassName, editorialPagePaddingClassName } from "@/lib/ui";
 
 export default function DashboardEmptyState() {
   return (
-    <div className="w-full bg-dusty-cream pt-2">
+    <div className="w-full bg-dusty-cream">
       <section className="relative h-[360px] w-full overflow-hidden sm:h-[420px]">
         <Image
           src="/ben-elliott-8WJtlR3nlQY-unsplash.jpg"

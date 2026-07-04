@@ -1,8 +1,6 @@
 import Image from "next/image";
-import Link from "next/link";
 import DashboardEmptyState from "@/components/DashboardEmptyState";
 import { getPropertyStatus } from "@/lib/compliance";
-import { btnGoldClassName } from "@/lib/ui";
 import { createClient } from "@/lib/supabase/server";
 import type { Certificate, ComplianceStatus, Property } from "@/lib/types";
 import DashboardPortfolio from "./DashboardPortfolio";
@@ -54,25 +52,25 @@ export default async function DashboardPage() {
   ];
 
   return (
-    <div className="w-full bg-dusty-cream pt-2">
+    <div className="w-full bg-dusty-cream">
       <section className="relative h-[200px] max-h-[200px] w-full overflow-hidden bg-raspberry">
         <div className="absolute inset-0">
           <Image
             src="/anthony-fomin-zjBxPUHE_ok-unsplash.jpg"
             alt=""
             fill
-            className="object-cover opacity-30"
+            className="object-cover"
             sizes="100vw"
             priority
           />
         </div>
-        <div className="absolute inset-0 bg-raspberry/70" />
+        <div className="absolute inset-0 bg-raspberry/40" />
 
         <div className="relative z-10 flex h-full flex-col items-center justify-center px-8 text-center">
-          <p className="font-serif text-sm italic tracking-wide text-gold">
+          <p className="font-serif text-sm italic tracking-wide text-gold drop-shadow-sm">
             Portfolio Status —
           </p>
-          <h1 className="mt-3 max-w-3xl font-serif text-2xl leading-tight tracking-wide text-dusty-cream sm:text-3xl lg:text-4xl">
+          <h1 className="mt-3 max-w-3xl font-serif text-2xl leading-tight tracking-wide text-dusty-cream drop-shadow-md sm:text-3xl lg:text-4xl">
             {isCompliant
               ? "All Properties Compliant"
               : `${needsAttention} ${needsAttention === 1 ? "Property" : "Properties"} Need Attention`}
@@ -96,36 +94,14 @@ export default async function DashboardPage() {
             </div>
           ))}
         </div>
-      </section>
 
-      <section className="grid lg:grid-cols-2">
-        <div className="relative min-h-[280px] lg:min-h-[320px]">
-          <Image
-            src="/vojtech-bartonicek-wgG7jLQ7M0U-unsplash.jpg"
-            alt=""
-            fill
-            className="object-cover"
-            sizes="50vw"
+        <div className="mt-20 lg:mt-24">
+          <DashboardPortfolio
+            properties={
+              propertiesWithStatus as (Property & { status: ComplianceStatus })[]
+            }
           />
-          <div className="absolute inset-0 bg-[#1A0A0C]/45" />
         </div>
-
-        <div className="flex flex-col justify-center bg-dusty-cream px-8 py-14 sm:px-12 lg:px-16 lg:py-20">
-          <p className="max-w-md font-serif text-2xl leading-snug tracking-wide text-text sm:text-3xl">
-            Every property in your portfolio, protected and accounted for.
-          </p>
-          <Link href="/reminders" className={`${btnGoldClassName} mt-8 w-fit`}>
-            View Reminders →
-          </Link>
-        </div>
-      </section>
-
-      <section className="bg-dusty-cream px-8 pb-20 pt-4 sm:px-12 sm:pb-24 lg:px-16 lg:pb-28">
-        <DashboardPortfolio
-          properties={
-            propertiesWithStatus as (Property & { status: ComplianceStatus })[]
-          }
-        />
       </section>
     </div>
   );
