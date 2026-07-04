@@ -109,7 +109,7 @@ export default async function DashboardPage() {
 
           <div className="dashboard-cottage-panel flex flex-col justify-center border-t border-gold px-8 py-12 sm:px-10 lg:border-t-0 lg:border-l lg:px-14 lg:py-10">
             <p className="max-w-md font-serif text-2xl leading-snug tracking-wide text-raspberry sm:text-[1.65rem]">
-              A compliant portfolio is a protected portfolio.
+              Every property. Every deadline. Every time.
             </p>
             <p className="mt-4 max-w-sm text-sm text-leather">
               Every certificate tracked. Every deadline met.
@@ -122,7 +122,7 @@ export default async function DashboardPage() {
       </section>
 
       <section
-        className="dashboard-portfolio-divider flex h-20 flex-col items-center justify-center"
+        className="dashboard-portfolio-divider mt-12 flex h-20 flex-col items-center justify-center"
         aria-label="Property portfolio"
       >
         <p className="text-[10px] font-normal uppercase tracking-[0.32em] text-dusty-cream">
