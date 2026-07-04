@@ -23,6 +23,9 @@ export const metadata: Metadata = {
   title: `${BRAND_NAME} — Property Compliance Tracking`,
   description:
     "Track property compliance certificates for UK property managers",
+  verification: {
+    google: "qHPs2PS85slhBPPOE2PoBE8Jv9tCWjF1svdS3ZBraZ4",
+  },
 };
 
 export default function RootLayout({
