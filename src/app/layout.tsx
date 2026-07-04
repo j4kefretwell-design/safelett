@@ -32,6 +32,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${dmSans.variable} ${inter.variable} ${playfair.variable}`}>
+      <head>
+        <link
+          rel="preload"
+          as="image"
+          href="/anthony-fomin-zjBxPUHE_ok-unsplash.jpg"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          as="image"
+          href="/vojtech-bartonicek-wgG7jLQ7M0U-unsplash.jpg"
+          fetchPriority="high"
+        />
+      </head>
       <body className={`${dmSans.className} bg-dusty-cream font-light text-text antialiased`}>
         {children}
       </body>

@@ -7,6 +7,7 @@ import BackgroundImage from "@/components/BackgroundImage";
 import BrandWordmark from "@/components/BrandWordmark";
 import PasswordInput from "@/components/PasswordInput";
 import { createClient } from "@/lib/supabase/client";
+import { siteImages } from "@/lib/site-images";
 import {
   authCardClassName,
   btnPrimaryClassName,
@@ -64,14 +65,12 @@ export default function AuthForm({ mode }: AuthFormProps) {
   }
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center bg-[#2C1810] px-6 py-16">
+    <div className="relative flex min-h-screen items-center justify-center bg-[#1A0A0C] px-6 py-16">
       <BackgroundImage
-        src="/vojtech-bartonicek-wgG7jLQ7M0U-unsplash-auth.jpg"
+        image={siteImages.vojtechAuth}
         alt=""
-        sizes="(max-width: 1920px) 100vw, 1920px"
+        sizes="100vw"
         priority
-        quality={60}
-        placeholderColor="#2C1810"
         effect="fade"
       />
       <div className="absolute inset-0 bg-[#1A0A0C]/70" />

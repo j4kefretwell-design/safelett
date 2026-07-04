@@ -1,7 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
 import DashboardEmptyState from "@/components/DashboardEmptyState";
+import OptimizedFillImage from "@/components/OptimizedFillImage";
 import { getPropertyStatus } from "@/lib/compliance";
+import { siteImages } from "@/lib/site-images";
 import { btnGoldClassName } from "@/lib/ui";
 import { createClient } from "@/lib/supabase/server";
 import type { Certificate, ComplianceStatus, Property } from "@/lib/types";
@@ -97,13 +98,15 @@ export default async function DashboardPage() {
 
       <section className="dashboard-parchment-bg px-5 sm:px-12 lg:px-16">
         <div className="grid min-w-0 overflow-hidden lg:grid-cols-[45%_55%]">
-          <div className="relative h-[220px] overflow-hidden sm:h-[280px]">
-            <Image
-              src="/ben-elliott-8WJtlR3nlQY-unsplash.jpg"
+          <div
+            className="relative h-[220px] overflow-hidden sm:h-[280px]"
+            style={{ backgroundColor: siteImages.benElliottHero.placeholderColor }}
+          >
+            <OptimizedFillImage
+              image={siteImages.benElliottHero}
               alt=""
-              fill
+              sizes="(max-width: 1024px) 100vw, 45vw"
               className="object-cover object-[38%_center]"
-              sizes="45vw"
             />
           </div>
 

@@ -1,17 +1,16 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
+import OptimizedFillImage from "@/components/OptimizedFillImage";
+import { IMAGE_QUALITY, type SiteImageAsset } from "@/lib/site-images";
 
 interface BackgroundImageProps {
-  src: string;
+  image: SiteImageAsset;
   alt?: string;
   sizes: string;
   /** LCP hero — eager load with high fetch priority */
   priority?: boolean;
   quality?: number;
-  /** Solid colour shown instantly before the image loads */
-  placeholderColor?: string;
   /** blur = landing editorial; fade = auth backgrounds */
   effect?: "blur" | "fade";
   className?: string;
@@ -19,12 +18,11 @@ interface BackgroundImageProps {
 }
 
 export default function BackgroundImage({
-  src,
+  image,
   alt = "",
   sizes,
   priority = false,
-  quality = 75,
-  placeholderColor = "#33181C",
+  quality = IMAGE_QUALITY,
   effect = "blur",
   className = "absolute inset-0",
   imageClassName = "object-cover",
@@ -42,18 +40,15 @@ export default function BackgroundImage({
     <div className={className} aria-hidden={alt === "" ? true : undefined}>
       <div
         className="absolute inset-0"
-        style={{ backgroundColor: placeholderColor }}
+        style={{ backgroundColor: image.placeholderColor }}
       />
 
-      <Image
-        src={src}
+      <OptimizedFillImage
+        image={image}
         alt={alt}
-        fill
         sizes={sizes}
-        quality={quality}
         priority={priority}
-        loading={priority ? "eager" : "lazy"}
-        fetchPriority={priority ? "high" : "auto"}
+        quality={quality}
         onLoad={() => setLoaded(true)}
         className={`${effectClass} ${imageClassName} ${
           loaded ? loadedClass : loadingClass

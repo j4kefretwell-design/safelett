@@ -1,20 +1,23 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
+import OptimizedFillImage from "@/components/OptimizedFillImage";
+import { siteImages } from "@/lib/site-images";
 import { btnOutlineClassName, editorialPagePaddingClassName } from "@/lib/ui";
 
 export default function DashboardEmptyState() {
   return (
     <div className="dashboard-parchment-bg w-full min-w-0 overflow-x-hidden">
-      <section className="relative h-[240px] w-full overflow-hidden sm:h-[320px] lg:h-[360px]">
-        <Image
-          src="/ben-elliott-8WJtlR3nlQY-unsplash.jpg"
+      <section
+        className="relative h-[240px] w-full overflow-hidden sm:h-[320px] lg:h-[360px]"
+        style={{ backgroundColor: siteImages.benElliottHero.placeholderColor }}
+      >
+        <OptimizedFillImage
+          image={siteImages.benElliottHero}
           alt=""
-          fill
-          className="object-cover object-center"
           sizes="100vw"
           priority
+          className="object-cover object-center"
         />
         <div className="absolute inset-0 bg-[#1A0A0C]/55" />
         <div className="relative z-10 flex h-full items-center justify-center px-6 text-center sm:px-8">

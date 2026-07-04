@@ -1,6 +1,7 @@
 "use client";
 
-import Image from "next/image";
+import OptimizedFillImage from "@/components/OptimizedFillImage";
+import { siteImages } from "@/lib/site-images";
 
 export const DASHBOARD_HIGHLIGHT_AFFECTED_EVENT = "dashboard-highlight-affected";
 
@@ -22,14 +23,16 @@ export default function DashboardStatusBand({
   }
 
   return (
-    <section className="relative h-[220px] w-full overflow-hidden sm:h-[280px] lg:h-[320px]">
-      <Image
-        src="/anthony-fomin-zjBxPUHE_ok-unsplash.jpg"
+    <section
+      className="relative h-[220px] w-full overflow-hidden sm:h-[280px] lg:h-[320px]"
+      style={{ backgroundColor: siteImages.anthonyFomin.placeholderColor }}
+    >
+      <OptimizedFillImage
+        image={siteImages.anthonyFomin}
         alt=""
-        fill
-        className="object-cover object-center"
         sizes="100vw"
         priority
+        className="object-cover object-center"
       />
       <div className="absolute inset-0 bg-[#1A0A0C]/45" aria-hidden="true" />
 

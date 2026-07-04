@@ -1,6 +1,7 @@
 "use client";
 
-import Image from "next/image";
+import OptimizedFillImage from "@/components/OptimizedFillImage";
+import { siteImages } from "@/lib/site-images";
 import { editorialBleedClassName } from "@/lib/ui";
 
 interface DashboardHeroBannerProps {
@@ -21,15 +22,17 @@ export default function DashboardHeroBanner({ stats }: DashboardHeroBannerProps)
   const isCompliant = needsAttention === 0;
 
   return (
-    <section className={`relative overflow-hidden bg-raspberry ${editorialBleedClassName}`}>
+    <section
+      className={`relative overflow-hidden bg-raspberry ${editorialBleedClassName}`}
+      style={{ backgroundColor: siteImages.anthonyFomin.placeholderColor }}
+    >
       <div className="absolute inset-0">
-        <Image
-          src="/anthony-fomin-zjBxPUHE_ok-unsplash.jpg"
+        <OptimizedFillImage
+          image={siteImages.anthonyFomin}
           alt=""
-          fill
-          className="object-cover opacity-[0.38]"
           sizes="100vw"
           priority
+          className="object-cover opacity-[0.38]"
         />
       </div>
       <div className="absolute inset-0 bg-raspberry/55" />

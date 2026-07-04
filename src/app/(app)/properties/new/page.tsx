@@ -3,18 +3,20 @@
 import BackgroundImage from "@/components/BackgroundImage";
 import PropertyForm from "@/components/PropertyForm";
 import { AnimateIn } from "@/components/AnimateIn";
+import { siteImages } from "@/lib/site-images";
 
 export default function NewPropertyPage() {
   return (
     <AnimateIn>
       <div className="grid min-h-[calc(100vh-4rem)] w-full lg:min-h-[calc(100vh-4rem)] lg:grid-cols-[2fr_3fr]">
-        <div className="relative hidden min-h-[480px] lg:block lg:min-h-full">
+        <div
+          className="relative hidden min-h-[480px] lg:block lg:min-h-full"
+          style={{ backgroundColor: siteImages.benElliottProperty.placeholderColor }}
+        >
           <BackgroundImage
-            src="/ben-elliott-unPC3it1yDA-unsplash.jpg"
+            image={siteImages.benElliottProperty}
             alt=""
             sizes="40vw"
-            quality={70}
-            placeholderColor="#39281D"
             effect="fade"
           />
           <div className="absolute inset-0 bg-espresso/65" />

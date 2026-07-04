@@ -6,6 +6,7 @@ import { Check, Menu, X } from "lucide-react";
 import BackgroundImage from "@/components/BackgroundImage";
 import BrandWordmark from "@/components/BrandWordmark";
 import ScrollReveal, { ScrollRevealGroup } from "@/components/ScrollReveal";
+import { siteImages } from "@/lib/site-images";
 import { btnOutlineClassName, btnPrimaryClassName } from "@/lib/ui";
 
 const pricingFeatures = [
@@ -124,9 +125,12 @@ export default function LandingPage() {
         )}
       </nav>
 
-      <section className="relative flex min-h-[85vh] flex-col overflow-hidden pt-16 sm:min-h-screen">
+      <section
+        className="relative flex min-h-[85vh] flex-col overflow-hidden pt-16 sm:min-h-screen"
+        style={{ backgroundColor: siteImages.anthonyFomin.placeholderColor }}
+      >
         <BackgroundImage
-          src="/anthony-fomin-zjBxPUHE_ok-unsplash.jpg"
+          image={siteImages.anthonyFomin}
           alt="Elegant property exterior"
           sizes="100vw"
           priority
@@ -168,9 +172,12 @@ export default function LandingPage() {
 
       <ScrollReveal>
         <section id="why" className="grid min-h-0 lg:min-h-[560px] lg:grid-cols-2">
-          <div className="relative min-h-[240px] overflow-hidden sm:min-h-[320px] lg:min-h-full">
+          <div
+            className="relative min-h-[240px] overflow-hidden sm:min-h-[320px] lg:min-h-full"
+            style={{ backgroundColor: siteImages.bradStarkey.placeholderColor }}
+          >
             <BackgroundImage
-              src="/brad-starkey-9QczXovmzCk-unsplash.jpg"
+              image={siteImages.bradStarkey}
               alt="Refined interior"
               sizes="(max-width: 1024px) 100vw, 50vw"
             />
@@ -255,9 +262,12 @@ export default function LandingPage() {
             </ScrollRevealGroup>
           </div>
 
-          <div className="relative min-h-[240px] overflow-hidden sm:min-h-[320px] lg:min-h-full">
+          <div
+            className="relative min-h-[240px] overflow-hidden sm:min-h-[320px] lg:min-h-full"
+            style={{ backgroundColor: siteImages.hugoKruip.placeholderColor }}
+          >
             <BackgroundImage
-              src="/hugo-kruip-i3Sx427bVXc-unsplash.jpg"
+              image={siteImages.hugoKruip}
               alt="Architectural detail"
               sizes="(max-width: 1024px) 100vw, 50vw"
             />

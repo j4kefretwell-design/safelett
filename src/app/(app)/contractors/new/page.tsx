@@ -2,18 +2,20 @@ import Link from "next/link";
 import BackgroundImage from "@/components/BackgroundImage";
 import ContractorForm from "@/components/ContractorForm";
 import { AnimateIn } from "@/components/AnimateIn";
+import { siteImages } from "@/lib/site-images";
 
 export default function NewContractorPage() {
   return (
     <AnimateIn>
       <div className="grid min-h-[calc(100vh-4rem)] w-full min-w-0 overflow-x-hidden lg:grid-cols-[2fr_3fr]">
-        <div className="relative hidden min-h-[480px] lg:block lg:min-h-full">
+        <div
+          className="relative hidden min-h-[480px] lg:block lg:min-h-full"
+          style={{ backgroundColor: siteImages.bradStarkey.placeholderColor }}
+        >
           <BackgroundImage
-            src="/brad-starkey-9QczXovmzCk-unsplash.jpg"
+            image={siteImages.bradStarkey}
             alt=""
             sizes="40vw"
-            quality={70}
-            placeholderColor="#39281D"
             effect="fade"
           />
           <div className="absolute inset-0 bg-espresso/65" />

@@ -3,6 +3,7 @@
 import BackgroundImage from "@/components/BackgroundImage";
 import PropertyForm from "@/components/PropertyForm";
 import { AnimateIn } from "@/components/AnimateIn";
+import { siteImages } from "@/lib/site-images";
 import { editorialBleedClassName } from "@/lib/ui";
 
 export default function NewPropertyPageClient() {
@@ -11,13 +12,14 @@ export default function NewPropertyPageClient() {
       <div
         className={`grid min-h-[calc(100vh-4rem)] lg:min-h-[calc(100vh-3rem)] lg:grid-cols-[2fr_3fr] ${editorialBleedClassName}`}
       >
-        <div className="relative hidden min-h-[480px] lg:block lg:min-h-full">
+        <div
+          className="relative hidden min-h-[480px] lg:block lg:min-h-full"
+          style={{ backgroundColor: siteImages.benElliottProperty.placeholderColor }}
+        >
           <BackgroundImage
-            src="/ben-elliott-unPC3it1yDA-unsplash.jpg"
+            image={siteImages.benElliottProperty}
             alt=""
             sizes="40vw"
-            quality={70}
-            placeholderColor="#39281D"
             effect="fade"
           />
           <div className="absolute inset-0 bg-espresso/60" />

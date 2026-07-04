@@ -1,10 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Check } from "lucide-react";
+import OptimizedFillImage from "@/components/OptimizedFillImage";
 import { formatDate } from "@/lib/compliance";
+import { siteImages } from "@/lib/site-images";
 import {
   btnOutlineClassName,
   btnPrimaryClassName,
@@ -116,14 +117,16 @@ function RemindersGoldRule() {
 
 function RemindersHeroHeader({ totalCount }: { totalCount: number }) {
   return (
-    <section className="relative h-[180px] w-full overflow-hidden sm:h-[220px]">
-      <Image
-        src="/rumman-amin-CU0dmWuIz0c-unsplash.jpg"
+    <section
+      className="relative h-[180px] w-full overflow-hidden sm:h-[220px]"
+      style={{ backgroundColor: siteImages.rummanAmin.placeholderColor }}
+    >
+      <OptimizedFillImage
+        image={siteImages.rummanAmin}
         alt=""
-        fill
-        className="object-cover object-center"
         sizes="100vw"
         priority
+        className="object-cover object-center"
       />
       <div className="absolute inset-0 bg-[#1A0A0C]/60" />
       <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center sm:px-8">
