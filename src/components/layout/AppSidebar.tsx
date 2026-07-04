@@ -9,6 +9,7 @@ import { createClient } from "@/lib/supabase/client";
 const navItems = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/reminders", label: "Reminders" },
+  { href: "/news", label: "News" },
   { href: "/contractors", label: "Contractors" },
   { href: "/properties/new", label: "Add Property" },
   { href: "/properties/import", label: "Bulk Import" },
@@ -23,6 +24,10 @@ function isNavActive(pathname: string, href: string): boolean {
         pathname !== "/properties/new" &&
         pathname !== "/properties/import")
     );
+  }
+
+  if (href === "/news") {
+    return pathname === "/news" || pathname.startsWith("/news/");
   }
 
   if (href === "/contractors") {
@@ -122,6 +127,17 @@ export default function AppSidebar({ open, onClose }: AppSidebarProps) {
               {email}
             </p>
           )}
+          <Link
+            href="/help"
+            onClick={onClose}
+            className={`mt-4 block min-h-11 text-sm font-normal uppercase tracking-[0.1em] transition ${
+              pathname === "/help" || pathname.startsWith("/help/")
+                ? "text-dusty-cream"
+                : "text-dusty-cream/90 hover:text-dusty-cream"
+            }`}
+          >
+            Help
+          </Link>
           <button
             type="button"
             onClick={handleSignOut}
