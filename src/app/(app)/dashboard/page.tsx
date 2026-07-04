@@ -6,13 +6,7 @@ import { btnGoldClassName } from "@/lib/ui";
 import { createClient } from "@/lib/supabase/server";
 import type { Certificate, ComplianceStatus, Property } from "@/lib/types";
 import DashboardPortfolio from "./DashboardPortfolio";
-
-function getGreeting(): string {
-  const hour = new Date().getHours();
-  if (hour < 12) return "Good morning";
-  if (hour < 17) return "Good afternoon";
-  return "Good evening";
-}
+import DashboardStatusBand from "./DashboardStatusBand";
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -78,16 +72,10 @@ export default async function DashboardPage() {
 
   return (
     <div className="dashboard-parchment-bg w-full">
-      <section className="dashboard-status-band px-8 py-14 text-center sm:px-12 sm:py-16 lg:px-16 lg:py-20">
-        <p className="font-serif text-sm italic tracking-wide text-gold">
-          {getGreeting()}
-        </p>
-        <h1 className="mt-4 max-w-3xl font-serif text-3xl leading-tight tracking-wide text-raspberry sm:mx-auto sm:text-4xl lg:text-5xl">
-          {isCompliant
-            ? "All Properties Compliant"
-            : `${needsAttention} ${needsAttention === 1 ? "Property" : "Properties"} Need Attention`}
-        </h1>
-      </section>
+      <DashboardStatusBand
+        isCompliant={isCompliant}
+        needsAttention={needsAttention}
+      />
 
       <section className="relative h-[320px] w-full overflow-hidden">
         <Image

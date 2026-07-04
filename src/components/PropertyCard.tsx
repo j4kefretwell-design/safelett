@@ -12,6 +12,7 @@ import {
 interface PropertyCardProps {
   property: Property;
   status: ComplianceStatus;
+  highlightPulse?: boolean;
 }
 
 const statusBorderClasses: Record<ComplianceStatus, string> = {
@@ -26,11 +27,15 @@ const statusTextClasses: Record<ComplianceStatus, string> = {
   red: "text-urgent",
 };
 
-export default function PropertyCard({ property, status }: PropertyCardProps) {
+export default function PropertyCard({
+  property,
+  status,
+  highlightPulse = false,
+}: PropertyCardProps) {
   return (
     <Link
       href={`/properties/${property.id}`}
-      className={`group ${dashboardWarmCardClassName} flex min-h-[220px] flex-col justify-between border-l-[3px] p-8 transition duration-200 hover:border-leather sm:min-h-[240px] ${statusBorderClasses[status]}`}
+      className={`group ${dashboardWarmCardClassName} flex min-h-[220px] flex-col justify-between border-l-[3px] p-8 transition duration-200 hover:border-leather sm:min-h-[240px] ${statusBorderClasses[status]} ${highlightPulse ? "property-card-highlight-pulse" : ""}`}
     >
       <div className="dashboard-warm-card-content">
         <h3 className="font-serif text-xl leading-snug tracking-wide text-text transition group-hover:text-raspberry sm:text-2xl">

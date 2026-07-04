@@ -95,7 +95,7 @@ function loadActionedIds(): Set<string> {
 }
 
 function RemindersGoldRule() {
-  return <div className="h-px w-full bg-gold" aria-hidden="true" />;
+  return <div className="h-[0.5px] w-full bg-gold" aria-hidden="true" />;
 }
 
 function RemindersHeroHeader({ totalCount }: { totalCount: number }) {
