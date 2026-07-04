@@ -4,7 +4,7 @@ import {
   getDaysUntilExpiry,
 } from "@/lib/compliance";
 import { createClient } from "@/lib/supabase/server";
-import type { Certificate, Property, PropertyContractor } from "@/lib/types";
+import type { Certificate, CertificateType, Property } from "@/lib/types";
 import type { ComplianceStatus } from "@/lib/types";
 
 interface ReminderRow {
@@ -44,14 +44,35 @@ export default async function RemindersPage() {
 
   reminders.sort((a, b) => a.daysUntilExpiry - b.daysUntilExpiry);
 
-  const { data: contractors } = await supabase
+  const { data: assignments } = await supabase
     .from("property_contractors")
-    .select("*");
+    .select(
+      "property_id, certificate_type, contractors(name, company_name, phone, email)"
+    );
+
+  const contractorContacts = (assignments ?? [])
+    .map((row) => {
+      const contractor = Array.isArray(row.contractors)
+        ? row.contractors[0]
+        : row.contractors;
+
+      if (!contractor) return null;
+
+      return {
+        property_id: row.property_id as string,
+        certificate_type: row.certificate_type as CertificateType,
+        name: contractor.name as string,
+        company_name: contractor.company_name as string,
+        phone: contractor.phone as string,
+        email: contractor.email as string,
+      };
+    })
+    .filter((row): row is NonNullable<typeof row> => row !== null);
 
   return (
     <RemindersList
       reminders={reminders}
-      contractors={(contractors ?? []) as PropertyContractor[]}
+      contractors={contractorContacts}
     />
   );
 }

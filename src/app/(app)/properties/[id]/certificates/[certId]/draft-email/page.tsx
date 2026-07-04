@@ -12,7 +12,7 @@ import {
   CERTIFICATE_LABELS,
   type Certificate,
   type Property,
-  type PropertyContractor,
+  type Contractor,
 } from "@/lib/types";
 
 interface DraftEmailPageProps {
@@ -61,18 +61,18 @@ export default async function DraftEmailPage({ params }: DraftEmailPageProps) {
     notFound();
   }
 
-  const { data: contractor } = await supabase
+  const { data: assignment } = await supabase
     .from("property_contractors")
-    .select("*")
+    .select("*, contractors(*)")
     .eq("property_id", propertyId)
     .eq("certificate_type", typedCertificate.certificate_type)
     .maybeSingle();
 
-  if (!contractor) {
+  if (!assignment?.contractors) {
     notFound();
   }
 
-  const typedContractor = contractor as PropertyContractor;
+  const typedContractor = assignment.contractors as Contractor;
   const profile = await getUserProfile(supabase, user.id);
   const userName = resolveUserDisplayName(profile.full_name);
 

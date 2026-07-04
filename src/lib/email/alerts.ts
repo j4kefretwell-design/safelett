@@ -10,7 +10,79 @@ import {
 } from "@/lib/user-profile";
 import { sendExpiryAlertEmail } from "@/lib/email/send";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { CERTIFICATE_LABELS, type CertificateType, type PropertyContractor } from "@/lib/types";
+import { CERTIFICATE_LABELS, type CertificateType } from "@/lib/types";
+
+interface ContractorContact {
+  name: string;
+  company_name: string;
+  phone: string;
+  email: string;
+}
+
+interface PropertyContractorAssignmentRow {
+  property_id: string;
+  certificate_type: CertificateType;
+  contractors: ContractorContact | null;
+}
+
+function normalizeAssignmentRows(
+  rows: Array<{
+    property_id: string;
+    certificate_type: CertificateType;
+    contractors: ContractorContact | ContractorContact[] | null;
+  }>
+): PropertyContractorAssignmentRow[] {
+  const normalized: PropertyContractorAssignmentRow[] = [];
+
+  for (const row of rows) {
+    const contractor = Array.isArray(row.contractors)
+      ? row.contractors[0]
+      : row.contractors;
+
+    if (!contractor) continue;
+
+    normalized.push({
+      property_id: row.property_id,
+      certificate_type: row.certificate_type,
+      contractors: contractor,
+    });
+  }
+
+  return normalized;
+}
+
+function buildContractorLookup(assignments: PropertyContractorAssignmentRow[]) {
+  const lookup = new Map<string, ContractorContact>();
+
+  for (const assignment of assignments) {
+    if (!assignment.contractors) continue;
+    lookup.set(
+      `${assignment.property_id}:${assignment.certificate_type}`,
+      assignment.contractors
+    );
+  }
+
+  return lookup;
+}
+
+function getContractorForCertificate(
+  lookup: Map<string, ContractorContact>,
+  propertyId: string,
+  certificateType: CertificateType
+) {
+  const contractor = lookup.get(`${propertyId}:${certificateType}`);
+
+  if (!contractor) {
+    return undefined;
+  }
+
+  return {
+    name: contractor.name,
+    companyName: contractor.company_name,
+    phone: contractor.phone,
+    email: contractor.email,
+  };
+}
 
 interface CertificateRow {
   id: string;
@@ -37,38 +109,6 @@ function getPropertyFromCertificate(certificate: CertificateRow) {
   return Array.isArray(certificate.properties)
     ? certificate.properties[0] ?? null
     : certificate.properties;
-}
-
-function buildContractorLookup(contractors: PropertyContractor[]) {
-  const lookup = new Map<string, PropertyContractor>();
-
-  for (const contractor of contractors) {
-    lookup.set(
-      `${contractor.property_id}:${contractor.certificate_type}`,
-      contractor
-    );
-  }
-
-  return lookup;
-}
-
-function getContractorForCertificate(
-  lookup: Map<string, PropertyContractor>,
-  propertyId: string,
-  certificateType: CertificateType
-) {
-  const contractor = lookup.get(`${propertyId}:${certificateType}`);
-
-  if (!contractor) {
-    return undefined;
-  }
-
-  return {
-    name: contractor.name,
-    companyName: contractor.company_name,
-    phone: contractor.phone,
-    email: contractor.email,
-  };
 }
 
 export interface SendAlertsResult {
@@ -179,16 +219,24 @@ export async function sendCertificateExpiryAlerts(): Promise<SendAlertsResult> {
     throw new Error(error.message);
   }
 
-  const { data: contractors, error: contractorsError } = await admin
+  const { data: assignments, error: contractorsError } = await admin
     .from("property_contractors")
-    .select("*");
+    .select(
+      "property_id, certificate_type, contractors(name, company_name, phone, email)"
+    );
 
   if (contractorsError) {
     throw new Error(contractorsError.message);
   }
 
   const contractorLookup = buildContractorLookup(
-    (contractors ?? []) as PropertyContractor[]
+    normalizeAssignmentRows(
+      (assignments ?? []) as Array<{
+        property_id: string;
+        certificate_type: CertificateType;
+        contractors: ContractorContact | ContractorContact[] | null;
+      }>
+    )
   );
 
   const emailCache = new Map<string, string | null>();

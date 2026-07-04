@@ -36,8 +36,9 @@ import {
   PROPERTY_TYPE_LABELS,
   type Certificate,
   type CertificateType,
+  type Contractor,
   type Property,
-  type PropertyContractor,
+  type PropertyContractorWithDetails,
 } from "@/lib/types";
 
 interface PropertyDetailPageProps {
@@ -71,17 +72,27 @@ export default async function PropertyDetailPage({
   const certificateList = (certificates ?? []) as Certificate[];
   const propertyStatus = getPropertyStatus(certificateList);
 
-  const { data: contractors } = await supabase
+  const { data: assignments } = await supabase
     .from("property_contractors")
-    .select("*")
+    .select("*, contractors(*)")
     .eq("property_id", id)
     .order("certificate_type", { ascending: true });
 
-  const contractorList = (contractors ?? []) as PropertyContractor[];
+  const assignmentList = (assignments ?? []) as PropertyContractorWithDetails[];
 
-  const contractorsByType = new Map<CertificateType, PropertyContractor>(
-    contractorList.map((contractor) => [contractor.certificate_type, contractor])
-  );
+  const { data: directoryContractors } = await supabase
+    .from("contractors")
+    .select("*")
+    .order("name", { ascending: true });
+
+  const contractorDirectory = (directoryContractors ?? []) as Contractor[];
+
+  const contractorsByType = new Map<CertificateType, Contractor>();
+  for (const assignment of assignmentList) {
+    if (assignment.contractors) {
+      contractorsByType.set(assignment.certificate_type, assignment.contractors);
+    }
+  }
 
   const documentUrls = await Promise.all(
     certificateList.map(async (cert) => {
@@ -327,7 +338,8 @@ export default async function PropertyDetailPage({
       <div id="contractors">
       <PropertyContractors
         propertyId={id}
-        initialContractors={contractorList}
+        initialAssignments={assignmentList}
+        directoryContractors={contractorDirectory}
       />
       </div>
       </AnimateIn>

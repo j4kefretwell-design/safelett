@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { getDaysUntilExpiry } from "@/lib/compliance";
-import type { CertificateType, PropertyContractor } from "@/lib/types";
+import type { CertificateType, Contractor } from "@/lib/types";
 
 interface CertificateContractorEmailLinkProps {
   propertyId: string;
   certificateId: string;
   certificateType: CertificateType;
   expiryDate: string;
-  contractorsByType: Map<CertificateType, PropertyContractor>;
+  contractorsByType: Map<CertificateType, Contractor>;
 }
 
 export default function CertificateContractorEmailLink({

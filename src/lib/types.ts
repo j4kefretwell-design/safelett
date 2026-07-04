@@ -44,13 +44,26 @@ export interface Certificate {
 export interface PropertyContractor {
   id: string;
   property_id: string;
+  contractor_id: string;
   certificate_type: CertificateType;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Contractor {
+  id: string;
+  user_id: string;
   name: string;
   company_name: string;
   phone: string;
   email: string;
+  certificate_types: CertificateType[];
   created_at: string;
   updated_at: string;
+}
+
+export interface PropertyContractorWithDetails extends PropertyContractor {
+  contractors: Contractor;
 }
 
 export interface UserProfile {
@@ -156,3 +169,22 @@ export const CERTIFICATE_TYPES: CertificateType[] = [
 export function getCertificateDateLabels(certificateType: CertificateType) {
   return CERTIFICATE_DATE_LABELS[certificateType];
 }
+
+export const CONTRACTOR_CERTIFICATE_CHECKLIST: {
+  type: CertificateType;
+  label: string;
+}[] = [
+  { type: "gas_safety", label: "Gas Safety" },
+  { type: "eicr", label: "EICR" },
+  { type: "epc", label: "EPC" },
+  { type: "fire_risk_assessment", label: "Fire Risk Assessment" },
+  { type: "fire_alarm_test", label: "Fire Alarm Test" },
+  { type: "emergency_lighting_check", label: "Emergency Lighting Check" },
+  { type: "fire_extinguisher_service", label: "Fire Extinguisher Service" },
+  { type: "hmo_licence", label: "HMO Licence" },
+  { type: "legionella_risk_assessment", label: "Legionella Risk Assessment" },
+  { type: "pat", label: "PAT Testing" },
+  { type: "asbestos_survey", label: "Asbestos Survey" },
+  { type: "deposit_protection", label: "Deposit Protection" },
+  { type: "right_to_rent", label: "Right to Rent" },
+];

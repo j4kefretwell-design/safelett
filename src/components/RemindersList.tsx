@@ -14,10 +14,19 @@ import {
 import {
   CERTIFICATE_LABELS,
   type Certificate,
+  type CertificateType,
   type Property,
-  type PropertyContractor,
 } from "@/lib/types";
 import type { ComplianceStatus } from "@/lib/types";
+
+interface ReminderContractor {
+  property_id: string;
+  certificate_type: CertificateType;
+  name: string;
+  company_name: string;
+  phone: string;
+  email: string;
+}
 
 interface ReminderRow {
   certificate: Certificate;
@@ -28,7 +37,7 @@ interface ReminderRow {
 
 interface RemindersListProps {
   reminders: ReminderRow[];
-  contractors: PropertyContractor[];
+  contractors: ReminderContractor[];
 }
 
 const ACTIONED_STORAGE_KEY = "fretwell-actioned-reminders";
@@ -155,7 +164,7 @@ function RemindersStickyBar({
 interface ReminderCardProps {
   reminder: ReminderRow;
   animateIndex: number;
-  contractor?: PropertyContractor;
+  contractor?: ReminderContractor;
   onActioned: (certificateId: string) => void;
   rowsVisible: boolean;
 }
@@ -304,7 +313,7 @@ export default function RemindersList({
   }, [hydrated]);
 
   const contractorLookup = useMemo(() => {
-    const lookup = new Map<string, PropertyContractor>();
+    const lookup = new Map<string, ReminderContractor>();
     for (const contractor of contractors) {
       lookup.set(
         `${contractor.property_id}:${contractor.certificate_type}`,
