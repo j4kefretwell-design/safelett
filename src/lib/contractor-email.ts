@@ -1,5 +1,8 @@
 import { formatDate } from "@/lib/compliance";
-import { CERTIFICATE_LABELS, type CertificateType } from "@/lib/types";
+import {
+  getCertificateDateLabels,
+  type CertificateType,
+} from "@/lib/types";
 
 export interface ContractorEmailDraft {
   toName: string;
@@ -28,8 +31,44 @@ function subtractDays(dateString: string, days: number): string {
   return formatDate(formatted);
 }
 
-function getInspectionLabel(certificateType: CertificateType): string {
-  return CERTIFICATE_LABELS[certificateType];
+function getCertificateFullName(certificateType: CertificateType): string {
+  const names: Record<CertificateType, string> = {
+    gas_safety: "Gas Safety Certificate",
+    eicr: "Electrical Installation Condition Report (EICR)",
+    epc: "Energy Performance Certificate (EPC)",
+    fire_risk_assessment: "Fire Risk Assessment",
+    fire_alarm_test: "Fire Alarm Test Certificate",
+    emergency_lighting_check: "Emergency Lighting Check",
+    fire_extinguisher_service: "Fire Extinguisher Service",
+    deposit_protection: "Deposit Protection Certificate",
+    right_to_rent: "Right to Rent Check",
+    hmo_licence: "HMO Licence",
+    legionella_risk_assessment: "Legionella Risk Assessment",
+    pat: "Portable Appliance Testing (PAT)",
+    asbestos_survey: "Asbestos Survey",
+  };
+
+  return names[certificateType];
+}
+
+function getWorkDescription(certificateType: CertificateType): string {
+  const descriptions: Record<CertificateType, string> = {
+    gas_safety: "Gas Safety inspection",
+    eicr: "EICR inspection",
+    epc: "EPC assessment",
+    fire_risk_assessment: "Fire Risk Assessment review",
+    fire_alarm_test: "fire alarm test",
+    emergency_lighting_check: "emergency lighting check",
+    fire_extinguisher_service: "fire extinguisher service",
+    deposit_protection: "deposit protection renewal",
+    right_to_rent: "Right to Rent check",
+    hmo_licence: "HMO licence renewal",
+    legionella_risk_assessment: "Legionella Risk Assessment",
+    pat: "Portable Appliance Testing (PAT)",
+    asbestos_survey: "asbestos survey",
+  };
+
+  return descriptions[certificateType];
 }
 
 export function buildContractorEmailDraft({
@@ -47,19 +86,22 @@ export function buildContractorEmailDraft({
   expiryDate: string;
   userName: string;
 }): ContractorEmailDraft {
-  const certificateLabel = getInspectionLabel(certificateType);
+  const certificateFullName = getCertificateFullName(certificateType);
+  const workDescription = getWorkDescription(certificateType);
   const formattedExpiry = formatDate(expiryDate);
   const completionDeadline = subtractDays(expiryDate, 7);
+  const expiryLabel = getCertificateDateLabels(certificateType).expiry;
 
   const body = `Dear ${contractorName},
 
-I hope this finds you well. I am writing to arrange a ${certificateLabel} inspection at the above property.
+I am writing to arrange a ${workDescription} at the below property. The current ${certificateFullName} is due to expire on ${formattedExpiry} and we require renewal before this date to maintain compliance.
 
-The current certificate expires on ${formattedExpiry} and we are required to ensure renewal is completed before this date.
+Property: ${propertyAddress}
+Certificate Required: ${certificateFullName}
+${expiryLabel}: ${formattedExpiry}
+Completion Required By: ${completionDeadline}
 
-Could you please confirm your availability to carry out this inspection at ${propertyAddress}? We would appreciate completion no later than ${completionDeadline}.
-
-Please do not hesitate to contact me should you require any further information.
+Please could you confirm your availability and proposed date for carrying out this work. If you have any questions regarding access or the property, please do not hesitate to get in touch.
 
 Kind regards,
 ${userName}
@@ -68,7 +110,7 @@ Fretwell & Co`;
   return {
     toName: contractorName,
     toEmail: contractorEmail,
-    subject: `Compliance Inspection Required — ${propertyAddress}`,
+    subject: `${certificateFullName} Renewal Required — ${propertyAddress}`,
     body,
   };
 }
