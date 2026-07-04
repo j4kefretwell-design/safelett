@@ -77,7 +77,7 @@ export default async function DashboardPage() {
         needsAttention={needsAttention}
       />
 
-      <section className="dashboard-parchment-bg px-8 py-16 sm:px-12 sm:py-20 lg:px-16 lg:py-24">
+      <section className="dashboard-stats-band px-8 py-16 sm:px-12 sm:py-20 lg:px-16 lg:py-24">
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-5">
           {statItems.map((item) => (
             <div key={item.label} className="dashboard-warm-card px-5 py-10 text-center">
@@ -93,8 +93,10 @@ export default async function DashboardPage() {
             </div>
           ))}
         </div>
+      </section>
 
-        <div className="mt-12 grid overflow-hidden sm:mt-14 lg:grid-cols-[45%_55%]">
+      <section className="dashboard-parchment-bg px-8 sm:px-12 lg:px-16">
+        <div className="grid overflow-hidden lg:grid-cols-[45%_55%]">
           <div className="relative h-[280px] overflow-hidden">
             <Image
               src="/ben-elliott-8WJtlR3nlQY-unsplash.jpg"
@@ -117,14 +119,24 @@ export default async function DashboardPage() {
             </Link>
           </div>
         </div>
+      </section>
 
-        <div className="mt-16 lg:mt-20">
-          <DashboardPortfolio
-            properties={
-              propertiesWithStatus as (Property & { status: ComplianceStatus })[]
-            }
-          />
-        </div>
+      <section
+        className="dashboard-portfolio-divider flex h-20 flex-col items-center justify-center"
+        aria-label="Property portfolio"
+      >
+        <p className="text-[10px] font-normal uppercase tracking-[0.32em] text-dusty-cream">
+          Your Property Portfolio
+        </p>
+        <div className="mt-2 h-px w-10 bg-gold" aria-hidden="true" />
+      </section>
+
+      <section className="dashboard-parchment-bg px-8 pb-20 pt-12 sm:px-12 sm:pb-24 lg:px-16 lg:pb-28">
+        <DashboardPortfolio
+          properties={
+            propertiesWithStatus as (Property & { status: ComplianceStatus })[]
+          }
+        />
       </section>
     </div>
   );

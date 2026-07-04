@@ -73,10 +73,7 @@ export default function DashboardPortfolio({ properties }: DashboardPortfolioPro
 
   return (
     <div>
-      <div className="flex flex-wrap items-center justify-between gap-6">
-        <p className="text-[10px] font-normal uppercase tracking-[0.32em] text-leather">
-          Your Portfolio
-        </p>
+      <div className="flex justify-end">
         <Link href="/properties/new" className={btnGoldClassName}>
           Add Property →
         </Link>

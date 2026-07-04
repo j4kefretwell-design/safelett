@@ -95,7 +95,13 @@ function loadActionedIds(): Set<string> {
 }
 
 function RemindersGoldRule() {
-  return <div className="h-[0.5px] w-full bg-gold" aria-hidden="true" />;
+  return (
+    <div
+      className="w-full bg-gold/45"
+      style={{ height: "0.5px" }}
+      aria-hidden="true"
+    />
+  );
 }
 
 function RemindersHeroHeader({ totalCount }: { totalCount: number }) {
@@ -400,11 +406,13 @@ export default function RemindersList({
       <div>
         {groups.map((group) => (
           <div key={group.key}>
-            <div className="flex h-9 items-center justify-between bg-espresso px-8 sm:px-12 lg:px-16">
-              <p className="text-[10px] font-normal uppercase tracking-[0.28em] text-dusty-cream">
+            <div
+              className={`flex items-center justify-between border-l-[3px] border-leather bg-parchment-warm py-3 ${editorialPagePaddingClassName}`}
+            >
+              <p className="text-[10px] font-normal uppercase tracking-[0.28em] text-leather">
                 {group.label}
               </p>
-              <p className="text-[10px] font-normal uppercase tracking-[0.2em] text-dusty-cream/60">
+              <p className="text-[10px] font-normal uppercase tracking-[0.2em] text-leather/60">
                 {group.items.length}
               </p>
             </div>

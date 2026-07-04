@@ -95,8 +95,16 @@
     border-bottom: 1px solid var(--color-leather);
   }
 
-  .dashboard-cottage-panel {
-    background-color: var(--color-parchment-warm);
+  .dashboard-stats-band {
+    background: linear-gradient(
+      180deg,
+      var(--color-parchment-warm) 0%,
+      var(--color-parchment-deep) 100%
+    );
+  }
+
+  .dashboard-portfolio-divider {
+    background-color: var(--color-espresso);
   }
 
   .dashboard-warm-card::before {
