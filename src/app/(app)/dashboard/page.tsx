@@ -1,6 +1,8 @@
 import Image from "next/image";
+import Link from "next/link";
 import DashboardEmptyState from "@/components/DashboardEmptyState";
 import { getPropertyStatus } from "@/lib/compliance";
+import { btnGoldClassName } from "@/lib/ui";
 import { createClient } from "@/lib/supabase/server";
 import type { Certificate, ComplianceStatus, Property } from "@/lib/types";
 import DashboardPortfolio from "./DashboardPortfolio";
@@ -75,8 +77,8 @@ export default async function DashboardPage() {
   ];
 
   return (
-    <div className="w-full bg-dusty-cream">
-      <section className="bg-dusty-cream px-8 py-14 text-center sm:px-12 sm:py-16 lg:px-16 lg:py-20">
+    <div className="dashboard-parchment-bg w-full">
+      <section className="dashboard-status-band px-8 py-14 text-center sm:px-12 sm:py-16 lg:px-16 lg:py-20">
         <p className="font-serif text-sm italic tracking-wide text-gold">
           {getGreeting()}
         </p>
@@ -87,7 +89,7 @@ export default async function DashboardPage() {
         </h1>
       </section>
 
-      <section className="relative h-[250px] w-full overflow-hidden">
+      <section className="relative h-[320px] w-full overflow-hidden">
         <Image
           src="/anthony-fomin-zjBxPUHE_ok-unsplash.jpg"
           alt=""
@@ -99,7 +101,7 @@ export default async function DashboardPage() {
         <div className="absolute inset-0 bg-raspberry/55" aria-hidden="true" />
       </section>
 
-      <section className="bg-dusty-cream px-8 py-16 sm:px-12 sm:py-20 lg:px-16 lg:py-24">
+      <section className="dashboard-parchment-bg px-8 py-16 sm:px-12 sm:py-20 lg:px-16 lg:py-24">
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-5">
           {statItems.map((item) => (
             <div key={item.label} className="dashboard-warm-card px-5 py-10 text-center">
@@ -116,15 +118,28 @@ export default async function DashboardPage() {
           ))}
         </div>
 
-        <div className="relative mt-12 h-[160px] w-full overflow-hidden sm:mt-14">
-          <Image
-            src="/ben-elliott-8WJtlR3nlQY-unsplash.jpg"
-            alt=""
-            fill
-            className="object-cover"
-            sizes="100vw"
-          />
-          <div className="absolute inset-0 bg-[#1A0A0C]/30" aria-hidden="true" />
+        <div className="mt-12 grid overflow-hidden sm:mt-14 lg:grid-cols-[45%_55%]">
+          <div className="relative h-[280px] overflow-hidden">
+            <Image
+              src="/ben-elliott-8WJtlR3nlQY-unsplash.jpg"
+              alt=""
+              fill
+              className="object-cover object-[38%_center]"
+              sizes="45vw"
+            />
+          </div>
+
+          <div className="dashboard-cottage-panel flex flex-col justify-center border-t border-gold px-8 py-12 sm:px-10 lg:border-t-0 lg:border-l lg:px-14 lg:py-10">
+            <p className="max-w-md font-serif text-2xl leading-snug tracking-wide text-raspberry sm:text-[1.65rem]">
+              A compliant portfolio is a protected portfolio.
+            </p>
+            <p className="mt-4 max-w-sm text-sm text-leather">
+              Every certificate tracked. Every deadline met.
+            </p>
+            <Link href="/reminders" className={`${btnGoldClassName} mt-8 w-fit text-[11px]`}>
+              View Reminders →
+            </Link>
+          </div>
         </div>
 
         <div className="mt-16 lg:mt-20">

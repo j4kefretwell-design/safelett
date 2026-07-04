@@ -14,6 +14,9 @@
   --color-beige: #ddd9c9;
   --color-text: #1a1008;
   --color-gold: #c4a35a;
+  --color-parchment: #f8f4ee;
+  --color-parchment-warm: #f5f0e8;
+  --color-parchment-deep: #ede8dc;
 
   /* Semantic aliases used across the app */
   --color-burgundy: #33181c;
@@ -76,7 +79,24 @@
     border: 1px solid var(--color-leather);
     border-top-width: 2px;
     border-top-color: var(--color-gold);
-    background: linear-gradient(180deg, #fafaf8 0%, #f0ede6 100%);
+    background: linear-gradient(180deg, #f8f4ee 0%, #f0ede6 100%);
+  }
+
+  .dashboard-parchment-bg {
+    background-color: var(--color-parchment);
+  }
+
+  .dashboard-status-band {
+    background: linear-gradient(
+      180deg,
+      var(--color-parchment-warm) 0%,
+      var(--color-parchment-deep) 100%
+    );
+    border-bottom: 1px solid var(--color-leather);
+  }
+
+  .dashboard-cottage-panel {
+    background-color: var(--color-parchment-warm);
   }
 
   .dashboard-warm-card::before {

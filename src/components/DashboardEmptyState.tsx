@@ -6,7 +6,7 @@ import { btnOutlineClassName, editorialPagePaddingClassName } from "@/lib/ui";
 
 export default function DashboardEmptyState() {
   return (
-    <div className="w-full bg-dusty-cream">
+    <div className="dashboard-parchment-bg w-full">
       <section className="relative h-[360px] w-full overflow-hidden sm:h-[420px]">
         <Image
           src="/ben-elliott-8WJtlR3nlQY-unsplash.jpg"
@@ -24,7 +24,7 @@ export default function DashboardEmptyState() {
         </div>
       </section>
 
-      <section className="py-16 sm:py-20">
+      <section className="dashboard-parchment-bg py-16 sm:py-20">
         <div
           className={`${editorialPagePaddingClassName} flex flex-col items-center text-center`}
         >
