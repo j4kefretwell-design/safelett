@@ -7,69 +7,40 @@ import {
   btnOutlineClassName,
   btnPrimaryClassName,
   goldLabelClassName,
-  tableHeaderClassName,
-  tableRowClassName,
 } from "@/lib/ui";
 
 const steps = [
   {
     number: "01",
-    title: "Download the template",
-    body: "Use our CSV template with the correct columns for properties and certificates.",
+    title: "Download template",
+    body: "Get the CSV with the correct columns.",
   },
   {
     number: "02",
-    title: "Complete your data",
-    body: "Add one row per certificate. Repeat the same address for multiple certificates on one property.",
+    title: "Fill your data",
+    body: "One row per certificate, repeat addresses as needed.",
   },
   {
     number: "03",
     title: "Upload and import",
-    body: "Drop your completed file in the centre panel and review the format on the right.",
+    body: "Drop your completed file to add everything.",
   },
 ];
 
-const previewHeaders = [
-  "Address",
-  "Property Type",
-  "Bedrooms",
-  "Certificate",
-  "Issue Date",
-  "Expiry Date",
-];
+const fullGuide = `Each row in the CSV represents one certificate. Repeat the same property address for multiple certificates on one property.
 
-const previewRows = [
-  [
-    "12 Marlborough Road",
-    "standard_rental",
-    "3",
-    "gas_safety",
-    "2024-06-01",
-    "2025-06-01",
-  ],
-  [
-    "12 Marlborough Road",
-    "standard_rental",
-    "3",
-    "eicr",
-    "2023-01-15",
-    "2028-01-15",
-  ],
-  [
-    "45 Church Lane",
-    "hmo",
-    "5",
-    "hmo_licence",
-    "2022-03-01",
-    "2027-03-01",
-  ],
-];
+Required columns: address, property_type, bedrooms, certificate_type, issue_date, expiry_date.
+
+Property types: standard_rental, hmo, student_let.
+
+Dates must be YYYY-MM-DD. Leave certificate columns empty for property-only rows.`;
 
 export default function ImportPropertiesPage() {
   const router = useRouter();
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showGuide, setShowGuide] = useState(false);
   const [result, setResult] = useState<{
     propertiesCreated: number;
     certificatesCreated: number;
@@ -127,37 +98,20 @@ export default function ImportPropertiesPage() {
   }
 
   return (
-    <div className="grid min-h-[calc(100vh-4rem)] w-full bg-dusty-cream lg:grid-cols-[16rem_1fr_18rem] xl:grid-cols-[18rem_1fr_20rem]">
+    <div className="grid min-h-[calc(100vh-4rem)] w-full bg-dusty-cream lg:grid-cols-[14rem_1fr] xl:grid-cols-[16rem_1fr]">
       <aside className="border-b border-leather/15 bg-espresso px-8 py-12 text-dusty-cream lg:border-b-0 lg:border-r lg:py-16">
-        <p className="text-[10px] font-normal uppercase tracking-[0.32em] text-dusty-cream/50">
-          Bulk Import
-        </p>
-        <h1 className="mt-4 font-serif text-2xl tracking-wide sm:text-3xl">
-          Import Your Portfolio
-        </h1>
-        <div className="mt-5 h-px w-12 bg-gold/50" aria-hidden="true" />
-
-        <ol className="mt-12 space-y-10">
+        <ol className="space-y-10">
           {steps.map((step) => (
             <li key={step.number}>
               <p className="text-sm font-light tracking-[0.2em] text-gold">
                 {step.number}
               </p>
-              <h2 className="mt-4 font-serif text-lg tracking-wide">
+              <h2 className="mt-3 font-serif text-base tracking-wide">
                 {step.title}
               </h2>
-              <p className="mt-2 text-sm font-light leading-relaxed text-dusty-cream/65">
+              <p className="mt-2 text-xs font-light leading-relaxed text-dusty-cream/60">
                 {step.body}
               </p>
-              {step.number === "01" && (
-                <a
-                  href="/api/import/template"
-                  download="fretwell-co-import-template.csv"
-                  className={`${btnOutlineClassName} mt-5 inline-flex border-dusty-cream/30 text-dusty-cream hover:border-dusty-cream/60 hover:text-dusty-cream`}
-                >
-                  Download Template
-                </a>
-              )}
             </li>
           ))}
         </ol>
@@ -165,21 +119,13 @@ export default function ImportPropertiesPage() {
 
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col border-b border-leather/15 bg-white px-8 py-12 lg:border-b-0 lg:border-r lg:px-12 lg:py-16"
+        className="flex flex-col bg-white px-8 py-12 lg:px-16 lg:py-16"
       >
-        <p className="text-[10px] font-normal uppercase tracking-[0.32em] text-leather">
-          Upload
-        </p>
-        <h2 className="mt-4 font-serif text-2xl tracking-wide text-text">
-          Drop Your CSV File
-        </h2>
-        <div className="mt-5 h-px w-12 bg-gold/70" aria-hidden="true" />
-
         <label
           htmlFor="csv-upload"
-          className="mt-10 flex flex-1 cursor-pointer flex-col items-center justify-center border border-dashed border-leather/30 bg-dusty-cream/40 px-8 py-20 text-center transition hover:border-leather/50"
+          className="flex flex-1 cursor-pointer flex-col items-center justify-center border border-dashed border-leather/30 bg-dusty-cream/30 px-8 py-24 text-center transition hover:border-leather/50"
         >
-          <Upload className="h-8 w-8 text-leather/50" strokeWidth={1.25} />
+          <Upload className="h-8 w-8 text-leather/40" strokeWidth={1.25} />
           <p className="mt-6 font-serif text-xl tracking-wide text-text">
             Drop your CSV here
           </p>
@@ -195,6 +141,14 @@ export default function ImportPropertiesPage() {
             className="sr-only"
           />
         </label>
+
+        <a
+          href="/api/import/template"
+          download="fretwell-co-import-template.csv"
+          className={`${btnOutlineClassName} mt-6 w-full sm:w-auto`}
+        >
+          Download Template →
+        </a>
 
         {error && (
           <p className="mt-8 border border-urgent/20 bg-urgent-light/50 px-4 py-3 text-sm text-urgent">
@@ -212,63 +166,30 @@ export default function ImportPropertiesPage() {
           </p>
         )}
 
-        <div className="mt-auto pt-10">
+        <div className="mt-auto space-y-6 pt-10">
           <button
             type="submit"
             disabled={loading || !file}
-            className={`${btnPrimaryClassName} w-full`}
+            className={`${btnPrimaryClassName} w-full sm:w-auto`}
           >
             {loading ? "Importing..." : "Import Properties"}
           </button>
+
+          <button
+            type="button"
+            onClick={() => setShowGuide((current) => !current)}
+            className="text-[11px] font-light tracking-wide text-gold transition hover:text-gold/80"
+          >
+            Need help? View full guide →
+          </button>
+
+          {showGuide && (
+            <p className="max-w-lg whitespace-pre-line text-sm font-light leading-relaxed text-leather">
+              {fullGuide}
+            </p>
+          )}
         </div>
       </form>
-
-      <aside className="border-b border-leather/15 bg-white px-8 py-12 lg:border-b-0 lg:py-16">
-        <p className="text-[10px] font-normal uppercase tracking-[0.32em] text-leather">
-          Format Reference
-        </p>
-        <h2 className="mt-4 font-serif text-xl tracking-wide text-text">
-          Valid CSV Structure
-        </h2>
-        <div className="mt-5 h-px w-12 bg-gold/70" aria-hidden="true" />
-        <p className="mt-5 text-sm font-light leading-relaxed text-leather">
-          Each row represents one certificate. Repeat the property address for
-          multiple certificates on the same property.
-        </p>
-
-        <div className="mt-8 overflow-x-auto border border-leather/25 bg-white">
-          <table className="w-full min-w-[28rem] text-left text-xs">
-            <thead>
-              <tr className={tableHeaderClassName}>
-                {previewHeaders.map((header) => (
-                  <th key={header} className="px-4 py-3 font-normal">
-                    {header}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {previewRows.map((row, rowIndex) => (
-                <tr
-                  key={row.join("-")}
-                  className={`${tableRowClassName} ${
-                    rowIndex % 2 === 0 ? "bg-white" : "bg-dusty-cream/40"
-                  }`}
-                >
-                  {row.map((cell) => (
-                    <td
-                      key={`${rowIndex}-${cell}`}
-                      className="px-4 py-3 font-light text-text"
-                    >
-                      {cell}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </aside>
     </div>
   );
 }

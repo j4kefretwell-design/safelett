@@ -33,11 +33,7 @@ interface RemindersListProps {
 const ACTIONED_STORAGE_KEY = "fretwell-actioned-reminders";
 
 const URGENCY_GROUPS = [
-  {
-    key: "overdue",
-    label: "Overdue",
-    match: (days: number) => days < 0,
-  },
+  { key: "overdue", label: "Overdue", match: (days: number) => days < 0 },
   {
     key: "week",
     label: "Due This Week",
@@ -55,6 +51,18 @@ const URGENCY_GROUPS = [
   },
 ] as const;
 
+const statusStripeClasses: Record<ComplianceStatus, string> = {
+  green: "bg-compliant",
+  amber: "bg-attention",
+  red: "bg-urgent",
+};
+
+const statusTextClasses: Record<ComplianceStatus, string> = {
+  green: "text-compliant",
+  amber: "text-attention",
+  red: "text-urgent",
+};
+
 function groupReminders(reminders: ReminderRow[]) {
   return URGENCY_GROUPS.map((group) => ({
     ...group,
@@ -62,19 +70,17 @@ function groupReminders(reminders: ReminderRow[]) {
   })).filter((group) => group.items.length > 0);
 }
 
-function formatDaysLabel(daysUntilExpiry: number): string {
+function getDaysDisplay(daysUntilExpiry: number) {
   if (daysUntilExpiry < 0) {
-    return `${Math.abs(daysUntilExpiry)} days overdue`;
+    return {
+      value: Math.abs(daysUntilExpiry),
+      label: "days overdue",
+    };
   }
-  if (daysUntilExpiry === 0) return "Today";
-  return `${daysUntilExpiry} days`;
-}
-
-function getPropertyInitial(address: string): string {
-  const trimmed = address.trim();
-  if (!trimmed) return "?";
-  const match = trimmed.match(/[A-Za-z0-9]/);
-  return match ? match[0].toUpperCase() : "?";
+  if (daysUntilExpiry === 0) {
+    return { value: 0, label: "due today" };
+  }
+  return { value: daysUntilExpiry, label: "days remaining" };
 }
 
 function loadActionedIds(): Set<string> {
@@ -86,6 +92,10 @@ function loadActionedIds(): Set<string> {
   } catch {
     return new Set();
   }
+}
+
+function RemindersGoldRule() {
+  return <div className="h-px w-full bg-gold" aria-hidden="true" />;
 }
 
 function RemindersHeroHeader({ totalCount }: { totalCount: number }) {
@@ -135,55 +145,66 @@ function RemindersStickyBar({
   );
 }
 
-interface ReminderTableRowProps {
+interface ReminderCardProps {
   reminder: ReminderRow;
-  rowIndex: number;
   animateIndex: number;
   contractor?: PropertyContractor;
   onActioned: (certificateId: string) => void;
   rowsVisible: boolean;
 }
 
-function ReminderTableRow({
+function ReminderCard({
   reminder,
-  rowIndex,
   animateIndex,
   contractor,
   onActioned,
   rowsVisible,
-}: ReminderTableRowProps) {
+}: ReminderCardProps) {
   const [expanded, setExpanded] = useState(false);
   const certLabel = CERTIFICATE_LABELS[reminder.certificate.certificate_type];
-  const daysLabel = formatDaysLabel(reminder.daysUntilExpiry);
-  const rowBg = rowIndex % 2 === 0 ? "bg-white" : "bg-dusty-cream/50";
-  const propertyInitial = getPropertyInitial(reminder.property.address);
+  const daysDisplay = getDaysDisplay(reminder.daysUntilExpiry);
+  const status = reminder.status;
 
   return (
     <div
-      className={`${rowBg} transition-all duration-500 ease-out ${
+      className={`transition-all duration-500 ease-out ${
         rowsVisible ? "translate-x-0 opacity-100" : "-translate-x-6 opacity-0"
       }`}
       style={{ transitionDelay: `${animateIndex * 60}ms` }}
     >
-      <button
-        type="button"
-        onClick={() => setExpanded((current) => !current)}
-        aria-expanded={expanded}
-        className={`grid w-full grid-cols-1 gap-3 border-b border-leather/10 py-5 text-left transition hover:bg-dusty-cream/40 sm:grid-cols-[7.5rem_1fr_11rem_7.5rem] sm:items-center sm:gap-6 sm:py-6 ${editorialPagePaddingClassName}`}
-      >
-        <span className="font-serif text-lg tracking-wide text-text sm:text-xl">
-          {formatDate(reminder.certificate.expiry_date)}
-        </span>
-        <span className="min-w-0 font-serif text-base tracking-wide text-text sm:text-lg">
-          {reminder.property.address}
-        </span>
-        <span className="text-[10px] font-normal uppercase tracking-[0.14em] text-leather">
-          {certLabel}
-        </span>
-        <span className="text-[10px] font-normal uppercase tracking-[0.14em] text-leather/70 sm:text-right">
-          {daysLabel}
-        </span>
-      </button>
+      <div className="flex border border-leather/30 bg-white">
+        <div
+          className={`w-1 shrink-0 ${statusStripeClasses[status]}`}
+          aria-hidden="true"
+        />
+
+        <button
+          type="button"
+          onClick={() => setExpanded((current) => !current)}
+          aria-expanded={expanded}
+          className="flex min-h-[5.5rem] flex-1 items-center justify-between gap-6 px-6 py-5 text-left transition hover:bg-dusty-cream/30 sm:px-8 sm:py-6"
+        >
+          <div className="min-w-0 flex-1">
+            <p className="font-serif text-lg tracking-wide text-text sm:text-xl">
+              {reminder.property.address}
+            </p>
+            <p className="mt-2 text-[10px] font-normal uppercase tracking-[0.16em] text-leather">
+              {certLabel}
+            </p>
+          </div>
+
+          <div className="shrink-0 text-right">
+            <p
+              className={`font-serif text-3xl leading-none tracking-wide sm:text-4xl ${statusTextClasses[status]}`}
+            >
+              {daysDisplay.value}
+            </p>
+            <p className="mt-2 text-[9px] font-normal uppercase tracking-[0.14em] text-leather/70">
+              {daysDisplay.label}
+            </p>
+          </div>
+        </button>
+      </div>
 
       <div
         className={`grid transition-[grid-template-rows] duration-300 ease-out ${
@@ -192,76 +213,55 @@ function ReminderTableRow({
       >
         <div className="overflow-hidden">
           <div
-            className={`border-b border-leather/10 py-8 ${editorialPagePaddingClassName}`}
+            className={`border border-t-0 border-leather/30 bg-white px-6 py-8 sm:px-8`}
           >
-            <div className="flex flex-col gap-8 lg:flex-row lg:items-start">
-              <div
-                className="flex h-20 w-20 shrink-0 items-center justify-center bg-raspberry font-serif text-3xl tracking-wide text-dusty-cream"
-                aria-hidden="true"
-              >
-                {propertyInitial}
+            <div className="grid gap-6 sm:grid-cols-2">
+              <div>
+                <p className="text-[10px] font-normal uppercase tracking-[0.16em] text-leather">
+                  Expiry Date
+                </p>
+                <p className="mt-2 font-serif text-lg tracking-wide text-text">
+                  {formatDate(reminder.certificate.expiry_date)}
+                </p>
               </div>
-
-              <div className="min-w-0 flex-1">
-                <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                  <div>
-                    <p className="text-[10px] font-normal uppercase tracking-[0.16em] text-leather">
-                      Property
-                    </p>
-                    <p className="mt-2 font-serif text-lg tracking-wide text-text">
-                      {reminder.property.address}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-[10px] font-normal uppercase tracking-[0.16em] text-leather">
-                      Certificate
-                    </p>
-                    <p className="mt-2 font-serif text-lg tracking-wide text-text">
-                      {certLabel}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-[10px] font-normal uppercase tracking-[0.16em] text-leather">
-                      Expiry · {daysLabel}
-                    </p>
-                    <p className="mt-2 font-serif text-lg tracking-wide text-text">
-                      {formatDate(reminder.certificate.expiry_date)}
-                    </p>
-                  </div>
-                </div>
-
-                {contractor && (
-                  <div className="mt-8 border-t border-leather/15 pt-8">
-                    <p className="text-[10px] font-normal uppercase tracking-[0.16em] text-leather">
-                      Contractor
-                    </p>
-                    <p className="mt-2 text-sm font-light text-text">
-                      {contractor.name}
-                      {contractor.company_name
-                        ? ` · ${contractor.company_name}`
-                        : ""}
-                    </p>
-                    <p className="mt-2 text-sm font-light text-leather">
-                      <a
-                        href={`tel:${contractor.phone.replace(/\s/g, "")}`}
-                        className="transition hover:text-text"
-                      >
-                        {contractor.phone}
-                      </a>
-                      {" · "}
-                      <a
-                        href={`mailto:${contractor.email}`}
-                        className="transition hover:text-text"
-                      >
-                        {contractor.email}
-                      </a>
-                    </p>
-                  </div>
-                )}
+              <div>
+                <p className="text-[10px] font-normal uppercase tracking-[0.16em] text-leather">
+                  Property
+                </p>
+                <p className="mt-2 font-serif text-lg tracking-wide text-text">
+                  {reminder.property.address}
+                </p>
               </div>
             </div>
 
-            <div className="mt-10 flex flex-wrap gap-4">
+            {contractor && (
+              <div className="mt-8 border-t border-leather/15 pt-8">
+                <p className="text-[10px] font-normal uppercase tracking-[0.16em] text-leather">
+                  Contractor
+                </p>
+                <p className="mt-2 text-sm font-light text-text">
+                  {contractor.name}
+                  {contractor.company_name ? ` · ${contractor.company_name}` : ""}
+                </p>
+                <p className="mt-2 text-sm font-light text-leather">
+                  <a
+                    href={`tel:${contractor.phone.replace(/\s/g, "")}`}
+                    className="transition hover:text-text"
+                  >
+                    {contractor.phone}
+                  </a>
+                  {" · "}
+                  <a
+                    href={`mailto:${contractor.email}`}
+                    className="transition hover:text-text"
+                  >
+                    {contractor.email}
+                  </a>
+                </p>
+              </div>
+            )}
+
+            <div className="mt-8 flex flex-wrap gap-4">
               <button
                 type="button"
                 onClick={() => onActioned(reminder.certificate.id)}
@@ -348,11 +348,10 @@ export default function RemindersList({
     });
   }, []);
 
-  const totalForHeader = hydrated ? visibleReminders.length : reminders.length;
-
   if (!hydrated) {
     return (
       <div className="bg-dusty-cream">
+        <RemindersGoldRule />
         <RemindersHeroHeader totalCount={reminders.length} />
       </div>
     );
@@ -361,6 +360,7 @@ export default function RemindersList({
   if (visibleReminders.length === 0) {
     return (
       <div className="bg-dusty-cream">
+        <RemindersGoldRule />
         <RemindersHeroHeader totalCount={0} />
         <RemindersStickyBar
           overdueCount={0}
@@ -383,11 +383,11 @@ export default function RemindersList({
   }
 
   const groups = groupReminders(visibleReminders);
-  let globalRowIndex = 0;
   let animateIndex = 0;
 
   return (
     <div className="bg-dusty-cream">
+      <RemindersGoldRule />
       <RemindersHeroHeader totalCount={visibleReminders.length} />
 
       <RemindersStickyBar
@@ -400,9 +400,7 @@ export default function RemindersList({
       <div>
         {groups.map((group) => (
           <div key={group.key}>
-            <div
-              className={`flex items-center justify-between bg-espresso px-8 py-3 sm:px-12 lg:px-16`}
-            >
+            <div className="flex h-9 items-center justify-between bg-espresso px-8 sm:px-12 lg:px-16">
               <p className="text-[10px] font-normal uppercase tracking-[0.28em] text-dusty-cream">
                 {group.label}
               </p>
@@ -412,32 +410,16 @@ export default function RemindersList({
             </div>
 
             <div
-              className={`hidden border-b border-leather/15 bg-white py-3 sm:grid sm:grid-cols-[7.5rem_1fr_11rem_7.5rem] sm:gap-6 ${editorialPagePaddingClassName}`}
+              className={`space-y-3 py-4 ${editorialPagePaddingClassName}`}
             >
-              {["Date", "Property Address", "Certificate Type", "Days Remaining"].map(
-                (heading) => (
-                  <span
-                    key={heading}
-                    className="text-[10px] font-normal uppercase tracking-[0.16em] text-leather last:sm:text-right"
-                  >
-                    {heading}
-                  </span>
-                )
-              )}
-            </div>
-
-            <div>
               {group.items.map((reminder) => {
-                const rowIndex = globalRowIndex;
                 const currentAnimateIndex = animateIndex;
-                globalRowIndex += 1;
                 animateIndex += 1;
 
                 return (
-                  <ReminderTableRow
+                  <ReminderCard
                     key={reminder.certificate.id}
                     reminder={reminder}
-                    rowIndex={rowIndex}
                     animateIndex={currentAnimateIndex}
                     rowsVisible={rowsVisible}
                     contractor={contractorLookup.get(
