@@ -9,8 +9,8 @@ interface TopNavProps {
 
 export default function TopNav({ sidebarOpen, onMenuClick }: TopNavProps) {
   return (
-    <header className="fixed inset-x-0 top-0 z-30 h-16 border-b border-white/5 bg-raspberry">
-      <div className="relative flex h-full items-center px-6 lg:px-10">
+    <header className="fixed inset-x-0 top-0 z-30 h-16 bg-raspberry">
+      <div className="relative flex h-full items-center border-b border-gold px-6 lg:px-10">
         <button
           type="button"
           aria-label={sidebarOpen ? "Close menu" : "Open menu"}
