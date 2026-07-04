@@ -112,3 +112,29 @@ export const editorialListRowClassName =
 
 export const reminderGroupLabelClassName =
   "bg-raspberry px-5 py-2.5 caps-label text-dusty-cream sm:px-12 lg:px-16";
+
+export const editorialFormLabelClassName =
+  "mb-3 block caps-label text-leather";
+
+export const editorialFormInputClassName =
+  "w-full border-0 border-b border-leather bg-transparent px-0 py-4 font-serif text-lg font-normal tracking-wide text-text outline-none transition placeholder:italic placeholder:text-leather/45 focus:border-gold focus:pb-[calc(1rem-1px)]";
+
+export const editorialFormSelectClassName =
+  "editorial-form-select w-full cursor-pointer appearance-none border-0 border-b border-leather bg-transparent py-4 pr-8 font-serif text-lg font-normal tracking-wide text-text outline-none transition focus:border-gold focus:pb-[calc(1rem-1px)]";
+
+export const editorialFormTextareaClassName =
+  "w-full min-h-[140px] resize-y border-0 border-b border-leather bg-transparent px-0 py-4 font-serif text-lg font-normal leading-relaxed tracking-wide text-text outline-none transition placeholder:italic placeholder:text-leather/45 focus:border-gold focus:pb-[calc(1rem-1px)]";
+
+export const editorialFormSectionRuleClassName = "my-10 h-px w-full bg-gold/50";
+
+export const editorialFormSubmitClassName =
+  "flex h-12 w-full items-center justify-center bg-raspberry text-sm font-normal uppercase tracking-[0.12em] text-dusty-cream transition duration-200 hover:bg-raspberry-dark disabled:cursor-not-allowed disabled:opacity-50";
+
+export const editorialFormCancelClassName =
+  "mt-4 block w-full text-center text-sm font-light text-gold-readable transition hover:text-gold";
+
+export const draftContractorEmailBtnClassName =
+  "inline-flex min-h-10 items-center justify-center gap-2 border border-raspberry bg-raspberry px-4 py-2.5 text-[11px] font-normal uppercase tracking-[0.12em] text-dusty-cream transition duration-200 hover:border-gold";
+
+export const addContractorBtnClassName =
+  "inline-flex min-h-10 items-center justify-center border border-gold px-4 py-2.5 text-[11px] font-normal uppercase tracking-[0.12em] text-gold-readable transition duration-200 hover:bg-gold/10";

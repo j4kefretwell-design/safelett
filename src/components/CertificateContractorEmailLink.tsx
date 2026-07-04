@@ -1,5 +1,10 @@
 import Link from "next/link";
+import { Mail } from "lucide-react";
 import { getDaysUntilExpiry } from "@/lib/compliance";
+import {
+  addContractorBtnClassName,
+  draftContractorEmailBtnClassName,
+} from "@/lib/ui";
 import type { CertificateType, Contractor } from "@/lib/types";
 
 interface CertificateContractorEmailLinkProps {
@@ -29,19 +34,17 @@ export default function CertificateContractorEmailLink({
     return (
       <Link
         href={`/properties/${propertyId}/certificates/${certificateId}/draft-email`}
-        className="text-sm font-light text-gold-readable transition hover:text-gold"
+        className={draftContractorEmailBtnClassName}
       >
-        Draft Contractor Email →
+        <Mail className="h-3.5 w-3.5 shrink-0" strokeWidth={1.25} aria-hidden="true" />
+        Draft Contractor Email
       </Link>
     );
   }
 
   return (
-    <Link
-      href="#contractors"
-      className="text-sm font-light text-leather/50 transition hover:text-leather"
-    >
-      Add Contractor to Enable
+    <Link href="#contractors" className={addContractorBtnClassName}>
+      Add Contractor
     </Link>
   );
 }

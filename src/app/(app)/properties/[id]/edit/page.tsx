@@ -1,8 +1,6 @@
 import { notFound } from "next/navigation";
-import { AnimateIn } from "@/components/AnimateIn";
-import PageHeader from "@/components/layout/PageHeader";
+import EditorialFormShell from "@/components/layout/EditorialFormShell";
 import PropertyForm from "@/components/PropertyForm";
-import { formCardClassName } from "@/lib/ui";
 import { createClient } from "@/lib/supabase/server";
 import type { Property } from "@/lib/types";
 
@@ -27,21 +25,13 @@ export default async function EditPropertyPage({ params }: EditPropertyPageProps
   const typedProperty = property as Property;
 
   return (
-    <>
-      <AnimateIn>
-        <PageHeader
-          title="Edit Property"
-          description={typedProperty.address}
-          backHref={`/properties/${id}`}
-          backLabel="Back to Property"
-        />
-      </AnimateIn>
-
-      <AnimateIn delay={100}>
-        <div className={`${formCardClassName} max-w-xl`}>
-          <PropertyForm property={typedProperty} />
-        </div>
-      </AnimateIn>
-    </>
+    <EditorialFormShell
+      title="EDIT PROPERTY"
+      subtitle={typedProperty.address}
+      backHref={`/properties/${id}`}
+      backLabel="Back to Property"
+    >
+      <PropertyForm property={typedProperty} editorial />
+    </EditorialFormShell>
   );
 }

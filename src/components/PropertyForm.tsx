@@ -7,6 +7,13 @@ import { createClient } from "@/lib/supabase/client";
 import {
   btnPrimaryClassName,
   btnSecondaryClassName,
+  editorialFormCancelClassName,
+  editorialFormInputClassName,
+  editorialFormLabelClassName,
+  editorialFormSectionRuleClassName,
+  editorialFormSelectClassName,
+  editorialFormSubmitClassName,
+  editorialFormTextareaClassName,
   formSectionRuleClassName,
   formSectionTitleClassName,
   inputClassName,
@@ -25,12 +32,14 @@ interface PropertyFormProps {
   property?: Property;
   fullWidthSubmit?: boolean;
   hideSectionHeader?: boolean;
+  editorial?: boolean;
 }
 
 export default function PropertyForm({
   property,
   fullWidthSubmit = false,
   hideSectionHeader = false,
+  editorial = false,
 }: PropertyFormProps) {
   const router = useRouter();
   const isEditing = Boolean(property);
@@ -103,6 +112,95 @@ export default function PropertyForm({
     router.refresh();
   }
 
+  const labelClass = editorial ? editorialFormLabelClassName : labelClassName;
+  const inputClass = editorial ? editorialFormInputClassName : inputClassName;
+  const selectClass = editorial ? editorialFormSelectClassName : selectClassName;
+  const textareaClass = editorial
+    ? editorialFormTextareaClassName
+    : textareaClassName;
+
+  if (editorial && isEditing) {
+    return (
+      <form onSubmit={handleSubmit} className="space-y-0">
+        <div>
+          <label htmlFor="address" className={labelClass}>
+            Address
+          </label>
+          <input
+            id="address"
+            type="text"
+            required
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            className={inputClass}
+            placeholder="123 High Street, London, SW1A 1AA"
+          />
+        </div>
+
+        <div className={editorialFormSectionRuleClassName} aria-hidden="true" />
+
+        <div>
+          <label htmlFor="propertyType" className={labelClass}>
+            Property Type
+          </label>
+          <select
+            id="propertyType"
+            value={propertyType}
+            onChange={(e) => setPropertyType(e.target.value as PropertyType)}
+            className={selectClass}
+          >
+            {PROPERTY_TYPES.map((type) => (
+              <option key={type} value={type}>
+                {PROPERTY_TYPE_LABELS[type]}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className={editorialFormSectionRuleClassName} aria-hidden="true" />
+
+        <div>
+          <label htmlFor="bedrooms" className={labelClass}>
+            Number of Bedrooms
+          </label>
+          <input
+            id="bedrooms"
+            type="number"
+            required
+            min={1}
+            value={bedrooms}
+            onChange={(e) => setBedrooms(parseInt(e.target.value, 10))}
+            className={inputClass}
+          />
+        </div>
+
+        {error && (
+          <p className="mt-8 border border-urgent/20 bg-urgent-light/50 px-4 py-3 text-sm text-urgent">
+            {error}
+          </p>
+        )}
+
+        <div className="mt-12">
+          <button
+            type="submit"
+            disabled={loading}
+            className={editorialFormSubmitClassName}
+          >
+            {loading ? "Saving..." : "Save Changes"}
+          </button>
+          {property && (
+            <Link
+              href={`/properties/${property.id}`}
+              className={editorialFormCancelClassName}
+            >
+              Cancel
+            </Link>
+          )}
+        </div>
+      </form>
+    );
+  }
+
   return (
     <form onSubmit={handleSubmit} className="space-y-12">
       <section>
@@ -116,7 +214,7 @@ export default function PropertyForm({
         )}
         <div className={hideSectionHeader ? "space-y-10" : "mt-8 space-y-8"}>
           <div>
-            <label htmlFor="address" className={labelClassName}>
+            <label htmlFor="address" className={labelClass}>
               Property Address
             </label>
             <input
@@ -125,20 +223,20 @@ export default function PropertyForm({
               required
               value={address}
               onChange={(e) => setAddress(e.target.value)}
-              className={inputClassName}
+              className={inputClass}
               placeholder="123 High Street, London, SW1A 1AA"
             />
           </div>
 
           <div>
-            <label htmlFor="propertyType" className={labelClassName}>
+            <label htmlFor="propertyType" className={labelClass}>
               Property Type
             </label>
             <select
               id="propertyType"
               value={propertyType}
               onChange={(e) => setPropertyType(e.target.value as PropertyType)}
-              className={selectClassName}
+              className={selectClass}
             >
               {PROPERTY_TYPES.map((type) => (
                 <option key={type} value={type}>
@@ -149,7 +247,7 @@ export default function PropertyForm({
           </div>
 
           <div>
-            <label htmlFor="bedrooms" className={labelClassName}>
+            <label htmlFor="bedrooms" className={labelClass}>
               Number of Bedrooms
             </label>
             <input
@@ -159,7 +257,7 @@ export default function PropertyForm({
               min={1}
               value={bedrooms}
               onChange={(e) => setBedrooms(parseInt(e.target.value, 10))}
-              className={inputClassName}
+              className={inputClass}
             />
           </div>
         </div>
@@ -170,7 +268,7 @@ export default function PropertyForm({
           <h2 className={formSectionTitleClassName}>Notes</h2>
           <div className={formSectionRuleClassName} aria-hidden="true" />
           <div className="mt-8">
-            <label htmlFor="notes" className={labelClassName}>
+            <label htmlFor="notes" className={labelClass}>
               Property Notes
             </label>
             <textarea
@@ -178,7 +276,7 @@ export default function PropertyForm({
               rows={4}
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              className={textareaClassName}
+              className={textareaClass}
               placeholder='e.g. "Boiler located in kitchen cupboard"'
             />
           </div>

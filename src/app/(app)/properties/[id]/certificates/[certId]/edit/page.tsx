@@ -1,8 +1,6 @@
 import { notFound } from "next/navigation";
-import { AnimateIn } from "@/components/AnimateIn";
 import CertificateForm from "@/components/CertificateForm";
-import PageHeader from "@/components/layout/PageHeader";
-import { formCardClassName } from "@/lib/ui";
+import EditorialFormShell from "@/components/layout/EditorialFormShell";
 import { createClient } from "@/lib/supabase/server";
 import type { Certificate, Property } from "@/lib/types";
 
@@ -41,24 +39,17 @@ export default async function EditCertificatePage({
   const typedCertificate = certificate as Certificate;
 
   return (
-    <>
-      <AnimateIn>
-        <PageHeader
-          title="Edit Certificate"
-          description={typedProperty.address}
-          backHref={`/properties/${id}`}
-          backLabel="Back to Property"
-        />
-      </AnimateIn>
-
-      <AnimateIn delay={100}>
-        <div className={`${formCardClassName} max-w-xl`}>
-          <CertificateForm
-            propertyId={id}
-            certificate={typedCertificate}
-          />
-        </div>
-      </AnimateIn>
-    </>
+    <EditorialFormShell
+      title="EDIT CERTIFICATE"
+      subtitle={typedProperty.address}
+      backHref={`/properties/${id}`}
+      backLabel="Back to Property"
+    >
+      <CertificateForm
+        propertyId={id}
+        certificate={typedCertificate}
+        editorial
+      />
+    </EditorialFormShell>
   );
 }

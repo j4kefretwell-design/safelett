@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
+import { Upload } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import {
@@ -19,6 +21,13 @@ import {
 import {
   btnPrimaryClassName,
   btnSecondaryClassName,
+  editorialFormCancelClassName,
+  editorialFormInputClassName,
+  editorialFormLabelClassName,
+  editorialFormSectionRuleClassName,
+  editorialFormSelectClassName,
+  editorialFormSubmitClassName,
+  editorialFormTextareaClassName,
   fileInputClassName,
   formSectionRuleClassName,
   formSectionTitleClassName,
@@ -28,16 +37,17 @@ import {
   selectClassName,
   textareaClassName,
 } from "@/lib/ui";
-import Link from "next/link";
 
 interface CertificateFormProps {
   propertyId: string;
   certificate?: Certificate;
+  editorial?: boolean;
 }
 
 export default function CertificateForm({
   propertyId,
   certificate,
+  editorial = false,
 }: CertificateFormProps) {
   const router = useRouter();
   const isEditing = Boolean(certificate);
@@ -185,13 +195,163 @@ export default function CertificateForm({
   const dateLabels = getCertificateDateLabels(certificateType);
   const typeHint = CERTIFICATE_TYPE_HINTS[certificateType];
 
+  const labelClass = editorial ? editorialFormLabelClassName : labelClassName;
+  const inputClass = editorial ? editorialFormInputClassName : inputClassName;
+  const selectClass = editorial ? editorialFormSelectClassName : selectClassName;
+  const textareaClass = editorial
+    ? editorialFormTextareaClassName
+    : textareaClassName;
+
+  if (editorial) {
+    return (
+      <form onSubmit={handleSubmit} className="space-y-0">
+        <div>
+          <label htmlFor="certificateType" className={labelClass}>
+            Certificate Type
+          </label>
+          <select
+            id="certificateType"
+            value={certificateType}
+            onChange={(e) =>
+              setCertificateType(e.target.value as CertificateType)
+            }
+            className={selectClass}
+          >
+            {CERTIFICATE_TYPES.map((type) => (
+              <option key={type} value={type}>
+                {CERTIFICATE_LABELS[type]}
+              </option>
+            ))}
+          </select>
+          {typeHint && (
+            <p className="mt-3 text-sm font-light italic leading-relaxed text-leather/75">
+              {typeHint}
+            </p>
+          )}
+        </div>
+
+        <div className={editorialFormSectionRuleClassName} aria-hidden="true" />
+
+        <div className="space-y-8">
+          <div>
+            <label htmlFor="issueDate" className={labelClass}>
+              {dateLabels.issue}
+            </label>
+            <input
+              id="issueDate"
+              type="date"
+              required
+              value={issueDate}
+              onChange={(e) => setIssueDate(e.target.value)}
+              className={inputClass}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="expiryDate" className={labelClass}>
+              {dateLabels.expiry}
+            </label>
+            <input
+              id="expiryDate"
+              type="date"
+              required
+              value={expiryDate}
+              onChange={(e) => setExpiryDate(e.target.value)}
+              className={inputClass}
+            />
+          </div>
+        </div>
+
+        <div className={editorialFormSectionRuleClassName} aria-hidden="true" />
+
+        <div>
+          <label htmlFor="notes" className={labelClass}>
+            Notes
+          </label>
+          <textarea
+            id="notes"
+            rows={5}
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            className={textareaClass}
+            placeholder="Any additional details..."
+          />
+        </div>
+
+        <div className={editorialFormSectionRuleClassName} aria-hidden="true" />
+
+        <div>
+          <label
+            htmlFor="document"
+            className="flex cursor-pointer flex-col items-center border border-dashed border-leather bg-parchment px-6 py-12 text-center transition hover:border-gold"
+          >
+            <Upload
+              className="mb-4 h-6 w-6 text-leather"
+              strokeWidth={1.25}
+              aria-hidden="true"
+            />
+            <span className="text-sm font-normal uppercase tracking-[0.12em] text-leather">
+              Upload Certificate Document
+            </span>
+            <span className="mt-2 text-xs font-light italic text-leather/70">
+              PDF or JPEG accepted
+            </span>
+            {document && (
+              <span className="mt-4 text-sm font-light text-text">
+                {document.name}
+              </span>
+            )}
+            {isEditing && certificate?.document_path && !document && (
+              <span className="mt-4 text-sm font-light text-leather">
+                Document on file — upload to replace
+              </span>
+            )}
+            <input
+              id="document"
+              type="file"
+              accept=".pdf,.jpg,.jpeg,application/pdf,image/jpeg"
+              onChange={(e) => setDocument(e.target.files?.[0] ?? null)}
+              className="sr-only"
+            />
+          </label>
+        </div>
+
+        {error && (
+          <p className="mt-8 border border-urgent/20 bg-urgent-light/50 px-4 py-3 text-sm text-urgent">
+            {error}
+          </p>
+        )}
+
+        <div className="mt-12">
+          <button
+            type="submit"
+            disabled={loading}
+            className={editorialFormSubmitClassName}
+          >
+            {loading
+              ? "Saving..."
+              : isEditing
+                ? "Save Changes"
+                : "Add Certificate"}
+          </button>
+          <Link
+            href={`/properties/${propertyId}`}
+            className={editorialFormCancelClassName}
+          >
+            Cancel
+          </Link>
+        </div>
+      </form>
+    );
+  }
+
   return (
     <form onSubmit={handleSubmit} className="space-y-12">
       <section>
         <h2 className={formSectionTitleClassName}>Certificate Type</h2>
         <div className={formSectionRuleClassName} aria-hidden="true" />
         <div className="mt-8">
-          <label htmlFor="certificateType" className={labelClassName}>
+          <label htmlFor="certificateType" className={labelClass}>
             Type
           </label>
           <select
@@ -200,7 +360,7 @@ export default function CertificateForm({
             onChange={(e) =>
               setCertificateType(e.target.value as CertificateType)
             }
-            className={selectClassName}
+            className={selectClass}
           >
             {CERTIFICATE_TYPES.map((type) => (
               <option key={type} value={type}>
@@ -219,7 +379,7 @@ export default function CertificateForm({
         <div className={formSectionRuleClassName} aria-hidden="true" />
         <div className="mt-8 space-y-8">
           <div>
-            <label htmlFor="issueDate" className={labelClassName}>
+            <label htmlFor="issueDate" className={labelClass}>
               {dateLabels.issue}
             </label>
             <input
@@ -228,12 +388,12 @@ export default function CertificateForm({
               required
               value={issueDate}
               onChange={(e) => setIssueDate(e.target.value)}
-              className={inputClassName}
+              className={inputClass}
             />
           </div>
 
           <div>
-            <label htmlFor="expiryDate" className={labelClassName}>
+            <label htmlFor="expiryDate" className={labelClass}>
               {dateLabels.expiry}
             </label>
             <input
@@ -242,7 +402,7 @@ export default function CertificateForm({
               required
               value={expiryDate}
               onChange={(e) => setExpiryDate(e.target.value)}
-              className={inputClassName}
+              className={inputClass}
             />
           </div>
         </div>
@@ -253,7 +413,7 @@ export default function CertificateForm({
         <div className={formSectionRuleClassName} aria-hidden="true" />
         <div className="mt-8 space-y-8">
           <div>
-            <label htmlFor="notes" className={labelClassName}>
+            <label htmlFor="notes" className={labelClass}>
               Notes (optional)
             </label>
             <textarea
@@ -261,13 +421,13 @@ export default function CertificateForm({
               rows={3}
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              className={textareaClassName}
+              className={textareaClass}
               placeholder="Any additional details..."
             />
           </div>
 
           <div>
-            <label htmlFor="document" className={labelClassName}>
+            <label htmlFor="document" className={labelClass}>
               Certificate Document (optional)
             </label>
             <input
