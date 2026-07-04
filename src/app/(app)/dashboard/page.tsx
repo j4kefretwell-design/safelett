@@ -1,5 +1,6 @@
 import Link from "next/link";
 import DashboardEmptyState from "@/components/DashboardEmptyState";
+import DashboardPortfolioActions from "@/components/DashboardPortfolioActions";
 import OptimizedFillImage from "@/components/OptimizedFillImage";
 import { getPropertyStatus } from "@/lib/compliance";
 import { siteImages } from "@/lib/site-images";
@@ -135,6 +136,9 @@ export default async function DashboardPage() {
       </section>
 
       <section className="dashboard-parchment-bg px-5 pb-16 pt-10 sm:px-12 sm:pb-24 lg:px-16 lg:pb-28">
+        <div className="mb-8 flex justify-end">
+          <DashboardPortfolioActions />
+        </div>
         <DashboardPortfolio
           properties={
             propertiesWithStatus as (Property & { status: ComplianceStatus })[]

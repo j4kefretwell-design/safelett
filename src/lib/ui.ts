@@ -141,3 +141,6 @@ export const draftContractorEmailBtnClassName =
 
 export const addContractorBtnClassName =
   "inline-flex min-h-10 items-center justify-center border border-gold px-4 py-2.5 text-[11px] font-normal uppercase tracking-[0.12em] text-gold-readable transition duration-200 hover:bg-gold/10";
+
+export const btnReportOutlineClassName =
+  "inline-flex min-h-9 items-center justify-center border border-raspberry px-4 py-2 text-[11px] font-normal uppercase tracking-[0.1em] text-raspberry transition duration-200 hover:bg-raspberry/5 disabled:cursor-not-allowed disabled:opacity-50";
