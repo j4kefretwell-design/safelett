@@ -49,11 +49,9 @@ export default async function RemindersPage() {
     .select("*");
 
   return (
-    <div className="w-full space-y-0">
-      <RemindersList
-        reminders={reminders}
-        contractors={(contractors ?? []) as PropertyContractor[]}
-      />
-    </div>
+    <RemindersList
+      reminders={reminders}
+      contractors={(contractors ?? []) as PropertyContractor[]}
+    />
   );
 }

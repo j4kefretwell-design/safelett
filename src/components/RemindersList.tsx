@@ -6,8 +6,9 @@ import { formatDate } from "@/lib/compliance";
 import {
   btnOutlineClassName,
   btnPrimaryClassName,
-  editorialBleedClassName,
+  editorialPagePaddingClassName,
   mutedTextClassName,
+  reminderGroupLabelClassName,
 } from "@/lib/ui";
 import {
   CERTIFICATE_LABELS,
@@ -35,19 +36,16 @@ const URGENCY_GROUPS = [
   {
     key: "overdue",
     label: "Overdue",
-    bandClass: "bg-raspberry",
     match: (days: number) => days < 0,
   },
   {
     key: "7days",
     label: "Due Within 7 Days",
-    bandClass: "bg-espresso",
     match: (days: number) => days >= 0 && days <= 7,
   },
   {
     key: "30days",
     label: "Due Within 30 Days",
-    bandClass: "bg-raspberry",
     match: (days: number) => days > 7 && days <= 30,
   },
 ] as const;
@@ -63,19 +61,12 @@ function formatDaysLabel(daysUntilExpiry: number): string {
   if (daysUntilExpiry < 0) {
     return `${Math.abs(daysUntilExpiry)} days overdue`;
   }
-
-  if (daysUntilExpiry === 0) {
-    return "Today";
-  }
-
+  if (daysUntilExpiry === 0) return "Today";
   return `${daysUntilExpiry} days`;
 }
 
 function loadActionedIds(): Set<string> {
-  if (typeof window === "undefined") {
-    return new Set();
-  }
-
+  if (typeof window === "undefined") return new Set();
   try {
     const stored = window.localStorage.getItem(ACTIONED_STORAGE_KEY);
     if (!stored) return new Set();
@@ -88,19 +79,16 @@ function loadActionedIds(): Set<string> {
 function RemindersStickyBar({
   overdueCount,
   weekCount,
-  monthCount,
 }: {
   overdueCount: number;
   weekCount: number;
-  monthCount: number;
 }) {
   return (
     <div
-      className={`sticky top-[57px] z-20 border-b border-leather/15 bg-dusty-cream px-8 py-4 sm:px-12 lg:top-0 lg:px-16 ${editorialBleedClassName}`}
+      className={`sticky top-16 z-10 border-b border-leather/15 bg-white ${editorialPagePaddingClassName} py-3`}
     >
-      <p className="text-[10px] font-normal uppercase tracking-[0.2em] text-leather">
-        {overdueCount} Overdue · {weekCount} Due This Week · {monthCount} Due
-        This Month
+      <p className="text-[10px] font-normal uppercase tracking-[0.18em] text-leather/80">
+        {overdueCount} Overdue · {weekCount} This Week
       </p>
     </div>
   );
@@ -122,7 +110,7 @@ function ReminderTableRow({
   const [expanded, setExpanded] = useState(false);
   const certLabel = CERTIFICATE_LABELS[reminder.certificate.certificate_type];
   const daysLabel = formatDaysLabel(reminder.daysUntilExpiry);
-  const rowBg = rowIndex % 2 === 0 ? "bg-dusty-cream" : "bg-sand";
+  const rowBg = rowIndex % 2 === 0 ? "bg-white" : "bg-dusty-cream/50";
 
   return (
     <div className={rowBg}>
@@ -130,7 +118,7 @@ function ReminderTableRow({
         type="button"
         onClick={() => setExpanded((current) => !current)}
         aria-expanded={expanded}
-        className="grid w-full grid-cols-1 gap-3 border-b border-leather/10 px-8 py-5 text-left transition hover:bg-tan/10 sm:grid-cols-[7.5rem_1fr_11rem_7.5rem] sm:items-center sm:gap-6 sm:px-12 sm:py-6 lg:px-16"
+        className={`grid w-full grid-cols-1 gap-3 border-b border-leather/10 py-5 text-left transition hover:bg-dusty-cream/40 sm:grid-cols-[7.5rem_1fr_11rem_7.5rem] sm:items-center sm:gap-6 sm:py-6 ${editorialPagePaddingClassName}`}
       >
         <span className="font-serif text-lg tracking-wide text-text sm:text-xl">
           {formatDate(reminder.certificate.expiry_date)}
@@ -141,7 +129,7 @@ function ReminderTableRow({
         <span className="text-[10px] font-normal uppercase tracking-[0.14em] text-leather">
           {certLabel}
         </span>
-        <span className="text-[10px] font-normal uppercase tracking-[0.14em] text-tan sm:text-right">
+        <span className="text-[10px] font-normal uppercase tracking-[0.14em] text-leather/70 sm:text-right">
           {daysLabel}
         </span>
       </button>
@@ -153,7 +141,7 @@ function ReminderTableRow({
       >
         <div className="overflow-hidden">
           <div
-            className="border-b border-l-[3px] border-l-espresso border-leather/10 px-8 py-8 sm:px-12 lg:px-16"
+            className={`border-b border-l-[3px] border-l-leather border-leather/10 py-8 ${editorialPagePaddingClassName}`}
           >
             <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
               <div>
@@ -274,35 +262,28 @@ export default function RemindersList({
   const weekCount = visibleReminders.filter(
     (r) => r.daysUntilExpiry >= 0 && r.daysUntilExpiry <= 7
   ).length;
-  const monthCount = visibleReminders.filter(
-    (r) => r.daysUntilExpiry > 7 && r.daysUntilExpiry <= 30
-  ).length;
 
   const handleActioned = useCallback((certificateId: string) => {
     setActionedIds((current) => {
       const next = new Set(current);
       next.add(certificateId);
-
       try {
         window.localStorage.setItem(
           ACTIONED_STORAGE_KEY,
           JSON.stringify([...next])
         );
       } catch {
-        // Ignore storage failures — session dismiss still works.
+        // ignore
       }
-
       return next;
     });
   }, []);
 
   if (!hydrated) {
     return (
-      <div
-        className={`border-b border-leather/15 bg-dusty-cream px-8 py-4 sm:px-12 lg:px-16 ${editorialBleedClassName}`}
-      >
-        <p className="text-[10px] font-normal uppercase tracking-[0.2em] text-leather">
-          Loading reminders...
+      <div className={`bg-dusty-cream py-8 ${editorialPagePaddingClassName}`}>
+        <p className="text-[10px] uppercase tracking-[0.2em] text-leather">
+          Loading...
         </p>
       </div>
     );
@@ -310,9 +291,15 @@ export default function RemindersList({
 
   if (visibleReminders.length === 0) {
     return (
-      <>
-        <RemindersStickyBar overdueCount={0} weekCount={0} monthCount={0} />
-        <div className="px-8 py-20 text-center sm:px-12 lg:px-16">
+      <div className="bg-dusty-cream">
+        <header className={`pt-12 pb-8 ${editorialPagePaddingClassName}`}>
+          <h1 className="font-serif text-4xl tracking-wide text-text sm:text-5xl">
+            Compliance Reminders
+          </h1>
+          <div className="mt-5 h-px w-12 bg-gold/70" aria-hidden="true" />
+        </header>
+        <RemindersStickyBar overdueCount={0} weekCount={0} />
+        <div className={`py-20 text-center ${editorialPagePaddingClassName}`}>
           <p className="font-serif text-2xl tracking-wide text-text">
             No upcoming reminders
           </p>
@@ -320,7 +307,7 @@ export default function RemindersList({
             Nothing is due within the next 30 days across your portfolio.
           </p>
         </div>
-      </>
+      </div>
     );
   }
 
@@ -328,23 +315,24 @@ export default function RemindersList({
   let globalRowIndex = 0;
 
   return (
-    <>
-      <RemindersStickyBar
-        overdueCount={overdueCount}
-        weekCount={weekCount}
-        monthCount={monthCount}
-      />
+    <div className="bg-dusty-cream">
+      <header className={`pt-12 pb-8 ${editorialPagePaddingClassName}`}>
+        <h1 className="font-serif text-4xl tracking-wide text-text sm:text-5xl">
+          Compliance Reminders
+        </h1>
+        <div className="mt-5 h-px w-12 bg-gold/70" aria-hidden="true" />
+      </header>
 
-      <div className="space-y-0">
+      <RemindersStickyBar overdueCount={overdueCount} weekCount={weekCount} />
+
+      <div>
         {groups.map((group) => (
           <div key={group.key}>
-            <p
-              className={`px-8 py-4 text-center text-[10px] font-normal uppercase tracking-[0.28em] text-dusty-cream sm:px-12 lg:px-16 ${group.bandClass} ${editorialBleedClassName}`}
-            >
-              {group.label}
-            </p>
+            <p className={reminderGroupLabelClassName}>{group.label}</p>
 
-            <div className="hidden border-b border-leather/15 bg-sand/50 px-8 py-3 sm:grid sm:grid-cols-[7.5rem_1fr_11rem_7.5rem] sm:gap-6 sm:px-12 lg:px-16">
+            <div
+              className={`hidden border-b border-leather/15 bg-white py-3 sm:grid sm:grid-cols-[7.5rem_1fr_11rem_7.5rem] sm:gap-6 ${editorialPagePaddingClassName}`}
+            >
               {["Date", "Property Address", "Certificate Type", "Days Remaining"].map(
                 (heading) => (
                   <span
@@ -361,7 +349,6 @@ export default function RemindersList({
               {group.items.map((reminder) => {
                 const rowIndex = globalRowIndex;
                 globalRowIndex += 1;
-
                 return (
                   <ReminderTableRow
                     key={reminder.certificate.id}
@@ -378,6 +365,6 @@ export default function RemindersList({
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 }

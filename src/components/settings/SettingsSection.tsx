@@ -20,21 +20,20 @@ export default function SettingsSection({
   return (
     <section
       id={id}
-      className="scroll-mt-6 border-t border-gold/25 py-16 first:border-t-0 first:pt-0 sm:py-20"
+      className="scroll-mt-20 border-t border-gold/40 py-14 first:border-t-0 first:pt-0 sm:py-16"
     >
       <p className="text-[10px] font-normal uppercase tracking-[0.32em] text-leather">
         {label}
       </p>
-      <h2 className="mt-4 font-serif text-3xl tracking-wide text-text sm:text-4xl">
+      <h2 className="mt-3 font-serif text-2xl tracking-wide text-text sm:text-3xl">
         {title}
       </h2>
-      <div className="mt-5 h-px w-12 bg-gold/70" aria-hidden="true" />
       {description && (
-        <p className="mt-6 max-w-lg text-sm font-light leading-relaxed text-leather">
+        <p className="mt-4 max-w-lg text-sm font-light leading-relaxed text-leather">
           {description}
         </p>
       )}
-      <div className="mt-10">{children}</div>
+      <div className="mt-8">{children}</div>
     </section>
   );
 }

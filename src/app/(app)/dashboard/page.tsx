@@ -63,74 +63,57 @@ export default async function DashboardPage() {
   ];
 
   return (
-    <div className="w-full space-y-0">
-      <section className="relative w-full overflow-hidden bg-raspberry">
+    <div className="w-full">
+      <section className="relative h-[280px] max-h-[280px] w-full overflow-hidden bg-raspberry">
         <div className="absolute inset-0">
           <Image
             src="/anthony-fomin-zjBxPUHE_ok-unsplash.jpg"
             alt=""
             fill
-            className="object-cover opacity-[0.38]"
+            className="object-cover opacity-30"
             sizes="100vw"
             priority
           />
         </div>
-        <div className="absolute inset-0 bg-raspberry/55" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#1A0A0C]/85 via-transparent to-raspberry/20" />
+        <div className="absolute inset-0 bg-raspberry/70" />
 
-        <div className="relative z-10 flex flex-col items-center justify-center px-8 py-24 text-center sm:px-12 sm:py-28 lg:px-16 lg:py-32">
+        <div className="relative z-10 flex h-full flex-col items-center justify-center px-8 text-center">
           <p className="font-serif text-sm italic tracking-wide text-gold">
             Portfolio Status —
           </p>
-          <h1 className="mt-5 max-w-4xl font-serif text-3xl italic leading-tight tracking-wide text-dusty-cream sm:text-4xl lg:text-5xl xl:text-6xl">
+          <h1 className="mt-4 max-w-3xl font-serif text-3xl leading-tight tracking-wide text-dusty-cream sm:text-4xl lg:text-5xl">
             {isCompliant
               ? "All Properties Compliant"
               : `${needsAttention} ${needsAttention === 1 ? "Property" : "Properties"} Need Attention`}
           </h1>
-          {!isCompliant && (
-            <p className="mt-6 max-w-lg text-sm font-light text-dusty-cream/70">
-              {stats.overdue > 0 && (
-                <span>
-                  {stats.overdue} overdue
-                  {stats.attention > 0 ? " · " : ""}
-                </span>
-              )}
-              {stats.attention > 0 && (
-                <span>{stats.attention} approaching expiry</span>
-              )}
-            </p>
-          )}
         </div>
       </section>
 
-      <section className="flex w-full divide-x divide-leather/20">
-        {statItems.map((item) => (
-          <div
-            key={item.key}
-            className={`flex min-w-0 flex-1 flex-col items-center justify-center border-t-[3px] bg-sand px-4 py-12 sm:px-6 sm:py-14 ${statAccentClasses[item.key]}`}
-          >
-            <p className="font-serif text-5xl tracking-wide text-text sm:text-6xl lg:text-7xl">
-              {item.value}
-            </p>
-            <p className="mt-5 text-center text-[10px] font-normal uppercase tracking-[0.24em] text-leather">
-              {item.label}
-            </p>
-          </div>
-        ))}
-      </section>
+      <div className="bg-dusty-cream px-8 py-14 sm:px-12 sm:py-16 lg:px-16 lg:py-20">
+        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-5">
+          {statItems.map((item) => (
+            <div
+              key={item.key}
+              className={`border border-leather/30 border-t-[3px] bg-white px-5 py-10 text-center ${statAccentClasses[item.key]}`}
+            >
+              <p className="font-serif text-4xl tracking-wide text-text sm:text-5xl lg:text-6xl">
+                {item.value}
+              </p>
+              <p className="mt-4 text-[10px] font-normal uppercase tracking-[0.22em] text-leather">
+                {item.label}
+              </p>
+            </div>
+          ))}
+        </div>
 
-      <section className="w-full bg-espresso px-8 py-14 text-center sm:px-12 sm:py-16 lg:px-16">
-        <p className="font-serif text-xl italic tracking-wide text-dusty-cream/85 sm:text-2xl">
-          Every deadline met. Every property protected.
-        </p>
-      </section>
+        <div className="my-14 h-px w-full bg-leather/30" aria-hidden="true" />
 
-      <DashboardPortfolio
-        properties={
-          propertiesWithStatus as (Property & { status: ComplianceStatus })[]
-        }
-        totalCount={stats.total}
-      />
+        <DashboardPortfolio
+          properties={
+            propertiesWithStatus as (Property & { status: ComplianceStatus })[]
+          }
+        />
+      </div>
     </div>
   );
 }

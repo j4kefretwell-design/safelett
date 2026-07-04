@@ -14,9 +14,5 @@ export default async function SettingsPage() {
 
   const profile = await getUserProfile(supabase, user.id);
 
-  return (
-    <div className="flex w-full flex-col lg:flex-row">
-      <SettingsClient profile={profile} email={user.email ?? ""} />
-    </div>
-  );
+  return <SettingsClient profile={profile} email={user.email ?? ""} />;
 }

@@ -127,7 +127,7 @@ export default function ImportPropertiesPage() {
   }
 
   return (
-    <div className="grid min-h-[calc(100vh-8rem)] w-full lg:grid-cols-[16rem_1fr_18rem] xl:grid-cols-[18rem_1fr_20rem]">
+    <div className="grid min-h-[calc(100vh-4rem)] w-full bg-dusty-cream lg:grid-cols-[16rem_1fr_18rem] xl:grid-cols-[18rem_1fr_20rem]">
       <aside className="border-b border-leather/15 bg-espresso px-8 py-12 text-dusty-cream lg:border-b-0 lg:border-r lg:py-16">
         <p className="text-[10px] font-normal uppercase tracking-[0.32em] text-dusty-cream/50">
           Bulk Import
@@ -165,7 +165,7 @@ export default function ImportPropertiesPage() {
 
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col border-b border-leather/15 bg-dusty-cream px-8 py-12 lg:border-b-0 lg:border-r lg:px-12 lg:py-16"
+        className="flex flex-col border-b border-leather/15 bg-white px-8 py-12 lg:border-b-0 lg:border-r lg:px-12 lg:py-16"
       >
         <p className="text-[10px] font-normal uppercase tracking-[0.32em] text-leather">
           Upload
@@ -177,7 +177,7 @@ export default function ImportPropertiesPage() {
 
         <label
           htmlFor="csv-upload"
-          className="mt-10 flex flex-1 cursor-pointer flex-col items-center justify-center border border-dashed border-leather/30 bg-sand px-8 py-20 text-center transition hover:border-tan"
+          className="mt-10 flex flex-1 cursor-pointer flex-col items-center justify-center border border-dashed border-leather/30 bg-dusty-cream/40 px-8 py-20 text-center transition hover:border-leather/50"
         >
           <Upload className="h-8 w-8 text-leather/50" strokeWidth={1.25} />
           <p className="mt-6 font-serif text-xl tracking-wide text-text">
@@ -223,7 +223,7 @@ export default function ImportPropertiesPage() {
         </div>
       </form>
 
-      <aside className="bg-sand/40 px-8 py-12 lg:py-16">
+      <aside className="border-b border-leather/15 bg-white px-8 py-12 lg:border-b-0 lg:py-16">
         <p className="text-[10px] font-normal uppercase tracking-[0.32em] text-leather">
           Format Reference
         </p>
@@ -236,7 +236,7 @@ export default function ImportPropertiesPage() {
           multiple certificates on the same property.
         </p>
 
-        <div className="mt-8 overflow-x-auto border border-leather/20 bg-dusty-cream">
+        <div className="mt-8 overflow-x-auto border border-leather/25 bg-white">
           <table className="w-full min-w-[28rem] text-left text-xs">
             <thead>
               <tr className={tableHeaderClassName}>
@@ -252,7 +252,7 @@ export default function ImportPropertiesPage() {
                 <tr
                   key={row.join("-")}
                   className={`${tableRowClassName} ${
-                    rowIndex % 2 === 0 ? "bg-dusty-cream" : "bg-sand/50"
+                    rowIndex % 2 === 0 ? "bg-white" : "bg-dusty-cream/40"
                   }`}
                 >
                   {row.map((cell) => (

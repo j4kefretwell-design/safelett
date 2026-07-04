@@ -7,7 +7,7 @@ import { AnimateIn } from "@/components/AnimateIn";
 export default function NewPropertyPage() {
   return (
     <AnimateIn>
-      <div className="grid min-h-[calc(100vh-4rem)] w-full lg:min-h-[calc(100vh-3rem)] lg:grid-cols-[2fr_3fr]">
+      <div className="grid min-h-[calc(100vh-4rem)] w-full lg:min-h-[calc(100vh-4rem)] lg:grid-cols-[2fr_3fr]">
         <div className="relative hidden min-h-[480px] lg:block lg:min-h-full">
           <BackgroundImage
             src="/ben-elliott-unPC3it1yDA-unsplash.jpg"
@@ -17,21 +17,21 @@ export default function NewPropertyPage() {
             placeholderColor="#39281D"
             effect="fade"
           />
-          <div className="absolute inset-0 bg-espresso/60" />
+          <div className="absolute inset-0 bg-espresso/65" />
           <div className="relative z-10 flex h-full flex-col justify-end p-12 xl:p-16">
             <blockquote className="max-w-sm">
-              <p className="font-serif text-2xl leading-snug tracking-wide text-dusty-cream lg:text-3xl xl:text-4xl">
+              <p className="font-serif text-2xl leading-snug tracking-wide text-dusty-cream lg:text-3xl">
                 &ldquo;Every great portfolio begins with a single property.&rdquo;
               </p>
             </blockquote>
           </div>
         </div>
 
-        <div className="flex w-full flex-col bg-dusty-cream px-8 py-14 sm:px-12 lg:px-16 lg:py-20 xl:px-20">
+        <div className="flex w-full flex-col bg-white px-8 py-14 sm:px-12 lg:px-16 lg:py-20 xl:px-20">
           <p className="text-[10px] font-normal uppercase tracking-[0.32em] text-gold">
             Add a Property
           </p>
-          <h1 className="mt-5 max-w-xl font-serif text-3xl tracking-wide text-text sm:text-4xl lg:text-[2.75rem] lg:leading-tight">
+          <h1 className="mt-5 max-w-xl font-serif text-3xl tracking-wide text-text sm:text-4xl lg:leading-tight">
             Add a New Property to Your Portfolio.
           </h1>
           <p className="mt-5 max-w-lg text-sm font-light leading-relaxed text-leather">
