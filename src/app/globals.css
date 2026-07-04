@@ -267,6 +267,22 @@
     min-height: 2.75rem;
     min-width: 2.75rem;
   }
+
+  .email-draft-paper {
+    background-color: var(--color-parchment-warm);
+    background-image: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.35) 0%,
+        transparent 40%
+      ),
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 27px,
+        rgba(107, 80, 60, 0.04) 27px,
+        rgba(107, 80, 60, 0.04) 28px
+      );
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import DeleteCertificateButton from "@/components/DeleteCertificateButton";
 import DeletePropertyButton from "@/components/DeletePropertyButton";
 import { AnimateIn } from "@/components/AnimateIn";
+import CertificateContractorEmailLink from "@/components/CertificateContractorEmailLink";
 import PropertyContractors from "@/components/PropertyContractors";
 import PropertyNotes from "@/components/PropertyNotes";
 import ShareWithLandlordButton from "@/components/ShareWithLandlordButton";
@@ -34,6 +35,7 @@ import {
   getCertificateDateLabels,
   PROPERTY_TYPE_LABELS,
   type Certificate,
+  type CertificateType,
   type Property,
   type PropertyContractor,
 } from "@/lib/types";
@@ -76,6 +78,10 @@ export default async function PropertyDetailPage({
     .order("certificate_type", { ascending: true });
 
   const contractorList = (contractors ?? []) as PropertyContractor[];
+
+  const contractorsByType = new Map<CertificateType, PropertyContractor>(
+    contractorList.map((contractor) => [contractor.certificate_type, contractor])
+  );
 
   const documentUrls = await Promise.all(
     certificateList.map(async (cert) => {
@@ -194,20 +200,29 @@ export default async function PropertyDetailPage({
                             View document
                           </a>
                         )}
-                        <div className="mt-5 flex flex-wrap gap-4">
-                          <Link
-                            href={`/properties/${id}/certificates/${cert.id}/edit`}
-                            className={linkClassName}
-                          >
-                            Edit
-                          </Link>
-                          <DeleteCertificateButton
+                        <div className="mt-5 flex flex-col gap-3">
+                          <CertificateContractorEmailLink
+                            propertyId={id}
                             certificateId={cert.id}
-                            certificateLabel={
-                              CERTIFICATE_LABELS[cert.certificate_type]
-                            }
-                            documentPath={cert.document_path}
+                            certificateType={cert.certificate_type}
+                            expiryDate={cert.expiry_date}
+                            contractorsByType={contractorsByType}
                           />
+                          <div className="flex flex-wrap gap-4">
+                            <Link
+                              href={`/properties/${id}/certificates/${cert.id}/edit`}
+                              className={linkClassName}
+                            >
+                              Edit
+                            </Link>
+                            <DeleteCertificateButton
+                              certificateId={cert.id}
+                              certificateLabel={
+                                CERTIFICATE_LABELS[cert.certificate_type]
+                              }
+                              documentPath={cert.document_path}
+                            />
+                          </div>
                         </div>
                       </div>
                       <StatusDot status={status} />
@@ -273,20 +288,29 @@ export default async function PropertyDetailPage({
                         <StatusDot status={status} />
                       </td>
                       <td className="px-8 py-6">
-                        <div className="flex flex-wrap gap-4">
-                          <Link
-                            href={`/properties/${id}/certificates/${cert.id}/edit`}
-                            className={linkClassName}
-                          >
-                            Edit
-                          </Link>
-                          <DeleteCertificateButton
+                        <div className="flex flex-col gap-3">
+                          <CertificateContractorEmailLink
+                            propertyId={id}
                             certificateId={cert.id}
-                            certificateLabel={
-                              CERTIFICATE_LABELS[cert.certificate_type]
-                            }
-                            documentPath={cert.document_path}
+                            certificateType={cert.certificate_type}
+                            expiryDate={cert.expiry_date}
+                            contractorsByType={contractorsByType}
                           />
+                          <div className="flex flex-wrap gap-4">
+                            <Link
+                              href={`/properties/${id}/certificates/${cert.id}/edit`}
+                              className={linkClassName}
+                            >
+                              Edit
+                            </Link>
+                            <DeleteCertificateButton
+                              certificateId={cert.id}
+                              certificateLabel={
+                                CERTIFICATE_LABELS[cert.certificate_type]
+                              }
+                              documentPath={cert.document_path}
+                            />
+                          </div>
                         </div>
                       </td>
                     </tr>
@@ -300,10 +324,12 @@ export default async function PropertyDetailPage({
       </AnimateIn>
 
       <AnimateIn delay={250}>
+      <div id="contractors">
       <PropertyContractors
         propertyId={id}
         initialContractors={contractorList}
       />
+      </div>
       </AnimateIn>
 
       <AnimateIn delay={300}>
