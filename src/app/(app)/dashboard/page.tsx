@@ -77,18 +77,6 @@ export default async function DashboardPage() {
         needsAttention={needsAttention}
       />
 
-      <section className="relative h-[320px] w-full overflow-hidden">
-        <Image
-          src="/anthony-fomin-zjBxPUHE_ok-unsplash.jpg"
-          alt=""
-          fill
-          className="object-cover"
-          sizes="100vw"
-          priority
-        />
-        <div className="absolute inset-0 bg-raspberry/55" aria-hidden="true" />
-      </section>
-
       <section className="dashboard-parchment-bg px-8 py-16 sm:px-12 sm:py-20 lg:px-16 lg:py-24">
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-5">
           {statItems.map((item) => (
