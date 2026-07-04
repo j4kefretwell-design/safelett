@@ -24,6 +24,9 @@ const btnBaseClassName =
 export const btnPrimaryClassName =
   `${btnBaseClassName} bg-raspberry text-dusty-cream hover:bg-raspberry-dark`;
 
+export const btnHeroTrialClassName =
+  `${btnBaseClassName} bg-dusty-cream text-raspberry hover:bg-[#FAFAF8] hover:text-raspberry-dark`;
+
 export const btnSecondaryClassName =
   `${btnBaseClassName} border border-leather/35 bg-white text-text hover:border-leather`;
 

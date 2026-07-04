@@ -7,7 +7,7 @@ import BackgroundImage from "@/components/BackgroundImage";
 import BrandWordmark from "@/components/BrandWordmark";
 import ScrollReveal, { ScrollRevealGroup } from "@/components/ScrollReveal";
 import { siteImages } from "@/lib/site-images";
-import { btnOutlineClassName, btnPrimaryClassName } from "@/lib/ui";
+import { btnHeroTrialClassName, btnOutlineClassName, btnPrimaryClassName } from "@/lib/ui";
 
 const pricingFeatures = [
   "Unlimited properties",
@@ -153,7 +153,7 @@ export default function LandingPage() {
             <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:flex-wrap sm:gap-4">
               <Link
                 href="/signup"
-                className={`${btnPrimaryClassName} w-full bg-dusty-cream text-text hover:bg-dusty-cream/90 sm:w-auto`}
+                className={`${btnHeroTrialClassName} w-full sm:w-auto`}
               >
                 Begin Your Trial
               </Link>
