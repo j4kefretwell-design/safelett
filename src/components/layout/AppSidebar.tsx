@@ -3,17 +3,16 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { HardHat } from "lucide-react";
 import BrandMonogram from "@/components/BrandMonogram";
 import { createClient } from "@/lib/supabase/client";
 
 const navItems = [
-  { href: "/dashboard", label: "Dashboard", icon: null },
-  { href: "/reminders", label: "Reminders", icon: null },
-  { href: "/contractors", label: "Contractors", icon: HardHat },
-  { href: "/properties/new", label: "Add Property", icon: null },
-  { href: "/properties/import", label: "Bulk Import", icon: null },
-  { href: "/settings", label: "Settings", icon: null },
+  { href: "/dashboard", label: "Dashboard" },
+  { href: "/reminders", label: "Reminders" },
+  { href: "/contractors", label: "Contractors" },
+  { href: "/properties/new", label: "Add Property" },
+  { href: "/properties/import", label: "Bulk Import" },
+  { href: "/settings", label: "Settings" },
 ] as const;
 
 function isNavActive(pathname: string, href: string): boolean {
@@ -98,21 +97,17 @@ export default function AppSidebar({ open, onClose }: AppSidebarProps) {
           <ul className="space-y-1">
             {navItems.map((item) => {
               const isActive = isNavActive(pathname, item.href);
-              const Icon = item.icon;
               return (
                 <li key={item.href}>
                   <Link
                     href={item.href}
                     onClick={onClose}
-                    className={`flex min-h-11 items-center gap-3 border-l-2 py-3 pl-5 pr-3 text-sm font-normal uppercase tracking-[0.14em] leading-relaxed transition-colors duration-200 ${
+                    className={`block min-h-11 border-l-2 py-3 pl-5 pr-3 text-sm font-normal uppercase tracking-[0.14em] leading-relaxed transition-colors duration-200 ${
                       isActive
                         ? "border-gold text-dusty-cream"
                         : "border-transparent text-dusty-cream/85 hover:border-gold/40 hover:text-dusty-cream"
                     }`}
                   >
-                    {Icon && (
-                      <Icon className="h-4 w-4 shrink-0 opacity-80" strokeWidth={1.25} />
-                    )}
                     {item.label}
                   </Link>
                 </li>
