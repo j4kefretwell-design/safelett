@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import {
+  buildGmailComposeUrl,
   buildMailtoUrl,
   formatEmailForCopy,
   type ContractorEmailDraft,
@@ -18,6 +19,9 @@ interface ContractorEmailDraftClientProps {
   propertyAddress: string;
   backHref: string;
 }
+
+const secondaryActionClassName =
+  "flex h-10 w-full items-center justify-center border border-leather/40 bg-transparent text-xs font-normal uppercase tracking-[0.1em] text-leather transition duration-200 hover:border-leather hover:text-text";
 
 export default function ContractorEmailDraftClient({
   draft: initialDraft,
@@ -110,10 +114,21 @@ export default function ContractorEmailDraftClient({
         <button
           type="button"
           onClick={handleCopy}
-          className="flex h-10 w-full items-center justify-center border border-leather/40 bg-transparent text-xs font-normal uppercase tracking-[0.1em] text-leather transition duration-200 hover:border-leather hover:text-text"
+          className={secondaryActionClassName}
         >
           {copied ? "Copied to Clipboard" : "Copy to Clipboard"}
         </button>
+        <a
+          href={buildGmailComposeUrl(draft)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={secondaryActionClassName}
+        >
+          Open in Gmail →
+        </a>
+        <p className="pt-1 text-center text-xs font-light italic text-cocoa">
+          Choose how you&apos;d like to send this email
+        </p>
       </div>
     </div>
   );

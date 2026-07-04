@@ -131,6 +131,17 @@ export function buildMailtoUrl(draft: ContractorEmailDraft): string {
   return `mailto:${draft.toEmail}?${params.toString()}`;
 }
 
+export function buildGmailComposeUrl(draft: ContractorEmailDraft): string {
+  const params = new URLSearchParams({
+    view: "cm",
+    to: draft.toEmail,
+    su: draft.subject,
+    body: draft.body,
+  });
+
+  return `https://mail.google.com/mail/?${params.toString()}`;
+}
+
 export function resolveUserDisplayName(
   fullName: string | null | undefined,
   fallback = "Property Manager"
