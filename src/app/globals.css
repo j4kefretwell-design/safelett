@@ -70,6 +70,33 @@
     );
   }
 
+  .dashboard-warm-card {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--color-leather);
+    border-top-width: 2px;
+    border-top-color: var(--color-gold);
+    background: linear-gradient(180deg, #fafaf8 0%, #f0ede6 100%);
+  }
+
+  .dashboard-warm-card::before {
+    content: "";
+    position: absolute;
+    bottom: -4rem;
+    right: -4rem;
+    width: 11rem;
+    height: 11rem;
+    border: 1px solid var(--color-gold);
+    border-radius: 50%;
+    opacity: 0.05;
+    pointer-events: none;
+  }
+
+  .dashboard-warm-card-content {
+    position: relative;
+    z-index: 1;
+  }
+
   .scroll-reveal {
     opacity: 0;
     transform: translateY(20px);

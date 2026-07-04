@@ -5,6 +5,13 @@ import { createClient } from "@/lib/supabase/server";
 import type { Certificate, ComplianceStatus, Property } from "@/lib/types";
 import DashboardPortfolio from "./DashboardPortfolio";
 
+function getGreeting(): string {
+  const hour = new Date().getHours();
+  if (hour < 12) return "Good morning";
+  if (hour < 17) return "Good afternoon";
+  return "Good evening";
+}
+
 export default async function DashboardPage() {
   const supabase = await createClient();
 
@@ -45,57 +52,82 @@ export default async function DashboardPage() {
   const isCompliant = needsAttention === 0;
 
   const statItems = [
-    { label: "Total Properties", value: stats.total },
-    { label: "Compliant", value: stats.compliant },
-    { label: "Needs Attention", value: stats.attention },
-    { label: "Overdue", value: stats.overdue },
+    {
+      label: "Total Properties",
+      value: stats.total,
+      description: "Across your portfolio",
+    },
+    {
+      label: "Compliant",
+      value: stats.compliant,
+      description: "Certificates up to date",
+    },
+    {
+      label: "Needs Attention",
+      value: stats.attention,
+      description: "Approaching expiry",
+    },
+    {
+      label: "Overdue",
+      value: stats.overdue,
+      description: "Past due date",
+    },
   ];
 
   return (
     <div className="w-full bg-dusty-cream">
-      <section className="relative h-[200px] max-h-[200px] w-full overflow-hidden bg-raspberry">
-        <div className="absolute inset-0">
-          <Image
-            src="/anthony-fomin-zjBxPUHE_ok-unsplash.jpg"
-            alt=""
-            fill
-            className="object-cover"
-            sizes="100vw"
-            priority
-          />
-        </div>
-        <div className="absolute inset-0 bg-raspberry/40" />
+      <section className="bg-dusty-cream px-8 py-14 text-center sm:px-12 sm:py-16 lg:px-16 lg:py-20">
+        <p className="font-serif text-sm italic tracking-wide text-gold">
+          {getGreeting()}
+        </p>
+        <h1 className="mt-4 max-w-3xl font-serif text-3xl leading-tight tracking-wide text-raspberry sm:mx-auto sm:text-4xl lg:text-5xl">
+          {isCompliant
+            ? "All Properties Compliant"
+            : `${needsAttention} ${needsAttention === 1 ? "Property" : "Properties"} Need Attention`}
+        </h1>
+      </section>
 
-        <div className="relative z-10 flex h-full flex-col items-center justify-center px-8 text-center">
-          <p className="font-serif text-sm italic tracking-wide text-gold drop-shadow-sm">
-            Portfolio Status —
-          </p>
-          <h1 className="mt-3 max-w-3xl font-serif text-2xl leading-tight tracking-wide text-dusty-cream drop-shadow-md sm:text-3xl lg:text-4xl">
-            {isCompliant
-              ? "All Properties Compliant"
-              : `${needsAttention} ${needsAttention === 1 ? "Property" : "Properties"} Need Attention`}
-          </h1>
-        </div>
+      <section className="relative h-[250px] w-full overflow-hidden">
+        <Image
+          src="/anthony-fomin-zjBxPUHE_ok-unsplash.jpg"
+          alt=""
+          fill
+          className="object-cover"
+          sizes="100vw"
+          priority
+        />
+        <div className="absolute inset-0 bg-raspberry/55" aria-hidden="true" />
       </section>
 
       <section className="bg-dusty-cream px-8 py-16 sm:px-12 sm:py-20 lg:px-16 lg:py-24">
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-5">
           {statItems.map((item) => (
-            <div
-              key={item.label}
-              className="border border-leather/30 bg-white px-5 py-10 text-center"
-            >
-              <p className="font-serif text-4xl tracking-wide text-text sm:text-5xl lg:text-6xl">
-                {item.value}
-              </p>
-              <p className="mt-4 text-[10px] font-normal uppercase tracking-[0.22em] text-leather">
-                {item.label}
-              </p>
+            <div key={item.label} className="dashboard-warm-card px-5 py-10 text-center">
+              <div className="dashboard-warm-card-content">
+                <p className="font-serif text-4xl tracking-wide text-text sm:text-5xl lg:text-6xl">
+                  {item.value}
+                </p>
+                <p className="mt-4 text-[10px] font-normal uppercase tracking-[0.22em] text-leather">
+                  {item.label}
+                </p>
+                <p className="mt-2 text-[11px] italic text-tan">{item.description}</p>
+              </div>
             </div>
           ))}
         </div>
 
-        <div className="mt-20 lg:mt-24">
+        <div className="relative mt-12 h-[160px] w-full overflow-hidden sm:mt-14">
+          <Image
+            src="/ben-elliott-8WJtlR3nlQY-unsplash.jpg"
+            alt=""
+            fill
+            className="object-cover"
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-[#1A0A0C]/30" aria-hidden="true" />
+        </div>
+
+        <div className="mt-16 lg:mt-20">
           <DashboardPortfolio
             properties={
               propertiesWithStatus as (Property & { status: ComplianceStatus })[]

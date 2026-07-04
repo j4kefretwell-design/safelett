@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { getStatusLabel } from "@/lib/compliance";
+import { dashboardWarmCardClassName } from "@/lib/ui";
 import {
   PROPERTY_TYPE_LABELS,
   type ComplianceStatus,
@@ -29,9 +30,9 @@ export default function PropertyCard({ property, status }: PropertyCardProps) {
   return (
     <Link
       href={`/properties/${property.id}`}
-      className={`group flex min-h-[220px] flex-col justify-between border border-leather/30 border-l-[3px] bg-white p-8 transition duration-200 hover:border-leather/50 sm:min-h-[240px] ${statusBorderClasses[status]}`}
+      className={`group ${dashboardWarmCardClassName} flex min-h-[220px] flex-col justify-between border-l-[3px] p-8 transition duration-200 hover:border-leather sm:min-h-[240px] ${statusBorderClasses[status]}`}
     >
-      <div>
+      <div className="dashboard-warm-card-content">
         <h3 className="font-serif text-xl leading-snug tracking-wide text-text transition group-hover:text-raspberry sm:text-2xl">
           {property.address}
         </h3>
@@ -41,7 +42,7 @@ export default function PropertyCard({ property, status }: PropertyCardProps) {
         </p>
       </div>
       <p
-        className={`text-[10px] font-normal uppercase tracking-[0.14em] ${statusTextClasses[status]}`}
+        className={`dashboard-warm-card-content text-[10px] font-normal uppercase tracking-[0.14em] ${statusTextClasses[status]}`}
       >
         {getStatusLabel(status)}
       </p>

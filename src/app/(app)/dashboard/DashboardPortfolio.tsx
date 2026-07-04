@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import PropertyCard from "@/components/PropertyCard";
 import { ScrollRevealGroup } from "@/components/ScrollReveal";
-import { btnGoldClassName, searchInputClassName } from "@/lib/ui";
+import { btnGoldClassName, dashboardWarmCardClassName, searchInputClassName } from "@/lib/ui";
 import type { ComplianceStatus, Property } from "@/lib/types";
 
 interface PropertyWithStatus extends Property {
@@ -47,8 +47,8 @@ export default function DashboardPortfolio({ properties }: DashboardPortfolioPro
 
       <div className="mt-12">
         {filteredProperties.length === 0 ? (
-          <div className="border border-leather/25 bg-white px-8 py-14 text-center">
-            <p className="text-sm font-light italic text-leather">
+          <div className={`${dashboardWarmCardClassName} px-8 py-14 text-center`}>
+            <p className="dashboard-warm-card-content text-sm font-light italic text-leather">
               No properties match your search.
             </p>
           </div>

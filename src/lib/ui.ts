@@ -48,6 +48,8 @@ export const formCardClassName =
 export const statCardClassName =
   "border border-leather/30 bg-white px-8 py-10 transition hover:border-leather/50";
 
+export const dashboardWarmCardClassName = "dashboard-warm-card";
+
 export const sectionBandClassName =
   "bg-raspberry px-8 py-3 sm:px-12 lg:px-16";
 
