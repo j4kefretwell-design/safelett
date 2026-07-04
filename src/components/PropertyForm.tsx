@@ -24,11 +24,13 @@ import {
 interface PropertyFormProps {
   property?: Property;
   fullWidthSubmit?: boolean;
+  hideSectionHeader?: boolean;
 }
 
 export default function PropertyForm({
   property,
   fullWidthSubmit = false,
+  hideSectionHeader = false,
 }: PropertyFormProps) {
   const router = useRouter();
   const isEditing = Boolean(property);
@@ -104,11 +106,15 @@ export default function PropertyForm({
   return (
     <form onSubmit={handleSubmit} className="space-y-12">
       <section>
-        <h2 className="text-xs font-normal uppercase tracking-[0.22em] text-cocoa">
-          Property Details
-        </h2>
-        <div className={formSectionRuleClassName} aria-hidden="true" />
-        <div className="mt-8 space-y-8">
+        {!hideSectionHeader && (
+          <>
+            <h2 className="text-xs font-normal uppercase tracking-[0.22em] text-cocoa">
+              Property Details
+            </h2>
+            <div className={formSectionRuleClassName} aria-hidden="true" />
+          </>
+        )}
+        <div className={hideSectionHeader ? "space-y-10" : "mt-8 space-y-8"}>
           <div>
             <label htmlFor="address" className={labelClassName}>
               Property Address

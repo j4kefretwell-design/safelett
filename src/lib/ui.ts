@@ -60,8 +60,10 @@ export const sectionBandLabelClassName =
 export const editorialContentClassName =
   "mx-auto w-full max-w-6xl px-8 sm:px-12 lg:px-16";
 
-export const editorialBleedClassName =
-  "-mx-6 w-[calc(100%+3rem)] sm:-mx-10 sm:w-[calc(100%+5rem)] lg:-mx-12 lg:w-[calc(100%+6rem)]";
+export const editorialBleedClassName = "w-full";
+
+export const editorialPagePaddingClassName =
+  "px-8 sm:px-12 lg:px-16";
 
 export const sectionTitleClassName =
   "font-serif text-xl tracking-wide text-text";

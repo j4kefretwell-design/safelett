@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { btnPrimaryClassName, btnSecondaryClassName } from "@/lib/ui";
+import { btnPrimaryClassName, btnSecondaryClassName, editorialBleedClassName } from "@/lib/ui";
 
 interface PropertyPageHeaderProps {
   title: string;
@@ -21,8 +21,8 @@ export default function PropertyPageHeader({
   secondaryAction,
 }: PropertyPageHeaderProps) {
   return (
-    <div className="relative -mt-10 mb-12 lg:-mt-16 lg:mb-14">
-      <div className="-mx-6 bg-raspberry px-6 py-12 sm:-mx-10 sm:px-10 lg:-mx-14 lg:px-14">
+    <div className="relative mb-12 lg:mb-14">
+      <div className={`bg-raspberry py-12 ${editorialBleedClassName} px-8 sm:px-12 lg:px-16`}>
         {backHref && (
           <Link
             href={backHref}

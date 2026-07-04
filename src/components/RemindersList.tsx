@@ -1,15 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { AnimateIn } from "@/components/AnimateIn";
 import { formatDate } from "@/lib/compliance";
 import {
   btnOutlineClassName,
   btnPrimaryClassName,
   editorialBleedClassName,
-  editorialContentClassName,
   mutedTextClassName,
 } from "@/lib/ui";
 import {
@@ -38,32 +35,20 @@ const URGENCY_GROUPS = [
   {
     key: "overdue",
     label: "Overdue",
-    bandClass: "bg-urgent text-dusty-cream",
+    bandClass: "bg-raspberry",
     match: (days: number) => days < 0,
   },
   {
     key: "7days",
     label: "Due Within 7 Days",
-    bandClass: "bg-attention text-dusty-cream",
+    bandClass: "bg-espresso",
     match: (days: number) => days >= 0 && days <= 7,
   },
   {
     key: "30days",
     label: "Due Within 30 Days",
-    bandClass: "bg-leather text-dusty-cream/95",
+    bandClass: "bg-raspberry",
     match: (days: number) => days > 7 && days <= 30,
-  },
-  {
-    key: "60days",
-    label: "Due Within 60 Days",
-    bandClass: "bg-raspberry text-dusty-cream/90",
-    match: (days: number) => days > 30 && days <= 60,
-  },
-  {
-    key: "90days",
-    label: "Due Within 90 Days",
-    bandClass: "bg-espresso text-dusty-cream/85",
-    match: (days: number) => days > 60 && days <= 90,
   },
 ] as const;
 
@@ -80,10 +65,10 @@ function formatDaysLabel(daysUntilExpiry: number): string {
   }
 
   if (daysUntilExpiry === 0) {
-    return "expires today";
+    return "Today";
   }
 
-  return `${daysUntilExpiry} days remaining`;
+  return `${daysUntilExpiry} days`;
 }
 
 function loadActionedIds(): Set<string> {
@@ -100,65 +85,63 @@ function loadActionedIds(): Set<string> {
   }
 }
 
-function RemindersHeader() {
+function RemindersStickyBar({
+  overdueCount,
+  weekCount,
+  monthCount,
+}: {
+  overdueCount: number;
+  weekCount: number;
+  monthCount: number;
+}) {
   return (
-    <header
-      className={`relative h-[180px] overflow-hidden ${editorialBleedClassName}`}
+    <div
+      className={`sticky top-[57px] z-20 border-b border-leather/15 bg-dusty-cream px-8 py-4 sm:px-12 lg:top-0 lg:px-16 ${editorialBleedClassName}`}
     >
-      <Image
-        src="/rumman-amin-CU0dmWuIz0c-unsplash.jpg"
-        alt=""
-        fill
-        className="object-cover"
-        sizes="100vw"
-        priority
-      />
-      <div className="absolute inset-0 bg-gradient-to-r from-espresso/85 via-espresso/70 to-espresso/55" />
-      <div className="relative z-10 flex h-full items-center px-8 sm:px-12 lg:px-16">
-        <h1 className="font-serif text-3xl tracking-wide text-dusty-cream sm:text-4xl">
-          Compliance Reminders
-        </h1>
-      </div>
-    </header>
+      <p className="text-[10px] font-normal uppercase tracking-[0.2em] text-leather">
+        {overdueCount} Overdue · {weekCount} Due This Week · {monthCount} Due
+        This Month
+      </p>
+    </div>
   );
 }
 
-interface ReminderAccordionRowProps {
+interface ReminderTableRowProps {
   reminder: ReminderRow;
   rowIndex: number;
   contractor?: PropertyContractor;
   onActioned: (certificateId: string) => void;
 }
 
-function ReminderAccordionRow({
+function ReminderTableRow({
   reminder,
   rowIndex,
   contractor,
   onActioned,
-}: ReminderAccordionRowProps) {
+}: ReminderTableRowProps) {
   const [expanded, setExpanded] = useState(false);
   const certLabel = CERTIFICATE_LABELS[reminder.certificate.certificate_type];
   const daysLabel = formatDaysLabel(reminder.daysUntilExpiry);
   const rowBg = rowIndex % 2 === 0 ? "bg-dusty-cream" : "bg-sand";
 
   return (
-    <div className={`${rowBg} transition-colors`}>
+    <div className={rowBg}>
       <button
         type="button"
         onClick={() => setExpanded((current) => !current)}
         aria-expanded={expanded}
-        className={`${editorialContentClassName} flex w-full items-center justify-between gap-6 py-5 text-left transition hover:bg-tan/10 sm:py-6`}
+        className="grid w-full grid-cols-1 gap-3 border-b border-leather/10 px-8 py-5 text-left transition hover:bg-tan/10 sm:grid-cols-[7.5rem_1fr_11rem_7.5rem] sm:items-center sm:gap-6 sm:px-12 sm:py-6 lg:px-16"
       >
-        <span className="min-w-0 font-serif text-base tracking-wide text-text sm:text-lg">
-          {certLabel}
-          <span className="mx-3 text-leather/40" aria-hidden="true">
-            ·
-          </span>
-          <span className="font-sans text-sm font-light text-leather sm:text-base">
-            {reminder.property.address}
-          </span>
+        <span className="font-serif text-lg tracking-wide text-text sm:text-xl">
+          {formatDate(reminder.certificate.expiry_date)}
         </span>
-        <span className="shrink-0 text-[10px] font-normal uppercase tracking-[0.14em] text-tan">
+        <span className="min-w-0 font-serif text-base tracking-wide text-text sm:text-lg">
+          {reminder.property.address}
+        </span>
+        <span className="text-[10px] font-normal uppercase tracking-[0.14em] text-leather">
+          {certLabel}
+        </span>
+        <span className="text-[10px] font-normal uppercase tracking-[0.14em] text-tan sm:text-right">
           {daysLabel}
         </span>
       </button>
@@ -170,14 +153,22 @@ function ReminderAccordionRow({
       >
         <div className="overflow-hidden">
           <div
-            className={`${editorialContentClassName} border-l-[3px] border-espresso pb-8 pl-6 sm:pl-8`}
+            className="border-b border-l-[3px] border-l-espresso border-leather/10 px-8 py-8 sm:px-12 lg:px-16"
           >
-            <div className="grid gap-8 sm:grid-cols-2">
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+              <div>
+                <p className="text-[10px] font-normal uppercase tracking-[0.16em] text-leather">
+                  Date
+                </p>
+                <p className="mt-2 font-serif text-lg tracking-wide text-text">
+                  {formatDate(reminder.certificate.expiry_date)}
+                </p>
+              </div>
               <div>
                 <p className="text-[10px] font-normal uppercase tracking-[0.16em] text-leather">
                   Property
                 </p>
-                <p className="mt-2 font-serif text-xl tracking-wide text-text">
+                <p className="mt-2 font-serif text-lg tracking-wide text-text">
                   {reminder.property.address}
                 </p>
               </div>
@@ -185,23 +176,15 @@ function ReminderAccordionRow({
                 <p className="text-[10px] font-normal uppercase tracking-[0.16em] text-leather">
                   Certificate
                 </p>
-                <p className="mt-2 font-serif text-xl tracking-wide text-text">
+                <p className="mt-2 font-serif text-lg tracking-wide text-text">
                   {certLabel}
-                </p>
-              </div>
-              <div>
-                <p className="text-[10px] font-normal uppercase tracking-[0.16em] text-leather">
-                  Expiry Date
-                </p>
-                <p className="mt-2 font-serif text-xl tracking-wide text-text">
-                  {formatDate(reminder.certificate.expiry_date)}
                 </p>
               </div>
               <div>
                 <p className="text-[10px] font-normal uppercase tracking-[0.16em] text-leather">
                   Days Remaining
                 </p>
-                <p className="mt-2 font-serif text-xl tracking-wide text-text">
+                <p className="mt-2 font-serif text-lg tracking-wide text-text">
                   {daysLabel}
                 </p>
               </div>
@@ -234,7 +217,7 @@ function ReminderAccordionRow({
               </div>
             )}
 
-            <div className="mt-8 flex flex-wrap gap-4">
+            <div className="mt-10 flex flex-wrap gap-4">
               <button
                 type="button"
                 onClick={() => onActioned(reminder.certificate.id)}
@@ -280,9 +263,20 @@ export default function RemindersList({
   }, [contractors]);
 
   const visibleReminders = useMemo(
-    () => reminders.filter((r) => !actionedIds.has(r.certificate.id)),
+    () =>
+      reminders.filter(
+        (r) => !actionedIds.has(r.certificate.id) && r.daysUntilExpiry <= 30
+      ),
     [reminders, actionedIds]
   );
+
+  const overdueCount = visibleReminders.filter((r) => r.daysUntilExpiry < 0).length;
+  const weekCount = visibleReminders.filter(
+    (r) => r.daysUntilExpiry >= 0 && r.daysUntilExpiry <= 7
+  ).length;
+  const monthCount = visibleReminders.filter(
+    (r) => r.daysUntilExpiry > 7 && r.daysUntilExpiry <= 30
+  ).length;
 
   const handleActioned = useCallback((certificateId: string) => {
     setActionedIds((current) => {
@@ -304,29 +298,28 @@ export default function RemindersList({
 
   if (!hydrated) {
     return (
-      <AnimateIn>
-        <RemindersHeader />
-      </AnimateIn>
+      <div
+        className={`border-b border-leather/15 bg-dusty-cream px-8 py-4 sm:px-12 lg:px-16 ${editorialBleedClassName}`}
+      >
+        <p className="text-[10px] font-normal uppercase tracking-[0.2em] text-leather">
+          Loading reminders...
+        </p>
+      </div>
     );
   }
 
   if (visibleReminders.length === 0) {
     return (
       <>
-        <AnimateIn>
-          <RemindersHeader />
-        </AnimateIn>
-
-        <AnimateIn delay={100}>
-          <div className={`${editorialContentClassName} py-20 text-center`}>
-            <p className="font-serif text-2xl tracking-wide text-text">
-              No upcoming reminders
-            </p>
-            <p className={`${mutedTextClassName} mt-4`}>
-              Nothing is due within the next 90 days across your portfolio.
-            </p>
-          </div>
-        </AnimateIn>
+        <RemindersStickyBar overdueCount={0} weekCount={0} monthCount={0} />
+        <div className="px-8 py-20 text-center sm:px-12 lg:px-16">
+          <p className="font-serif text-2xl tracking-wide text-text">
+            No upcoming reminders
+          </p>
+          <p className={`${mutedTextClassName} mt-4`}>
+            Nothing is due within the next 30 days across your portfolio.
+          </p>
+        </div>
       </>
     );
   }
@@ -336,18 +329,33 @@ export default function RemindersList({
 
   return (
     <>
-      <AnimateIn>
-        <RemindersHeader />
-      </AnimateIn>
+      <RemindersStickyBar
+        overdueCount={overdueCount}
+        weekCount={weekCount}
+        monthCount={monthCount}
+      />
 
       <div className="space-y-0">
         {groups.map((group) => (
           <div key={group.key}>
             <p
-              className={`px-8 py-4 text-[10px] font-normal uppercase tracking-[0.28em] sm:px-12 lg:px-16 ${group.bandClass} ${editorialBleedClassName}`}
+              className={`px-8 py-4 text-center text-[10px] font-normal uppercase tracking-[0.28em] text-dusty-cream sm:px-12 lg:px-16 ${group.bandClass} ${editorialBleedClassName}`}
             >
               {group.label}
             </p>
+
+            <div className="hidden border-b border-leather/15 bg-sand/50 px-8 py-3 sm:grid sm:grid-cols-[7.5rem_1fr_11rem_7.5rem] sm:gap-6 sm:px-12 lg:px-16">
+              {["Date", "Property Address", "Certificate Type", "Days Remaining"].map(
+                (heading) => (
+                  <span
+                    key={heading}
+                    className="text-[10px] font-normal uppercase tracking-[0.16em] text-leather last:sm:text-right"
+                  >
+                    {heading}
+                  </span>
+                )
+              )}
+            </div>
 
             <div>
               {group.items.map((reminder) => {
@@ -355,7 +363,7 @@ export default function RemindersList({
                 globalRowIndex += 1;
 
                 return (
-                  <ReminderAccordionRow
+                  <ReminderTableRow
                     key={reminder.certificate.id}
                     reminder={reminder}
                     rowIndex={rowIndex}

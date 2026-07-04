@@ -67,11 +67,12 @@ export default function SettingsNotifications({
 
   return (
     <SettingsSection
+      id="notifications"
+      label="Notifications"
       title="Notification Settings"
-      bandTone="espresso"
       description={`Control when ${BRAND_NAME} sends expiry reminder emails.`}
     >
-      <form onSubmit={handleSave} className="max-w-md space-y-8">
+      <form onSubmit={handleSave} className="space-y-8">
         <label className="flex items-start gap-4">
           <input
             type="checkbox"

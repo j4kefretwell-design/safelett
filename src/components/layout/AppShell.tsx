@@ -39,9 +39,7 @@ export default function AppShell({ children }: AppShellProps) {
           <div className="w-14" />
         </header>
 
-        <main className="w-full px-6 py-10 sm:px-10 lg:px-12 lg:py-12">
-          {children}
-        </main>
+        <main className="w-full">{children}</main>
       </div>
     </div>
   );

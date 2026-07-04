@@ -47,11 +47,12 @@ export default function SettingsPassword() {
 
   return (
     <SettingsSection
+      id="security"
+      label="Security"
       title="Security Settings"
-      bandTone="espresso"
       description="Choose a strong password for your account."
     >
-      <form onSubmit={handleSave} className="max-w-md space-y-8">
+      <form onSubmit={handleSave} className="space-y-8">
         <PasswordInput
           id="new-password"
           label="New Password"

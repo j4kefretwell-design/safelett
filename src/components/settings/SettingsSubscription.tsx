@@ -5,12 +5,14 @@ import SettingsSection from "@/components/settings/SettingsSection";
 export default function SettingsSubscription() {
   return (
     <SettingsSection
+      id="subscription"
+      label="Subscription"
       title="Membership"
       description="Your Fretwell & Co subscription."
     >
-      <div className="relative max-w-md overflow-hidden border border-gold/35 bg-raspberry p-10 text-dusty-cream shadow-[0_20px_60px_rgba(26,16,8,0.2)]">
+      <div className="relative max-w-lg overflow-hidden border border-gold/35 bg-raspberry p-10 text-dusty-cream shadow-[0_20px_60px_rgba(26,16,8,0.2)]">
         <div
-          className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full border border-gold/15"
+          className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 border border-gold/15"
           aria-hidden="true"
         />
         <div

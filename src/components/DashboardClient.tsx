@@ -8,12 +8,10 @@ import PropertyCard from "@/components/PropertyCard";
 import SummaryCard from "@/components/SummaryCard";
 import { ScrollRevealGroup } from "@/components/ScrollReveal";
 import {
-  cardClassName,
+  btnOutlineClassName,
   editorialBleedClassName,
-  editorialContentClassName,
+  editorialPagePaddingClassName,
   searchInputClassName,
-  sectionBandAlternateClassName,
-  sectionBandLabelClassName,
 } from "@/lib/ui";
 import type { ComplianceStatus, Property } from "@/lib/types";
 
@@ -78,87 +76,86 @@ export default function DashboardClient({
     );
   }
 
+  const propertyCountLabel = `${stats.total} ${
+    stats.total === 1 ? "property" : "properties"
+  } under management`;
+
   return (
     <div className="space-y-0">
       <AnimateIn>
         <DashboardHeroBanner stats={stats} />
       </AnimateIn>
 
-      <section className="bg-dusty-cream py-16 sm:py-20">
-        <div className={editorialContentClassName}>
-          <ScrollRevealGroup className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
-            <SummaryCard
-              label="Total Properties"
-              value={stats.total}
-              description="across your portfolio"
-              accent="total"
-            />
-            <SummaryCard
-              label="Compliant"
-              value={stats.compliant}
-              description="certificates current"
-              accent="compliant"
-            />
-            <SummaryCard
-              label="Needs Attention"
-              value={stats.attention}
-              description="action required"
-              accent="attention"
-            />
-            <SummaryCard
-              label="Overdue"
-              value={stats.overdue}
-              description="certificates expired"
-              accent="overdue"
-            />
-          </ScrollRevealGroup>
-        </div>
+      <section
+        className={`grid grid-cols-2 divide-x divide-y divide-leather/20 lg:flex lg:divide-y-0 ${editorialBleedClassName}`}
+      >
+        <SummaryCard label="Total Properties" value={stats.total} accent="total" />
+        <SummaryCard label="Compliant" value={stats.compliant} accent="compliant" />
+        <SummaryCard
+          label="Needs Attention"
+          value={stats.attention}
+          accent="attention"
+        />
+        <SummaryCard label="Overdue" value={stats.overdue} accent="overdue" />
       </section>
 
-      <AnimateIn delay={100}>
-        <section className={`${sectionBandAlternateClassName} ${editorialBleedClassName}`}>
-          <div className={`${editorialContentClassName} flex items-center justify-between gap-4 py-1`}>
-            <p className={`${sectionBandLabelClassName} tracking-[0.32em]`}>
-              Your Portfolio
+      <section
+        className={`bg-espresso px-8 py-14 text-center sm:px-12 sm:py-16 lg:px-16 ${editorialBleedClassName}`}
+      >
+        <p className="font-serif text-xl italic tracking-wide text-dusty-cream/85 sm:text-2xl">
+          Every deadline met. Every property protected.
+        </p>
+      </section>
+
+      <section className={`bg-dusty-cream py-16 sm:py-20 ${editorialBleedClassName}`}>
+        <div
+          className={`${editorialPagePaddingClassName} grid items-end gap-12 lg:grid-cols-2 lg:gap-16`}
+        >
+          <div>
+            <p className="text-[10px] font-normal uppercase tracking-[0.32em] text-leather">
+              Portfolio
             </p>
+            <h2 className="mt-4 font-serif text-4xl tracking-wide text-text sm:text-5xl">
+              Your Portfolio
+            </h2>
+            <div className="mt-5 h-px w-12 bg-gold/70" aria-hidden="true" />
+            <p className="mt-5 text-sm font-light text-leather">
+              {propertyCountLabel}
+            </p>
+          </div>
+
+          <div className="flex flex-col items-stretch gap-6 sm:items-end lg:ml-auto lg:max-w-md">
+            <input
+              id="property-search"
+              type="search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search by address..."
+              aria-label="Search properties"
+              className={searchInputClassName}
+            />
             <button
               type="button"
               onClick={handleExport}
               disabled={exporting}
-              className="shrink-0 border border-dusty-cream/25 px-4 py-2 text-[9px] font-normal uppercase tracking-[0.16em] text-dusty-cream/70 transition hover:border-dusty-cream/50 hover:text-dusty-cream disabled:opacity-50"
+              className={`${btnOutlineClassName} w-full sm:w-auto`}
             >
               {exporting ? "Exporting..." : "Export CSV"}
             </button>
           </div>
-        </section>
-      </AnimateIn>
-
-      <section className="border-b border-cocoa/10 bg-dusty-cream py-10">
-        <div className={editorialContentClassName}>
-          <input
-            id="property-search"
-            type="search"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search by address..."
-            aria-label="Search properties"
-            className={`${searchInputClassName} max-w-md`}
-          />
         </div>
-      </section>
 
-      <section className="bg-dusty-cream py-16 sm:py-20">
-        <div className={editorialContentClassName}>
+        <div className={`${editorialPagePaddingClassName} mt-14 sm:mt-16`}>
           {filteredProperties.length === 0 ? (
             <AnimateIn>
-              <div className={`${cardClassName} px-8 py-14 text-center`}>
-                <p className="text-sm font-light italic text-cocoa">
+              <div className="border border-leather/20 bg-sand px-8 py-14 text-center">
+                <p className="text-sm font-light italic text-leather">
                   No properties match your search.
                 </p>
               </div>
             </AnimateIn>
           ) : (
-            <ScrollRevealGroup className="grid gap-6 md:grid-cols-2 lg:gap-8">
+            <ScrollRevealGroup className="grid grid-cols-2 gap-1 lg:grid-cols-3">
               {filteredProperties.map((property) => (
                 <PropertyCard
                   key={property.id}

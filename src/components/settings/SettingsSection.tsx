@@ -1,44 +1,40 @@
 "use client";
 
 import { type ReactNode } from "react";
-import { editorialBleedClassName } from "@/lib/ui";
 
 interface SettingsSectionProps {
+  id: string;
+  label: string;
   title: string;
   description?: string;
-  bandTone?: "burgundy" | "espresso";
   children: ReactNode;
 }
 
 export default function SettingsSection({
+  id,
+  label,
   title,
   description,
-  bandTone = "burgundy",
   children,
 }: SettingsSectionProps) {
-  const bandClass =
-    bandTone === "espresso" ? "bg-espresso" : "bg-raspberry";
-
   return (
-    <section>
-      <div
-        className={`${bandClass} px-8 py-4 sm:px-12 lg:px-16 ${editorialBleedClassName}`}
-      >
-        <p className="text-[10px] font-normal uppercase tracking-[0.32em] text-dusty-cream/80">
-          {title}
+    <section
+      id={id}
+      className="scroll-mt-6 border-t border-gold/25 py-16 first:border-t-0 first:pt-0 sm:py-20"
+    >
+      <p className="text-[10px] font-normal uppercase tracking-[0.32em] text-leather">
+        {label}
+      </p>
+      <h2 className="mt-4 font-serif text-3xl tracking-wide text-text sm:text-4xl">
+        {title}
+      </h2>
+      <div className="mt-5 h-px w-12 bg-gold/70" aria-hidden="true" />
+      {description && (
+        <p className="mt-6 max-w-lg text-sm font-light leading-relaxed text-leather">
+          {description}
         </p>
-      </div>
-
-      <div className="bg-dusty-cream px-8 py-12 sm:px-12 lg:px-16 lg:py-16">
-        <div className="mx-auto max-w-xl">
-          {description && (
-            <p className="mb-10 max-w-lg text-sm font-light leading-relaxed text-leather">
-              {description}
-            </p>
-          )}
-          {children}
-        </div>
-      </div>
+      )}
+      <div className="mt-10">{children}</div>
     </section>
   );
 }

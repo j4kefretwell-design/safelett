@@ -2,13 +2,17 @@
 
 import Link from "next/link";
 import BrandMonogram from "@/components/BrandMonogram";
-import { btnOutlineClassName, editorialBleedClassName, editorialContentClassName } from "@/lib/ui";
+import {
+  btnOutlineClassName,
+  editorialBleedClassName,
+  editorialPagePaddingClassName,
+} from "@/lib/ui";
 
 export default function DashboardEmptyState() {
   return (
     <section className={`bg-dusty-cream py-24 sm:py-32 ${editorialBleedClassName}`}>
       <div
-        className={`${editorialContentClassName} relative flex flex-col items-center text-center`}
+        className={`${editorialPagePaddingClassName} relative flex flex-col items-center text-center`}
       >
         <div className="opacity-30" aria-hidden="true">
           <BrandMonogram href={null} />

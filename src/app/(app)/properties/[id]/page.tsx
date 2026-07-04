@@ -118,6 +118,7 @@ export default async function PropertyDetailPage({
       />
       </AnimateIn>
 
+      <div className="px-8 pb-16 pt-10 sm:px-12 lg:px-16">
       <AnimateIn delay={100}>
       <div className={`${cardClassName} mb-10 flex items-center justify-between p-6`}>
         <div>
@@ -312,6 +313,7 @@ export default async function PropertyDetailPage({
         documentPaths={documentPaths}
       />
       </AnimateIn>
+      </div>
     </>
   );
 }

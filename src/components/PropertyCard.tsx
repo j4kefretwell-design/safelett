@@ -29,17 +29,19 @@ export default function PropertyCard({ property, status }: PropertyCardProps) {
   return (
     <Link
       href={`/properties/${property.id}`}
-      className={`group block border border-leather/25 border-l-[3px] bg-sand p-8 transition duration-300 hover:border-tan hover:shadow-[0_8px_24px_rgba(26,16,8,0.08)] sm:p-10 ${statusBorderClasses[status]}`}
+      className={`group flex min-h-[260px] flex-col justify-between border border-leather/20 border-l-[3px] bg-sand p-8 transition duration-300 hover:border-tan sm:min-h-[280px] sm:p-10 ${statusBorderClasses[status]}`}
     >
-      <h3 className="font-serif text-xl leading-snug tracking-wide text-text transition group-hover:text-raspberry sm:text-2xl">
-        {property.address}
-      </h3>
-      <p className="mt-5 text-[10px] font-normal uppercase tracking-[0.18em] text-leather">
-        {PROPERTY_TYPE_LABELS[property.property_type]} · {property.bedrooms}{" "}
-        {property.bedrooms === 1 ? "bedroom" : "bedrooms"}
-      </p>
+      <div>
+        <h3 className="font-serif text-xl leading-snug tracking-wide text-text transition group-hover:text-raspberry sm:text-2xl">
+          {property.address}
+        </h3>
+        <p className="mt-5 text-[10px] font-normal uppercase tracking-[0.18em] text-leather">
+          {PROPERTY_TYPE_LABELS[property.property_type]} · {property.bedrooms}{" "}
+          {property.bedrooms === 1 ? "bedroom" : "bedrooms"}
+        </p>
+      </div>
       <p
-        className={`mt-3 text-[10px] font-normal uppercase tracking-[0.16em] ${statusTextClasses[status]}`}
+        className={`text-[10px] font-normal uppercase tracking-[0.16em] ${statusTextClasses[status]}`}
       >
         {getStatusLabel(status)}
       </p>
