@@ -6,32 +6,35 @@ import { btnOutlineClassName, editorialPagePaddingClassName } from "@/lib/ui";
 
 export default function DashboardEmptyState() {
   return (
-    <div className="dashboard-parchment-bg w-full">
-      <section className="relative h-[360px] w-full overflow-hidden sm:h-[420px]">
+    <div className="dashboard-parchment-bg w-full min-w-0 overflow-x-hidden">
+      <section className="relative h-[240px] w-full overflow-hidden sm:h-[320px] lg:h-[360px]">
         <Image
           src="/ben-elliott-8WJtlR3nlQY-unsplash.jpg"
           alt=""
           fill
-          className="object-cover"
+          className="object-cover object-center"
           sizes="100vw"
           priority
         />
-        <div className="absolute inset-0 bg-[#1A0A0C]/50" />
-        <div className="relative z-10 flex h-full items-center justify-center px-8 text-center">
-          <p className="font-serif text-3xl tracking-wide text-dusty-cream sm:text-4xl lg:text-5xl">
+        <div className="absolute inset-0 bg-[#1A0A0C]/55" />
+        <div className="relative z-10 flex h-full items-center justify-center px-6 text-center sm:px-8">
+          <p className="text-on-image font-serif text-2xl tracking-wide text-dusty-cream sm:text-4xl lg:text-5xl">
             Your portfolio awaits.
           </p>
         </div>
       </section>
 
-      <section className="dashboard-parchment-bg py-16 sm:py-20">
+      <section className="dashboard-parchment-bg py-12 sm:py-20">
         <div
           className={`${editorialPagePaddingClassName} flex flex-col items-center text-center`}
         >
-          <p className="text-sm font-light text-leather">
+          <p className="text-base leading-relaxed text-leather">
             Add your first property to begin tracking compliance.
           </p>
-          <Link href="/properties/new" className={`${btnOutlineClassName} mt-10`}>
+          <Link
+            href="/properties/new"
+            className={`${btnOutlineClassName} mt-8 w-full sm:mt-10 sm:w-auto`}
+          >
             Add Your First Property
           </Link>
         </div>

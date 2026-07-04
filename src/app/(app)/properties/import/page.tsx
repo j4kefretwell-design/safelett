@@ -98,18 +98,18 @@ export default function ImportPropertiesPage() {
   }
 
   return (
-    <div className="grid min-h-[calc(100vh-4rem)] w-full bg-dusty-cream lg:grid-cols-[14rem_1fr] xl:grid-cols-[16rem_1fr]">
-      <aside className="border-b border-leather/15 bg-espresso px-8 py-12 text-dusty-cream lg:border-b-0 lg:border-r lg:py-16">
-        <ol className="space-y-10">
+    <div className="grid min-h-[calc(100vh-4rem)] w-full min-w-0 overflow-x-hidden bg-dusty-cream lg:grid-cols-[14rem_1fr] xl:grid-cols-[16rem_1fr]">
+      <aside className="border-b border-leather/15 bg-espresso px-5 py-10 text-dusty-cream sm:px-8 sm:py-12 lg:border-b-0 lg:border-r lg:py-16">
+        <ol className="space-y-8 sm:space-y-10">
           {steps.map((step) => (
             <li key={step.number}>
-              <p className="text-sm font-light tracking-[0.2em] text-gold">
+              <p className="text-base font-light tracking-[0.2em] text-gold">
                 {step.number}
               </p>
-              <h2 className="mt-3 font-serif text-base tracking-wide">
+              <h2 className="mt-3 font-serif text-lg tracking-wide">
                 {step.title}
               </h2>
-              <p className="mt-2 text-xs font-light leading-relaxed text-dusty-cream/60">
+              <p className="mt-2 text-sm font-light leading-relaxed text-dusty-cream/80">
                 {step.body}
               </p>
             </li>
@@ -119,7 +119,7 @@ export default function ImportPropertiesPage() {
 
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col bg-white px-8 py-12 lg:px-16 lg:py-16"
+        className="flex min-w-0 flex-col bg-white px-5 py-10 sm:px-8 sm:py-12 lg:px-16 lg:py-16"
       >
         <label
           htmlFor="csv-upload"
@@ -129,7 +129,7 @@ export default function ImportPropertiesPage() {
           <p className="mt-6 font-serif text-xl tracking-wide text-text">
             Drop your CSV here
           </p>
-          <p className="mt-2 text-sm font-light italic text-leather">
+          <p className="mt-2 text-base font-light italic leading-relaxed text-leather">
             or browse to select a file
           </p>
           {file && <p className={`${goldLabelClassName} mt-6`}>{file.name}</p>}
@@ -178,13 +178,13 @@ export default function ImportPropertiesPage() {
           <button
             type="button"
             onClick={() => setShowGuide((current) => !current)}
-            className="text-[11px] font-light tracking-wide text-gold transition hover:text-gold/80"
+            className="text-sm font-light leading-relaxed text-gold-readable transition hover:text-gold"
           >
             Need help? View full guide →
           </button>
 
           {showGuide && (
-            <p className="max-w-lg whitespace-pre-line text-sm font-light leading-relaxed text-leather">
+            <p className="max-w-lg whitespace-pre-line text-base font-light leading-relaxed text-leather">
               {fullGuide}
             </p>
           )}

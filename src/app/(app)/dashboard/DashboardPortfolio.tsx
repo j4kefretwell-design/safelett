@@ -4,7 +4,12 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import PropertyCard from "@/components/PropertyCard";
 import { ScrollRevealGroup } from "@/components/ScrollReveal";
-import { btnGoldClassName, dashboardWarmCardClassName, searchInputClassName } from "@/lib/ui";
+import {
+  btnGoldClassName,
+  capsLabelClassName,
+  dashboardWarmCardClassName,
+  searchInputClassName,
+} from "@/lib/ui";
 import type { ComplianceStatus, Property } from "@/lib/types";
 import { DASHBOARD_HIGHLIGHT_AFFECTED_EVENT } from "./DashboardStatusBand";
 
@@ -72,14 +77,14 @@ export default function DashboardPortfolio({ properties }: DashboardPortfolioPro
       : "No properties match your search.";
 
   return (
-    <div>
-      <div className="flex justify-end">
-        <Link href="/properties/new" className={btnGoldClassName}>
+    <div className="min-w-0">
+      <div className="flex justify-stretch sm:justify-end">
+        <Link href="/properties/new" className={`${btnGoldClassName} w-full sm:w-auto`}>
           Add Property →
         </Link>
       </div>
 
-      <div className="mt-10 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+      <div className="mt-8 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
         <input
           id="property-search"
           type="search"
@@ -87,11 +92,11 @@ export default function DashboardPortfolio({ properties }: DashboardPortfolioPro
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search by address..."
           aria-label="Search properties"
-          className={`${searchInputClassName} w-full max-w-md`}
+          className={`${searchInputClassName} w-full lg:max-w-md`}
         />
 
         <div
-          className="flex flex-wrap gap-x-5 gap-y-2"
+          className="flex flex-wrap gap-x-4 gap-y-3 sm:gap-x-5"
           role="group"
           aria-label="Filter properties by status"
         >
@@ -103,10 +108,10 @@ export default function DashboardPortfolio({ properties }: DashboardPortfolioPro
                 type="button"
                 onClick={() => setStatusFilter(filter.key)}
                 aria-pressed={isActive}
-                className={`pb-0.5 text-[10px] font-normal uppercase tracking-[0.16em] transition ${
+                className={`min-h-11 px-1 pb-1 ${capsLabelClassName} transition ${
                   isActive
                     ? "border-b border-gold text-leather"
-                    : "text-leather/55 hover:text-leather"
+                    : "text-leather/70 hover:text-leather"
                 }`}
               >
                 {filter.label}
@@ -116,15 +121,15 @@ export default function DashboardPortfolio({ properties }: DashboardPortfolioPro
         </div>
       </div>
 
-      <div id="property-grid" className="mt-12 scroll-mt-24">
+      <div id="property-grid" className="mt-10 scroll-mt-24 sm:mt-12">
         {filteredProperties.length === 0 ? (
-          <div className={`${dashboardWarmCardClassName} px-8 py-14 text-center`}>
-            <p className="dashboard-warm-card-content text-sm font-light italic text-leather">
+          <div className={`${dashboardWarmCardClassName} px-6 py-14 text-center sm:px-8`}>
+            <p className="dashboard-warm-card-content text-base font-light italic leading-relaxed text-leather">
               {emptyMessage}
             </p>
           </div>
         ) : (
-          <ScrollRevealGroup className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <ScrollRevealGroup className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             {filteredProperties.map((property) => (
               <PropertyCard
                 key={property.id}

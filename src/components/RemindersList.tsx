@@ -8,6 +8,7 @@ import { formatDate } from "@/lib/compliance";
 import {
   btnOutlineClassName,
   btnPrimaryClassName,
+  capsLabelClassName,
   editorialPagePaddingClassName,
 } from "@/lib/ui";
 import {
@@ -106,21 +107,21 @@ function RemindersGoldRule() {
 
 function RemindersHeroHeader({ totalCount }: { totalCount: number }) {
   return (
-    <section className="relative h-[220px] w-full overflow-hidden">
+    <section className="relative h-[180px] w-full overflow-hidden sm:h-[220px]">
       <Image
         src="/rumman-amin-CU0dmWuIz0c-unsplash.jpg"
         alt=""
         fill
-        className="object-cover"
+        className="object-cover object-center"
         sizes="100vw"
         priority
       />
       <div className="absolute inset-0 bg-[#1A0A0C]/60" />
-      <div className="relative z-10 flex h-full flex-col items-center justify-center px-8 text-center">
-        <p className="text-[10px] font-normal uppercase tracking-[0.38em] text-dusty-cream/80">
+      <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center sm:px-8">
+        <p className="text-on-image caps-label text-dusty-cream">
           Compliance Reminders
         </p>
-        <p className="mt-4 font-serif text-5xl tracking-wide text-dusty-cream sm:text-6xl">
+        <p className="text-on-image mt-4 font-serif text-4xl tracking-wide text-dusty-cream sm:text-5xl lg:text-6xl">
           {totalCount}
         </p>
       </div>
@@ -143,7 +144,7 @@ function RemindersStickyBar({
     <div
       className={`sticky top-16 z-10 border-b border-leather/15 bg-white ${editorialPagePaddingClassName} py-3`}
     >
-      <p className="text-[10px] font-normal uppercase tracking-[0.18em] text-leather/80">
+      <p className={`${capsLabelClassName} leading-relaxed text-leather`}>
         {overdueCount} Overdue · {weekCount} This Week · {monthCount} This Month ·{" "}
         {sixtyCount} In 60 Days
       </p>
@@ -188,24 +189,24 @@ function ReminderCard({
           type="button"
           onClick={() => setExpanded((current) => !current)}
           aria-expanded={expanded}
-          className="flex min-h-[5.5rem] flex-1 items-center justify-between gap-6 px-6 py-5 text-left transition hover:bg-dusty-cream/30 sm:px-8 sm:py-6"
+          className="flex min-h-[4.5rem] flex-1 items-center justify-between gap-4 px-5 py-4 text-left transition hover:bg-dusty-cream/30 sm:min-h-[5.5rem] sm:gap-6 sm:px-8 sm:py-6"
         >
           <div className="min-w-0 flex-1">
-            <p className="font-serif text-lg tracking-wide text-text sm:text-xl">
+            <p className="font-serif text-base leading-snug tracking-wide text-text sm:text-lg">
               {reminder.property.address}
             </p>
-            <p className="mt-2 text-[10px] font-normal uppercase tracking-[0.16em] text-leather">
+            <p className={`mt-2 ${capsLabelClassName}`}>
               {certLabel}
             </p>
           </div>
 
           <div className="shrink-0 text-right">
             <p
-              className={`font-serif text-3xl leading-none tracking-wide sm:text-4xl ${statusTextClasses[status]}`}
+              className={`font-serif text-2xl leading-none tracking-wide sm:text-3xl ${statusTextClasses[status]}`}
             >
               {daysDisplay.value}
             </p>
-            <p className="mt-2 text-[9px] font-normal uppercase tracking-[0.14em] text-leather/70">
+            <p className={`mt-2 ${capsLabelClassName} text-leather/80`}>
               {daysDisplay.label}
             </p>
           </div>
@@ -223,18 +224,14 @@ function ReminderCard({
           >
             <div className="grid gap-6 sm:grid-cols-2">
               <div>
-                <p className="text-[10px] font-normal uppercase tracking-[0.16em] text-leather">
-                  Expiry Date
-                </p>
-                <p className="mt-2 font-serif text-lg tracking-wide text-text">
+                <p className={capsLabelClassName}>Expiry Date</p>
+                <p className="mt-2 font-serif text-base leading-relaxed tracking-wide text-text sm:text-lg">
                   {formatDate(reminder.certificate.expiry_date)}
                 </p>
               </div>
               <div>
-                <p className="text-[10px] font-normal uppercase tracking-[0.16em] text-leather">
-                  Property
-                </p>
-                <p className="mt-2 font-serif text-lg tracking-wide text-text">
+                <p className={capsLabelClassName}>Property</p>
+                <p className="mt-2 font-serif text-base leading-relaxed tracking-wide text-text sm:text-lg">
                   {reminder.property.address}
                 </p>
               </div>
@@ -242,14 +239,12 @@ function ReminderCard({
 
             {contractor && (
               <div className="mt-8 border-t border-leather/15 pt-8">
-                <p className="text-[10px] font-normal uppercase tracking-[0.16em] text-leather">
-                  Contractor
-                </p>
-                <p className="mt-2 text-sm font-light text-text">
+                <p className={capsLabelClassName}>Contractor</p>
+                <p className="mt-2 text-base font-light leading-relaxed text-text">
                   {contractor.name}
                   {contractor.company_name ? ` · ${contractor.company_name}` : ""}
                 </p>
-                <p className="mt-2 text-sm font-light text-leather">
+                <p className="mt-2 text-base font-light leading-relaxed text-leather">
                   <a
                     href={`tel:${contractor.phone.replace(/\s/g, "")}`}
                     className="transition hover:text-text"
@@ -267,17 +262,17 @@ function ReminderCard({
               </div>
             )}
 
-            <div className="mt-8 flex flex-wrap gap-4">
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
               <button
                 type="button"
                 onClick={() => onActioned(reminder.certificate.id)}
-                className={btnOutlineClassName}
+                className={`${btnOutlineClassName} w-full sm:w-auto`}
               >
                 Mark as Actioned
               </button>
               <Link
                 href={`/properties/${reminder.property.id}`}
-                className={btnPrimaryClassName}
+                className={`${btnPrimaryClassName} w-full sm:w-auto`}
               >
                 View Property
               </Link>
@@ -356,7 +351,7 @@ export default function RemindersList({
 
   if (!hydrated) {
     return (
-      <div className="bg-dusty-cream">
+      <div className="min-w-0 overflow-x-hidden bg-dusty-cream">
         <RemindersGoldRule />
         <RemindersHeroHeader totalCount={reminders.length} />
       </div>
@@ -365,7 +360,7 @@ export default function RemindersList({
 
   if (visibleReminders.length === 0) {
     return (
-      <div className="bg-dusty-cream">
+      <div className="min-w-0 overflow-x-hidden bg-dusty-cream">
         <RemindersGoldRule />
         <RemindersHeroHeader totalCount={0} />
         <RemindersStickyBar
@@ -392,7 +387,7 @@ export default function RemindersList({
   let animateIndex = 0;
 
   return (
-    <div className="bg-dusty-cream">
+    <div className="min-w-0 overflow-x-hidden bg-dusty-cream">
       <RemindersGoldRule />
       <RemindersHeroHeader totalCount={visibleReminders.length} />
 
@@ -407,12 +402,10 @@ export default function RemindersList({
         {groups.map((group) => (
           <div key={group.key}>
             <div
-              className={`flex items-center justify-between border-l-[3px] border-leather bg-parchment-warm py-3 ${editorialPagePaddingClassName}`}
+              className={`flex min-h-11 items-center justify-between border-l-[3px] border-leather bg-parchment-warm py-3 ${editorialPagePaddingClassName}`}
             >
-              <p className="text-[10px] font-normal uppercase tracking-[0.28em] text-leather">
-                {group.label}
-              </p>
-              <p className="text-[10px] font-normal uppercase tracking-[0.2em] text-leather/60">
+              <p className={capsLabelClassName}>{group.label}</p>
+              <p className={`${capsLabelClassName} text-leather/70`}>
                 {group.items.length}
               </p>
             </div>

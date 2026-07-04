@@ -79,7 +79,7 @@ export default function AppSidebar({ open, onClose }: AppSidebarProps) {
       />
 
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-[17rem] flex-col bg-raspberry transition-transform duration-300 ease-out ${
+        className={`fixed inset-y-0 left-0 z-50 flex w-[min(100vw,18rem)] max-w-full flex-col bg-raspberry transition-transform duration-300 ease-out ${
           open ? "translate-x-0" : "-translate-x-full"
         }`}
         aria-hidden={!open}
@@ -97,10 +97,10 @@ export default function AppSidebar({ open, onClose }: AppSidebarProps) {
                   <Link
                     href={item.href}
                     onClick={onClose}
-                    className={`block border-l-2 py-4 pl-5 pr-3 text-[11px] font-normal uppercase tracking-[0.2em] transition-colors duration-200 ${
+                    className={`block min-h-11 border-l-2 py-3 pl-5 pr-3 text-sm font-normal uppercase tracking-[0.14em] leading-relaxed transition-colors duration-200 ${
                       isActive
                         ? "border-gold text-dusty-cream"
-                        : "border-transparent text-dusty-cream/45 hover:border-gold/40 hover:text-dusty-cream/75"
+                        : "border-transparent text-dusty-cream/85 hover:border-gold/40 hover:text-dusty-cream"
                     }`}
                   >
                     {item.label}
@@ -113,14 +113,14 @@ export default function AppSidebar({ open, onClose }: AppSidebarProps) {
 
         <div className="border-t border-white/10 px-6 py-8">
           {email && (
-            <p className="truncate text-[10px] font-light tracking-wide text-dusty-cream/45">
+            <p className="truncate text-xs font-light leading-relaxed tracking-wide text-dusty-cream/80">
               {email}
             </p>
           )}
           <button
             type="button"
             onClick={handleSignOut}
-            className="mt-3 text-[10px] font-light uppercase tracking-[0.12em] text-dusty-cream/55 underline-offset-4 transition hover:text-dusty-cream hover:underline"
+            className="mt-4 min-h-11 text-sm font-normal uppercase tracking-[0.1em] text-dusty-cream/90 underline-offset-4 transition hover:text-dusty-cream hover:underline"
           >
             Sign Out
           </button>

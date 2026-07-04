@@ -14,9 +14,9 @@ export default function BrandMonogram({
   size = "sidebar",
 }: BrandMonogramProps) {
   const isCompact = size === "compact";
-  const emblemSize = isCompact ? "h-14 w-14" : "h-[72px] w-[72px]";
-  const markSize = isCompact ? "text-lg" : "text-[1.35rem]";
-  const ampSize = isCompact ? "text-sm" : "text-base";
+  const emblemSize = isCompact ? "h-14 w-14" : "h-20 w-20";
+  const markSize = isCompact ? "text-lg" : "text-xl";
+  const ampSize = isCompact ? "text-sm" : "text-lg";
 
   const content = (
     <div className={`flex flex-col items-center text-center ${className}`}>
@@ -51,7 +51,7 @@ export default function BrandMonogram({
       </div>
 
       {!isCompact && (
-        <p className="mt-6 text-[9px] font-normal uppercase tracking-[0.38em] text-dusty-cream/85">
+        <p className="mt-5 caps-label text-dusty-cream">
           Fretwell &amp; Co
         </p>
       )}

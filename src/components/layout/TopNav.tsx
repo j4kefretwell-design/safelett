@@ -21,30 +21,30 @@ export default function TopNav({ sidebarOpen, onMenuClick }: TopNavProps) {
 
   return (
     <header className="fixed inset-x-0 top-0 z-30 h-16 bg-raspberry">
-      <div className="relative flex h-full items-center border-b border-gold px-6 lg:px-10">
+      <div className="relative flex h-full items-center border-b border-gold px-4 sm:px-6 lg:px-10">
         <button
           type="button"
           aria-label={sidebarOpen ? "Close menu" : "Open menu"}
           onClick={onMenuClick}
-          className="relative z-10 shrink-0 text-dusty-cream transition hover:text-white"
+          className="touch-target relative z-10 shrink-0 text-dusty-cream transition hover:text-white"
         >
           {sidebarOpen ? (
-            <X className="h-5 w-5" strokeWidth={1.25} />
+            <X className="h-6 w-6" strokeWidth={1.25} />
           ) : (
-            <Menu className="h-5 w-5" strokeWidth={1.25} />
+            <Menu className="h-6 w-6" strokeWidth={1.25} />
           )}
         </button>
 
-        <p className="pointer-events-none absolute inset-x-0 text-center font-serif text-sm uppercase tracking-[0.32em] text-dusty-cream sm:text-base">
+        <p className="pointer-events-none absolute inset-x-0 text-center font-serif text-sm uppercase tracking-[0.28em] text-dusty-cream sm:text-base sm:tracking-[0.32em]">
           Fretwell <span className="text-gold">&amp;</span> Co
         </p>
 
         <button
           type="button"
           onClick={handleSignOut}
-          className="relative z-10 ml-auto shrink-0 text-[10px] font-normal uppercase tracking-[0.22em] text-dusty-cream transition hover:text-gold"
+          className="touch-target relative z-10 ml-auto shrink-0 px-2 text-xs font-normal uppercase tracking-[0.18em] text-dusty-cream transition hover:text-gold sm:text-sm sm:tracking-[0.22em]"
         >
-          SIGN OUT
+          Sign Out
         </button>
       </div>
     </header>
