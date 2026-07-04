@@ -8,9 +8,7 @@ import {
   type ContractorEmailDraft,
 } from "@/lib/contractor-email";
 import {
-  btnGoldClassName,
-  btnOutlineClassName,
-  btnPrimaryClassName,
+  editorialFormSubmitClassName,
   capsLabelClassName,
 } from "@/lib/ui";
 
@@ -28,7 +26,6 @@ export default function ContractorEmailDraftClient({
   backHref,
 }: ContractorEmailDraftClientProps) {
   const [body, setBody] = useState(initialDraft.body);
-  const [isEditing, setIsEditing] = useState(false);
   const [copied, setCopied] = useState(false);
 
   const draft = useMemo(
@@ -66,38 +63,36 @@ export default function ContractorEmailDraftClient({
         <p className="mt-2 text-base leading-relaxed text-leather">{propertyAddress}</p>
       </header>
 
-      <div className="mt-10 max-w-3xl border border-leather/25 bg-white">
-        <div className="border-b border-leather/15 px-6 py-5 sm:px-8">
-          <p className={capsLabelClassName}>To</p>
-          <p className="mt-2 text-base leading-relaxed text-text">
-            {draft.toName}{" "}
-            <span className="text-leather">&lt;{draft.toEmail}&gt;</span>
-          </p>
+      <div className="email-composition mt-10 max-w-3xl">
+        <div className="border-b border-leather/25 px-5 py-4 sm:px-6">
+          <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+            <span className="shrink-0 text-sm font-normal text-leather">To:</span>
+            <span className="text-base leading-relaxed text-text">
+              {draft.toName}{" "}
+              <span className="text-leather/80">&lt;{draft.toEmail}&gt;</span>
+            </span>
+          </div>
         </div>
 
-        <div className="border-b border-leather/15 px-6 py-5 sm:px-8">
-          <p className={capsLabelClassName}>Subject</p>
-          <p className="mt-2 font-serif text-lg leading-relaxed tracking-wide text-text">
-            {draft.subject}
-          </p>
+        <div className="border-b border-leather px-5 py-4 sm:px-6">
+          <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+            <span className="shrink-0 text-sm font-normal text-leather">
+              Subject:
+            </span>
+            <span className="text-base leading-relaxed text-text">
+              {draft.subject}
+            </span>
+          </div>
         </div>
 
-        <div className="email-draft-paper px-6 py-8 sm:px-8 sm:py-10">
-          <p className={capsLabelClassName}>Message</p>
-          {isEditing ? (
-            <textarea
-              value={body}
-              onChange={(event) => setBody(event.target.value)}
-              rows={16}
-              className="mt-4 w-full resize-y border border-leather/20 bg-white/80 px-4 py-4 font-sans text-base leading-relaxed text-text outline-none focus:border-leather"
-              aria-label="Email body"
-            />
-          ) : (
-            <div className="mt-4 whitespace-pre-wrap font-sans text-base leading-relaxed text-text">
-              {body}
-            </div>
-          )}
-        </div>
+        <textarea
+          value={body}
+          onChange={(event) => setBody(event.target.value)}
+          rows={18}
+          spellCheck
+          className="email-composition-body block w-full cursor-text resize-none border-0 bg-transparent px-5 py-6 font-sans text-[15px] leading-[1.75] text-text outline-none focus:ring-0 sm:px-6 sm:py-8"
+          aria-label="Email body"
+        />
       </div>
 
       <p className="mt-6 max-w-3xl text-sm leading-relaxed text-leather/80">
@@ -105,23 +100,20 @@ export default function ContractorEmailDraftClient({
         open in your mail app, then send from your own account.
       </p>
 
-      <div className="mt-8 flex max-w-3xl flex-col gap-3 sm:flex-row sm:flex-wrap">
-        <button type="button" onClick={handleCopy} className={`${btnPrimaryClassName} w-full sm:w-auto`}>
-          {copied ? "Copied to Clipboard" : "Copy Email"}
-        </button>
-        <a href={buildMailtoUrl(draft)} className={`${btnOutlineClassName} w-full sm:w-auto`}>
-          Open in Mail
+      <div className="mt-8 max-w-3xl space-y-3">
+        <a
+          href={buildMailtoUrl(draft)}
+          className={editorialFormSubmitClassName}
+        >
+          Open in Mail →
         </a>
         <button
           type="button"
-          onClick={() => setIsEditing((current) => !current)}
-          className={`${btnOutlineClassName} w-full sm:w-auto`}
+          onClick={handleCopy}
+          className="flex h-10 w-full items-center justify-center border border-leather/40 bg-transparent text-xs font-normal uppercase tracking-[0.1em] text-leather transition duration-200 hover:border-leather hover:text-text"
         >
-          {isEditing ? "Preview Draft" : "Edit Draft"}
+          {copied ? "Copied to Clipboard" : "Copy to Clipboard"}
         </button>
-        <Link href={backHref} className={`${btnGoldClassName} sm:ml-auto`}>
-          Back to Property →
-        </Link>
       </div>
     </div>
   );
