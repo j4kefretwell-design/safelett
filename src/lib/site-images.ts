@@ -1,54 +1,44 @@
-import type { StaticImageData } from "next/image";
-import anthonyFominImg from "../../public/anthony-fomin-zjBxPUHE_ok-unsplash.jpg";
-import benElliottHeroImg from "../../public/ben-elliott-8WJtlR3nlQY-unsplash.jpg";
-import benElliottPropertyImg from "../../public/ben-elliott-unPC3it1yDA-unsplash.jpg";
-import bradStarkeyImg from "../../public/brad-starkey-9QczXovmzCk-unsplash.jpg";
-import hugoKruipImg from "../../public/hugo-kruip-i3Sx427bVXc-unsplash.jpg";
-import rummanAminImg from "../../public/rumman-amin-CU0dmWuIz0c-unsplash.jpg";
-import vojtechAuthImg from "../../public/vojtech-bartonicek-wgG7jLQ7M0U-unsplash-auth.jpg";
-import vojtechImg from "../../public/vojtech-bartonicek-wgG7jLQ7M0U-unsplash.jpg";
-
 export const IMAGE_QUALITY = 65;
 
 export const DARK_IMAGE_PLACEHOLDER = "#1A0A0C";
 export const LIGHT_IMAGE_PLACEHOLDER = "#F5F0E8";
 
 export interface SiteImageAsset {
-  src: StaticImageData;
+  src: string;
   placeholderColor: string;
 }
 
 export const siteImages = {
   anthonyFomin: {
-    src: anthonyFominImg,
+    src: "/anthony-fomin-zjBxPUHE_ok-unsplash.jpg",
     placeholderColor: DARK_IMAGE_PLACEHOLDER,
   },
   benElliottHero: {
-    src: benElliottHeroImg,
+    src: "/ben-elliott-8WJtlR3nlQY-unsplash.jpg",
     placeholderColor: DARK_IMAGE_PLACEHOLDER,
   },
   benElliottProperty: {
-    src: benElliottPropertyImg,
+    src: "/ben-elliott-unPC3it1yDA-unsplash.jpg",
     placeholderColor: DARK_IMAGE_PLACEHOLDER,
   },
   bradStarkey: {
-    src: bradStarkeyImg,
+    src: "/brad-starkey-9QczXovmzCk-unsplash.jpg",
     placeholderColor: DARK_IMAGE_PLACEHOLDER,
   },
   hugoKruip: {
-    src: hugoKruipImg,
+    src: "/hugo-kruip-i3Sx427bVXc-unsplash.jpg",
     placeholderColor: LIGHT_IMAGE_PLACEHOLDER,
   },
   rummanAmin: {
-    src: rummanAminImg,
+    src: "/rumman-amin-CU0dmWuIz0c-unsplash.jpg",
     placeholderColor: DARK_IMAGE_PLACEHOLDER,
   },
   vojtech: {
-    src: vojtechImg,
+    src: "/vojtech-bartonicek-wgG7jLQ7M0U-unsplash.jpg",
     placeholderColor: DARK_IMAGE_PLACEHOLDER,
   },
   vojtechAuth: {
-    src: vojtechAuthImg,
+    src: "/vojtech-bartonicek-wgG7jLQ7M0U-unsplash-auth.jpg",
     placeholderColor: DARK_IMAGE_PLACEHOLDER,
   },
 } satisfies Record<string, SiteImageAsset>;

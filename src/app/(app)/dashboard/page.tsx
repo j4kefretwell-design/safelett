@@ -1,9 +1,8 @@
 import Link from "next/link";
+import DashboardCottageImage from "@/components/dashboard/DashboardCottageImage";
 import DashboardEmptyState from "@/components/DashboardEmptyState";
 import DashboardPortfolioActions from "@/components/DashboardPortfolioActions";
-import OptimizedFillImage from "@/components/OptimizedFillImage";
 import { getPropertyStatus } from "@/lib/compliance";
-import { siteImages } from "@/lib/site-images";
 import { btnGoldClassName } from "@/lib/ui";
 import { createClient } from "@/lib/supabase/server";
 import type { Certificate, ComplianceStatus, Property } from "@/lib/types";
@@ -99,17 +98,7 @@ export default async function DashboardPage() {
 
       <section className="dashboard-parchment-bg px-5 sm:px-12 lg:px-16">
         <div className="grid min-w-0 overflow-hidden lg:grid-cols-[45%_55%]">
-          <div
-            className="relative h-[220px] overflow-hidden sm:h-[280px]"
-            style={{ backgroundColor: siteImages.benElliottHero.placeholderColor }}
-          >
-            <OptimizedFillImage
-              image={siteImages.benElliottHero}
-              alt=""
-              sizes="(max-width: 1024px) 100vw, 45vw"
-              className="object-cover object-[38%_center]"
-            />
-          </div>
+          <DashboardCottageImage />
 
           <div className="dashboard-cottage-panel flex flex-col justify-center border-t border-gold px-6 py-10 sm:px-10 lg:border-t-0 lg:border-l lg:px-14 lg:py-10">
             <p className="max-w-md font-serif text-xl leading-snug tracking-wide text-raspberry sm:text-2xl lg:text-[1.65rem]">

@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import type { CSSProperties } from "react";
 import { IMAGE_QUALITY, type SiteImageAsset } from "@/lib/site-images";
 
 interface OptimizedFillImageProps {
@@ -10,6 +11,7 @@ interface OptimizedFillImageProps {
   priority?: boolean;
   quality?: number;
   className?: string;
+  style?: CSSProperties;
   onLoad?: () => void;
 }
 
@@ -20,6 +22,7 @@ export default function OptimizedFillImage({
   priority = false,
   quality = IMAGE_QUALITY,
   className = "object-cover",
+  style,
   onLoad,
 }: OptimizedFillImageProps) {
   return (
@@ -30,11 +33,11 @@ export default function OptimizedFillImage({
       sizes={sizes}
       quality={quality}
       priority={priority}
-      placeholder="blur"
       loading={priority ? "eager" : "lazy"}
       fetchPriority={priority ? "high" : "auto"}
       onLoad={onLoad}
       className={className}
+      style={style}
     />
   );
 }
