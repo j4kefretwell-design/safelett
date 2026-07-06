@@ -32,8 +32,7 @@ export default function DashboardStatusBand({
         alt=""
         sizes="100vw"
         priority
-        className="object-cover"
-        style={{ objectPosition: "center 70%" }}
+        className="object-cover object-center"
       />
       <div className="absolute inset-0 bg-[#1A0A0C]/45" aria-hidden="true" />
 
