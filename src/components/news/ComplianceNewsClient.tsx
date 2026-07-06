@@ -51,7 +51,7 @@ export default function ComplianceNewsClient() {
     setError(null);
 
     try {
-      const response = await fetch("/api/compliance-news");
+      const response = await fetch("/api/news");
       const data = (await response.json()) as ComplianceNewsResponse & {
         error?: string;
       };
@@ -142,6 +142,13 @@ export default function ComplianceNewsClient() {
           </div>
         )}
       </div>
+
+      <p className="mt-12 max-w-3xl text-sm italic leading-relaxed text-cocoa">
+        This information is for general guidance only and does not constitute
+        legal advice. Always verify regulatory requirements with a qualified
+        professional. Fretwell &amp; Co accepts no responsibility for decisions
+        made based on this content.
+      </p>
     </section>
   );
 }

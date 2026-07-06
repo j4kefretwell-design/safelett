@@ -283,6 +283,49 @@
     background-color: rgba(255, 255, 255, 0.45);
   }
 
+  .legal-prose h2 {
+    color: var(--color-raspberry);
+    font-family: var(--font-playfair), Georgia, serif;
+    font-size: 1.25rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    line-height: 1.35;
+    margin-top: 2.5rem;
+  }
+
+  .legal-prose h2:first-child {
+    margin-top: 0;
+  }
+
+  .legal-prose p {
+    margin-top: 1rem;
+  }
+
+  .legal-prose ul {
+    list-style: disc;
+    margin-top: 1rem;
+    padding-left: 1.5rem;
+  }
+
+  .legal-prose li {
+    margin-top: 0.5rem;
+  }
+
+  .legal-prose a {
+    color: var(--color-raspberry);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.2s;
+  }
+
+  .legal-prose a:hover {
+    color: var(--color-leather);
+  }
+
+  .legal-prose strong {
+    font-weight: 500;
+  }
+
   .contractor-check {
     accent-color: var(--color-gold);
   }

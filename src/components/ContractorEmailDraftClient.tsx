@@ -130,6 +130,11 @@ export default function ContractorEmailDraftClient({
           Choose how you&apos;d like to send this email
         </p>
       </div>
+
+      <p className="mt-10 max-w-3xl text-xs leading-relaxed text-leather/70">
+        This email was drafted using Fretwell &amp; Co property compliance
+        management software — fretwellcompliance.uk
+      </p>
     </div>
   );
 }

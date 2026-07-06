@@ -164,6 +164,10 @@ export default function LandingPage() {
                 Learn More
               </a>
             </div>
+            <p className="text-on-image mt-4 max-w-lg text-[11px] leading-relaxed text-dusty-cream/55 sm:text-xs">
+              Fretwell &amp; Co is a compliance tracking tool. Users remain
+              responsible for their own legal compliance obligations.
+            </p>
           </ScrollRevealGroup>
         </div>
       </section>
@@ -327,6 +331,23 @@ export default function LandingPage() {
             <p className="mt-5 text-sm font-light leading-relaxed tracking-[0.06em] text-dusty-cream/70">
               Compliance specialists for the modern property manager
             </p>
+            <nav
+              className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2"
+              aria-label="Legal"
+            >
+              <Link
+                href="/privacy-policy"
+                className="text-xs font-light uppercase tracking-[0.12em] text-dusty-cream/70 transition hover:text-dusty-cream"
+              >
+                Privacy Policy
+              </Link>
+              <Link
+                href="/terms"
+                className="text-xs font-light uppercase tracking-[0.12em] text-dusty-cream/70 transition hover:text-dusty-cream"
+              >
+                Terms of Service
+              </Link>
+            </nav>
             <p className="mt-10 text-xs font-light leading-relaxed tracking-wide text-dusty-cream/50">
               © {new Date().getFullYear()} Fretwell &amp; Co. All rights reserved.
             </p>

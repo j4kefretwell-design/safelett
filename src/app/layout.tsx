@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { DM_Sans, Inter, Playfair_Display } from "next/font/google";
+import CookieNotice from "@/components/CookieNotice";
 import { BRAND_NAME } from "@/lib/brand";
 import "./globals.css";
 
@@ -56,6 +57,7 @@ export default function RootLayout({
       </head>
       <body className={`${dmSans.className} bg-dusty-cream font-light text-text antialiased`}>
         {children}
+        <CookieNotice />
       </body>
     </html>
   );
