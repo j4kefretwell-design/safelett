@@ -22,18 +22,18 @@ const pricingFeatures = [
 const features = [
   {
     number: "01",
-    title: "Certificate Tracking",
-    body: "Gas Safety, EICR, EPC, and every compliance document — organised by property, always current and audit-ready.",
+    title: "Intelligent Certificate Tracking",
+    body: "Every gas safety check, EICR, fire risk assessment, EPC and more — tracked automatically across your entire portfolio. Never manually chase a spreadsheet again. Fretwell & Co tells you exactly what needs attention, on which property, and when.",
   },
   {
     number: "02",
-    title: "Automated Alerts",
-    body: "Gentle reminders at 60, 30, and 7 days before expiry, with contractor details included so you can act immediately.",
+    title: "Automated Alerts & Contractor Actions",
+    body: "When a certificate is approaching expiry, Fretwell & Co doesn't just tell you — it drafts a professional email to your contractor, ready to send in one click. Your compliance stays ahead of deadlines without the administrative burden.",
   },
   {
     number: "03",
-    title: "Document Storage",
-    body: "Secure storage for every certificate and compliance record, accessible whenever your portfolio demands it.",
+    title: "Portfolio Oversight & Client Reporting",
+    body: "Generate a professional annual compliance report for your entire portfolio in seconds. Share a live compliance status link directly with your landlord clients. Present yourself as the organised, professional managing agent your clients expect.",
   },
 ];
 
@@ -137,16 +137,19 @@ export default function LandingPage() {
         />
         <div className="absolute inset-0 bg-[#1A0A0C]/55" />
 
-        <div className="relative z-10 flex flex-1 flex-col justify-end px-5 pb-14 pt-10 sm:px-12 sm:pb-28 lg:px-16">
-          <ScrollRevealGroup className="mx-auto w-full max-w-4xl space-y-5 sm:space-y-6" staggerMs={100}>
-            <p className="text-on-image caps-label text-dusty-cream">
+        <div className="relative z-10 flex flex-1 flex-col justify-center px-5 py-10 sm:px-12 sm:py-16 lg:px-16">
+          <ScrollRevealGroup
+            className="mx-auto w-[90%] max-w-[600px] space-y-5 bg-[#1A0A0C]/75 px-8 py-10 sm:space-y-6 sm:px-12"
+            staggerMs={100}
+          >
+            <p className="caps-label text-dusty-cream">
               Property Compliance Specialists
             </p>
-            <h1 className="text-on-image max-w-3xl font-serif text-3xl leading-tight tracking-[0.02em] text-dusty-cream sm:text-5xl sm:leading-[1.08] lg:text-7xl">
+            <h1 className="font-serif text-3xl leading-tight tracking-[0.02em] text-dusty-cream sm:text-5xl sm:leading-[1.08]">
               Protecting What Matters Most.
             </h1>
             <div className="h-px w-20 bg-gold" aria-hidden="true" />
-            <p className="text-on-image max-w-lg text-base font-light leading-relaxed text-dusty-cream/90 sm:text-lg">
+            <p className="text-base font-light leading-relaxed text-dusty-cream sm:text-lg">
               Automated compliance tracking for property management
               professionals across the United Kingdom.
             </p>
@@ -164,7 +167,7 @@ export default function LandingPage() {
                 Learn More
               </a>
             </div>
-            <p className="text-on-image mt-4 max-w-lg text-[11px] leading-relaxed text-dusty-cream/55 sm:text-xs">
+            <p className="mt-4 text-[11px] leading-relaxed text-dusty-cream/70 sm:text-xs">
               Fretwell &amp; Co is a compliance tracking tool. Users remain
               responsible for their own legal compliance obligations.
             </p>
