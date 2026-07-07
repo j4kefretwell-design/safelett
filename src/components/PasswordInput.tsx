@@ -12,6 +12,7 @@ interface PasswordInputProps {
   placeholder?: string;
   minLength?: number;
   required?: boolean;
+  autoComplete?: string;
 }
 
 export default function PasswordInput({
@@ -22,6 +23,7 @@ export default function PasswordInput({
   placeholder = "••••••••",
   minLength,
   required = true,
+  autoComplete,
 }: PasswordInputProps) {
   const [visible, setVisible] = useState(false);
 
@@ -40,7 +42,10 @@ export default function PasswordInput({
           onChange={(event) => onChange(event.target.value)}
           className={`${inputClassName} pr-10`}
           placeholder={placeholder}
-          autoComplete={id === "password" ? "current-password" : "new-password"}
+          autoComplete={
+            autoComplete ??
+            (id === "password" ? "current-password" : "new-password")
+          }
         />
         <button
           type="button"

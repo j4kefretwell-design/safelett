@@ -8,6 +8,48 @@ function escapeHtml(value: string): string {
     .replace(/"/g, "&quot;");
 }
 
+function brandWelcomeEmailLayout(content: string): string {
+  return `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>${BRAND_NAME}</title>
+  </head>
+  <body style="margin:0;padding:0;background-color:#EAECE4;font-family:Georgia,'Times New Roman',Times,serif;color:#33181C;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color:#EAECE4;padding:32px 16px;">
+      <tr>
+        <td align="center">
+          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:560px;background-color:#F5F0E8;border:1px solid rgba(51,24,28,0.12);">
+            <tr>
+              <td style="background-color:#33181C;padding:28px 32px;text-align:center;">
+                <p style="margin:0;font-family:Georgia,'Times New Roman',Times,serif;font-size:17px;font-weight:400;color:#EAECE4;letter-spacing:0.22em;text-transform:uppercase;">
+                  FRETWELL <span style="font-style:italic;color:#C4A35A;">&amp;</span> CO
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:36px 32px;background-color:#EAECE4;">
+                ${content}
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:24px 32px;border-top:1px solid rgba(51,24,28,0.1);background-color:#F5F0E8;text-align:center;">
+                <p style="margin:0 0 4px;font-size:13px;font-weight:600;color:#33181C;">Fretwell &amp; Co</p>
+                <p style="margin:0 0 4px;font-size:12px;color:#5C4A3A;">Property Compliance Management</p>
+                <p style="margin:0;font-size:12px;">
+                  <a href="https://fretwellcompliance.uk" style="color:#33181C;text-decoration:none;">fretwellcompliance.uk</a>
+                </p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>`;
+}
+
 function emailLayout(content: string): string {
   return `<!DOCTYPE html>
 <html lang="en">
@@ -179,15 +221,38 @@ interface WelcomeEmailParams {
 export function buildWelcomeEmail({ dashboardUrl }: WelcomeEmailParams) {
   const subject = `Welcome to ${BRAND_NAME}`;
 
-  const html = emailLayout(`
-    <h1 style="margin:0 0 12px;font-size:20px;font-weight:700;color:#0f172a;">Welcome to ${BRAND_NAME}</h1>
-    <p style="margin:0 0 16px;font-size:15px;line-height:1.6;color:#475569;">
-      Your account is ready. ${BRAND_NAME} helps you track property compliance certificates across your portfolio, so you always know what needs attention.
+  const html = brandWelcomeEmailLayout(`
+    <h1 style="margin:0 0 20px;font-family:Georgia,'Times New Roman',Times,serif;font-size:24px;font-weight:400;color:#33181C;letter-spacing:0.02em;">
+      Welcome to Fretwell &amp; Co.
+    </h1>
+    <p style="margin:0 0 24px;font-size:15px;line-height:1.7;font-weight:300;color:#33181C;">
+      Your account is now active. Here is how to get started:
     </p>
-    <p style="margin:0 0 24px;font-size:15px;line-height:1.6;color:#475569;">
-      Add your properties, upload certificates, and we will send you email reminders when renewals are due within 60, 30, and 7 days of expiry.
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-bottom:28px;">
+      <tr>
+        <td style="padding:0 0 16px;font-size:15px;line-height:1.7;font-weight:300;color:#33181C;">
+          <strong style="font-weight:600;">Add your first property</strong> — go to Add Property in your dashboard and enter the property details.
+        </td>
+      </tr>
+      <tr>
+        <td style="padding:0 0 16px;font-size:15px;line-height:1.7;font-weight:300;color:#33181C;">
+          <strong style="font-weight:600;">Upload your certificates</strong> — add compliance certificates for each property with their expiry dates.
+        </td>
+      </tr>
+      <tr>
+        <td style="padding:0;font-size:15px;line-height:1.7;font-weight:300;color:#33181C;">
+          <strong style="font-weight:600;">Save your contractors</strong> — add your trusted contractors so Fretwell &amp; Co can draft booking emails automatically.
+        </td>
+      </tr>
+    </table>
+    <p style="margin:0 0 28px;font-size:15px;line-height:1.7;font-weight:300;color:#33181C;">
+      Your portfolio is now protected.
     </p>
-    <a href="${dashboardUrl}" style="display:inline-block;background-color:#0f172a;color:#ffffff;text-decoration:none;font-size:14px;font-weight:600;padding:12px 20px;border-radius:8px;">
+    <p style="margin:0 0 28px;font-size:14px;line-height:1.7;font-weight:300;color:#5C4A3A;">
+      If you have any questions, reply to this email or contact us at
+      <a href="mailto:support@fretwellcompliance.uk" style="color:#33181C;text-decoration:underline;">support@fretwellcompliance.uk</a>
+    </p>
+    <a href="${dashboardUrl}" style="display:inline-block;background-color:#33181C;color:#EAECE4;text-decoration:none;font-size:13px;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;padding:14px 24px;">
       Go to your dashboard
     </a>
   `);
