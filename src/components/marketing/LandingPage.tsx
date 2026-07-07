@@ -54,7 +54,7 @@ export default function LandingPage() {
   return (
     <div className="overflow-x-hidden bg-dusty-cream text-text">
       <nav className="fixed inset-x-0 top-0 z-50 border-b border-gold bg-raspberry">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-10">
+        <div className="relative mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-10">
           <button
             type="button"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
@@ -68,8 +68,8 @@ export default function LandingPage() {
             )}
           </button>
 
-          <div className="flex flex-1 justify-center md:justify-center">
-            <BrandWordmark href="/" variant="nav" />
+          <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <BrandWordmark href="/" variant="nav" className="pointer-events-auto" />
           </div>
 
           <div className="hidden items-center gap-8 md:flex">
