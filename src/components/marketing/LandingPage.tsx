@@ -135,11 +135,11 @@ export default function LandingPage() {
           sizes="100vw"
           priority
         />
-        <div className="absolute inset-0 bg-[#1A0A0C]/55" />
+        <div className="absolute inset-0 bg-[#1A0A0C]/25" />
 
-        <div className="relative z-10 flex flex-1 flex-col justify-center px-5 py-10 sm:px-12 sm:py-16 lg:px-16">
+        <div className="absolute inset-x-6 bottom-6 z-10 md:inset-x-auto md:bottom-10 md:left-10 md:max-w-[420px] lg:bottom-12 lg:left-12 lg:max-w-[520px]">
           <ScrollRevealGroup
-            className="mx-auto w-[90%] max-w-[600px] space-y-5 bg-[#1A0A0C]/75 px-8 py-10 sm:space-y-6 sm:px-12"
+            className="space-y-5 bg-[#1A0A0C]/75 px-8 py-10 sm:space-y-6 sm:px-12"
             staggerMs={100}
           >
             <p className="caps-label text-dusty-cream">
