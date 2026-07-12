@@ -38,6 +38,14 @@
   --color-urgent: #7a4048;
   --color-urgent-light: #ede3e4;
 
+  /* Tenancy mode palette */
+  --color-navy: #1b2a4a;
+  --color-navy-dark: #152238;
+  --color-steel: #2e4a7a;
+  --color-tenancy-bg: #f0f2f5;
+  --color-tenancy-card: #e8ecf2;
+  --color-tenancy-text: #0f1923;
+
   --font-serif: var(--font-playfair), "Georgia", "Times New Roman", serif;
   --font-sans: var(--font-dm-sans), var(--font-inter), "Helvetica Neue", Arial,
     sans-serif;
@@ -335,6 +343,35 @@
     background-position: right 0.25rem center;
     background-repeat: no-repeat;
     background-size: 12px;
+  }
+
+  .tenancy-slate-bg {
+    background-color: var(--color-tenancy-bg);
+  }
+
+  .tenancy-card {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid color-mix(in oklab, var(--color-steel) 25%, transparent);
+    border-top-width: 2px;
+    border-top-color: var(--color-gold);
+    background: linear-gradient(180deg, #eef1f6 0%, var(--color-tenancy-card) 100%);
+  }
+
+  .tenancy-portfolio-divider {
+    background-color: var(--color-navy);
+  }
+
+  .app-mode-fade {
+    transition: opacity 0.4s ease;
+  }
+
+  .app-mode-fade--hidden {
+    opacity: 0;
+  }
+
+  .app-mode-fade--visible {
+    opacity: 1;
   }
 }
 

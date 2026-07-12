@@ -1,8 +1,15 @@
-import RemindersList from "@/components/RemindersList";
+import RemindersPageClient, {
+  type TenancyReminderRow,
+} from "@/components/RemindersPageClient";
 import {
   getCertificateStatus,
   getDaysUntilExpiry,
 } from "@/lib/compliance";
+import {
+  getDaysUntilDate,
+  isDepositProtectionOverdue,
+  type Tenancy,
+} from "@/lib/tenancy";
 import { createClient } from "@/lib/supabase/server";
 import type { Certificate, CertificateType, Property } from "@/lib/types";
 import type { ComplianceStatus } from "@/lib/types";
@@ -14,10 +21,73 @@ interface ReminderRow {
   status: ComplianceStatus;
 }
 
+function buildTenancyReminders(tenancies: Tenancy[]): TenancyReminderRow[] {
+  const reminders: TenancyReminderRow[] = [];
+
+  for (const tenancy of tenancies) {
+    const endDays = getDaysUntilDate(tenancy.end_date);
+    if (endDays <= 90) {
+      reminders.push({
+        id: `${tenancy.id}-end`,
+        tenancy,
+        label: "Tenancy End Date",
+        dueDate: tenancy.end_date,
+        daysRemaining: endDays,
+        urgency: endDays < 0 ? "overdue" : endDays <= 30 ? "urgent" : "upcoming",
+      });
+    }
+
+    if (tenancy.rent_review_date) {
+      const reviewDays = getDaysUntilDate(tenancy.rent_review_date);
+      if (reviewDays <= 90) {
+        reminders.push({
+          id: `${tenancy.id}-review`,
+          tenancy,
+          label: "Rent Review Date",
+          dueDate: tenancy.rent_review_date,
+          daysRemaining: reviewDays,
+          urgency:
+            reviewDays < 0 ? "overdue" : reviewDays <= 30 ? "urgent" : "upcoming",
+        });
+      }
+    }
+
+    if (isDepositProtectionOverdue(tenancy)) {
+      reminders.push({
+        id: `${tenancy.id}-deposit`,
+        tenancy,
+        label: "Deposit Protection Overdue",
+        dueDate: tenancy.start_date,
+        daysRemaining: -getDaysUntilDate(tenancy.start_date),
+        urgency: "overdue",
+      });
+    }
+
+    if (tenancy.right_to_rent_expiry) {
+      const rtrDays = getDaysUntilDate(tenancy.right_to_rent_expiry);
+      if (rtrDays <= 90) {
+        reminders.push({
+          id: `${tenancy.id}-rtr`,
+          tenancy,
+          label: "Right to Rent Expiry",
+          dueDate: tenancy.right_to_rent_expiry,
+          daysRemaining: rtrDays,
+          urgency: rtrDays < 0 ? "overdue" : rtrDays <= 30 ? "urgent" : "upcoming",
+        });
+      }
+    }
+  }
+
+  return reminders.sort((a, b) => a.daysRemaining - b.daysRemaining);
+}
+
 export default async function RemindersPage() {
   const supabase = await createClient();
 
-  const { data: properties } = await supabase.from("properties").select("*");
+  const [{ data: properties }, { data: tenancies }] = await Promise.all([
+    supabase.from("properties").select("*"),
+    supabase.from("tenancies").select("*"),
+  ]);
 
   const propertyList = (properties ?? []) as Property[];
   const reminders: ReminderRow[] = [];
@@ -69,10 +139,15 @@ export default async function RemindersPage() {
     })
     .filter((row): row is NonNullable<typeof row> => row !== null);
 
+  const tenancyReminders = buildTenancyReminders(
+    (tenancies ?? []) as Tenancy[]
+  );
+
   return (
-    <RemindersList
-      reminders={reminders}
+    <RemindersPageClient
+      complianceReminders={reminders}
       contractors={contractorContacts}
+      tenancyReminders={tenancyReminders}
     />
   );
 }

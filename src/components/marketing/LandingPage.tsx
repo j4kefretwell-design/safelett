@@ -9,14 +9,36 @@ import ScrollReveal, { ScrollRevealGroup } from "@/components/ScrollReveal";
 import { siteImages } from "@/lib/site-images";
 import { btnHeroTrialClassName, btnOutlineClassName, btnPrimaryClassName } from "@/lib/ui";
 
-const pricingFeatures = [
-  "Unlimited properties",
-  "All 13 certificate types",
-  "Automated expiry alerts",
-  "Secure document storage",
-  "Contractor contacts",
-  "CSV export & bulk import",
-  "Landlord sharing portal",
+const pricingPlans = [
+  {
+    name: "Compliance",
+    price: 30,
+    description: "Certificate tracking for property managers",
+    features: [
+      "Unlimited properties",
+      "All 13 certificate types",
+      "Automated expiry alerts",
+      "Contractor email drafts",
+      "Annual compliance report",
+      "CSV export & bulk import",
+    ],
+    ctaClass: btnPrimaryClassName,
+  },
+  {
+    name: "Professional",
+    price: 49,
+    description: "Compliance plus full tenancy management",
+    features: [
+      "Everything in Compliance",
+      "Full tenancy management",
+      "Renewal & rent review alerts",
+      "Deposit protection tracking",
+      "Tenancy notice drafts",
+      "Right to rent monitoring",
+    ],
+    ctaClass: `${btnPrimaryClassName} bg-navy hover:bg-navy-dark`,
+    highlighted: true,
+  },
 ];
 
 const features = [
@@ -39,7 +61,8 @@ const features = [
 
 const mobileNavLinks = [
   { href: "#why", label: "Why Fretwell & Co" },
-  { href: "#features", label: "Features" },
+  { href: "#features", label: "Compliance" },
+  { href: "#tenancy", label: "Tenancy" },
   { href: "/login", label: "Sign In" },
   { href: "/signup", label: "Begin Trial" },
 ];
@@ -83,7 +106,13 @@ export default function LandingPage() {
               href="#features"
               className="text-sm font-light tracking-[0.1em] text-dusty-cream/90 transition hover:text-dusty-cream"
             >
-              Features
+              Compliance
+            </a>
+            <a
+              href="#tenancy"
+              className="text-sm font-light tracking-[0.1em] text-dusty-cream/90 transition hover:text-dusty-cream"
+            >
+              Tenancy
             </a>
             <Link
               href="/login"
@@ -251,6 +280,51 @@ export default function LandingPage() {
       </ScrollReveal>
 
       <ScrollReveal>
+        <section
+          id="tenancy"
+          className="bg-navy px-5 py-16 sm:px-10 sm:py-32 lg:py-40"
+        >
+          <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-2 lg:items-center">
+            <ScrollRevealGroup className="space-y-6" staggerMs={100}>
+              <p className="caps-label text-gold">Tenancy Management</p>
+              <h2 className="font-serif text-3xl tracking-[0.02em] text-dusty-cream sm:text-4xl lg:text-5xl">
+                Every Tenancy. Every Deadline. Every Document.
+              </h2>
+              <p className="text-base font-light leading-relaxed text-dusty-cream/85 sm:text-lg">
+                Track lease end dates, rent reviews, deposit protection, and right
+                to rent compliance across your entire lettings portfolio — in the
+                same considered system as your certificates.
+              </p>
+              <ul className="space-y-3 text-base font-light leading-relaxed text-dusty-cream/80">
+                <li>Automated alerts at 90, 60, and 30 days before tenancy end</li>
+                <li>Deposit protection overdue flags</li>
+                <li>Professional tenancy notice drafts in one click</li>
+                <li>Secure document storage for agreements and certificates</li>
+              </ul>
+              <Link
+                href="/signup"
+                className={`${btnOutlineClassName} border-dusty-cream/40 text-dusty-cream hover:border-dusty-cream hover:bg-dusty-cream/5`}
+              >
+                Start with Professional →
+              </Link>
+            </ScrollRevealGroup>
+
+            <div
+              className="relative min-h-[280px] overflow-hidden sm:min-h-[360px]"
+              style={{ backgroundColor: siteImages.bradStarkey.placeholderColor }}
+            >
+              <BackgroundImage
+                image={siteImages.bradStarkey}
+                alt="Elegant townhouse exterior"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+              <div className="absolute inset-0 bg-[#0F1923]/35" />
+            </div>
+          </div>
+        </section>
+      </ScrollReveal>
+
+      <ScrollReveal>
         <section className="grid min-h-0 lg:min-h-[480px] lg:grid-cols-2">
           <div className="flex flex-col justify-center bg-beige px-5 py-14 sm:px-14 sm:py-20 lg:px-16 lg:py-28">
             <ScrollRevealGroup className="max-w-lg space-y-8" staggerMs={100}>
@@ -283,43 +357,55 @@ export default function LandingPage() {
       </ScrollReveal>
 
       <ScrollReveal>
-        <section className="bg-dusty-cream px-5 py-16 sm:py-32">
-          <div className="mx-auto max-w-lg text-center">
+        <section id="pricing" className="bg-dusty-cream px-5 py-16 sm:py-32">
+          <div className="mx-auto max-w-5xl text-center">
             <ScrollRevealGroup className="space-y-6" staggerMs={100}>
               <p className="caps-label text-cocoa">Simple Pricing</p>
               <h2 className="font-serif text-2xl tracking-[0.02em] text-text sm:text-4xl">
-                One Plan. Everything Included.
+                Two Plans. Built for Property Professionals.
               </h2>
 
-              <div className="mx-auto mt-10 max-w-sm border border-cocoa/20 bg-beige px-6 py-10 text-left sm:px-10 sm:py-12">
-                <div className="flex items-baseline gap-1">
-                  <span className="font-serif text-5xl tracking-wide text-text sm:text-6xl">
-                    £49
-                  </span>
-                  <span className="text-base font-light text-cocoa">/month</span>
-                </div>
+              <div className="mt-12 grid gap-6 text-left md:grid-cols-2">
+                {pricingPlans.map((plan) => (
+                  <div
+                    key={plan.name}
+                    className={`border px-6 py-10 sm:px-10 sm:py-12 ${
+                      plan.highlighted
+                        ? "border-navy/30 bg-white shadow-[0_20px_60px_rgba(27,42,74,0.08)]"
+                        : "border-cocoa/20 bg-beige"
+                    }`}
+                  >
+                    <p className="caps-label text-cocoa">{plan.name}</p>
+                    <div className="mt-6 flex items-baseline gap-1">
+                      <span className="font-serif text-5xl tracking-wide text-text sm:text-6xl">
+                        £{plan.price}
+                      </span>
+                      <span className="text-base font-light text-cocoa">/month</span>
+                    </div>
+                    <p className="mt-4 text-sm font-light leading-relaxed text-cocoa">
+                      {plan.description}
+                    </p>
 
-                <ul className="mt-10 space-y-3.5">
-                  {pricingFeatures.map((feature) => (
-                    <li
-                      key={feature}
-                      className="flex items-start gap-3 text-base font-light leading-relaxed text-cocoa"
-                    >
-                      <Check
-                        className="mt-0.5 h-4 w-4 shrink-0 text-cocoa/60"
-                        strokeWidth={1.25}
-                      />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
+                    <ul className="mt-10 space-y-3.5">
+                      {plan.features.map((feature) => (
+                        <li
+                          key={feature}
+                          className="flex items-start gap-3 text-base font-light leading-relaxed text-cocoa"
+                        >
+                          <Check
+                            className="mt-0.5 h-4 w-4 shrink-0 text-cocoa/60"
+                            strokeWidth={1.25}
+                          />
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
 
-                <Link
-                  href="/signup"
-                  className={`${btnPrimaryClassName} mt-10 w-full`}
-                >
-                  Begin Your Trial
-                </Link>
+                    <Link href="/signup" className={`${plan.ctaClass} mt-10 w-full`}>
+                      Begin Your Trial
+                    </Link>
+                  </div>
+                ))}
               </div>
             </ScrollRevealGroup>
           </div>

@@ -214,6 +214,78 @@ export function buildExpiryAlertEmail({
   return { subject, html };
 }
 
+interface TenancyAlertEmailParams {
+  tenantNames: string;
+  propertyAddress: string;
+  alertLabel: string;
+  dueDate: string;
+  daysRemaining: number;
+  alertTier: number;
+  dashboardUrl: string;
+}
+
+export function buildTenancyAlertEmail({
+  tenantNames,
+  propertyAddress,
+  alertLabel,
+  dueDate,
+  daysRemaining,
+  alertTier,
+  dashboardUrl,
+}: TenancyAlertEmailParams) {
+  const safeTenant = escapeHtml(tenantNames);
+  const safeAddress = escapeHtml(propertyAddress);
+  const safeLabel = escapeHtml(alertLabel);
+  const safeDate = escapeHtml(dueDate);
+  const summary =
+    daysRemaining < 0
+      ? `Overdue by ${Math.abs(daysRemaining)} days`
+      : daysRemaining === 0
+        ? "Due today"
+        : `Due in ${daysRemaining} days`;
+
+  const subject = `${BRAND_NAME} Tenancy Alert: ${alertLabel} — ${propertyAddress}`;
+
+  const html = emailLayout(`
+    <h1 style="margin:0 0 12px;font-size:20px;font-weight:700;color:#0f172a;">Tenancy reminder</h1>
+    <p style="margin:0 0 20px;font-size:15px;line-height:1.6;color:#475569;">
+      A tenancy deadline in your portfolio requires attention. This alert was triggered ${alertTier > 0 ? `${alertTier} days before the due date` : "immediately"}.
+    </p>
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;margin-bottom:24px;">
+      <tr>
+        <td style="padding:16px 20px;border-bottom:1px solid #e2e8f0;">
+          <p style="margin:0 0 4px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;color:#64748b;">Tenant</p>
+          <p style="margin:0;font-size:15px;font-weight:600;color:#0f172a;">${safeTenant}</p>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding:16px 20px;border-bottom:1px solid #e2e8f0;">
+          <p style="margin:0 0 4px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;color:#64748b;">Property</p>
+          <p style="margin:0;font-size:15px;font-weight:600;color:#0f172a;">${safeAddress}</p>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding:16px 20px;border-bottom:1px solid #e2e8f0;">
+          <p style="margin:0 0 4px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;color:#64748b;">Alert</p>
+          <p style="margin:0;font-size:15px;font-weight:600;color:#0f172a;">${safeLabel}</p>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding:16px 20px;">
+          <p style="margin:0 0 4px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;color:#64748b;">Due date</p>
+          <p style="margin:0;font-size:15px;font-weight:600;color:#b45309;">${safeDate}</p>
+          <p style="margin:8px 0 0;font-size:13px;color:#64748b;">${escapeHtml(summary)}</p>
+        </td>
+      </tr>
+    </table>
+    <a href="${dashboardUrl}" style="display:inline-block;background-color:#1B2A4A;color:#ffffff;text-decoration:none;font-size:14px;font-weight:600;padding:12px 20px;border-radius:8px;">
+      View in ${BRAND_NAME}
+    </a>
+  `);
+
+  return { subject, html };
+}
+
 interface WelcomeEmailParams {
   dashboardUrl: string;
 }

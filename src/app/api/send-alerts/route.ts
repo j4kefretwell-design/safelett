@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { sendCertificateExpiryAlerts } from "@/lib/email/alerts";
+import { sendTenancyAlerts } from "@/lib/email/tenancy-alerts";
 
 function isAuthorized(request: Request, expectedSecret: string) {
   const headerSecret = request.headers.get("x-cron-secret");
@@ -26,11 +27,17 @@ export async function POST(request: Request) {
   }
 
   try {
-    const result = await sendCertificateExpiryAlerts();
+    const certificateResult = await sendCertificateExpiryAlerts();
+    const tenancyResult = await sendTenancyAlerts();
 
     return NextResponse.json({
       success: true,
-      ...result,
+      certificates: certificateResult,
+      tenancies: tenancyResult,
+      checked: certificateResult.checked + tenancyResult.checked,
+      sent: certificateResult.sent + tenancyResult.sent,
+      skipped: certificateResult.skipped + tenancyResult.skipped,
+      errors: [...certificateResult.errors, ...tenancyResult.errors],
     });
   } catch (error) {
     return NextResponse.json(

@@ -4,9 +4,10 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import BrandMonogram from "@/components/BrandMonogram";
+import { useAppMode } from "@/lib/app-mode";
 import { createClient } from "@/lib/supabase/client";
 
-const navItems = [
+const complianceNavItems = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/reminders", label: "Reminders" },
   { href: "/properties/new", label: "Add Property" },
@@ -17,7 +18,15 @@ const navItems = [
   { href: "/help", label: "Help" },
 ] as const;
 
-function isNavActive(pathname: string, href: string): boolean {
+const tenancyNavItems = [
+  { href: "/tenancy/dashboard", label: "Dashboard" },
+  { href: "/reminders", label: "Reminders" },
+  { href: "/tenancy/new", label: "Add Tenancy" },
+  { href: "/settings", label: "Settings" },
+  { href: "/help", label: "Help" },
+] as const;
+
+function isComplianceNavActive(pathname: string, href: string): boolean {
   if (href === "/dashboard") {
     return (
       pathname === "/dashboard" ||
@@ -42,6 +51,27 @@ function isNavActive(pathname: string, href: string): boolean {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
+function isTenancyNavActive(pathname: string, href: string): boolean {
+  if (href === "/tenancy/dashboard") {
+    return (
+      pathname === "/tenancy/dashboard" ||
+      (pathname.startsWith("/tenancy/") &&
+        pathname !== "/tenancy/new" &&
+        !pathname.match(/^\/tenancy\/[^/]+\/edit$/))
+    );
+  }
+
+  if (href === "/tenancy/new") {
+    return pathname === "/tenancy/new";
+  }
+
+  if (href === "/help") {
+    return pathname === "/help" || pathname.startsWith("/help/");
+  }
+
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
 interface AppSidebarProps {
   open: boolean;
   onClose: () => void;
@@ -50,7 +80,11 @@ interface AppSidebarProps {
 export default function AppSidebar({ open, onClose }: AppSidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
+  const { mode } = useAppMode();
   const [email, setEmail] = useState<string | null>(null);
+
+  const navItems = mode === "tenancy" ? tenancyNavItems : complianceNavItems;
+  const isTenancy = mode === "tenancy";
 
   useEffect(() => {
     const supabase = createClient();
@@ -94,19 +128,25 @@ export default function AppSidebar({ open, onClose }: AppSidebarProps) {
       />
 
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-[min(100vw,18rem)] max-w-full flex-col bg-raspberry transition-transform duration-300 ease-out ${
-          open ? "translate-x-0" : "-translate-x-full"
-        }`}
+        className={`fixed inset-y-0 left-0 z-50 flex w-[min(100vw,18rem)] max-w-full flex-col transition-all duration-500 ease-out ${
+          isTenancy ? "bg-navy" : "bg-raspberry"
+        } ${open ? "translate-x-0" : "-translate-x-full"}`}
         aria-hidden={!open}
       >
         <div className="flex justify-center px-6 pt-10 pb-8">
-          <BrandMonogram href="/dashboard" onClick={onClose} />
+          <BrandMonogram
+            href={isTenancy ? "/tenancy/dashboard" : "/dashboard"}
+            onClick={onClose}
+          />
         </div>
 
         <nav className="flex-1 overflow-y-auto px-4 py-4" aria-label="Main navigation">
           <ul className="space-y-1">
             {navItems.map((item) => {
-              const isActive = isNavActive(pathname, item.href);
+              const isActive = isTenancy
+                ? isTenancyNavActive(pathname, item.href)
+                : isComplianceNavActive(pathname, item.href);
+
               return (
                 <li key={item.href}>
                   <Link

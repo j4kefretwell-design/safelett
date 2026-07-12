@@ -2,6 +2,7 @@ import type { ExpiryAlertDay } from "@/lib/compliance";
 import { getFromEmail, getResendClient } from "./resend";
 import {
   buildExpiryAlertEmail,
+  buildTenancyAlertEmail,
   buildWelcomeEmail,
 } from "./templates";
 
@@ -39,6 +40,43 @@ export async function sendExpiryAlertEmail({
     alertTier,
     dashboardUrl: `${getAppUrl()}/dashboard`,
     contractor,
+  });
+
+  const resend = getResendClient();
+
+  return resend.emails.send({
+    from: getFromEmail(),
+    to,
+    subject,
+    html,
+  });
+}
+
+export async function sendTenancyAlertEmail({
+  to,
+  tenantNames,
+  propertyAddress,
+  alertLabel,
+  dueDate,
+  daysRemaining,
+  alertTier,
+}: {
+  to: string;
+  tenantNames: string;
+  propertyAddress: string;
+  alertLabel: string;
+  dueDate: string;
+  daysRemaining: number;
+  alertTier: number;
+}) {
+  const { subject, html } = buildTenancyAlertEmail({
+    tenantNames,
+    propertyAddress,
+    alertLabel,
+    dueDate,
+    daysRemaining,
+    alertTier,
+    dashboardUrl: `${getAppUrl()}/tenancy/dashboard`,
   });
 
   const resend = getResendClient();
