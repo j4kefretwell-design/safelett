@@ -23,8 +23,12 @@ const tenancyNavItems = [
   { href: "/tenancy/notices", label: "Notices" },
 ] as const;
 
-const sidebarBottomLinkClassName =
-  "block text-[11px] font-normal uppercase tracking-[0.14em] text-dusty-cream/80 transition hover:text-dusty-cream";
+const utilityNavItems = [
+  { href: "/settings", label: "Settings", kind: "link" as const },
+  { href: "/help", label: "Help", kind: "link" as const },
+  { href: "/subscription", label: "Subscription", kind: "subscription" as const },
+  { href: null, label: "Sign Out", kind: "signout" as const },
+] as const;
 
 function isComplianceNavActive(pathname: string, href: string): boolean {
   if (href === "/dashboard") {
@@ -140,6 +144,25 @@ export default function AppSidebar({ open, onClose }: AppSidebarProps) {
     router.refresh();
   }
 
+  function utilityLinkClass(isActive: boolean, kind: "link" | "subscription" | "signout") {
+    const base =
+      "block min-h-11 border-l-2 py-3 pl-5 pr-3 text-[11px] font-normal uppercase tracking-[0.14em] leading-relaxed transition-colors duration-200";
+
+    if (kind === "subscription") {
+      return `${base} ${
+        isActive
+          ? "border-gold text-gold"
+          : "border-transparent text-gold hover:border-gold/40 hover:text-gold-readable"
+      }`;
+    }
+
+    return `${base} ${
+      isActive
+        ? "border-gold text-dusty-cream"
+        : "border-transparent text-dusty-cream/80 hover:border-gold/40 hover:text-dusty-cream"
+    }`;
+  }
+
   return (
     <>
       <button
@@ -164,7 +187,7 @@ export default function AppSidebar({ open, onClose }: AppSidebarProps) {
           />
         </div>
 
-        <nav className="flex-1 overflow-y-auto px-4 py-4" aria-label="Main navigation">
+        <nav className="flex-1 overflow-y-auto px-4 py-4 pb-10" aria-label="Main navigation">
           <ul className="space-y-1">
             {navItems.map((item) => {
               const isActive = isTenancy
@@ -187,46 +210,54 @@ export default function AppSidebar({ open, onClose }: AppSidebarProps) {
                 </li>
               );
             })}
+
+            {email && (
+              <li className="mt-8 px-5 pt-6">
+                <p className="truncate text-xs font-light leading-relaxed tracking-wide text-dusty-cream/70">
+                  {email}
+                </p>
+              </li>
+            )}
+
+            <li className={email ? "mt-2" : "mt-8 pt-6"} aria-hidden="true">
+              <div className="mx-5 h-px bg-white/10" />
+            </li>
+
+            {utilityNavItems.map((item) => {
+              const isActive =
+                item.href !== null &&
+                (isTenancy
+                  ? isTenancyNavActive(pathname, item.href)
+                  : isComplianceNavActive(pathname, item.href));
+
+              if (item.kind === "signout") {
+                return (
+                  <li key={item.label}>
+                    <button
+                      type="button"
+                      onClick={handleSignOut}
+                      className={utilityLinkClass(false, "signout")}
+                    >
+                      {item.label}
+                    </button>
+                  </li>
+                );
+              }
+
+              return (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    onClick={onClose}
+                    className={utilityLinkClass(isActive, item.kind)}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </nav>
-
-        <div className="border-t border-white/10 px-6 py-10">
-          {email && (
-            <p className="truncate text-xs font-light leading-relaxed tracking-wide text-dusty-cream/80">
-              {email}
-            </p>
-          )}
-          <div className={`space-y-5 ${email ? "mt-6" : ""}`}>
-            <Link
-              href="/settings"
-              onClick={onClose}
-              className={sidebarBottomLinkClassName}
-            >
-              Settings
-            </Link>
-            <Link
-              href="/help"
-              onClick={onClose}
-              className={sidebarBottomLinkClassName}
-            >
-              Help
-            </Link>
-            <Link
-              href="/subscription"
-              onClick={onClose}
-              className="block text-[11px] font-normal uppercase tracking-[0.14em] text-gold transition hover:text-gold-readable"
-            >
-              Subscription
-            </Link>
-            <button
-              type="button"
-              onClick={handleSignOut}
-              className={sidebarBottomLinkClassName}
-            >
-              Sign Out
-            </button>
-          </div>
-        </div>
       </aside>
     </>
   );

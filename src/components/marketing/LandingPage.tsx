@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Check, Menu, X } from "lucide-react";
+import { Key, Menu, Shield, Sparkles, X } from "lucide-react";
 import BackgroundImage from "@/components/BackgroundImage";
 import BrandWordmark from "@/components/BrandWordmark";
 import ScrollReveal, { ScrollRevealGroup } from "@/components/ScrollReveal";
@@ -17,27 +17,12 @@ const pricingPlans = [
     name: "Compliance",
     price: 30,
     description: "Certificate tracking for property managers",
-    features: [
-      "Unlimited properties",
-      "All 13 certificate types",
-      "Automated expiry alerts",
-      "Contractor email drafts",
-      "Annual compliance report",
-      "CSV export & bulk import",
-    ],
     ctaClass: btnLandingPrimaryClassName,
   },
   {
     name: "Professional",
-    price: 89,
-    description: "Compliance + Tenancy — save £76/month",
-    features: [
-      "Everything in Compliance",
-      "Everything in Tenancy",
-      "AI Assistant (coming soon)",
-      "Priority support",
-      "Bundle pricing — £55 for both modules",
-    ],
+    price: 49,
+    description: "Compliance and Tenancy — the complete platform",
     ctaClass: `${btnLandingPrimaryClassName} bg-ink hover:bg-ink/90`,
     highlighted: true,
   },
@@ -50,8 +35,9 @@ const moduleCards = [
       "Certificate tracking, automated alerts, contractor management",
     price: "£30/month",
     borderColor: "#33181C",
-    tintBg: "rgba(51, 24, 28, 0.06)",
+    tintBg: "rgba(51, 24, 28, 0.10)",
     headingClass: "text-raspberry",
+    watermarkClass: "text-raspberry",
     href: "/signup",
     comingSoon: false,
   },
@@ -60,8 +46,9 @@ const moduleCards = [
     subtitle: "Deposit tracking, renewal dates, tenancy notices",
     price: "£35/month",
     borderColor: "#1B2A4A",
-    tintBg: "rgba(27, 42, 74, 0.06)",
+    tintBg: "rgba(27, 42, 74, 0.10)",
     headingClass: "text-navy",
+    watermarkClass: "text-navy",
     href: "/signup",
     comingSoon: false,
   },
@@ -71,8 +58,9 @@ const moduleCards = [
       "Intelligent admin drafting and property management automation",
     price: "Coming Soon",
     borderColor: "#1A2E1A",
-    tintBg: "rgba(26, 46, 26, 0.06)",
+    tintBg: "rgba(26, 46, 26, 0.10)",
     headingClass: "text-forest",
+    watermarkClass: "text-forest",
     href: null,
     comingSoon: true,
   },
@@ -81,25 +69,34 @@ const moduleCards = [
 const features = [
   {
     number: "01",
-    title: "Complete Portfolio Oversight",
-    body: "Manage compliance certificates and tenancies across your entire property portfolio from a single, beautifully designed platform.",
+    module: "Compliance",
+    body: "Certificate tracking, automated alerts and contractor email drafting across your entire property portfolio.",
+    accentColor: "#33181C",
+    accentTextClass: "text-[#C48A92]",
+    ruleClass: "bg-[#33181C]",
   },
   {
     number: "02",
-    title: "Automated Alerts & Actions",
-    body: "Never miss a deadline. Fretwell & Co alerts you before certificates expire, drafts contractor emails automatically, and tracks every tenancy renewal date.",
+    module: "Tenancy",
+    body: "Deposit protection monitoring, tenancy renewal alerts and professional notice drafting for every tenancy.",
+    accentColor: "#1B2A4A",
+    accentTextClass: "text-[#8BA3CC]",
+    ruleClass: "bg-[#1B2A4A]",
   },
   {
     number: "03",
-    title: "Professional Client Reporting",
-    body: "Generate annual compliance reports, share live portfolio status with landlord clients, and present yourself as the organised professional they expect.",
+    module: "AI Assistant",
+    body: "Intelligent admin drafting, automated correspondence and property management automation. Coming soon.",
+    accentColor: "#1A2E1A",
+    accentTextClass: "text-[#8BAF8B]",
+    ruleClass: "bg-[#1A2E1A]",
   },
 ];
 
 const mobileNavLinks = [
-  { href: "#why", label: "Why Fretwell & Co" },
-  { href: "#features", label: "Platform" },
-  { href: "#modules", label: "Modules" },
+  { href: "#why", label: "Why Us" },
+  { href: "#features", label: "Modules" },
+  { href: "#modules", label: "Platform" },
   { href: "#pricing", label: "Pricing" },
   { href: "/login", label: "Sign In" },
   { href: "/signup", label: "Begin Trial" },
@@ -126,7 +123,7 @@ export default function LandingPage() {
             type="button"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             onClick={() => setMenuOpen((open) => !open)}
-            className="touch-target text-umber md:hidden"
+            className="touch-target shrink-0 text-umber"
           >
             {menuOpen ? (
               <X className="h-6 w-6" strokeWidth={1.25} />
@@ -139,38 +136,16 @@ export default function LandingPage() {
             <BrandWordmark href="/" variant="landingNav" className="pointer-events-auto" />
           </div>
 
-          <div className="hidden items-center gap-8 md:flex lg:gap-10">
-            <a
-              href="#why"
-              className="text-[11px] font-light uppercase tracking-[0.16em] text-umber/55 transition hover:text-umber/80"
-            >
-              Why Us
-            </a>
-            <a
-              href="#features"
-              className="text-[11px] font-light uppercase tracking-[0.16em] text-umber/55 transition hover:text-umber/80"
-            >
-              Platform
-            </a>
-            <a
-              href="#modules"
-              className="text-[11px] font-light uppercase tracking-[0.16em] text-umber/55 transition hover:text-umber/80"
-            >
-              Modules
-            </a>
-            <Link
-              href="/login"
-              className="text-[11px] font-light uppercase tracking-[0.18em] text-umber/70 transition hover:text-umber"
-            >
-              Sign In
-            </Link>
-          </div>
-
-          <div className="w-11 md:hidden" aria-hidden="true" />
+          <Link
+            href="/login"
+            className="shrink-0 text-[11px] font-light uppercase tracking-[0.18em] text-umber/70 transition hover:text-umber"
+          >
+            Sign In
+          </Link>
         </div>
 
         {menuOpen && (
-          <div className="border-t border-gold/30 bg-greige px-4 py-4 md:hidden">
+          <div className="border-t border-gold/30 bg-greige px-4 py-4">
             <ul className="space-y-1">
               {mobileNavLinks.map((link) => (
                 <li key={link.href}>
@@ -246,9 +221,16 @@ export default function LandingPage() {
 
             <div className="mt-16 grid gap-10 lg:grid-cols-3 lg:gap-0 lg:divide-x lg:divide-umber/15">
               {moduleCards.map((card, index) => {
+                const WatermarkIcon =
+                  card.title === "Compliance"
+                    ? Shield
+                    : card.title === "Tenancy"
+                      ? Key
+                      : Sparkles;
+
                 const content = (
                   <div
-                    className={`flex h-full flex-col border-l-[3px] px-8 py-10 sm:px-10 sm:py-12 lg:px-12 ${
+                    className={`relative flex h-full flex-col overflow-hidden border-l-4 px-8 py-10 sm:px-10 sm:py-12 lg:px-12 ${
                       card.comingSoon ? "opacity-85" : "transition duration-300 hover:brightness-[0.98]"
                     }`}
                     style={{
@@ -256,16 +238,21 @@ export default function LandingPage() {
                       backgroundColor: card.tintBg,
                     }}
                   >
+                    <WatermarkIcon
+                      className={`pointer-events-none absolute -right-4 -bottom-4 h-28 w-28 opacity-[0.07] ${card.watermarkClass}`}
+                      strokeWidth={1}
+                      aria-hidden="true"
+                    />
                     <h3
-                      className={`font-serif text-2xl tracking-wide sm:text-[1.75rem] ${card.headingClass}`}
+                      className={`relative font-serif text-2xl tracking-wide sm:text-[1.75rem] ${card.headingClass}`}
                     >
                       {card.title}
                     </h3>
-                    <p className="mt-4 flex-1 text-sm font-light leading-relaxed text-cocoa">
+                    <p className="relative mt-4 flex-1 text-sm font-light leading-relaxed text-cocoa">
                       {card.subtitle}
                     </p>
                     <p
-                      className={`mt-8 text-sm tracking-[0.06em] text-gold ${
+                      className={`relative mt-8 text-sm tracking-[0.06em] text-gold ${
                         card.comingSoon ? "italic" : "font-normal uppercase"
                       }`}
                     >
@@ -357,19 +344,20 @@ export default function LandingPage() {
             {features.map((feature, index) => (
               <ScrollReveal key={feature.number} delay={index * 100}>
                 <div
-                  className={`px-2 py-4 sm:px-6 lg:px-10 lg:py-6 ${
+                  className={`border-l-[3px] px-2 py-4 sm:px-6 lg:px-10 lg:py-6 ${
                     index < features.length - 1
                       ? "lg:border-r lg:border-gold/25"
                       : ""
                   }`}
+                  style={{ borderLeftColor: feature.accentColor }}
                 >
-                  <p className="text-base font-light tracking-[0.2em] text-gold">
+                  <p className={`text-base font-light tracking-[0.2em] ${feature.accentTextClass}`}>
                     {feature.number}
                   </p>
-                  <div className="mt-6 h-px w-12 bg-gold/60" />
-                  <h3 className="mt-8 font-serif text-xl tracking-[0.02em] text-dusty-cream sm:text-2xl lg:text-3xl">
-                    {feature.title}
-                  </h3>
+                  <div className={`mt-6 h-px w-12 ${feature.ruleClass}`} />
+                  <p className={`mt-8 text-[10px] font-normal uppercase tracking-[0.22em] ${feature.accentTextClass}`}>
+                    {feature.module}
+                  </p>
                   <p className="mt-5 text-base font-light leading-relaxed text-dusty-cream/80 sm:text-lg">
                     {feature.body}
                   </p>
@@ -383,8 +371,8 @@ export default function LandingPage() {
       <SectionRule />
 
       <ScrollReveal>
-        <section className="grid min-h-0 bg-umber lg:min-h-[480px] lg:grid-cols-2">
-          <div className="flex flex-col justify-center bg-umber px-5 py-14 sm:px-14 sm:py-20 lg:px-16 lg:py-28">
+        <section className="grid min-h-0 bg-ink lg:min-h-[480px] lg:grid-cols-2">
+          <div className="flex flex-col justify-center bg-ink px-5 py-14 sm:px-14 sm:py-20 lg:px-16 lg:py-28">
             <ScrollRevealGroup className="max-w-lg space-y-8" staggerMs={100}>
               <blockquote>
                 <p className="font-serif text-2xl italic leading-snug tracking-[0.01em] text-dusty-cream sm:text-4xl lg:text-[2.5rem] lg:leading-snug">
@@ -449,21 +437,6 @@ export default function LandingPage() {
                     <p className="mt-4 text-sm font-light leading-relaxed text-umber/75">
                       {plan.description}
                     </p>
-
-                    <ul className="mt-10 space-y-3.5">
-                      {plan.features.map((feature) => (
-                        <li
-                          key={feature}
-                          className="flex items-start gap-3 text-base font-light leading-relaxed text-umber/80"
-                        >
-                          <Check
-                            className="mt-0.5 h-4 w-4 shrink-0 text-gold"
-                            strokeWidth={1.25}
-                          />
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
 
                     <Link href="/signup" className={`${plan.ctaClass} mt-10 w-full`}>
                       Begin Your Trial
