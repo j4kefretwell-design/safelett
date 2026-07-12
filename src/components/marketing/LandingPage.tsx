@@ -207,7 +207,7 @@ export default function LandingPage() {
 
         <div className="absolute inset-x-6 bottom-6 z-10 md:inset-x-auto md:bottom-10 md:left-10 md:max-w-[420px] lg:bottom-12 lg:left-12 lg:max-w-[520px]">
           <ScrollRevealGroup
-            className="space-y-5 sm:space-y-6 [&_*]:[text-shadow:0_2px_20px_rgba(0,0,0,0.9)]"
+            className="space-y-5 bg-[rgba(26,10,12,0.65)] px-10 py-8 sm:space-y-6"
             staggerMs={100}
           >
             <p className="caps-label text-dusty-cream">
@@ -221,7 +221,7 @@ export default function LandingPage() {
               Automated compliance tracking for property management
               professionals across the United Kingdom.
             </p>
-            <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:flex-wrap sm:gap-4 [&_a]:[text-shadow:none]">
+            <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:flex-wrap sm:gap-4">
               <Link
                 href="/signup"
                 className={`${btnLandingPrimaryClassName} w-full sm:w-auto`}
@@ -244,81 +244,6 @@ export default function LandingPage() {
       </section>
 
       <div className="h-px w-full bg-gold" aria-hidden="true" />
-
-      <ScrollReveal>
-        <section id="why" className="grid min-h-0 bg-greige lg:min-h-[560px] lg:grid-cols-2">
-          <div
-            className="relative min-h-[240px] overflow-hidden sm:min-h-[320px] lg:min-h-full"
-            style={{ backgroundColor: siteImages.bradStarkey.placeholderColor }}
-          >
-            <BackgroundImage
-              image={siteImages.bradStarkey}
-              alt="Refined interior"
-              sizes="(max-width: 1024px) 100vw, 50vw"
-            />
-            <div className="absolute inset-0 bg-[#1A0A0C]/25" />
-          </div>
-
-          <div className="flex flex-col justify-center bg-greige-alt px-5 py-14 sm:px-14 sm:py-20 lg:px-16 lg:py-28">
-            <ScrollRevealGroup className="max-w-md space-y-6" staggerMs={100}>
-              <p className="text-[10px] font-normal uppercase tracking-[0.24em] text-umber/70">
-                Why Fretwell &amp; Co
-              </p>
-              <h2 className="font-serif text-2xl leading-snug tracking-[0.02em] text-umber sm:text-4xl lg:text-[2.75rem]">
-                The Standard of Care Your Portfolio Deserves.
-              </h2>
-              <p className="text-base font-light leading-relaxed text-umber/80 sm:text-lg">
-                Property compliance is fragmented, time-consuming, and
-                unforgiving. Missed renewals carry real consequences — for your
-                tenants, your reputation, and your business.
-              </p>
-              <p className="text-base font-light leading-relaxed text-umber/65 sm:text-lg">
-                Fretwell &amp; Co brings every certificate, every deadline, and
-                every document into one considered system — so you lead with
-                confidence, not anxiety.
-              </p>
-              <a
-                href="#features"
-                className={`${btnLandingOutlineClassName} w-full sm:w-auto`}
-              >
-                Discover More →
-              </a>
-            </ScrollRevealGroup>
-          </div>
-        </section>
-      </ScrollReveal>
-
-      <ScrollReveal>
-        <section
-          id="features"
-          className="bg-ink px-5 py-16 sm:px-10 sm:py-32 lg:py-40"
-        >
-          <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-3 lg:gap-0">
-            {features.map((feature, index) => (
-              <ScrollReveal key={feature.number} delay={index * 100}>
-                <div
-                  className={`px-2 py-4 sm:px-6 lg:px-10 lg:py-6 ${
-                    index < features.length - 1
-                      ? "lg:border-r lg:border-gold/25"
-                      : ""
-                  }`}
-                >
-                  <p className="text-base font-light tracking-[0.2em] text-gold">
-                    {feature.number}
-                  </p>
-                  <div className="mt-6 h-px w-12 bg-gold/60" />
-                  <h3 className="mt-8 font-serif text-xl tracking-[0.02em] text-dusty-cream sm:text-2xl lg:text-3xl">
-                    {feature.title}
-                  </h3>
-                  <p className="mt-5 text-base font-light leading-relaxed text-dusty-cream/80 sm:text-lg">
-                    {feature.body}
-                  </p>
-                </div>
-              </ScrollReveal>
-            ))}
-          </div>
-        </section>
-      </ScrollReveal>
 
       <ScrollReveal>
         <section id="modules" className="bg-greige px-5 py-16 sm:px-10 sm:py-28 lg:py-32">
@@ -383,6 +308,82 @@ export default function LandingPage() {
             >
               Begin Your Trial
             </Link>
+          </div>
+        </section>
+      </ScrollReveal>
+
+      <ScrollReveal>
+        <section id="why" className="grid min-h-0 bg-greige lg:min-h-[560px] lg:grid-cols-2">
+          <div
+            className="relative min-h-[240px] overflow-hidden sm:min-h-[320px] lg:min-h-full"
+            style={{ backgroundColor: siteImages.bradStarkey.placeholderColor }}
+          >
+            <BackgroundImage
+              image={siteImages.bradStarkey}
+              alt="Refined interior"
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              priority
+            />
+            <div className="absolute inset-0 bg-[#1A0A0C]/25" />
+          </div>
+
+          <div className="flex flex-col justify-center bg-greige-alt px-5 py-14 sm:px-14 sm:py-20 lg:px-16 lg:py-28">
+            <ScrollRevealGroup className="max-w-md space-y-6" staggerMs={100}>
+              <p className="text-[10px] font-normal uppercase tracking-[0.24em] text-umber/70">
+                Why Fretwell &amp; Co
+              </p>
+              <h2 className="font-serif text-2xl leading-snug tracking-[0.02em] text-umber sm:text-4xl lg:text-[2.75rem]">
+                The Standard of Care Your Portfolio Deserves.
+              </h2>
+              <p className="text-base font-light leading-relaxed text-umber/80 sm:text-lg">
+                Property compliance is fragmented, time-consuming, and
+                unforgiving. Missed renewals carry real consequences — for your
+                tenants, your reputation, and your business.
+              </p>
+              <p className="text-base font-light leading-relaxed text-umber/65 sm:text-lg">
+                Fretwell &amp; Co brings every certificate, every deadline, and
+                every document into one considered system — so you lead with
+                confidence, not anxiety.
+              </p>
+              <a
+                href="#features"
+                className={`${btnLandingOutlineClassName} w-full sm:w-auto`}
+              >
+                Discover More →
+              </a>
+            </ScrollRevealGroup>
+          </div>
+        </section>
+      </ScrollReveal>
+
+      <ScrollReveal>
+        <section
+          id="features"
+          className="bg-ink px-5 py-16 sm:px-10 sm:py-32 lg:py-40"
+        >
+          <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-3 lg:gap-0">
+            {features.map((feature, index) => (
+              <ScrollReveal key={feature.number} delay={index * 100}>
+                <div
+                  className={`px-2 py-4 sm:px-6 lg:px-10 lg:py-6 ${
+                    index < features.length - 1
+                      ? "lg:border-r lg:border-gold/25"
+                      : ""
+                  }`}
+                >
+                  <p className="text-base font-light tracking-[0.2em] text-gold">
+                    {feature.number}
+                  </p>
+                  <div className="mt-6 h-px w-12 bg-gold/60" />
+                  <h3 className="mt-8 font-serif text-xl tracking-[0.02em] text-dusty-cream sm:text-2xl lg:text-3xl">
+                    {feature.title}
+                  </h3>
+                  <p className="mt-5 text-base font-light leading-relaxed text-dusty-cream/80 sm:text-lg">
+                    {feature.body}
+                  </p>
+                </div>
+              </ScrollReveal>
+            ))}
           </div>
         </section>
       </ScrollReveal>

@@ -101,6 +101,7 @@ export default async function TenancyDashboardPage() {
             image={siteImages.annieSprattTopiary}
             alt=""
             sizes="100vw"
+            priority
             className="object-cover object-center"
           />
           <div className="absolute inset-0 bg-navy/25" aria-hidden="true" />

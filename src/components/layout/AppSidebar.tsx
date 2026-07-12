@@ -192,14 +192,14 @@ export default function AppSidebar({ open, onClose }: AppSidebarProps) {
           <Link
             href="/subscription"
             onClick={onClose}
-            className={`${email ? "mt-4" : ""} block min-h-11 text-sm font-normal uppercase tracking-[0.1em] text-dusty-cream/90 underline-offset-4 transition hover:text-dusty-cream hover:underline`}
+            className={`${email ? "mt-4" : ""} text-[11px] font-normal uppercase tracking-[0.14em] text-dusty-cream/80 transition hover:text-dusty-cream`}
           >
             Subscription
           </Link>
           <button
             type="button"
             onClick={handleSignOut}
-            className="mt-4 min-h-11 text-sm font-normal uppercase tracking-[0.1em] text-dusty-cream/90 underline-offset-4 transition hover:text-dusty-cream hover:underline"
+            className="mt-3 text-[11px] font-normal uppercase tracking-[0.14em] text-dusty-cream/80 transition hover:text-dusty-cream"
           >
             Sign Out
           </button>

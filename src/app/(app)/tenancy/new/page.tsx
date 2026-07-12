@@ -8,15 +8,16 @@ import { siteImages } from "@/lib/site-images";
 export default function NewTenancyPage() {
   return (
     <AnimateIn>
-      <div className="grid min-h-[calc(100vh-4rem)] w-full lg:grid-cols-[2fr_3fr]">
+      <div className="grid w-full lg:grid-cols-[2fr_3fr]">
         <div
-          className="relative hidden min-h-[480px] lg:block lg:min-h-full"
+          className="relative hidden lg:sticky lg:top-0 lg:block lg:h-[calc(100vh-4rem)] lg:self-start"
           style={{ backgroundColor: siteImages.annieSprattManor.placeholderColor }}
         >
           <BackgroundImage
             image={siteImages.annieSprattManor}
             alt=""
             sizes="40vw"
+            priority
             effect="fade"
           />
           <div className="absolute inset-0 bg-navy/70" />

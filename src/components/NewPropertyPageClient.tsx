@@ -20,6 +20,7 @@ export default function NewPropertyPageClient() {
             image={siteImages.benElliottProperty}
             alt=""
             sizes="40vw"
+            priority
             effect="fade"
           />
           <div className="absolute inset-0 bg-espresso/60" />

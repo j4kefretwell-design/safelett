@@ -57,6 +57,24 @@ export const authCardClassName =
 export const authCardSoftClassName =
   "w-full max-w-md border-[0.5px] border-[#6B503C] bg-[rgba(248,244,238,0.92)] p-7 shadow-[0_16px_48px_rgba(0,0,0,0.08)] sm:p-10";
 
+export const authCardLoginClassName =
+  "w-full max-w-md bg-[rgba(242,237,232,0.93)] p-7 sm:p-10";
+
+export const authLabelLoginClassName =
+  "mb-2 block text-sm font-normal uppercase tracking-[0.14em] text-umber";
+
+export const authInputLoginClassName =
+  "w-full border-0 border-b border-[#6B503C] bg-transparent px-0 py-3 text-base font-light leading-relaxed text-umber outline-none transition placeholder:italic placeholder:text-umber/45 focus:border-b-2 focus:border-[#6B503C] focus:pb-[calc(0.75rem-1px)]";
+
+export const authBtnLoginClassName =
+  `${btnBaseClassName} w-full bg-umber text-dusty-cream hover:bg-umber/90`;
+
+export const authLinkLoginClassName =
+  "font-light text-umber underline-offset-4 transition hover:text-umber/80 hover:underline";
+
+export const authForgotLinkClassName =
+  "text-xs font-light text-gold transition hover:text-gold-readable";
+
 export const btnGoldOutlineClassName =
   `${btnBaseClassName} border border-gold bg-transparent text-gold hover:bg-gold/10`;
 

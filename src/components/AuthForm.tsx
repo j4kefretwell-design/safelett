@@ -9,8 +9,13 @@ import PasswordInput from "@/components/PasswordInput";
 import { createClient } from "@/lib/supabase/client";
 import { siteImages } from "@/lib/site-images";
 import {
+  authBtnLoginClassName,
   authCardClassName,
-  authCardSoftClassName,
+  authCardLoginClassName,
+  authForgotLinkClassName,
+  authInputLoginClassName,
+  authLabelLoginClassName,
+  authLinkLoginClassName,
   btnPrimaryClassName,
   inputClassName,
   labelClassName,
@@ -29,6 +34,22 @@ export default function AuthForm({ mode }: AuthFormProps) {
   const [loading, setLoading] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [resetSent, setResetSent] = useState(false);
+
+  const isLoginStyled = mode === "login";
+  const cardClassName = isLoginStyled ? authCardLoginClassName : authCardClassName;
+  const fieldLabelClassName = isLoginStyled ? authLabelLoginClassName : labelClassName;
+  const fieldInputClassName = isLoginStyled ? authInputLoginClassName : inputClassName;
+  const submitBtnClassName = isLoginStyled ? authBtnLoginClassName : btnPrimaryClassName;
+  const footerLinkClassName = isLoginStyled ? authLinkLoginClassName : linkClassName;
+  const subtitleClassName = isLoginStyled
+    ? "mt-4 text-sm font-light leading-relaxed text-umber/80"
+    : "mt-4 text-sm font-light leading-relaxed text-cocoa";
+  const titleClassName = isLoginStyled
+    ? "font-serif text-2xl tracking-wide text-umber sm:text-3xl"
+    : "font-serif text-2xl tracking-wide text-text sm:text-3xl";
+  const footerBorderClassName = isLoginStyled
+    ? "mt-10 border-t border-umber/15 pt-8 text-center text-sm font-light text-umber/80"
+    : "mt-10 border-t border-cocoa/15 pt-8 text-center text-sm font-light text-cocoa";
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -119,36 +140,31 @@ export default function AuthForm({ mode }: AuthFormProps) {
       />
       <div className="absolute inset-0 bg-[#1A0A0C]/70" />
 
-      <div
-        className={`relative z-10 ${
-          mode === "login" && !showForgotPassword ? authCardSoftClassName : authCardClassName
-        }`}
-      >
+      <div className={`relative z-10 ${cardClassName}`}>
         <div className="mb-10 text-center">
-          <BrandWordmark href="/" variant="card" />
+          <BrandWordmark
+            href="/"
+            variant={isLoginStyled ? "auth" : "card"}
+          />
         </div>
 
-        <h1 className="font-serif text-2xl tracking-wide text-text sm:text-3xl">
-          {title}
-        </h1>
-        <p className="mt-4 text-sm font-light leading-relaxed text-cocoa">
-          {subtitle}
-        </p>
+        <h1 className={titleClassName}>{title}</h1>
+        <p className={subtitleClassName}>{subtitle}</p>
 
         {showForgotPassword ? (
           resetSent ? (
             <div className="mt-10 space-y-6">
-              <p className="text-sm font-light leading-relaxed text-cocoa">
+              <p className={subtitleClassName}>
                 If an account exists for <strong className="font-normal">{email}</strong>, you will receive an email shortly.
               </p>
-              <Link href="/login" className={`${btnPrimaryClassName} w-full`}>
+              <Link href="/login" className={submitBtnClassName}>
                 Back to sign in
               </Link>
             </div>
           ) : (
             <form onSubmit={handleForgotPassword} className="mt-10 space-y-8">
               <div>
-                <label htmlFor="email" className={labelClassName}>
+                <label htmlFor="email" className={fieldLabelClassName}>
                   Email address
                 </label>
                 <input
@@ -157,7 +173,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className={inputClassName}
+                  className={fieldInputClassName}
                   placeholder="you@company.com"
                 />
               </div>
@@ -171,7 +187,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
               <button
                 type="submit"
                 disabled={loading}
-                className={`${btnPrimaryClassName} w-full`}
+                className={submitBtnClassName}
               >
                 {loading ? "Please wait..." : "Send reset link"}
               </button>
@@ -182,7 +198,11 @@ export default function AuthForm({ mode }: AuthFormProps) {
                   setShowForgotPassword(false);
                   setError(null);
                 }}
-                className="block w-full text-center text-sm font-light text-gold-readable transition hover:text-gold"
+                className={
+                  isLoginStyled
+                    ? `block w-full text-center ${authForgotLinkClassName}`
+                    : "block w-full text-center text-sm font-light text-gold-readable transition hover:text-gold"
+                }
               >
                 Back to sign in
               </button>
@@ -191,7 +211,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
         ) : (
           <form onSubmit={handleSubmit} className="mt-10 space-y-8">
             <div>
-              <label htmlFor="email" className={labelClassName}>
+              <label htmlFor="email" className={fieldLabelClassName}>
                 Email address
               </label>
               <input
@@ -200,7 +220,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className={inputClassName}
+                className={fieldInputClassName}
                 placeholder="you@company.com"
               />
             </div>
@@ -212,6 +232,13 @@ export default function AuthForm({ mode }: AuthFormProps) {
                 value={password}
                 onChange={setPassword}
                 minLength={6}
+                inputClassName={fieldInputClassName}
+                labelClassName={fieldLabelClassName}
+                toggleClassName={
+                  isLoginStyled
+                    ? "absolute right-0 bottom-3 text-umber/50 transition hover:text-umber"
+                    : undefined
+                }
               />
               {mode === "login" && (
                 <button
@@ -220,7 +247,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
                     setShowForgotPassword(true);
                     setError(null);
                   }}
-                  className="mt-2 text-xs font-light text-gold-readable transition hover:text-gold"
+                  className={`mt-2 ${authForgotLinkClassName}`}
                 >
                   Forgot your password?
                 </button>
@@ -236,7 +263,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
             <button
               type="submit"
               disabled={loading}
-              className={`${btnPrimaryClassName} w-full`}
+              className={submitBtnClassName}
             >
               {loading
                 ? "Please wait..."
@@ -248,18 +275,18 @@ export default function AuthForm({ mode }: AuthFormProps) {
         )}
 
         {!showForgotPassword && (
-          <p className="mt-10 border-t border-cocoa/15 pt-8 text-center text-sm font-light text-cocoa">
+          <p className={footerBorderClassName}>
             {mode === "login" ? (
               <>
                 Don&apos;t have an account?{" "}
-                <Link href="/signup" className={linkClassName}>
+                <Link href="/signup" className={footerLinkClassName}>
                   Sign up
                 </Link>
               </>
             ) : (
               <>
                 Already have an account?{" "}
-                <Link href="/login" className={linkClassName}>
+                <Link href="/login" className={footerLinkClassName}>
                   Sign in
                 </Link>
               </>

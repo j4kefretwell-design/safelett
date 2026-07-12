@@ -13,6 +13,9 @@ interface PasswordInputProps {
   minLength?: number;
   required?: boolean;
   autoComplete?: string;
+  inputClassName?: string;
+  labelClassName?: string;
+  toggleClassName?: string;
 }
 
 export default function PasswordInput({
@@ -24,12 +27,15 @@ export default function PasswordInput({
   minLength,
   required = true,
   autoComplete,
+  inputClassName: inputClassNameProp,
+  labelClassName: labelClassNameProp,
+  toggleClassName,
 }: PasswordInputProps) {
   const [visible, setVisible] = useState(false);
 
   return (
     <div>
-      <label htmlFor={id} className={labelClassName}>
+      <label htmlFor={id} className={labelClassNameProp ?? labelClassName}>
         {label}
       </label>
       <div className="relative">
@@ -40,7 +46,7 @@ export default function PasswordInput({
           minLength={minLength}
           value={value}
           onChange={(event) => onChange(event.target.value)}
-          className={`${inputClassName} pr-10`}
+          className={`${inputClassNameProp ?? inputClassName} pr-10`}
           placeholder={placeholder}
           autoComplete={
             autoComplete ??
@@ -50,7 +56,10 @@ export default function PasswordInput({
         <button
           type="button"
           onClick={() => setVisible((current) => !current)}
-          className="absolute right-0 bottom-3 text-cocoa transition hover:text-raspberry"
+          className={
+            toggleClassName ??
+            "absolute right-0 bottom-3 text-cocoa transition hover:text-raspberry"
+          }
           aria-label={visible ? "Hide password" : "Show password"}
         >
           {visible ? (
