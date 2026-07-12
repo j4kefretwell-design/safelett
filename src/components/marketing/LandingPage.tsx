@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Check, Key, Menu, Shield, Sparkles, X } from "lucide-react";
+import { Check, Menu, X } from "lucide-react";
 import BackgroundImage from "@/components/BackgroundImage";
 import BrandWordmark from "@/components/BrandWordmark";
 import ScrollReveal, { ScrollRevealGroup } from "@/components/ScrollReveal";
@@ -49,8 +49,7 @@ const moduleCards = [
     subtitle:
       "Certificate tracking, automated alerts, contractor management",
     price: "£30/month",
-    background: "bg-raspberry",
-    icon: Shield,
+    accentBorder: "border-l-raspberry",
     href: "/signup",
     comingSoon: false,
   },
@@ -58,8 +57,7 @@ const moduleCards = [
     title: "Tenancy",
     subtitle: "Deposit tracking, renewal dates, tenancy notices",
     price: "£35/month",
-    background: "bg-navy",
-    icon: Key,
+    accentBorder: "border-l-navy",
     href: "/signup",
     comingSoon: false,
   },
@@ -68,8 +66,7 @@ const moduleCards = [
     subtitle:
       "Intelligent admin drafting and property management automation",
     price: "Coming Soon",
-    background: "bg-forest",
-    icon: Sparkles,
+    accentBorder: "border-l-forest",
     href: null,
     comingSoon: true,
   },
@@ -78,24 +75,24 @@ const moduleCards = [
 const features = [
   {
     number: "01",
-    title: "Intelligent Certificate Tracking",
-    body: "Every gas safety check, EICR, fire risk assessment, EPC and more — tracked automatically across your entire portfolio. Never manually chase a spreadsheet again. Fretwell & Co tells you exactly what needs attention, on which property, and when.",
+    title: "Complete Portfolio Oversight",
+    body: "Manage compliance and tenancies in one place.",
   },
   {
     number: "02",
-    title: "Automated Alerts & Contractor Actions",
-    body: "When a certificate is approaching expiry, Fretwell & Co doesn't just tell you — it drafts a professional email to your contractor, ready to send in one click. Your compliance stays ahead of deadlines without the administrative burden.",
+    title: "Automated Alerts & Actions",
+    body: "Never miss a deadline, draft communications instantly.",
   },
   {
     number: "03",
-    title: "Portfolio Oversight & Client Reporting",
-    body: "Generate a professional annual compliance report for your entire portfolio in seconds. Share a live compliance status link directly with your landlord clients. Present yourself as the organised, professional managing agent your clients expect.",
+    title: "Professional Reporting",
+    body: "Present yourself as the organised managing agent your clients deserve.",
   },
 ];
 
 const mobileNavLinks = [
   { href: "#why", label: "Why Fretwell & Co" },
-  { href: "#features", label: "Compliance" },
+  { href: "#features", label: "Platform" },
   { href: "#modules", label: "Modules" },
   { href: "#pricing", label: "Pricing" },
   { href: "/login", label: "Sign In" },
@@ -112,7 +109,7 @@ export default function LandingPage() {
   return (
     <div className="overflow-x-hidden bg-greige text-umber">
       <nav className="fixed inset-x-0 top-0 z-50 border-b border-gold/50 bg-greige">
-        <div className="relative mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-10">
+        <div className="relative mx-auto flex h-[4.25rem] max-w-7xl items-center justify-between px-4 sm:h-[4.75rem] sm:px-10">
           <button
             type="button"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
@@ -127,31 +124,31 @@ export default function LandingPage() {
           </button>
 
           <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-            <BrandWordmark href="/" variant="greige" className="pointer-events-auto" />
+            <BrandWordmark href="/" variant="landingNav" className="pointer-events-auto" />
           </div>
 
-          <div className="hidden items-center gap-6 md:flex lg:gap-8">
+          <div className="hidden items-center gap-8 md:flex lg:gap-10">
             <a
               href="#why"
-              className="text-sm font-light tracking-[0.1em] text-umber/80 transition hover:text-umber"
+              className="text-[11px] font-light uppercase tracking-[0.16em] text-umber/55 transition hover:text-umber/80"
             >
               Why Us
             </a>
             <a
               href="#features"
-              className="text-sm font-light tracking-[0.1em] text-umber/80 transition hover:text-umber"
+              className="text-[11px] font-light uppercase tracking-[0.16em] text-umber/55 transition hover:text-umber/80"
             >
-              Compliance
+              Platform
             </a>
             <a
               href="#modules"
-              className="text-sm font-light tracking-[0.1em] text-umber/80 transition hover:text-umber"
+              className="text-[11px] font-light uppercase tracking-[0.16em] text-umber/55 transition hover:text-umber/80"
             >
               Modules
             </a>
             <Link
               href="/login"
-              className={`${btnLandingPrimaryClassName} px-5 py-2 text-xs tracking-[0.12em]`}
+              className="text-[11px] font-light uppercase tracking-[0.18em] text-umber/70 transition hover:text-umber"
             >
               Sign In
             </Link>
@@ -205,39 +202,17 @@ export default function LandingPage() {
         />
         <div className="absolute inset-0 bg-[#1A0A0C]/15" />
 
-        <div className="absolute inset-x-6 bottom-6 z-10 md:inset-x-auto md:bottom-10 md:left-10 md:max-w-[420px] lg:bottom-12 lg:left-12 lg:max-w-[520px]">
+        <div className="absolute inset-x-6 bottom-6 z-10 md:inset-x-auto md:bottom-10 md:left-10 md:max-w-[420px] lg:bottom-12 lg:left-12 lg:max-w-[480px]">
           <ScrollRevealGroup
-            className="space-y-5 bg-[rgba(26,10,12,0.65)] px-10 py-8 sm:space-y-6"
+            className="space-y-4 bg-[rgba(61,43,31,0.65)] px-10 py-8"
             staggerMs={100}
           >
-            <p className="caps-label text-dusty-cream">
-              Property Compliance Specialists
-            </p>
             <h1 className="font-serif text-3xl leading-tight tracking-[0.02em] text-dusty-cream sm:text-5xl sm:leading-[1.08]">
               Protecting What Matters Most.
             </h1>
-            <div className="h-px w-20 bg-gold" aria-hidden="true" />
-            <p className="text-base font-light leading-relaxed text-dusty-cream sm:text-lg">
-              Automated compliance tracking for property management
-              professionals across the United Kingdom.
-            </p>
-            <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:flex-wrap sm:gap-4">
-              <Link
-                href="/signup"
-                className={`${btnLandingPrimaryClassName} w-full sm:w-auto`}
-              >
-                Begin Your Trial
-              </Link>
-              <a
-                href="#why"
-                className="inline-flex min-h-11 w-full items-center justify-center border border-dusty-cream/50 px-8 py-3 text-[0.9375rem] font-light uppercase tracking-[0.14em] text-dusty-cream transition hover:border-dusty-cream hover:bg-dusty-cream/5 sm:w-auto"
-              >
-                Learn More
-              </a>
-            </div>
-            <p className="mt-4 text-[11px] leading-relaxed text-dusty-cream/70 sm:text-xs">
-              Fretwell &amp; Co is a compliance tracking tool. Users remain
-              responsible for their own legal compliance obligations.
+            <p className="text-base font-light leading-relaxed text-dusty-cream/90 sm:text-lg">
+              Compliance and tenancy management for property professionals
+              across the United Kingdom.
             </p>
           </ScrollRevealGroup>
         </div>
@@ -246,40 +221,33 @@ export default function LandingPage() {
       <div className="h-px w-full bg-gold" aria-hidden="true" />
 
       <ScrollReveal>
-        <section id="modules" className="bg-greige px-5 py-16 sm:px-10 sm:py-28 lg:py-32">
-          <div className="mx-auto max-w-6xl text-center">
-            <ScrollRevealGroup className="space-y-5" staggerMs={100}>
-              <p className="text-[10px] font-normal uppercase tracking-[0.28em] text-umber/70">
+        <section id="modules" className="bg-greige px-5 py-20 sm:px-10 sm:py-28 lg:py-36">
+          <div className="mx-auto max-w-6xl">
+            <ScrollRevealGroup className="mx-auto max-w-3xl text-center" staggerMs={100}>
+              <p className="text-[10px] font-normal uppercase tracking-[0.32em] text-umber/70">
                 One Platform. Three Modules.
               </p>
-              <div className="mx-auto h-px w-16 bg-gold" aria-hidden="true" />
-              <h2 className="font-serif text-3xl tracking-[0.02em] text-umber sm:text-4xl lg:text-5xl">
-                Everything a property manager needs.
+              <h2 className="mt-6 font-serif text-3xl tracking-[0.02em] text-umber sm:text-4xl lg:text-[2.75rem] lg:leading-tight">
+                Built for the Modern Property Manager.
               </h2>
             </ScrollRevealGroup>
 
-            <div className="mt-14 grid gap-6 lg:grid-cols-3 lg:gap-8">
+            <div className="mt-16 grid gap-10 lg:grid-cols-3 lg:gap-0 lg:divide-x lg:divide-umber/15">
               {moduleCards.map((card, index) => {
-                const Icon = card.icon;
                 const content = (
                   <div
-                    className={`group flex h-full flex-col px-8 py-10 text-left transition duration-300 sm:px-10 sm:py-12 ${card.background} ${
-                      card.comingSoon ? "opacity-80" : "hover:ring-2 hover:ring-gold/70"
+                    className={`flex h-full flex-col border-l-[3px] bg-greige px-8 py-10 sm:px-10 sm:py-12 lg:px-12 ${card.accentBorder} ${
+                      card.comingSoon ? "opacity-85" : "transition duration-300 hover:bg-greige-alt/40"
                     }`}
                   >
-                    <Icon
-                      className="h-6 w-6 text-gold"
-                      strokeWidth={1.25}
-                      aria-hidden="true"
-                    />
-                    <h3 className="mt-8 font-serif text-2xl tracking-wide text-dusty-cream sm:text-3xl">
+                    <h3 className="font-serif text-2xl tracking-wide text-umber sm:text-[1.75rem]">
                       {card.title}
                     </h3>
-                    <p className="mt-4 flex-1 text-base font-light leading-relaxed text-dusty-cream/80">
+                    <p className="mt-4 flex-1 text-sm font-light leading-relaxed text-cocoa">
                       {card.subtitle}
                     </p>
                     <p
-                      className={`mt-8 text-sm tracking-[0.08em] text-gold ${
+                      className={`mt-8 text-sm tracking-[0.06em] text-gold ${
                         card.comingSoon ? "italic" : "font-normal uppercase"
                       }`}
                     >
@@ -302,12 +270,14 @@ export default function LandingPage() {
               })}
             </div>
 
-            <Link
-              href="/signup"
-              className={`${btnLandingPrimaryClassName} mt-12 w-full sm:w-auto`}
-            >
-              Begin Your Trial
-            </Link>
+            <div className="mt-16 text-center">
+              <Link
+                href="/signup"
+                className={`${btnLandingPrimaryClassName} w-full sm:w-auto`}
+              >
+                Begin Your Trial
+              </Link>
+            </div>
           </div>
         </section>
       </ScrollReveal>
@@ -389,8 +359,8 @@ export default function LandingPage() {
       </ScrollReveal>
 
       <ScrollReveal>
-        <section className="grid min-h-0 bg-ink lg:min-h-[480px] lg:grid-cols-2">
-          <div className="flex flex-col justify-center px-5 py-14 sm:px-14 sm:py-20 lg:px-16 lg:py-28">
+        <section className="grid min-h-0 bg-umber lg:min-h-[480px] lg:grid-cols-2">
+          <div className="flex flex-col justify-center bg-umber px-5 py-14 sm:px-14 sm:py-20 lg:px-16 lg:py-28">
             <ScrollRevealGroup className="max-w-lg space-y-8" staggerMs={100}>
               <blockquote>
                 <p className="font-serif text-2xl italic leading-snug tracking-[0.01em] text-dusty-cream sm:text-4xl lg:text-[2.5rem] lg:leading-snug">

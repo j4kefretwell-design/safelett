@@ -14,8 +14,6 @@ const complianceNavItems = [
   { href: "/contractors", label: "Contractors" },
   { href: "/news", label: "News" },
   { href: "/properties/import", label: "Bulk Import" },
-  { href: "/settings", label: "Settings" },
-  { href: "/help", label: "Help" },
 ] as const;
 
 const tenancyNavItems = [
@@ -23,9 +21,10 @@ const tenancyNavItems = [
   { href: "/tenancy/new", label: "Add Tenancy" },
   { href: "/reminders", label: "Reminders" },
   { href: "/tenancy/notices", label: "Notices" },
-  { href: "/settings", label: "Settings" },
-  { href: "/help", label: "Help" },
 ] as const;
+
+const sidebarBottomLinkClassName =
+  "block text-[11px] font-normal uppercase tracking-[0.14em] text-dusty-cream/80 transition hover:text-dusty-cream";
 
 function isComplianceNavActive(pathname: string, href: string): boolean {
   if (href === "/dashboard") {
@@ -45,6 +44,10 @@ function isComplianceNavActive(pathname: string, href: string): boolean {
     return pathname === "/contractors" || pathname.startsWith("/contractors/");
   }
 
+  if (href === "/settings") {
+    return pathname === "/settings" || pathname.startsWith("/settings/");
+  }
+
   if (href === "/help") {
     return pathname === "/help" || pathname.startsWith("/help/");
   }
@@ -59,6 +62,14 @@ function isComplianceNavActive(pathname: string, href: string): boolean {
 function isTenancyNavActive(pathname: string, href: string): boolean {
   if (href === "/subscription") {
     return pathname === "/subscription";
+  }
+
+  if (href === "/settings") {
+    return pathname === "/settings" || pathname.startsWith("/settings/");
+  }
+
+  if (href === "/help") {
+    return pathname === "/help" || pathname.startsWith("/help/");
   }
 
   if (href === "/tenancy/notices") {
@@ -80,10 +91,6 @@ function isTenancyNavActive(pathname: string, href: string): boolean {
 
   if (href === "/tenancy/new") {
     return pathname === "/tenancy/new";
-  }
-
-  if (href === "/help") {
-    return pathname === "/help" || pathname.startsWith("/help/");
   }
 
   return pathname === href || pathname.startsWith(`${href}/`);
@@ -183,26 +190,42 @@ export default function AppSidebar({ open, onClose }: AppSidebarProps) {
           </ul>
         </nav>
 
-        <div className="border-t border-white/10 px-6 py-8">
+        <div className="border-t border-white/10 px-6 py-10">
           {email && (
             <p className="truncate text-xs font-light leading-relaxed tracking-wide text-dusty-cream/80">
               {email}
             </p>
           )}
-          <Link
-            href="/subscription"
-            onClick={onClose}
-            className={`${email ? "mt-4" : ""} text-[11px] font-normal uppercase tracking-[0.14em] text-dusty-cream/80 transition hover:text-dusty-cream`}
-          >
-            Subscription
-          </Link>
-          <button
-            type="button"
-            onClick={handleSignOut}
-            className="mt-3 text-[11px] font-normal uppercase tracking-[0.14em] text-dusty-cream/80 transition hover:text-dusty-cream"
-          >
-            Sign Out
-          </button>
+          <div className={`space-y-5 ${email ? "mt-6" : ""}`}>
+            <Link
+              href="/settings"
+              onClick={onClose}
+              className={sidebarBottomLinkClassName}
+            >
+              Settings
+            </Link>
+            <Link
+              href="/help"
+              onClick={onClose}
+              className={sidebarBottomLinkClassName}
+            >
+              Help
+            </Link>
+            <Link
+              href="/subscription"
+              onClick={onClose}
+              className="block text-[11px] font-normal uppercase tracking-[0.14em] text-gold transition hover:text-gold-readable"
+            >
+              Subscription
+            </Link>
+            <button
+              type="button"
+              onClick={handleSignOut}
+              className={sidebarBottomLinkClassName}
+            >
+              Sign Out
+            </button>
+          </div>
         </div>
       </aside>
     </>
