@@ -1,7 +1,9 @@
 import Link from "next/link";
+import OptimizedFillImage from "@/components/OptimizedFillImage";
 import TenancyEmptyState from "@/components/tenancy/TenancyEmptyState";
 import TenancyPortfolio from "@/components/tenancy/TenancyPortfolio";
 import TenancyStatusBand from "@/components/tenancy/TenancyStatusBand";
+import { siteImages } from "@/lib/site-images";
 import {
   getDaysUntilDate,
   getTenancyStatus,
@@ -87,6 +89,21 @@ export default async function TenancyDashboardPage() {
               </p>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section className="px-5 sm:px-12 lg:px-16">
+        <div
+          className="relative h-32 overflow-hidden sm:h-40 lg:h-48"
+          style={{ backgroundColor: siteImages.annieSprattTopiary.placeholderColor }}
+        >
+          <OptimizedFillImage
+            image={siteImages.annieSprattTopiary}
+            alt=""
+            sizes="100vw"
+            className="object-cover object-center"
+          />
+          <div className="absolute inset-0 bg-navy/25" aria-hidden="true" />
         </div>
       </section>
 

@@ -13,6 +13,7 @@ interface TopNavProps {
 export default function TopNav({ sidebarOpen, onMenuClick }: TopNavProps) {
   const router = useRouter();
   const { mode, switchMode } = useAppMode();
+  const isTenancy = mode === "tenancy";
 
   async function handleSignOut() {
     const supabase = createClient();
@@ -24,7 +25,7 @@ export default function TopNav({ sidebarOpen, onMenuClick }: TopNavProps) {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-30 h-16 transition-colors duration-500 ease-out ${
-        mode === "tenancy" ? "bg-navy" : "bg-raspberry"
+        isTenancy ? "bg-navy" : "bg-raspberry"
       }`}
     >
       <div className="relative flex h-full items-center border-b border-gold px-4 sm:px-6 lg:px-10">
@@ -41,7 +42,10 @@ export default function TopNav({ sidebarOpen, onMenuClick }: TopNavProps) {
           )}
         </button>
 
-        <div className="pointer-events-none absolute inset-x-0 flex justify-center">
+        <div className="pointer-events-none absolute inset-x-0 flex items-center justify-center gap-2 sm:gap-3">
+          <span className="hidden text-[9px] font-normal uppercase tracking-[0.2em] text-gold sm:inline sm:text-[10px]">
+            {isTenancy ? "Tenancy" : "Compliance"}
+          </span>
           <p className="font-serif text-sm uppercase tracking-[0.28em] text-gold sm:text-base sm:tracking-[0.32em]">
             Fretwell <span className="italic">&amp;</span> Co
           </p>
@@ -56,12 +60,12 @@ export default function TopNav({ sidebarOpen, onMenuClick }: TopNavProps) {
             <button
               type="button"
               role="tab"
-              aria-selected={mode === "compliance"}
+              aria-selected={!isTenancy}
               onClick={() => switchMode("compliance")}
               className={`rounded-full px-3 py-1.5 text-[10px] font-normal uppercase tracking-[0.14em] transition duration-300 sm:px-4 sm:text-[11px] ${
-                mode === "compliance"
-                  ? "bg-raspberry text-dusty-cream shadow-sm"
-                  : "text-dusty-cream/75 hover:text-dusty-cream"
+                !isTenancy
+                  ? "bg-raspberry-dark text-dusty-cream shadow-sm ring-1 ring-gold/50"
+                  : "border border-dusty-cream/30 text-dusty-cream/80 hover:text-dusty-cream"
               }`}
             >
               Compliance
@@ -69,12 +73,12 @@ export default function TopNav({ sidebarOpen, onMenuClick }: TopNavProps) {
             <button
               type="button"
               role="tab"
-              aria-selected={mode === "tenancy"}
+              aria-selected={isTenancy}
               onClick={() => switchMode("tenancy")}
               className={`rounded-full px-3 py-1.5 text-[10px] font-normal uppercase tracking-[0.14em] transition duration-300 sm:px-4 sm:text-[11px] ${
-                mode === "tenancy"
-                  ? "bg-navy-dark text-dusty-cream shadow-sm ring-1 ring-gold/40"
-                  : "text-dusty-cream/75 hover:text-dusty-cream"
+                isTenancy
+                  ? "bg-navy-dark text-dusty-cream shadow-sm ring-1 ring-gold/50"
+                  : "border border-dusty-cream/30 text-dusty-cream/80 hover:text-dusty-cream"
               }`}
             >
               Tenancy

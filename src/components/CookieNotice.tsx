@@ -33,19 +33,19 @@ export default function CookieNotice() {
 
   return (
     <div
-      className="fixed inset-x-0 bottom-0 z-[100] border-t border-gold/30 bg-raspberry px-4 py-3 sm:px-6"
+      className="fixed inset-x-0 bottom-0 z-[100] border-t border-gold/40 bg-greige px-4 py-3 sm:px-6"
       role="dialog"
       aria-label="Cookie notice"
     >
       <div className="mx-auto flex max-w-5xl flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
-        <p className="text-xs leading-relaxed text-dusty-cream/90 sm:text-sm">
+        <p className="text-xs leading-relaxed text-umber/85 sm:text-sm">
           We use essential cookies to keep you logged in. By continuing to use
           Fretwell &amp; Co you accept this.
         </p>
         <button
           type="button"
           onClick={handleAccept}
-          className="shrink-0 border border-dusty-cream/50 px-4 py-1.5 text-[11px] font-normal uppercase tracking-[0.12em] text-dusty-cream transition hover:border-dusty-cream hover:bg-dusty-cream/10"
+          className="shrink-0 border border-gold bg-transparent px-4 py-1.5 text-[11px] font-normal uppercase tracking-[0.12em] text-gold transition hover:bg-gold/10"
         >
           OK
         </button>

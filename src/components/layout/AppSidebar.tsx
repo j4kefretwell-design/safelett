@@ -19,9 +19,10 @@ const complianceNavItems = [
 ] as const;
 
 const tenancyNavItems = [
-  { href: "/tenancy/dashboard", label: "Dashboard" },
-  { href: "/reminders", label: "Reminders" },
+  { href: "/tenancy/dashboard", label: "Tenancy Dashboard" },
   { href: "/tenancy/new", label: "Add Tenancy" },
+  { href: "/reminders", label: "Reminders" },
+  { href: "/tenancy/notices", label: "Notices" },
   { href: "/settings", label: "Settings" },
   { href: "/help", label: "Help" },
 ] as const;
@@ -52,11 +53,19 @@ function isComplianceNavActive(pathname: string, href: string): boolean {
 }
 
 function isTenancyNavActive(pathname: string, href: string): boolean {
+  if (href === "/tenancy/notices") {
+    return (
+      pathname === "/tenancy/notices" ||
+      pathname.includes("/draft-notice")
+    );
+  }
+
   if (href === "/tenancy/dashboard") {
     return (
       pathname === "/tenancy/dashboard" ||
       (pathname.startsWith("/tenancy/") &&
         pathname !== "/tenancy/new" &&
+        pathname !== "/tenancy/notices" &&
         !pathname.match(/^\/tenancy\/[^/]+\/edit$/))
     );
   }

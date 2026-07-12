@@ -25,6 +25,18 @@ export const siteImages = {
     src: "/brad-starkey-9QczXovmzCk-unsplash.jpg",
     placeholderColor: DARK_IMAGE_PLACEHOLDER,
   },
+  georgeCiobra: {
+    src: "/george-ciobra-LX1k7rOj7Sg-unsplash.jpg",
+    placeholderColor: DARK_IMAGE_PLACEHOLDER,
+  },
+  annieSprattManor: {
+    src: "/annie-spratt-9wa278tcEsc-unsplash.jpg",
+    placeholderColor: DARK_IMAGE_PLACEHOLDER,
+  },
+  annieSprattTopiary: {
+    src: "/annie-spratt-4jT7kYTY5Ow-unsplash.jpg",
+    placeholderColor: DARK_IMAGE_PLACEHOLDER,
+  },
   hugoKruip: {
     src: "/hugo-kruip-i3Sx427bVXc-unsplash.jpg",
     placeholderColor: LIGHT_IMAGE_PLACEHOLDER,

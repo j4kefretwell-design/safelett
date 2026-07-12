@@ -46,6 +46,13 @@
   --color-tenancy-card: #e8ecf2;
   --color-tenancy-text: #0f1923;
 
+  /* Landing page greige palette */
+  --color-greige: #f2ede8;
+  --color-greige-alt: #ede6df;
+  --color-umber: #3d2b1f;
+  --color-forest: #1a2e1a;
+  --color-ink: #1a0a0c;
+
   --font-serif: var(--font-playfair), "Georgia", "Times New Roman", serif;
   --font-sans: var(--font-dm-sans), var(--font-inter), "Helvetica Neue", Arial,
     sans-serif;

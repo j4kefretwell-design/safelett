@@ -11,10 +11,10 @@ export default function NewTenancyPage() {
       <div className="grid min-h-[calc(100vh-4rem)] w-full lg:grid-cols-[2fr_3fr]">
         <div
           className="relative hidden min-h-[480px] lg:block lg:min-h-full"
-          style={{ backgroundColor: siteImages.bradStarkey.placeholderColor }}
+          style={{ backgroundColor: siteImages.annieSprattManor.placeholderColor }}
         >
           <BackgroundImage
-            image={siteImages.bradStarkey}
+            image={siteImages.annieSprattManor}
             alt=""
             sizes="40vw"
             effect="fade"

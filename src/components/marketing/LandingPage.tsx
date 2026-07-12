@@ -2,12 +2,15 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Check, Menu, X } from "lucide-react";
+import { Check, Key, Menu, Shield, Sparkles, X } from "lucide-react";
 import BackgroundImage from "@/components/BackgroundImage";
 import BrandWordmark from "@/components/BrandWordmark";
 import ScrollReveal, { ScrollRevealGroup } from "@/components/ScrollReveal";
 import { siteImages } from "@/lib/site-images";
-import { btnHeroTrialClassName, btnOutlineClassName, btnPrimaryClassName } from "@/lib/ui";
+import {
+  btnLandingOutlineClassName,
+  btnLandingPrimaryClassName,
+} from "@/lib/ui";
 
 const pricingPlans = [
   {
@@ -22,12 +25,12 @@ const pricingPlans = [
       "Annual compliance report",
       "CSV export & bulk import",
     ],
-    ctaClass: btnPrimaryClassName,
+    ctaClass: btnLandingPrimaryClassName,
   },
   {
     name: "Professional",
     price: 49,
-    description: "Compliance plus full tenancy management",
+    description: "Compliance + Tenancy modules",
     features: [
       "Everything in Compliance",
       "Full tenancy management",
@@ -36,10 +39,42 @@ const pricingPlans = [
       "Tenancy notice drafts",
       "Right to rent monitoring",
     ],
-    ctaClass: `${btnPrimaryClassName} bg-navy hover:bg-navy-dark`,
+    ctaClass: `${btnLandingPrimaryClassName} bg-navy hover:bg-navy-dark`,
     highlighted: true,
   },
 ];
+
+const moduleCards = [
+  {
+    title: "Compliance",
+    subtitle:
+      "Certificate tracking, automated alerts, contractor management",
+    price: "£30/month",
+    background: "bg-raspberry",
+    icon: Shield,
+    href: "/signup",
+    comingSoon: false,
+  },
+  {
+    title: "Tenancy",
+    subtitle: "Deposit tracking, renewal dates, tenancy notices",
+    price: "£30/month",
+    background: "bg-navy",
+    icon: Key,
+    href: "/signup",
+    comingSoon: false,
+  },
+  {
+    title: "AI Assistant",
+    subtitle:
+      "Intelligent admin drafting and property management automation",
+    price: "Coming Soon",
+    background: "bg-forest",
+    icon: Sparkles,
+    href: null,
+    comingSoon: true,
+  },
+] as const;
 
 const features = [
   {
@@ -62,7 +97,8 @@ const features = [
 const mobileNavLinks = [
   { href: "#why", label: "Why Fretwell & Co" },
   { href: "#features", label: "Compliance" },
-  { href: "#tenancy", label: "Tenancy" },
+  { href: "#modules", label: "Modules" },
+  { href: "#pricing", label: "Pricing" },
   { href: "/login", label: "Sign In" },
   { href: "/signup", label: "Begin Trial" },
 ];
@@ -75,14 +111,14 @@ export default function LandingPage() {
   }
 
   return (
-    <div className="overflow-x-hidden bg-dusty-cream text-text">
-      <nav className="fixed inset-x-0 top-0 z-50 border-b border-gold bg-raspberry">
+    <div className="overflow-x-hidden bg-greige text-umber">
+      <nav className="fixed inset-x-0 top-0 z-50 border-b border-gold/50 bg-greige">
         <div className="relative mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-10">
           <button
             type="button"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             onClick={() => setMenuOpen((open) => !open)}
-            className="touch-target text-dusty-cream md:hidden"
+            className="touch-target text-umber md:hidden"
           >
             {menuOpen ? (
               <X className="h-6 w-6" strokeWidth={1.25} />
@@ -92,31 +128,31 @@ export default function LandingPage() {
           </button>
 
           <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-            <BrandWordmark href="/" variant="nav" className="pointer-events-auto" />
+            <BrandWordmark href="/" variant="greige" className="pointer-events-auto" />
           </div>
 
-          <div className="hidden items-center gap-8 md:flex">
+          <div className="hidden items-center gap-6 md:flex lg:gap-8">
             <a
               href="#why"
-              className="text-sm font-light tracking-[0.1em] text-dusty-cream/90 transition hover:text-dusty-cream"
+              className="text-sm font-light tracking-[0.1em] text-umber/80 transition hover:text-umber"
             >
               Why Us
             </a>
             <a
               href="#features"
-              className="text-sm font-light tracking-[0.1em] text-dusty-cream/90 transition hover:text-dusty-cream"
+              className="text-sm font-light tracking-[0.1em] text-umber/80 transition hover:text-umber"
             >
               Compliance
             </a>
             <a
-              href="#tenancy"
-              className="text-sm font-light tracking-[0.1em] text-dusty-cream/90 transition hover:text-dusty-cream"
+              href="#modules"
+              className="text-sm font-light tracking-[0.1em] text-umber/80 transition hover:text-umber"
             >
-              Tenancy
+              Modules
             </a>
             <Link
               href="/login"
-              className="text-sm font-light tracking-[0.1em] text-dusty-cream/90 transition hover:text-dusty-cream"
+              className={`${btnLandingPrimaryClassName} px-5 py-2 text-xs tracking-[0.12em]`}
             >
               Sign In
             </Link>
@@ -126,7 +162,7 @@ export default function LandingPage() {
         </div>
 
         {menuOpen && (
-          <div className="border-t border-gold/30 bg-raspberry px-4 py-4 md:hidden">
+          <div className="border-t border-gold/30 bg-greige px-4 py-4 md:hidden">
             <ul className="space-y-1">
               {mobileNavLinks.map((link) => (
                 <li key={link.href}>
@@ -134,7 +170,7 @@ export default function LandingPage() {
                     <a
                       href={link.href}
                       onClick={closeMenu}
-                      className="flex min-h-11 items-center text-sm font-light uppercase tracking-[0.12em] text-dusty-cream"
+                      className="flex min-h-11 items-center text-sm font-light uppercase tracking-[0.12em] text-umber"
                     >
                       {link.label}
                     </a>
@@ -142,7 +178,11 @@ export default function LandingPage() {
                     <Link
                       href={link.href}
                       onClick={closeMenu}
-                      className="flex min-h-11 items-center text-sm font-light uppercase tracking-[0.12em] text-dusty-cream"
+                      className={`flex min-h-11 items-center text-sm font-light uppercase tracking-[0.12em] ${
+                        link.href === "/login"
+                          ? "font-normal text-umber"
+                          : "text-umber"
+                      }`}
                     >
                       {link.label}
                     </Link>
@@ -185,7 +225,7 @@ export default function LandingPage() {
             <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:flex-wrap sm:gap-4">
               <Link
                 href="/signup"
-                className={`${btnHeroTrialClassName} w-full sm:w-auto`}
+                className={`${btnLandingPrimaryClassName} w-full sm:w-auto`}
               >
                 Begin Your Trial
               </Link>
@@ -207,7 +247,7 @@ export default function LandingPage() {
       <div className="h-px w-full bg-gold" aria-hidden="true" />
 
       <ScrollReveal>
-        <section id="why" className="grid min-h-0 lg:min-h-[560px] lg:grid-cols-2">
+        <section id="why" className="grid min-h-0 bg-greige lg:min-h-[560px] lg:grid-cols-2">
           <div
             className="relative min-h-[240px] overflow-hidden sm:min-h-[320px] lg:min-h-full"
             style={{ backgroundColor: siteImages.bradStarkey.placeholderColor }}
@@ -220,25 +260,27 @@ export default function LandingPage() {
             <div className="absolute inset-0 bg-[#1A0A0C]/25" />
           </div>
 
-          <div className="flex flex-col justify-center px-5 py-14 sm:px-14 sm:py-20 lg:px-16 lg:py-28">
+          <div className="flex flex-col justify-center bg-greige-alt px-5 py-14 sm:px-14 sm:py-20 lg:px-16 lg:py-28">
             <ScrollRevealGroup className="max-w-md space-y-6" staggerMs={100}>
-              <p className="caps-label text-cocoa">Why Fretwell &amp; Co</p>
-              <h2 className="font-serif text-2xl leading-snug tracking-[0.02em] text-text sm:text-4xl lg:text-[2.75rem]">
+              <p className="text-[10px] font-normal uppercase tracking-[0.24em] text-umber/70">
+                Why Fretwell &amp; Co
+              </p>
+              <h2 className="font-serif text-2xl leading-snug tracking-[0.02em] text-umber sm:text-4xl lg:text-[2.75rem]">
                 The Standard of Care Your Portfolio Deserves.
               </h2>
-              <p className="text-base font-light leading-relaxed text-cocoa sm:text-lg">
+              <p className="text-base font-light leading-relaxed text-umber/80 sm:text-lg">
                 Property compliance is fragmented, time-consuming, and
                 unforgiving. Missed renewals carry real consequences — for your
                 tenants, your reputation, and your business.
               </p>
-              <p className="text-base font-light leading-relaxed text-cocoa/80 sm:text-lg">
+              <p className="text-base font-light leading-relaxed text-umber/65 sm:text-lg">
                 Fretwell &amp; Co brings every certificate, every deadline, and
                 every document into one considered system — so you lead with
                 confidence, not anxiety.
               </p>
               <a
                 href="#features"
-                className={`${btnOutlineClassName} w-full sm:w-auto`}
+                className={`${btnLandingOutlineClassName} w-full sm:w-auto`}
               >
                 Discover More →
               </a>
@@ -250,7 +292,7 @@ export default function LandingPage() {
       <ScrollReveal>
         <section
           id="features"
-          className="bg-raspberry px-5 py-16 sm:px-10 sm:py-32 lg:py-40"
+          className="bg-ink px-5 py-16 sm:px-10 sm:py-32 lg:py-40"
         >
           <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-3 lg:gap-0">
             {features.map((feature, index) => (
@@ -280,63 +322,85 @@ export default function LandingPage() {
       </ScrollReveal>
 
       <ScrollReveal>
-        <section
-          id="tenancy"
-          className="bg-navy px-5 py-16 sm:px-10 sm:py-32 lg:py-40"
-        >
-          <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-2 lg:items-center">
-            <ScrollRevealGroup className="space-y-6" staggerMs={100}>
-              <p className="caps-label text-gold">Tenancy Management</p>
-              <h2 className="font-serif text-3xl tracking-[0.02em] text-dusty-cream sm:text-4xl lg:text-5xl">
-                Every Tenancy. Every Deadline. Every Document.
-              </h2>
-              <p className="text-base font-light leading-relaxed text-dusty-cream/85 sm:text-lg">
-                Track lease end dates, rent reviews, deposit protection, and right
-                to rent compliance across your entire lettings portfolio — in the
-                same considered system as your certificates.
+        <section id="modules" className="bg-greige px-5 py-16 sm:px-10 sm:py-28 lg:py-32">
+          <div className="mx-auto max-w-6xl text-center">
+            <ScrollRevealGroup className="space-y-5" staggerMs={100}>
+              <p className="text-[10px] font-normal uppercase tracking-[0.28em] text-umber/70">
+                One Platform. Three Modules.
               </p>
-              <ul className="space-y-3 text-base font-light leading-relaxed text-dusty-cream/80">
-                <li>Automated alerts at 90, 60, and 30 days before tenancy end</li>
-                <li>Deposit protection overdue flags</li>
-                <li>Professional tenancy notice drafts in one click</li>
-                <li>Secure document storage for agreements and certificates</li>
-              </ul>
-              <Link
-                href="/signup"
-                className={`${btnOutlineClassName} border-dusty-cream/40 text-dusty-cream hover:border-dusty-cream hover:bg-dusty-cream/5`}
-              >
-                Start with Professional →
-              </Link>
+              <div className="mx-auto h-px w-16 bg-gold" aria-hidden="true" />
+              <h2 className="font-serif text-3xl tracking-[0.02em] text-umber sm:text-4xl lg:text-5xl">
+                Everything a property manager needs.
+              </h2>
             </ScrollRevealGroup>
 
-            <div
-              className="relative min-h-[280px] overflow-hidden sm:min-h-[360px]"
-              style={{ backgroundColor: siteImages.bradStarkey.placeholderColor }}
-            >
-              <BackgroundImage
-                image={siteImages.bradStarkey}
-                alt="Elegant townhouse exterior"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
-              <div className="absolute inset-0 bg-[#0F1923]/35" />
+            <div className="mt-14 grid gap-6 lg:grid-cols-3 lg:gap-8">
+              {moduleCards.map((card, index) => {
+                const Icon = card.icon;
+                const content = (
+                  <div
+                    className={`group flex h-full flex-col px-8 py-10 text-left transition duration-300 sm:px-10 sm:py-12 ${card.background} ${
+                      card.comingSoon ? "opacity-80" : "hover:ring-2 hover:ring-gold/70"
+                    }`}
+                  >
+                    <Icon
+                      className="h-6 w-6 text-gold"
+                      strokeWidth={1.25}
+                      aria-hidden="true"
+                    />
+                    <h3 className="mt-8 font-serif text-2xl tracking-wide text-dusty-cream sm:text-3xl">
+                      {card.title}
+                    </h3>
+                    <p className="mt-4 flex-1 text-base font-light leading-relaxed text-dusty-cream/80">
+                      {card.subtitle}
+                    </p>
+                    <p
+                      className={`mt-8 text-sm tracking-[0.08em] text-gold ${
+                        card.comingSoon ? "italic" : "font-normal uppercase"
+                      }`}
+                    >
+                      {card.price}
+                    </p>
+                  </div>
+                );
+
+                return (
+                  <ScrollReveal key={card.title} delay={index * 100}>
+                    {card.href ? (
+                      <Link href={card.href} className="block h-full">
+                        {content}
+                      </Link>
+                    ) : (
+                      content
+                    )}
+                  </ScrollReveal>
+                );
+              })}
             </div>
+
+            <Link
+              href="/signup"
+              className={`${btnLandingPrimaryClassName} mt-12 w-full sm:w-auto`}
+            >
+              Begin Your Trial
+            </Link>
           </div>
         </section>
       </ScrollReveal>
 
       <ScrollReveal>
-        <section className="grid min-h-0 lg:min-h-[480px] lg:grid-cols-2">
-          <div className="flex flex-col justify-center bg-beige px-5 py-14 sm:px-14 sm:py-20 lg:px-16 lg:py-28">
+        <section className="grid min-h-0 bg-ink lg:min-h-[480px] lg:grid-cols-2">
+          <div className="flex flex-col justify-center px-5 py-14 sm:px-14 sm:py-20 lg:px-16 lg:py-28">
             <ScrollRevealGroup className="max-w-lg space-y-8" staggerMs={100}>
               <blockquote>
-                <p className="font-serif text-2xl italic leading-snug tracking-[0.01em] text-text sm:text-4xl lg:text-[2.5rem] lg:leading-snug">
+                <p className="font-serif text-2xl italic leading-snug tracking-[0.01em] text-dusty-cream sm:text-4xl lg:text-[2.5rem] lg:leading-snug">
                   &ldquo;Every deadline met. Every certificate tracked. Every
                   property protected.&rdquo;
                 </p>
               </blockquote>
               <Link
                 href="/signup"
-                className="inline-block text-base font-light leading-relaxed tracking-[0.08em] text-cocoa underline-offset-4 transition hover:text-text hover:underline"
+                className="inline-block text-base font-light leading-relaxed tracking-[0.08em] text-gold underline-offset-4 transition hover:text-dusty-cream hover:underline"
               >
                 Start Free Trial →
               </Link>
@@ -357,11 +421,13 @@ export default function LandingPage() {
       </ScrollReveal>
 
       <ScrollReveal>
-        <section id="pricing" className="bg-dusty-cream px-5 py-16 sm:py-32">
+        <section id="pricing" className="bg-greige-alt px-5 py-16 sm:py-32">
           <div className="mx-auto max-w-5xl text-center">
             <ScrollRevealGroup className="space-y-6" staggerMs={100}>
-              <p className="caps-label text-cocoa">Simple Pricing</p>
-              <h2 className="font-serif text-2xl tracking-[0.02em] text-text sm:text-4xl">
+              <p className="text-[10px] font-normal uppercase tracking-[0.24em] text-umber/70">
+                Simple Pricing
+              </p>
+              <h2 className="font-serif text-2xl tracking-[0.02em] text-umber sm:text-4xl">
                 Two Plans. Built for Property Professionals.
               </h2>
 
@@ -371,18 +437,20 @@ export default function LandingPage() {
                     key={plan.name}
                     className={`border px-6 py-10 sm:px-10 sm:py-12 ${
                       plan.highlighted
-                        ? "border-navy/30 bg-white shadow-[0_20px_60px_rgba(27,42,74,0.08)]"
-                        : "border-cocoa/20 bg-beige"
+                        ? "border-navy/25 bg-white shadow-[0_20px_60px_rgba(27,42,74,0.08)]"
+                        : "border-umber/15 bg-greige"
                     }`}
                   >
-                    <p className="caps-label text-cocoa">{plan.name}</p>
+                    <p className="text-[10px] font-normal uppercase tracking-[0.24em] text-umber/70">
+                      {plan.name}
+                    </p>
                     <div className="mt-6 flex items-baseline gap-1">
-                      <span className="font-serif text-5xl tracking-wide text-text sm:text-6xl">
+                      <span className="font-serif text-5xl tracking-wide text-umber sm:text-6xl">
                         £{plan.price}
                       </span>
-                      <span className="text-base font-light text-cocoa">/month</span>
+                      <span className="text-base font-light text-umber/70">/month</span>
                     </div>
-                    <p className="mt-4 text-sm font-light leading-relaxed text-cocoa">
+                    <p className="mt-4 text-sm font-light leading-relaxed text-umber/75">
                       {plan.description}
                     </p>
 
@@ -390,10 +458,10 @@ export default function LandingPage() {
                       {plan.features.map((feature) => (
                         <li
                           key={feature}
-                          className="flex items-start gap-3 text-base font-light leading-relaxed text-cocoa"
+                          className="flex items-start gap-3 text-base font-light leading-relaxed text-umber/80"
                         >
                           <Check
-                            className="mt-0.5 h-4 w-4 shrink-0 text-cocoa/60"
+                            className="mt-0.5 h-4 w-4 shrink-0 text-gold"
                             strokeWidth={1.25}
                           />
                           {feature}
@@ -412,7 +480,7 @@ export default function LandingPage() {
         </section>
       </ScrollReveal>
 
-      <footer className="bg-raspberry px-5 py-14 text-center sm:py-20">
+      <footer className="bg-ink px-5 py-14 text-center sm:py-20">
         <ScrollReveal>
           <div className="mx-auto max-w-md">
             <div className="mx-auto mb-10 h-px w-16 bg-gold/50" aria-hidden="true" />

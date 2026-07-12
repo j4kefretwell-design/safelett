@@ -22,10 +22,10 @@ export default function TenancyStatusBand({
   return (
     <section
       className="relative h-[220px] w-full overflow-hidden sm:h-[280px] lg:h-[320px]"
-      style={{ backgroundColor: siteImages.bradStarkey.placeholderColor }}
+      style={{ backgroundColor: siteImages.georgeCiobra.placeholderColor }}
     >
       <OptimizedFillImage
-        image={siteImages.bradStarkey}
+        image={siteImages.georgeCiobra}
         alt=""
         sizes="100vw"
         priority

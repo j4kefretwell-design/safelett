@@ -27,6 +27,12 @@ export const btnPrimaryClassName =
 export const btnHeroTrialClassName =
   `${btnBaseClassName} bg-dusty-cream text-raspberry hover:bg-[#FAFAF8] hover:text-raspberry-dark`;
 
+export const btnLandingPrimaryClassName =
+  `${btnBaseClassName} bg-umber text-dusty-cream hover:bg-umber/90`;
+
+export const btnLandingOutlineClassName =
+  `${btnBaseClassName} border border-umber/35 bg-transparent text-umber hover:border-umber hover:bg-umber/5`;
+
 export const btnSecondaryClassName =
   `${btnBaseClassName} border border-leather/35 bg-white text-text hover:border-leather`;
 
