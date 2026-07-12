@@ -1,7 +1,9 @@
 import { Resend } from "resend";
-import { BRAND_NAME } from "@/lib/brand";
+import { BRAND_DOMAIN, DEFAULT_FROM_EMAIL } from "@/lib/brand";
 
 let resendClient: Resend | null = null;
+
+const LEGACY_FROM_DOMAIN = "safelett.co.uk";
 
 export function getResendClient() {
   if (!process.env.RESEND_API_KEY) {
@@ -15,6 +17,18 @@ export function getResendClient() {
   return resendClient;
 }
 
-export function getFromEmail() {
-  return process.env.RESEND_FROM_EMAIL ?? `${BRAND_NAME} <onboarding@resend.dev>`;
+function normalizeFromEmail(value: string): string {
+  return value
+    .replace(new RegExp(LEGACY_FROM_DOMAIN, "gi"), BRAND_DOMAIN)
+    .trim();
+}
+
+export function getFromEmail(): string {
+  const configured = process.env.RESEND_FROM_EMAIL?.trim();
+
+  if (configured) {
+    return normalizeFromEmail(configured);
+  }
+
+  return DEFAULT_FROM_EMAIL;
 }

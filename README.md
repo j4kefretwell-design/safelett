@@ -69,8 +69,8 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 
 RESEND_API_KEY=re_your_resend_api_key
-RESEND_FROM_EMAIL=Fretwell & Co <alerts@yourdomain.com>
-NEXT_PUBLIC_APP_URL=http://localhost:3000
+RESEND_FROM_EMAIL="Fretwell & Co" <alerts@fretwellcompliance.uk>
+NEXT_PUBLIC_APP_URL=https://fretwellcompliance.uk
 
 CRON_SECRET=your-random-secret-key
 ```
@@ -88,7 +88,7 @@ cp .env.example .env.local
 1. Create an account at [resend.com](https://resend.com)
 2. Add and verify your sending domain (or use `onboarding@resend.dev` for testing)
 3. Create an API key and add it to `.env.local` as `RESEND_API_KEY`
-4. Set `RESEND_FROM_EMAIL` to a verified sender address
+4. Set `RESEND_FROM_EMAIL` to a verified sender address, e.g. `"Fretwell & Co" <alerts@fretwellcompliance.uk>`
 
 ## Step 7: Run the app
 
