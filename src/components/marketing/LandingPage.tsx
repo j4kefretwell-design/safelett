@@ -72,24 +72,18 @@ const features = [
     module: "Compliance",
     body: "Certificate tracking, automated alerts and contractor email drafting across your entire property portfolio.",
     accentColor: "#33181C",
-    accentTextClass: "text-[#C48A92]",
-    ruleClass: "bg-[#33181C]",
   },
   {
     number: "02",
     module: "Tenancy",
     body: "Deposit protection monitoring, tenancy renewal alerts and professional notice drafting for every tenancy.",
     accentColor: "#1B2A4A",
-    accentTextClass: "text-[#8BA3CC]",
-    ruleClass: "bg-[#1B2A4A]",
   },
   {
     number: "03",
     module: "AI Assistant",
     body: "Intelligent admin drafting, automated correspondence and property management automation. Coming soon.",
     accentColor: "#1A2E1A",
-    accentTextClass: "text-[#8BAF8B]",
-    ruleClass: "bg-[#1A2E1A]",
   },
 ];
 
@@ -338,7 +332,7 @@ export default function LandingPage() {
       <ScrollReveal>
         <section
           id="features"
-          className="bg-ink px-5 py-16 sm:px-10 sm:py-32 lg:py-40"
+          className="bg-greige px-5 py-16 sm:px-10 sm:py-32 lg:py-40"
         >
           <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-3 lg:gap-0">
             {features.map((feature, index) => (
@@ -346,19 +340,19 @@ export default function LandingPage() {
                 <div
                   className={`border-l-[3px] px-2 py-4 sm:px-6 lg:px-10 lg:py-6 ${
                     index < features.length - 1
-                      ? "lg:border-r lg:border-gold/25"
+                      ? "lg:border-r lg:border-umber/10"
                       : ""
                   }`}
                   style={{ borderLeftColor: feature.accentColor }}
                 >
-                  <p className={`text-base font-light tracking-[0.2em] ${feature.accentTextClass}`}>
+                  <p className="text-base font-light tracking-[0.2em] text-gold">
                     {feature.number}
                   </p>
-                  <div className={`mt-6 h-px w-12 ${feature.ruleClass}`} />
-                  <p className={`mt-8 text-[10px] font-normal uppercase tracking-[0.22em] ${feature.accentTextClass}`}>
+                  <div className="mt-6 h-px w-12 bg-gold/50" />
+                  <h3 className="mt-8 font-serif text-xl tracking-[0.02em] text-umber sm:text-2xl">
                     {feature.module}
-                  </p>
-                  <p className="mt-5 text-base font-light leading-relaxed text-dusty-cream/80 sm:text-lg">
+                  </h3>
+                  <p className="mt-5 text-base font-light leading-relaxed text-leather sm:text-lg">
                     {feature.body}
                   </p>
                 </div>
@@ -371,8 +365,8 @@ export default function LandingPage() {
       <SectionRule />
 
       <ScrollReveal>
-        <section className="grid min-h-0 bg-ink lg:min-h-[480px] lg:grid-cols-2">
-          <div className="flex flex-col justify-center bg-ink px-5 py-14 sm:px-14 sm:py-20 lg:px-16 lg:py-28">
+        <section className="grid min-h-0 bg-[#1A0A0C] lg:min-h-[480px] lg:grid-cols-2">
+          <div className="flex flex-col justify-center bg-[#1A0A0C] px-5 py-14 sm:px-14 sm:py-20 lg:px-16 lg:py-28">
             <ScrollRevealGroup className="max-w-lg space-y-8" staggerMs={100}>
               <blockquote>
                 <p className="font-serif text-2xl italic leading-snug tracking-[0.01em] text-dusty-cream sm:text-4xl lg:text-[2.5rem] lg:leading-snug">
