@@ -54,6 +54,12 @@ export const propertyCardClassName =
 export const authCardClassName =
   "w-full max-w-md bg-white p-8 shadow-[0_24px_64px_rgba(0,0,0,0.12)] sm:p-12";
 
+export const authCardSoftClassName =
+  "w-full max-w-md border-[0.5px] border-[#6B503C] bg-[rgba(248,244,238,0.92)] p-7 shadow-[0_16px_48px_rgba(0,0,0,0.08)] sm:p-10";
+
+export const btnGoldOutlineClassName =
+  `${btnBaseClassName} border border-gold bg-transparent text-gold hover:bg-gold/10`;
+
 export const formCardClassName =
   "border border-leather/15 bg-white p-6 sm:p-8 lg:p-10";
 

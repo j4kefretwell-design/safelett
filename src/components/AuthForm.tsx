@@ -10,6 +10,7 @@ import { createClient } from "@/lib/supabase/client";
 import { siteImages } from "@/lib/site-images";
 import {
   authCardClassName,
+  authCardSoftClassName,
   btnPrimaryClassName,
   inputClassName,
   labelClassName,
@@ -118,7 +119,11 @@ export default function AuthForm({ mode }: AuthFormProps) {
       />
       <div className="absolute inset-0 bg-[#1A0A0C]/70" />
 
-      <div className={`relative z-10 ${authCardClassName}`}>
+      <div
+        className={`relative z-10 ${
+          mode === "login" && !showForgotPassword ? authCardSoftClassName : authCardClassName
+        }`}
+      >
         <div className="mb-10 text-center">
           <BrandWordmark href="/" variant="card" />
         </div>

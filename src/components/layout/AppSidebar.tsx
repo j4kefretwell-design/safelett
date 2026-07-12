@@ -49,10 +49,18 @@ function isComplianceNavActive(pathname: string, href: string): boolean {
     return pathname === "/help" || pathname.startsWith("/help/");
   }
 
+  if (href === "/subscription") {
+    return pathname === "/subscription";
+  }
+
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
 function isTenancyNavActive(pathname: string, href: string): boolean {
+  if (href === "/subscription") {
+    return pathname === "/subscription";
+  }
+
   if (href === "/tenancy/notices") {
     return (
       pathname === "/tenancy/notices" ||
@@ -181,10 +189,17 @@ export default function AppSidebar({ open, onClose }: AppSidebarProps) {
               {email}
             </p>
           )}
+          <Link
+            href="/subscription"
+            onClick={onClose}
+            className={`${email ? "mt-4" : ""} block min-h-11 text-sm font-normal uppercase tracking-[0.1em] text-dusty-cream/90 underline-offset-4 transition hover:text-dusty-cream hover:underline`}
+          >
+            Subscription
+          </Link>
           <button
             type="button"
             onClick={handleSignOut}
-            className={`${email ? "mt-4" : ""} min-h-11 text-sm font-normal uppercase tracking-[0.1em] text-dusty-cream/90 underline-offset-4 transition hover:text-dusty-cream hover:underline`}
+            className="mt-4 min-h-11 text-sm font-normal uppercase tracking-[0.1em] text-dusty-cream/90 underline-offset-4 transition hover:text-dusty-cream hover:underline"
           >
             Sign Out
           </button>

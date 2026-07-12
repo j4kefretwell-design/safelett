@@ -1,20 +1,36 @@
 import Link from "next/link";
-import { btnPrimaryClassName } from "@/lib/ui";
+import BackgroundImage from "@/components/BackgroundImage";
+import { siteImages } from "@/lib/site-images";
+import { btnGoldOutlineClassName, editorialBleedClassName } from "@/lib/ui";
 
 export default function TenancyEmptyState() {
   return (
-    <div className="tenancy-slate-bg flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center px-6 py-20 text-center">
-      <p className="caps-label text-steel">Tenancy Management</p>
-      <h1 className="mt-6 max-w-lg font-serif text-3xl tracking-wide text-tenancy-text sm:text-4xl">
-        Your Tenancy Portfolio Awaits
-      </h1>
-      <p className="mt-5 max-w-md text-base font-light leading-relaxed text-steel">
-        Add your first tenancy to track lease dates, rent reviews, deposit
-        protection, and right to rent compliance.
-      </p>
-      <Link href="/tenancy/new" className={`${btnPrimaryClassName} mt-10 bg-navy hover:bg-navy-dark`}>
-        Add Your First Tenancy
-      </Link>
+    <div className={`tenancy-slate-bg min-h-[calc(100vh-4rem)] ${editorialBleedClassName}`}>
+      <section
+        className="relative flex min-h-[min(58vh,520px)] w-full flex-col items-center justify-center overflow-hidden"
+        style={{ backgroundColor: siteImages.annieSprattTopiary.placeholderColor }}
+      >
+        <BackgroundImage
+          image={siteImages.annieSprattTopiary}
+          alt=""
+          sizes="100vw"
+          priority
+          effect="fade"
+        />
+        <div className="absolute inset-0 bg-navy/60" aria-hidden="true" />
+
+        <div className="relative z-10 px-6 py-16 text-center sm:py-20">
+          <h1 className="max-w-xl font-serif text-3xl tracking-wide text-dusty-cream sm:text-4xl lg:text-5xl">
+            Your tenancy portfolio awaits.
+          </h1>
+          <Link
+            href="/tenancy/new"
+            className={`${btnGoldOutlineClassName} mt-10 w-full sm:w-auto`}
+          >
+            Add Your First Tenancy
+          </Link>
+        </div>
+      </section>
     </div>
   );
 }

@@ -29,17 +29,16 @@ const pricingPlans = [
   },
   {
     name: "Professional",
-    price: 49,
-    description: "Compliance + Tenancy modules",
+    price: 89,
+    description: "Compliance + Tenancy — save £76/month",
     features: [
       "Everything in Compliance",
-      "Full tenancy management",
-      "Renewal & rent review alerts",
-      "Deposit protection tracking",
-      "Tenancy notice drafts",
-      "Right to rent monitoring",
+      "Everything in Tenancy",
+      "AI Assistant (coming soon)",
+      "Priority support",
+      "Bundle pricing — £55 for both modules",
     ],
-    ctaClass: `${btnLandingPrimaryClassName} bg-navy hover:bg-navy-dark`,
+    ctaClass: `${btnLandingPrimaryClassName} bg-ink hover:bg-ink/90`,
     highlighted: true,
   },
 ];
@@ -58,7 +57,7 @@ const moduleCards = [
   {
     title: "Tenancy",
     subtitle: "Deposit tracking, renewal dates, tenancy notices",
-    price: "£30/month",
+    price: "£35/month",
     background: "bg-navy",
     icon: Key,
     href: "/signup",
@@ -204,11 +203,11 @@ export default function LandingPage() {
           sizes="100vw"
           priority
         />
-        <div className="absolute inset-0 bg-[#1A0A0C]/25" />
+        <div className="absolute inset-0 bg-[#1A0A0C]/15" />
 
         <div className="absolute inset-x-6 bottom-6 z-10 md:inset-x-auto md:bottom-10 md:left-10 md:max-w-[420px] lg:bottom-12 lg:left-12 lg:max-w-[520px]">
           <ScrollRevealGroup
-            className="space-y-5 bg-[#1A0A0C]/75 px-8 py-10 sm:space-y-6 sm:px-12"
+            className="space-y-5 sm:space-y-6 [&_*]:[text-shadow:0_2px_20px_rgba(0,0,0,0.9)]"
             staggerMs={100}
           >
             <p className="caps-label text-dusty-cream">
@@ -222,7 +221,7 @@ export default function LandingPage() {
               Automated compliance tracking for property management
               professionals across the United Kingdom.
             </p>
-            <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:flex-wrap sm:gap-4">
+            <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:flex-wrap sm:gap-4 [&_a]:[text-shadow:none]">
               <Link
                 href="/signup"
                 className={`${btnLandingPrimaryClassName} w-full sm:w-auto`}
@@ -437,7 +436,7 @@ export default function LandingPage() {
                     key={plan.name}
                     className={`border px-6 py-10 sm:px-10 sm:py-12 ${
                       plan.highlighted
-                        ? "border-navy/25 bg-white shadow-[0_20px_60px_rgba(27,42,74,0.08)]"
+                        ? "border-ink/20 bg-white shadow-[0_20px_60px_rgba(26,10,12,0.08)]"
                         : "border-umber/15 bg-greige"
                     }`}
                   >
