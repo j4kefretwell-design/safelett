@@ -54,6 +54,7 @@ export async function sendExpiryAlertEmail({
 
 export async function sendTenancyAlertEmail({
   to,
+  alertType,
   tenantNames,
   propertyAddress,
   alertLabel,
@@ -62,6 +63,7 @@ export async function sendTenancyAlertEmail({
   alertTier,
 }: {
   to: string;
+  alertType: "tenancy_end" | "rent_review" | "deposit_overdue" | "right_to_rent";
   tenantNames: string;
   propertyAddress: string;
   alertLabel: string;
@@ -70,6 +72,7 @@ export async function sendTenancyAlertEmail({
   alertTier: number;
 }) {
   const { subject, html } = buildTenancyAlertEmail({
+    alertType,
     tenantNames,
     propertyAddress,
     alertLabel,

@@ -87,11 +87,11 @@ function isTierEnabled(
     return false;
   }
 
-  if (tier === 0 || tier === 90) {
-    return profile.alert_at_60;
+  if (tier === 0) {
+    return true;
   }
 
-  if (tier === 60) {
+  if (tier === 90 || tier === 60) {
     return profile.alert_at_60;
   }
 
@@ -165,6 +165,7 @@ async function processTenancyAlert({
 
     const sendResult = await sendTenancyAlertEmail({
       to: email,
+      alertType,
       tenantNames: tenancy.tenant_names,
       propertyAddress: tenancy.property_address,
       alertLabel,

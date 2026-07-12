@@ -104,6 +104,16 @@ interface ExpiryAlertEmailParams {
   };
 }
 
+function moduleAlertBanner(module: "compliance" | "tenancy"): string {
+  const label =
+    module === "compliance"
+      ? "COMPLIANCE ALERT — Fretwell &amp; Co"
+      : "TENANCY ALERT — Fretwell &amp; Co";
+  const accentColor = module === "compliance" ? "#33181C" : "#1B2A4A";
+
+  return `<p style="margin:0 0 16px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.14em;color:${accentColor};">${label}</p>`;
+}
+
 function buildContractorSection(
   contractor: NonNullable<ExpiryAlertEmailParams["contractor"]>
 ): string {
@@ -180,6 +190,7 @@ export function buildExpiryAlertEmail({
   const subject = getExpirySubject(certificateLabel, daysRemaining, alertTier);
 
   const html = emailLayout(`
+    ${moduleAlertBanner("compliance")}
     <h1 style="margin:0 0 12px;font-size:20px;font-weight:700;color:#0f172a;">Certificate expiry reminder</h1>
     <p style="margin:0 0 20px;font-size:15px;line-height:1.6;color:#475569;">
       One of your compliance certificates is coming up for renewal. Please review the details below and take action before the expiry date.
@@ -215,6 +226,7 @@ export function buildExpiryAlertEmail({
 }
 
 interface TenancyAlertEmailParams {
+  alertType: "tenancy_end" | "rent_review" | "deposit_overdue" | "right_to_rent";
   tenantNames: string;
   propertyAddress: string;
   alertLabel: string;
@@ -224,7 +236,29 @@ interface TenancyAlertEmailParams {
   dashboardUrl: string;
 }
 
+function getTenancyAlertSubject(
+  alertType: TenancyAlertEmailParams["alertType"],
+  propertyAddress: string,
+  tenantNames: string
+): string {
+  const safeAddress = propertyAddress.trim();
+
+  switch (alertType) {
+    case "tenancy_end":
+      return `Tenancy Renewal Due — ${safeAddress}`;
+    case "rent_review":
+      return `Rent Review Due — ${safeAddress}`;
+    case "deposit_overdue":
+      return `Deposit Protection Overdue — ${safeAddress}`;
+    case "right_to_rent":
+      return `Right to Rent Expiry — ${tenantNames.trim()}`;
+    default:
+      return `Tenancy Alert — ${safeAddress}`;
+  }
+}
+
 export function buildTenancyAlertEmail({
+  alertType,
   tenantNames,
   propertyAddress,
   alertLabel,
@@ -244,9 +278,10 @@ export function buildTenancyAlertEmail({
         ? "Due today"
         : `Due in ${daysRemaining} days`;
 
-  const subject = `${BRAND_NAME} Tenancy Alert: ${alertLabel} — ${propertyAddress}`;
+  const subject = getTenancyAlertSubject(alertType, propertyAddress, tenantNames);
 
   const html = emailLayout(`
+    ${moduleAlertBanner("tenancy")}
     <h1 style="margin:0 0 12px;font-size:20px;font-weight:700;color:#0f172a;">Tenancy reminder</h1>
     <p style="margin:0 0 20px;font-size:15px;line-height:1.6;color:#475569;">
       A tenancy deadline in your portfolio requires attention. This alert was triggered ${alertTier > 0 ? `${alertTier} days before the due date` : "immediately"}.
