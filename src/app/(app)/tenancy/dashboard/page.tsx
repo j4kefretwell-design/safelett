@@ -102,7 +102,8 @@ export default async function TenancyDashboardPage() {
             alt=""
             sizes="100vw"
             priority
-            className="object-cover object-center"
+            className="object-cover"
+            style={{ objectPosition: "center 70%" }}
           />
           <div className="absolute inset-0 bg-navy/25" aria-hidden="true" />
         </div>
