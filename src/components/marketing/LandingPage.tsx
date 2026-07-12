@@ -49,7 +49,9 @@ const moduleCards = [
     subtitle:
       "Certificate tracking, automated alerts, contractor management",
     price: "£30/month",
-    accentBorder: "border-l-raspberry",
+    borderColor: "#33181C",
+    tintBg: "rgba(51, 24, 28, 0.06)",
+    headingClass: "text-raspberry",
     href: "/signup",
     comingSoon: false,
   },
@@ -57,7 +59,9 @@ const moduleCards = [
     title: "Tenancy",
     subtitle: "Deposit tracking, renewal dates, tenancy notices",
     price: "£35/month",
-    accentBorder: "border-l-navy",
+    borderColor: "#1B2A4A",
+    tintBg: "rgba(27, 42, 74, 0.06)",
+    headingClass: "text-navy",
     href: "/signup",
     comingSoon: false,
   },
@@ -66,7 +70,9 @@ const moduleCards = [
     subtitle:
       "Intelligent admin drafting and property management automation",
     price: "Coming Soon",
-    accentBorder: "border-l-forest",
+    borderColor: "#1A2E1A",
+    tintBg: "rgba(26, 46, 26, 0.06)",
+    headingClass: "text-forest",
     href: null,
     comingSoon: true,
   },
@@ -76,17 +82,17 @@ const features = [
   {
     number: "01",
     title: "Complete Portfolio Oversight",
-    body: "Manage compliance and tenancies in one place.",
+    body: "Manage compliance certificates and tenancies across your entire property portfolio from a single, beautifully designed platform.",
   },
   {
     number: "02",
     title: "Automated Alerts & Actions",
-    body: "Never miss a deadline, draft communications instantly.",
+    body: "Never miss a deadline. Fretwell & Co alerts you before certificates expire, drafts contractor emails automatically, and tracks every tenancy renewal date.",
   },
   {
     number: "03",
-    title: "Professional Reporting",
-    body: "Present yourself as the organised managing agent your clients deserve.",
+    title: "Professional Client Reporting",
+    body: "Generate annual compliance reports, share live portfolio status with landlord clients, and present yourself as the organised professional they expect.",
   },
 ];
 
@@ -98,6 +104,12 @@ const mobileNavLinks = [
   { href: "/login", label: "Sign In" },
   { href: "/signup", label: "Begin Trial" },
 ];
+
+function SectionRule() {
+  return (
+    <div className="h-px w-full bg-gold/50" aria-hidden="true" />
+  );
+}
 
 export default function LandingPage() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -218,7 +230,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <div className="h-px w-full bg-gold" aria-hidden="true" />
+      <SectionRule />
 
       <ScrollReveal>
         <section id="modules" className="bg-greige px-5 py-20 sm:px-10 sm:py-28 lg:py-36">
@@ -236,11 +248,17 @@ export default function LandingPage() {
               {moduleCards.map((card, index) => {
                 const content = (
                   <div
-                    className={`flex h-full flex-col border-l-[3px] bg-greige px-8 py-10 sm:px-10 sm:py-12 lg:px-12 ${card.accentBorder} ${
-                      card.comingSoon ? "opacity-85" : "transition duration-300 hover:bg-greige-alt/40"
+                    className={`flex h-full flex-col border-l-[3px] px-8 py-10 sm:px-10 sm:py-12 lg:px-12 ${
+                      card.comingSoon ? "opacity-85" : "transition duration-300 hover:brightness-[0.98]"
                     }`}
+                    style={{
+                      borderLeftColor: card.borderColor,
+                      backgroundColor: card.tintBg,
+                    }}
                   >
-                    <h3 className="font-serif text-2xl tracking-wide text-umber sm:text-[1.75rem]">
+                    <h3
+                      className={`font-serif text-2xl tracking-wide sm:text-[1.75rem] ${card.headingClass}`}
+                    >
                       {card.title}
                     </h3>
                     <p className="mt-4 flex-1 text-sm font-light leading-relaxed text-cocoa">
@@ -281,6 +299,8 @@ export default function LandingPage() {
           </div>
         </section>
       </ScrollReveal>
+
+      <SectionRule />
 
       <ScrollReveal>
         <section id="why" className="grid min-h-0 bg-greige lg:min-h-[560px] lg:grid-cols-2">
@@ -326,6 +346,8 @@ export default function LandingPage() {
         </section>
       </ScrollReveal>
 
+      <SectionRule />
+
       <ScrollReveal>
         <section
           id="features"
@@ -358,6 +380,8 @@ export default function LandingPage() {
         </section>
       </ScrollReveal>
 
+      <SectionRule />
+
       <ScrollReveal>
         <section className="grid min-h-0 bg-umber lg:min-h-[480px] lg:grid-cols-2">
           <div className="flex flex-col justify-center bg-umber px-5 py-14 sm:px-14 sm:py-20 lg:px-16 lg:py-28">
@@ -389,6 +413,8 @@ export default function LandingPage() {
           </div>
         </section>
       </ScrollReveal>
+
+      <SectionRule />
 
       <ScrollReveal>
         <section id="pricing" className="bg-greige-alt px-5 py-16 sm:py-32">
@@ -449,6 +475,8 @@ export default function LandingPage() {
           </div>
         </section>
       </ScrollReveal>
+
+      <SectionRule />
 
       <footer className="bg-ink px-5 py-14 text-center sm:py-20">
         <ScrollReveal>
