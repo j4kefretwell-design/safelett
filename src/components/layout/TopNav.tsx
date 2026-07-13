@@ -8,6 +8,7 @@ import { createClient } from "@/lib/supabase/client";
 interface TopNavProps {
   sidebarOpen: boolean;
   onMenuClick: () => void;
+  hideMenu?: boolean;
 }
 
 const MODE_TABS: Array<{ id: AppMode; label: string }> = [
@@ -30,7 +31,11 @@ function activePillClass(mode: AppMode) {
   return "bg-raspberry-dark text-dusty-cream shadow-sm ring-1 ring-gold/50";
 }
 
-export default function TopNav({ sidebarOpen, onMenuClick }: TopNavProps) {
+export default function TopNav({
+  sidebarOpen,
+  onMenuClick,
+  hideMenu = false,
+}: TopNavProps) {
   const router = useRouter();
   const { mode, switchMode } = useAppMode();
 
@@ -50,21 +55,23 @@ export default function TopNav({ sidebarOpen, onMenuClick }: TopNavProps) {
     >
       <div className="relative grid h-full grid-cols-[1fr_auto_1fr] items-center border-b border-gold px-4 sm:px-6 lg:px-10">
         <div className="flex items-center gap-3 sm:gap-4">
-          <button
-            type="button"
-            aria-label={sidebarOpen ? "Close menu" : "Open menu"}
-            onClick={onMenuClick}
-            className="touch-target shrink-0 text-dusty-cream transition hover:text-white"
-          >
-            {sidebarOpen ? (
-              <X className="h-6 w-6" strokeWidth={1.25} />
-            ) : (
-              <Menu className="h-6 w-6" strokeWidth={1.25} />
-            )}
-          </button>
+          {!hideMenu && (
+            <button
+              type="button"
+              aria-label={sidebarOpen ? "Close menu" : "Open menu"}
+              onClick={onMenuClick}
+              className="touch-target shrink-0 text-dusty-cream transition hover:text-white"
+            >
+              {sidebarOpen ? (
+                <X className="h-6 w-6" strokeWidth={1.25} />
+              ) : (
+                <Menu className="h-6 w-6" strokeWidth={1.25} />
+              )}
+            </button>
+          )}
 
           <div
-            className="hidden items-center rounded-full border border-gold/30 bg-black/10 p-0.5 sm:flex"
+            className={`${hideMenu ? "flex" : "hidden sm:flex"} items-center rounded-full border border-gold/30 bg-black/10 p-0.5`}
             role="tablist"
             aria-label="Application mode"
           >
@@ -89,9 +96,11 @@ export default function TopNav({ sidebarOpen, onMenuClick }: TopNavProps) {
             })}
           </div>
 
-          <span className="text-[10px] font-normal uppercase tracking-[0.2em] text-gold sm:hidden">
-            {modeLabel}
-          </span>
+          {!hideMenu && (
+            <span className="text-[10px] font-normal uppercase tracking-[0.2em] text-gold sm:hidden">
+              {modeLabel}
+            </span>
+          )}
         </div>
 
         <p className="font-serif text-sm uppercase tracking-[0.28em] text-gold sm:text-base sm:tracking-[0.32em]">

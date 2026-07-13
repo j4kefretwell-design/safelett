@@ -1,5 +1,5 @@
-import AssistantAskClient from "@/components/assistant/AssistantAskClient";
+import { redirect } from "next/navigation";
 
-export default function AssistantAskPage() {
-  return <AssistantAskClient />;
+export default function AssistantAskRedirectPage() {
+  redirect("/assistant");
 }

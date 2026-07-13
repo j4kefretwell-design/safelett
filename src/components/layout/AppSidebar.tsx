@@ -25,11 +25,7 @@ const tenancyNavItems = [
 ] as const;
 
 const assistantNavItems = [
-  { href: "/assistant", label: "Assistant Home" },
-  { href: "/assistant/draft", label: "Draft a Document" },
-  { href: "/assistant/ask", label: "Portfolio Assistant" },
-  { href: "/assistant/expiry", label: "Expiring This Month" },
-  { href: "/assistant/compliance", label: "Compliance Check" },
+  { href: "/assistant", label: "Assistant" },
 ] as const;
 
 const utilityNavItems = [

@@ -1,5 +1,5 @@
-import AssistantComplianceClient from "@/components/assistant/AssistantComplianceClient";
+import { redirect } from "next/navigation";
 
-export default function AssistantCompliancePage() {
-  return <AssistantComplianceClient />;
+export default function AssistantComplianceRedirectPage() {
+  redirect("/assistant?action=compliance");
 }
