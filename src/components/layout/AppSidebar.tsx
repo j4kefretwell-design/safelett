@@ -131,7 +131,7 @@ function isAssistantNavActive(pathname: string, href: string): boolean {
 
 function sidebarBgClass(mode: AppMode) {
   if (mode === "tenancy") return "bg-navy";
-  if (mode === "assistant") return "bg-forest";
+  if (mode === "assistant") return "bg-ink-green";
   return "bg-raspberry";
 }
 

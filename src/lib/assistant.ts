@@ -1,5 +1,8 @@
 export const ASSISTANT_MODEL = "claude-sonnet-4-6";
 
+export const ASSISTANT_PLAIN_TEXT_FORMAT =
+  "Format all responses in clean plain text. Do not use markdown, asterisks, hashes, bullet points or any symbols. Use numbered lists only when listing multiple items. Write in clear professional British English as if speaking to a property manager colleague.";
+
 export const ASSISTANT_DISCLAIMER =
   "Fretwell & Co AI Assistant is a drafting and information tool only. It does not constitute legal advice. Always verify documents and compliance requirements with a qualified professional. Fretwell & Co accepts no liability for decisions made based on AI-generated content.";
 

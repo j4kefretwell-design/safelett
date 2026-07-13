@@ -50,8 +50,12 @@
   --color-greige: #f2ede8;
   --color-greige-alt: #ede6df;
   --color-umber: #3d2b1f;
-  --color-forest: #1a2e1a;
-  --color-forest-dark: #142214;
+  --color-forest: #1c2b23;
+  --color-forest-dark: #152019;
+  --color-ink-green: #1c2b23;
+  --color-olive: #3f4a3c;
+  --color-line-cream: #f0ece1;
+  --color-moss: #a89f7c;
   --color-ink: #1a0a0c;
 
   --font-serif: var(--font-playfair), "Georgia", "Times New Roman", serif;

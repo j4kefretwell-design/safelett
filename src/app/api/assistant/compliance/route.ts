@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
-import { ASSISTANT_MODEL } from "@/lib/assistant";
+import { ASSISTANT_MODEL, ASSISTANT_PLAIN_TEXT_FORMAT } from "@/lib/assistant";
 import { getAssistantApiErrorMessage } from "@/lib/assistant-api";
 import {
   buildAssistantInsights,
@@ -53,7 +53,7 @@ export async function POST() {
 
     const portfolioFacts = formatInsightsForCompliancePrompt(insights);
 
-    const system = `You are a professional property portfolio assistant for a UK property manager using Fretwell & Co. Using only the factual portfolio data provided, produce a clean compliance status summary. Identify overdue certificates, items expiring soon, and missing core certificates. Be accurate and concise. Do not give legal advice or compliance judgements beyond stating what the data shows. End with a one-line reminder that this is an information summary only, not legal advice. Portfolio data: ${portfolioFacts}`;
+    const system = `You are a professional property portfolio assistant for a UK property manager using Fretwell & Co. Using only the factual portfolio data provided, produce a clean compliance status summary. Identify overdue certificates, items expiring soon, and missing core certificates. Be accurate and concise. Do not give legal advice or compliance judgements beyond stating what the data shows. Present the summary as clean labelled sections with blank lines between them, written as a knowledgeable colleague speaking. End with a one-line reminder that this is an information summary only, not legal advice. ${ASSISTANT_PLAIN_TEXT_FORMAT} Portfolio data: ${portfolioFacts}`;
 
     const anthropic = new Anthropic({
       apiKey: process.env.ANTHROPIC_API_KEY.trim(),

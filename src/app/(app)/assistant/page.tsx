@@ -26,7 +26,9 @@ export default async function AssistantHomePage({
     params.action === "draft" ||
     params.action === "compliance" ||
     params.action === "expiry" ||
-    params.action === "ask"
+    params.action === "ask" ||
+    params.action === "tenancy" ||
+    params.action === "property"
       ? params.action
       : null;
 
