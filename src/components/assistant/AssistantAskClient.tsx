@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import {
   ASSISTANT_DISCLAIMER,
@@ -80,6 +81,13 @@ export default function AssistantAskClient() {
       </div>
 
       <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col px-5 py-10 sm:px-12 sm:py-12 lg:px-0">
+        <Link
+          href="/assistant"
+          className="mb-8 text-sm font-light text-cocoa transition hover:text-text"
+        >
+          ← Assistant home
+        </Link>
+
         <div className="flex min-h-[28rem] flex-1 flex-col">
           <div className="flex-1 space-y-6 overflow-y-auto pb-8">
             {messages.length === 0 && !loading && (

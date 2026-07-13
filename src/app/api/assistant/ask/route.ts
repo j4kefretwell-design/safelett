@@ -1,39 +1,9 @@
 import { NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { ASSISTANT_MODEL } from "@/lib/assistant";
+import { getAssistantApiErrorMessage } from "@/lib/assistant-api";
 import { buildPortfolioContext } from "@/lib/assistant-portfolio";
 import { createClient } from "@/lib/supabase/server";
-
-function getApiErrorMessage(error: unknown): { message: string; status: number } {
-  if (error instanceof Anthropic.APIError) {
-    if (error.status === 401) {
-      return {
-        message:
-          "Anthropic API authentication failed. Check that ANTHROPIC_API_KEY is valid.",
-        status: 502,
-      };
-    }
-    if (error.status === 429) {
-      return {
-        message: "AI service is busy. Please try again in a moment.",
-        status: 429,
-      };
-    }
-    return {
-      message: error.message || "Anthropic API request failed.",
-      status: 502,
-    };
-  }
-
-  if (error instanceof Error) {
-    return { message: error.message, status: 502 };
-  }
-
-  return {
-    message: "Unable to answer at this time. Please try again shortly.",
-    status: 502,
-  };
-}
 
 interface ChatMessage {
   role: "user" | "assistant";
@@ -121,7 +91,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ reply });
   } catch (error) {
     console.error("[api/assistant/ask] Ask failed:", error);
-    const { message: errorMessage, status } = getApiErrorMessage(error);
+    const { message: errorMessage, status } = getAssistantApiErrorMessage(error);
     return NextResponse.json({ error: errorMessage }, { status });
   }
 }

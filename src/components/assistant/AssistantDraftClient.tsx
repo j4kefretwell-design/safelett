@@ -1,12 +1,18 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
 import {
   ASSISTANT_DISCLAIMER,
   ASSISTANT_DOCUMENTS,
   getAssistantDocument,
   type AssistantDocumentType,
 } from "@/lib/assistant";
+import {
+  addAssistantHistoryEntry,
+  getAssistantHistoryEntry,
+  updateAssistantHistoryEntry,
+} from "@/lib/assistant-history";
 import {
   buildGmailComposeUrl,
   buildMailtoUrl,
@@ -24,6 +30,8 @@ import type { Tenancy } from "@/lib/tenancy";
 interface AssistantDraftClientProps {
   properties: Property[];
   tenancies: Tenancy[];
+  initialType?: string | null;
+  historyId?: string | null;
 }
 
 const forestSubmitClassName =
@@ -35,9 +43,15 @@ const secondaryActionClassName =
 const disclaimerClassName =
   "mx-auto mt-20 max-w-2xl text-center text-[11px] italic leading-relaxed text-[#97795D]";
 
+function notifyHistoryUpdated() {
+  window.dispatchEvent(new Event("fretwell-assistant-history"));
+}
+
 export default function AssistantDraftClient({
   properties,
   tenancies,
+  initialType = null,
+  historyId = null,
 }: AssistantDraftClientProps) {
   const [selectedType, setSelectedType] = useState<AssistantDocumentType | null>(
     null
@@ -48,13 +62,42 @@ export default function AssistantDraftClient({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [draft, setDraft] = useState<{
+    id?: string;
     subject: string;
     body: string;
     documentName: string;
+    documentType?: AssistantDocumentType;
   } | null>(null);
   const [copied, setCopied] = useState(false);
+  const [hydratedHistory, setHydratedHistory] = useState(false);
 
   const document = selectedType ? getAssistantDocument(selectedType) : null;
+
+  useEffect(() => {
+    if (historyId) {
+      const entry = getAssistantHistoryEntry(historyId);
+      if (entry) {
+        setSelectedType(entry.documentType);
+        setDraft({
+          id: entry.id,
+          subject: entry.subject,
+          body: entry.body,
+          documentName: entry.documentName,
+          documentType: entry.documentType,
+        });
+      }
+      setHydratedHistory(true);
+      return;
+    }
+
+    if (initialType) {
+      const match = getAssistantDocument(initialType);
+      if (match) {
+        setSelectedType(match.id);
+      }
+    }
+    setHydratedHistory(true);
+  }, [historyId, initialType]);
 
   const propertyTenancies = useMemo(() => {
     if (!propertyId) return [];
@@ -107,16 +150,38 @@ export default function AssistantDraftClient({
         throw new Error(data.error || "Unable to draft document.");
       }
 
+      const entry = addAssistantHistoryEntry({
+        title: data.subject || data.documentName,
+        documentType: document.id,
+        documentName: data.documentName,
+        subject: data.subject,
+        body: data.body,
+      });
+      notifyHistoryUpdated();
+
       setDraft({
+        id: entry.id,
         subject: data.subject,
         body: data.body,
         documentName: data.documentName,
+        documentType: document.id,
       });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unable to draft document.");
     } finally {
       setLoading(false);
     }
+  }
+
+  function handleDraftBodyChange(body: string) {
+    setDraft((prev) => {
+      if (!prev) return prev;
+      if (prev.id) {
+        updateAssistantHistoryEntry(prev.id, { body });
+        notifyHistoryUpdated();
+      }
+      return { ...prev, body };
+    });
   }
 
   async function handleCopy() {
@@ -128,6 +193,14 @@ export default function AssistantDraftClient({
     } catch {
       setCopied(false);
     }
+  }
+
+  if (!hydratedHistory) {
+    return (
+      <div className="min-h-[calc(100vh-4rem)] w-full bg-greige px-5 py-12 sm:px-12">
+        <p className="text-sm font-light italic text-[#97795D]">Loading…</p>
+      </div>
+    );
   }
 
   return (
@@ -143,6 +216,13 @@ export default function AssistantDraftClient({
       </div>
 
       <div className="px-5 py-12 sm:px-12 sm:py-16 lg:px-16">
+        <Link
+          href="/assistant"
+          className="mb-10 inline-block text-sm font-light text-cocoa transition hover:text-text"
+        >
+          ← Assistant home
+        </Link>
+
         {!selectedType ? (
           <div className="mx-auto max-w-3xl">
             <div className="mb-10">
@@ -340,9 +420,7 @@ export default function AssistantDraftClient({
                   <textarea
                     value={draft.body}
                     onChange={(event) =>
-                      setDraft((prev) =>
-                        prev ? { ...prev, body: event.target.value } : prev
-                      )
+                      handleDraftBodyChange(event.target.value)
                     }
                     rows={22}
                     spellCheck

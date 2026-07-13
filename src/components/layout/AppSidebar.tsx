@@ -25,8 +25,11 @@ const tenancyNavItems = [
 ] as const;
 
 const assistantNavItems = [
+  { href: "/assistant", label: "Assistant Home" },
   { href: "/assistant/draft", label: "Draft a Document" },
   { href: "/assistant/ask", label: "Portfolio Assistant" },
+  { href: "/assistant/expiry", label: "Expiring This Month" },
+  { href: "/assistant/compliance", label: "Compliance Check" },
 ] as const;
 
 const utilityNavItems = [
@@ -123,6 +126,10 @@ function isAssistantNavActive(pathname: string, href: string): boolean {
     return pathname === "/help" || pathname.startsWith("/help/");
   }
 
+  if (href === "/assistant") {
+    return pathname === "/assistant";
+  }
+
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
@@ -134,7 +141,7 @@ function sidebarBgClass(mode: AppMode) {
 
 function modeHome(mode: AppMode) {
   if (mode === "tenancy") return "/tenancy/dashboard";
-  if (mode === "assistant") return "/assistant/draft";
+  if (mode === "assistant") return "/assistant";
   return "/dashboard";
 }
 
@@ -263,7 +270,7 @@ export default function AppSidebar({ open, onClose }: AppSidebarProps) {
             {mode !== "assistant" && (
               <li>
                 <Link
-                  href="/assistant/draft"
+                  href="/assistant"
                   onClick={onClose}
                   className="mt-2 block min-h-11 border-l-2 border-transparent py-3 pl-5 pr-3 text-sm font-normal uppercase tracking-[0.14em] leading-relaxed text-[#9BB89B] transition-colors duration-200 hover:border-[#9BB89B]/50 hover:text-[#C5D6C5]"
                 >

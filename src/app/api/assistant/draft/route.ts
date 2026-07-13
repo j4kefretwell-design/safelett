@@ -6,6 +6,7 @@ import {
   getAssistantDocument,
   type AssistantDocumentType,
 } from "@/lib/assistant";
+import { getAssistantApiErrorMessage } from "@/lib/assistant-api";
 import { createClient } from "@/lib/supabase/server";
 import { getUserProfile } from "@/lib/user-profile";
 import { resolveUserDisplayName } from "@/lib/contractor-email";
@@ -16,37 +17,6 @@ import {
   TENANCY_TYPE_LABELS,
 } from "@/lib/tenancy";
 import { PROPERTY_TYPE_LABELS } from "@/lib/types";
-
-function getApiErrorMessage(error: unknown): { message: string; status: number } {
-  if (error instanceof Anthropic.APIError) {
-    if (error.status === 401) {
-      return {
-        message:
-          "Anthropic API authentication failed. Check that ANTHROPIC_API_KEY is valid.",
-        status: 502,
-      };
-    }
-    if (error.status === 429) {
-      return {
-        message: "AI service is busy. Please try again in a moment.",
-        status: 429,
-      };
-    }
-    return {
-      message: error.message || "Anthropic API request failed.",
-      status: 502,
-    };
-  }
-
-  if (error instanceof Error) {
-    return { message: error.message, status: 502 };
-  }
-
-  return {
-    message: "Unable to draft document at this time. Please try again shortly.",
-    status: 502,
-  };
-}
 
 function formatPropertyBlock(property: Property): string {
   return [
@@ -265,7 +235,10 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     console.error("[api/assistant/draft] Draft failed:", error);
-    const { message, status } = getApiErrorMessage(error);
+    const { message, status } = getAssistantApiErrorMessage(
+      error,
+      "Unable to draft document at this time. Please try again shortly."
+    );
     return NextResponse.json({ error: message }, { status });
   }
 }

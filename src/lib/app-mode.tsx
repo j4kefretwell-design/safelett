@@ -17,7 +17,7 @@ const STORAGE_KEY = "fretwell-app-mode";
 const MODE_HOME: Record<AppMode, string> = {
   compliance: "/dashboard",
   tenancy: "/tenancy/dashboard",
-  assistant: "/assistant/draft",
+  assistant: "/assistant",
 };
 
 interface AppModeContextValue {
