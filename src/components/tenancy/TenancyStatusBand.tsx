@@ -31,7 +31,7 @@ export default function TenancyStatusBand({
         priority
         className="object-cover object-center"
       />
-      <div className="absolute inset-0 bg-navy/60" aria-hidden="true" />
+      <div className="absolute inset-0 bg-navy/50" aria-hidden="true" />
 
       <div className="absolute inset-x-4 bottom-4 z-10 max-w-md bg-navy px-6 py-5 sm:inset-x-auto sm:bottom-10 sm:left-10 sm:max-w-sm sm:px-8 sm:py-6">
         <div className="h-px w-10 bg-gold" aria-hidden="true" />
