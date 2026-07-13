@@ -22,11 +22,11 @@ export default function TenancyStatusBand({
   return (
     <section
       className="relative h-[220px] w-full overflow-hidden sm:h-[280px] lg:h-[320px]"
-      style={{ backgroundColor: siteImages.georgeCiobra.placeholderColor }}
+      style={{ backgroundColor: siteImages.jonnyGiosManor.placeholderColor }}
     >
       <OptimizedFillImage
-        image={siteImages.georgeCiobra}
-        alt=""
+        image={siteImages.jonnyGiosManor}
+        alt="Georgian manor house viewed through autumn leaves"
         sizes="100vw"
         priority
         className="object-cover object-center"

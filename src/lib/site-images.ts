@@ -30,6 +30,10 @@ export const siteImages = {
     src: "/george-ciobra-LX1k7rOj7Sg-unsplash.jpg",
     placeholderColor: NAVY_IMAGE_PLACEHOLDER,
   },
+  jonnyGiosManor: {
+    src: "/jonny-gios-g5ctwViRHy8-unsplash.jpg",
+    placeholderColor: NAVY_IMAGE_PLACEHOLDER,
+  },
   annieSprattManor: {
     src: "/annie-spratt-9wa278tcEsc-unsplash.jpg",
     placeholderColor: NAVY_IMAGE_PLACEHOLDER,
