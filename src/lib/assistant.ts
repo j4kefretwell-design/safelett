@@ -224,8 +224,8 @@ export function getAssistantDocument(id: string) {
 }
 
 export const EXAMPLE_PORTFOLIO_QUESTIONS = [
-  "Which properties have certificates expiring this month?",
-  "Which of my tenancies are up for renewal in the next 3 months?",
-  "Are any deposits unprotected?",
+  "Which certificates expire this month?",
+  "Any unprotected deposits?",
+  "Tenancies due for renewal?",
   "Which properties are fully compliant?",
 ] as const;

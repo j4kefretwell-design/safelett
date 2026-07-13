@@ -12,7 +12,12 @@ import {
   buildMailtoUrl,
   formatNoticeForCopy,
 } from "@/lib/tenancy-notices";
-import { inputClassName, labelClassName, selectClassName, textareaClassName } from "@/lib/ui";
+import {
+  inputClassName,
+  labelClassName,
+  selectClassName,
+  textareaClassName,
+} from "@/lib/ui";
 import type { Property } from "@/lib/types";
 import type { Tenancy } from "@/lib/tenancy";
 
@@ -26,6 +31,9 @@ const forestSubmitClassName =
 
 const secondaryActionClassName =
   "flex h-10 w-full items-center justify-center border border-forest/35 bg-transparent text-xs font-normal uppercase tracking-[0.1em] text-forest transition duration-200 hover:border-forest hover:bg-forest/5";
+
+const disclaimerClassName =
+  "mx-auto mt-20 max-w-2xl text-center text-[11px] italic leading-relaxed text-[#97795D]";
 
 export default function AssistantDraftClient({
   properties,
@@ -134,24 +142,45 @@ export default function AssistantDraftClient({
         </p>
       </div>
 
-      <div className="px-5 py-10 sm:px-12 sm:py-12 lg:px-16">
+      <div className="px-5 py-12 sm:px-12 sm:py-16 lg:px-16">
         {!selectedType ? (
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-            {ASSISTANT_DOCUMENTS.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => handleSelectType(item.id)}
-                className="border-l-[3px] border-forest bg-greige-alt px-5 py-6 text-left transition duration-200 hover:bg-[#ebe4dc]"
-              >
-                <h2 className="font-serif text-xl tracking-wide text-text">
-                  {item.name}
-                </h2>
-                <p className="mt-2 text-sm font-light leading-relaxed text-cocoa">
-                  {item.description}
-                </p>
-              </button>
-            ))}
+          <div className="mx-auto max-w-3xl">
+            <div className="mb-10">
+              <p className="text-[11px] font-normal uppercase tracking-[0.2em] text-forest">
+                Select Document Type
+              </p>
+              <div className="mt-3 h-px w-full bg-gold/55" aria-hidden="true" />
+            </div>
+
+            <ul>
+              {ASSISTANT_DOCUMENTS.map((item) => (
+                <li key={item.id}>
+                  <button
+                    type="button"
+                    onClick={() => handleSelectType(item.id)}
+                    className="group flex w-full items-center gap-4 border-t border-gold/45 border-l-[3px] border-l-transparent py-7 text-left transition-colors duration-300 hover:border-l-forest hover:bg-[rgba(26,46,26,0.04)] sm:gap-8 sm:py-8"
+                  >
+                    <span className="min-w-0 flex-1">
+                      <span className="block font-serif text-xl tracking-wide text-text sm:text-[1.35rem]">
+                        {item.name}
+                      </span>
+                      <span className="mt-1.5 block text-sm font-light leading-snug text-cocoa sm:hidden">
+                        {item.description}
+                      </span>
+                    </span>
+                    <span className="hidden max-w-[14rem] shrink-0 text-right text-sm font-light leading-snug text-cocoa sm:block md:max-w-xs">
+                      {item.description}
+                    </span>
+                    <span
+                      className="shrink-0 text-base text-forest transition-transform duration-300 group-hover:translate-x-0.5"
+                      aria-hidden="true"
+                    >
+                      →
+                    </span>
+                  </button>
+                </li>
+              ))}
+            </ul>
           </div>
         ) : (
           <div className="mx-auto max-w-3xl">
@@ -163,7 +192,7 @@ export default function AssistantDraftClient({
               ← All document types
             </button>
 
-            <h2 className="mt-6 font-serif text-2xl tracking-wide text-forest sm:text-3xl">
+            <h2 className="mt-8 font-serif text-2xl tracking-wide text-forest sm:text-3xl">
               {document?.name}
             </h2>
             <p className="mt-2 text-base font-light leading-relaxed text-cocoa">
@@ -171,7 +200,7 @@ export default function AssistantDraftClient({
             </p>
 
             {!draft ? (
-              <form onSubmit={handleDraft} className="mt-10 space-y-8">
+              <form onSubmit={handleDraft} className="mt-12 space-y-8">
                 <div>
                   <label htmlFor="assistant-property" className={labelClassName}>
                     Select Property
@@ -287,7 +316,7 @@ export default function AssistantDraftClient({
               </form>
             ) : (
               <div className="mt-10">
-                <div className="email-composition bg-greige-alt/60">
+                <div className="email-composition bg-greige-alt/40">
                   <div className="border-b border-leather/25 px-5 py-4 sm:px-6">
                     <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                       <span className="shrink-0 text-sm font-normal text-leather">
@@ -362,9 +391,7 @@ export default function AssistantDraftClient({
           </div>
         )}
 
-        <p className="mx-auto mt-16 max-w-3xl text-center text-xs italic leading-relaxed text-cocoa">
-          {ASSISTANT_DISCLAIMER}
-        </p>
+        <p className={disclaimerClassName}>{ASSISTANT_DISCLAIMER}</p>
       </div>
     </div>
   );

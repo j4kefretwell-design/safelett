@@ -79,26 +79,12 @@ export default function AssistantAskClient() {
         </p>
       </div>
 
-      <div className="flex flex-1 flex-col px-5 py-8 sm:px-12 lg:px-16">
-        <div className="flex flex-wrap gap-2">
-          {EXAMPLE_PORTFOLIO_QUESTIONS.map((question) => (
-            <button
-              key={question}
-              type="button"
-              disabled={loading}
-              onClick={() => void sendQuestion(question)}
-              className="border border-forest/25 bg-greige-alt px-3 py-2 text-left text-xs font-light leading-snug text-forest transition hover:border-forest/50 hover:bg-[#ebe4dc] disabled:opacity-50"
-            >
-              {question}
-            </button>
-          ))}
-        </div>
-
-        <div className="mt-8 flex min-h-[22rem] flex-1 flex-col overflow-hidden border border-forest/15 bg-greige-alt/40">
-          <div className="flex-1 space-y-4 overflow-y-auto px-4 py-5 sm:px-6">
+      <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col px-5 py-10 sm:px-12 sm:py-12 lg:px-0">
+        <div className="flex min-h-[28rem] flex-1 flex-col">
+          <div className="flex-1 space-y-6 overflow-y-auto pb-8">
             {messages.length === 0 && !loading && (
-              <p className="text-sm font-light italic leading-relaxed text-cocoa/80">
-                Ask a question about your portfolio, or choose an example above.
+              <p className="text-sm font-light italic leading-relaxed text-[#97795D]/85">
+                Ask a question about your portfolio, or choose an example below.
               </p>
             )}
 
@@ -109,21 +95,21 @@ export default function AssistantAskClient() {
                   message.role === "user" ? "justify-end" : "justify-start"
                 }`}
               >
-                <div
-                  className={`max-w-[85%] px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap ${
-                    message.role === "user"
-                      ? "bg-forest text-dusty-cream"
-                      : "bg-greige-alt text-text"
-                  }`}
-                >
-                  {message.content}
-                </div>
+                {message.role === "user" ? (
+                  <div className="max-w-[80%] rounded-full bg-forest px-4 py-2 text-sm font-light leading-relaxed text-dusty-cream">
+                    {message.content}
+                  </div>
+                ) : (
+                  <div className="max-w-[90%] border-l-[2px] border-forest pl-4 text-sm font-light leading-relaxed whitespace-pre-wrap text-text">
+                    {message.content}
+                  </div>
+                )}
               </div>
             ))}
 
             {loading && (
               <div className="flex justify-start">
-                <div className="bg-greige-alt px-4 py-3 text-sm italic text-cocoa">
+                <div className="border-l-[2px] border-forest/40 pl-4 text-sm italic text-[#97795D]">
                   Reviewing your portfolio…
                 </div>
               </div>
@@ -132,42 +118,49 @@ export default function AssistantAskClient() {
             <div ref={bottomRef} />
           </div>
 
-          <form
-            onSubmit={handleSubmit}
-            className="flex items-end gap-3 border-t border-forest/15 bg-greige px-4 py-4 sm:px-6"
-          >
-            <label htmlFor="assistant-ask-input" className="sr-only">
-              Ask a question
-            </label>
-            <textarea
-              id="assistant-ask-input"
-              rows={2}
-              value={input}
-              onChange={(event) => setInput(event.target.value)}
-              placeholder="Ask about properties, tenancies or certificates…"
-              className="min-h-[2.75rem] flex-1 resize-none border-0 border-b border-forest/25 bg-transparent px-0 py-2 text-base font-light leading-relaxed text-text outline-none placeholder:italic placeholder:text-cocoa/50 focus:border-b-2 focus:border-forest focus:pb-[calc(0.5rem-1px)]"
-              onKeyDown={(event) => {
-                if (event.key === "Enter" && !event.shiftKey) {
-                  event.preventDefault();
-                  void sendQuestion(input);
-                }
-              }}
-            />
-            <button
-              type="submit"
-              disabled={loading || !input.trim()}
-              className="shrink-0 bg-forest px-5 py-3 text-xs font-normal uppercase tracking-[0.14em] text-dusty-cream transition hover:bg-forest-dark disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              Send
-            </button>
-          </form>
+          <div className="mt-auto space-y-5 border-t border-gold/30 pt-6">
+            <div className="flex flex-wrap gap-2">
+              {EXAMPLE_PORTFOLIO_QUESTIONS.map((question) => (
+                <button
+                  key={question}
+                  type="button"
+                  disabled={loading}
+                  onClick={() => void sendQuestion(question)}
+                  className="px-3 py-1.5 text-left text-[11px] font-light tracking-wide text-forest transition hover:bg-[rgba(26,46,26,0.06)] disabled:opacity-50"
+                >
+                  {question}
+                </button>
+              ))}
+            </div>
+
+            <form onSubmit={handleSubmit} className="flex items-end gap-4">
+              <label htmlFor="assistant-ask-input" className="sr-only">
+                Ask a question
+              </label>
+              <input
+                id="assistant-ask-input"
+                type="text"
+                value={input}
+                onChange={(event) => setInput(event.target.value)}
+                placeholder="Ask about your portfolio…"
+                className="min-h-11 flex-1 border-0 border-b border-forest/30 bg-transparent px-0 py-2 text-base font-light leading-relaxed text-text outline-none placeholder:italic placeholder:text-[#97795D]/55 focus:border-b-2 focus:border-forest focus:pb-[calc(0.5rem-1px)]"
+              />
+              <button
+                type="submit"
+                disabled={loading || !input.trim()}
+                className="shrink-0 bg-forest px-5 py-2.5 text-xs font-normal uppercase tracking-[0.14em] text-dusty-cream transition hover:bg-forest-dark disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                Ask →
+              </button>
+            </form>
+
+            {error && (
+              <p className="text-sm leading-relaxed text-urgent">{error}</p>
+            )}
+          </div>
         </div>
 
-        {error && (
-          <p className="mt-4 text-sm leading-relaxed text-urgent">{error}</p>
-        )}
-
-        <p className="mx-auto mt-10 max-w-3xl text-center text-xs italic leading-relaxed text-cocoa">
+        <p className="mx-auto mt-16 max-w-2xl text-center text-[11px] italic leading-relaxed text-[#97795D]">
           {ASSISTANT_DISCLAIMER}
         </p>
       </div>

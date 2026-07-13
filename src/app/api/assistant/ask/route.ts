@@ -88,7 +88,7 @@ export async function POST(request: Request) {
 
   const portfolioData = await buildPortfolioContext(supabase, user.id);
 
-  const system = `You are a professional property portfolio assistant for a UK property manager using Fretwell & Co. You have access to their portfolio data below. Answer questions about their properties, tenancies and compliance certificates accurately and concisely. Do not give legal advice or definitive compliance judgements. For legal questions, recommend they consult a qualified professional. Always be helpful, accurate and professional. Portfolio data: ${portfolioData}`;
+  const system = `You are a professional property portfolio assistant for a UK property manager using Fretwell & Co. You have access to their portfolio data below. Answer questions about their properties, tenancies and compliance certificates accurately and concisely. Do not give legal advice. For legal questions recommend they consult a qualified professional. Always be helpful, accurate and professional. Portfolio data: ${portfolioData}`;
 
   try {
     const anthropic = new Anthropic({

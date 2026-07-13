@@ -26,7 +26,7 @@ const tenancyNavItems = [
 
 const assistantNavItems = [
   { href: "/assistant/draft", label: "Draft a Document" },
-  { href: "/assistant/ask", label: "Ask Your Portfolio" },
+  { href: "/assistant/ask", label: "Portfolio Assistant" },
 ] as const;
 
 const utilityNavItems = [
