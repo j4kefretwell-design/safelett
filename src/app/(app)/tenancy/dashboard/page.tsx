@@ -93,39 +93,29 @@ export default async function TenancyDashboardPage() {
       </section>
 
       <section className="px-5 sm:px-12 lg:px-16">
-        <div
-          className="relative h-32 overflow-hidden sm:h-40 lg:h-48"
-          style={{ backgroundColor: siteImages.annieSprattTopiary.placeholderColor }}
-        >
-          <OptimizedFillImage
-            image={siteImages.annieSprattTopiary}
-            alt=""
-            sizes="100vw"
-            priority
-            className="object-cover"
-            style={{ objectPosition: "center 75%" }}
-          />
-          <div className="absolute inset-0 bg-navy/25" aria-hidden="true" />
-        </div>
-      </section>
-
-      <section className="px-5 sm:px-12 lg:px-16">
-        <div className="grid min-w-0 overflow-hidden border border-steel/15 bg-white lg:grid-cols-[45%_55%]">
+        <div className="grid min-w-0 overflow-hidden lg:grid-cols-[45%_55%]">
           <div
-            className="relative min-h-[240px] lg:min-h-[280px]"
-            style={{ backgroundColor: "#1B2A4A" }}
+            className="relative min-h-[240px] overflow-hidden lg:min-h-[280px]"
+            style={{ backgroundColor: siteImages.annieSprattTopiary.placeholderColor }}
           >
-            <div className="absolute inset-0 bg-navy/20" />
-            <div className="relative z-10 flex h-full flex-col justify-center px-8 py-10 lg:px-12">
-              <p className="max-w-md font-serif text-xl leading-snug tracking-wide text-dusty-cream sm:text-2xl">
-                Every tenancy. Every deadline. Every tenant protected.
-              </p>
-            </div>
+            <OptimizedFillImage
+              image={siteImages.annieSprattTopiary}
+              alt=""
+              sizes="(max-width: 1024px) 100vw, 45vw"
+              className="object-cover"
+              style={{ objectPosition: "center 75%" }}
+            />
           </div>
 
-          <div className="flex flex-col justify-center border-t border-gold/30 px-6 py-10 sm:px-10 lg:border-t-0 lg:border-l lg:px-14">
-            <p className="max-w-sm text-base leading-relaxed text-steel">
-              Track renewals, rent reviews, and deposit protection across your
+          <div className="flex flex-col justify-center border-t border-gold/40 bg-[#F0F2F5] px-6 py-10 sm:px-10 lg:border-t-0 lg:border-l lg:border-gold/40 lg:px-14 lg:py-12">
+            <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-navy">
+              Your Tenancies
+            </p>
+            <h2 className="mt-4 max-w-md font-serif text-2xl leading-snug tracking-wide text-tenancy-text sm:text-[1.75rem]">
+              Every deadline. Every tenant. Protected.
+            </h2>
+            <p className="mt-4 max-w-sm text-sm font-light leading-relaxed text-steel">
+              Track renewals, rent reviews and deposit protection across your
               entire lettings portfolio.
             </p>
             <Link href="/reminders" className={`${btnGoldClassName} mt-8 w-full sm:w-fit`}>

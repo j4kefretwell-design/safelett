@@ -34,6 +34,10 @@ export const siteImages = {
     src: "/jonny-gios-g5ctwViRHy8-unsplash.jpg",
     placeholderColor: NAVY_IMAGE_PLACEHOLDER,
   },
+  eranjanCottage: {
+    src: "/eranjan-Zh7nJn_Z4EE-unsplash.jpg",
+    placeholderColor: NAVY_IMAGE_PLACEHOLDER,
+  },
   annieSprattManor: {
     src: "/annie-spratt-9wa278tcEsc-unsplash.jpg",
     placeholderColor: NAVY_IMAGE_PLACEHOLDER,

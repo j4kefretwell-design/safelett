@@ -205,10 +205,6 @@ export default async function TenancyDetailPage({ params }: TenancyDetailPagePro
         </AnimateIn>
       </div>
 
-      <AnimateIn delay={175}>
-        <TenancyTimeline tenancy={record} />
-      </AnimateIn>
-
       <section className="mx-auto max-w-6xl px-5 pb-10 sm:px-12 lg:px-16">
         <AnimateIn delay={200}>
           <h2 className="font-serif text-xl tracking-wide text-tenancy-text">
@@ -246,6 +242,10 @@ export default async function TenancyDetailPage({ params }: TenancyDetailPagePro
           </div>
         </AnimateIn>
       </section>
+
+      <AnimateIn delay={220}>
+        <TenancyTimeline tenancy={record} />
+      </AnimateIn>
 
       {record.notes && (
         <section className="mx-auto max-w-6xl px-5 pb-10 sm:px-12 lg:px-16">

@@ -56,13 +56,14 @@ export default function TenancyRemindersList({
     <div className="tenancy-slate-bg min-h-[calc(100vh-4rem)]">
       <section
         className="relative h-[200px] overflow-hidden sm:h-[240px]"
-        style={{ backgroundColor: siteImages.bradStarkey.placeholderColor }}
+        style={{ backgroundColor: siteImages.eranjanCottage.placeholderColor }}
       >
         <OptimizedFillImage
-          image={siteImages.bradStarkey}
+          image={siteImages.eranjanCottage}
           alt=""
           sizes="100vw"
-          className="object-cover"
+          priority
+          className="object-cover object-center"
         />
         <div className="absolute inset-0 bg-navy/55" />
         <div className="relative z-10 flex h-full flex-col justify-end px-5 pb-8 sm:px-12 lg:px-16">

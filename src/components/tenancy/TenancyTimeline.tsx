@@ -21,21 +21,21 @@ function buildTimelinePoints(tenancy: Tenancy): TimelinePoint[] {
     },
   ];
 
-  if (tenancy.right_to_rent_expiry) {
-    points.push({
-      id: "right_to_rent",
-      label: "Right to Rent Expiry",
-      date: tenancy.right_to_rent_expiry,
-      daysRemaining: getDaysUntilDate(tenancy.right_to_rent_expiry),
-    });
-  }
-
   if (tenancy.rent_review_date) {
     points.push({
       id: "rent_review",
       label: "Rent Review",
       date: tenancy.rent_review_date,
       daysRemaining: getDaysUntilDate(tenancy.rent_review_date),
+    });
+  }
+
+  if (tenancy.right_to_rent_expiry) {
+    points.push({
+      id: "right_to_rent",
+      label: "Right to Rent Expiry",
+      date: tenancy.right_to_rent_expiry,
+      daysRemaining: getDaysUntilDate(tenancy.right_to_rent_expiry),
     });
   }
 
@@ -51,6 +51,7 @@ function buildTimelinePoints(tenancy: Tenancy): TimelinePoint[] {
   );
 }
 
+/** Past = cocoa, upcoming = navy, overdue obligations = red */
 function pointColor(point: TimelinePoint): string {
   if (point.daysRemaining >= 0) return "bg-navy";
   if (point.id === "start") return "bg-[#6B503C]";
