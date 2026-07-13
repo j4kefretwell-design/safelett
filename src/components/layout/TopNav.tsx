@@ -2,7 +2,7 @@
 
 import { Menu, X } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useAppMode } from "@/lib/app-mode";
+import { useAppMode, type AppMode } from "@/lib/app-mode";
 import { createClient } from "@/lib/supabase/client";
 
 interface TopNavProps {
@@ -10,10 +10,29 @@ interface TopNavProps {
   onMenuClick: () => void;
 }
 
+const MODE_TABS: Array<{ id: AppMode; label: string }> = [
+  { id: "compliance", label: "Compliance" },
+  { id: "tenancy", label: "Tenancy" },
+  { id: "assistant", label: "Assistant" },
+];
+
+function headerBgClass(mode: AppMode) {
+  if (mode === "tenancy") return "bg-navy";
+  if (mode === "assistant") return "bg-forest";
+  return "bg-raspberry";
+}
+
+function activePillClass(mode: AppMode) {
+  if (mode === "tenancy") return "bg-navy-dark text-dusty-cream shadow-sm ring-1 ring-gold/50";
+  if (mode === "assistant") {
+    return "bg-forest-dark text-dusty-cream shadow-sm ring-1 ring-gold/50";
+  }
+  return "bg-raspberry-dark text-dusty-cream shadow-sm ring-1 ring-gold/50";
+}
+
 export default function TopNav({ sidebarOpen, onMenuClick }: TopNavProps) {
   const router = useRouter();
   const { mode, switchMode } = useAppMode();
-  const isTenancy = mode === "tenancy";
 
   async function handleSignOut() {
     const supabase = createClient();
@@ -22,11 +41,12 @@ export default function TopNav({ sidebarOpen, onMenuClick }: TopNavProps) {
     router.refresh();
   }
 
+  const modeLabel =
+    MODE_TABS.find((tab) => tab.id === mode)?.label ?? "Compliance";
+
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-30 h-16 transition-colors duration-500 ease-out ${
-        isTenancy ? "bg-navy" : "bg-raspberry"
-      }`}
+      className={`fixed inset-x-0 top-0 z-30 h-16 transition-colors duration-500 ease-out ${headerBgClass(mode)}`}
     >
       <div className="relative grid h-full grid-cols-[1fr_auto_1fr] items-center border-b border-gold px-4 sm:px-6 lg:px-10">
         <div className="flex items-center gap-3 sm:gap-4">
@@ -48,36 +68,29 @@ export default function TopNav({ sidebarOpen, onMenuClick }: TopNavProps) {
             role="tablist"
             aria-label="Application mode"
           >
-            <button
-              type="button"
-              role="tab"
-              aria-selected={!isTenancy}
-              onClick={() => switchMode("compliance")}
-              className={`rounded-full px-2.5 py-1 text-[9px] font-normal uppercase tracking-[0.14em] transition duration-300 sm:px-3 sm:text-[10px] ${
-                !isTenancy
-                  ? "bg-raspberry-dark text-dusty-cream shadow-sm ring-1 ring-gold/50"
-                  : "text-dusty-cream/75 hover:text-dusty-cream"
-              }`}
-            >
-              Compliance
-            </button>
-            <button
-              type="button"
-              role="tab"
-              aria-selected={isTenancy}
-              onClick={() => switchMode("tenancy")}
-              className={`rounded-full px-2.5 py-1 text-[9px] font-normal uppercase tracking-[0.14em] transition duration-300 sm:px-3 sm:text-[10px] ${
-                isTenancy
-                  ? "bg-navy-dark text-dusty-cream shadow-sm ring-1 ring-gold/50"
-                  : "text-dusty-cream/75 hover:text-dusty-cream"
-              }`}
-            >
-              Tenancy
-            </button>
+            {MODE_TABS.map((tab) => {
+              const isActive = mode === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  onClick={() => switchMode(tab.id)}
+                  className={`rounded-full px-2 py-1 text-[9px] font-normal uppercase tracking-[0.12em] transition duration-300 sm:px-2.5 sm:text-[10px] sm:tracking-[0.14em] ${
+                    isActive
+                      ? activePillClass(tab.id)
+                      : "text-dusty-cream/75 hover:text-dusty-cream"
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              );
+            })}
           </div>
 
           <span className="text-[10px] font-normal uppercase tracking-[0.2em] text-gold sm:hidden">
-            {isTenancy ? "Tenancy" : "Compliance"}
+            {modeLabel}
           </span>
         </div>
 

@@ -13,6 +13,7 @@ import {
 export default function SubscriptionClient() {
   const { mode } = useAppMode();
   const isTenancy = mode === "tenancy";
+  const isAssistant = mode === "assistant";
 
   const [selection, setSelection] = useState<SubscriptionSelection>({
     compliance: false,
@@ -47,10 +48,18 @@ export default function SubscriptionClient() {
     });
   }
 
-  const pageBg = isTenancy ? "tenancy-slate-bg" : "dashboard-parchment-bg";
+  const pageBg = isTenancy
+    ? "tenancy-slate-bg"
+    : isAssistant
+      ? "bg-greige"
+      : "dashboard-parchment-bg";
   const headingClass = isTenancy ? "text-tenancy-text" : "text-text";
   const mutedClass = isTenancy ? "text-steel" : "text-leather";
-  const summaryBarClass = isTenancy ? "bg-navy" : "bg-raspberry";
+  const summaryBarClass = isTenancy
+    ? "bg-navy"
+    : isAssistant
+      ? "bg-forest"
+      : "bg-raspberry";
 
   return (
     <div className={`${pageBg} min-h-[calc(100vh-4rem)] px-5 py-12 pb-40 sm:px-12 lg:px-16`}>
@@ -150,7 +159,13 @@ export default function SubscriptionClient() {
             <button
               type="button"
               onClick={() => setShowPaymentNotice(true)}
-              className={`inline-flex min-h-11 shrink-0 items-center justify-center px-8 py-3 text-sm font-normal uppercase tracking-[0.1em] transition ${isTenancy ? "bg-white text-navy hover:bg-dusty-cream" : "bg-dusty-cream text-raspberry hover:bg-white"}`}
+              className={`inline-flex min-h-11 shrink-0 items-center justify-center px-8 py-3 text-sm font-normal uppercase tracking-[0.1em] transition ${
+                isTenancy
+                  ? "bg-white text-navy hover:bg-dusty-cream"
+                  : isAssistant
+                    ? "bg-dusty-cream text-forest hover:bg-white"
+                    : "bg-dusty-cream text-raspberry hover:bg-white"
+              }`}
             >
               Continue to Payment
             </button>

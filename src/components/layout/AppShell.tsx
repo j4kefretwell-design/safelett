@@ -17,7 +17,11 @@ function AppShellInner({ children }: AppShellProps) {
   return (
     <div
       className={`min-h-screen overflow-x-hidden pt-16 transition-colors duration-500 ease-out ${
-        mode === "tenancy" ? "bg-tenancy-bg" : "bg-dusty-cream"
+        mode === "tenancy"
+          ? "bg-tenancy-bg"
+          : mode === "assistant"
+            ? "bg-greige"
+            : "bg-dusty-cream"
       }`}
     >
       <TopNav

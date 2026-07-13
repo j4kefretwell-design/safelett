@@ -22,7 +22,8 @@ const pricingPlans = [
   {
     name: "Professional",
     price: 49,
-    description: "Compliance and Tenancy — the complete platform",
+    description:
+      "Compliance, Tenancy and AI Assistant — the complete platform",
     ctaClass: `${btnLandingPrimaryClassName} bg-ink hover:bg-ink/90`,
     highlighted: true,
   },
@@ -55,14 +56,14 @@ const moduleCards = [
   {
     title: "AI Assistant",
     subtitle:
-      "Intelligent admin drafting and property management automation",
-    price: "Coming Soon",
+      "Document drafting and portfolio Q&A powered by your property data",
+    price: "Included in Professional",
     borderColor: "#1A2E1A",
     tintBg: "rgba(26, 46, 26, 0.10)",
     headingClass: "text-forest",
     watermarkClass: "text-forest",
-    href: null,
-    comingSoon: true,
+    href: "/signup",
+    comingSoon: false,
   },
 ] as const;
 
@@ -82,7 +83,7 @@ const features = [
   {
     number: "03",
     module: "AI Assistant",
-    body: "Intelligent admin drafting, automated correspondence and property management automation. Coming soon.",
+    body: "Document drafting from your tenancy data, plus a portfolio assistant for properties, certificates and key dates.",
     accentColor: "#1A2E1A",
   },
 ];

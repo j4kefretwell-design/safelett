@@ -48,7 +48,7 @@ export const SUBSCRIPTION_MODULES: SubscriptionModule[] = [
     features: [
       "Everything in Compliance",
       "Everything in Tenancy",
-      "AI Assistant (coming soon)",
+      "AI Assistant — document drafting & portfolio Q&A",
       "Priority support",
       "Save £76/month vs buying separately",
     ],

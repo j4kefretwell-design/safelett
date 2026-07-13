@@ -10,9 +10,15 @@ import {
 } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
-export type AppMode = "compliance" | "tenancy";
+export type AppMode = "compliance" | "tenancy" | "assistant";
 
 const STORAGE_KEY = "fretwell-app-mode";
+
+const MODE_HOME: Record<AppMode, string> = {
+  compliance: "/dashboard",
+  tenancy: "/tenancy/dashboard",
+  assistant: "/assistant/draft",
+};
 
 interface AppModeContextValue {
   mode: AppMode;
@@ -24,6 +30,10 @@ interface AppModeContextValue {
 const AppModeContext = createContext<AppModeContextValue | null>(null);
 
 function modeFromPathname(pathname: string): AppMode | null {
+  if (pathname.startsWith("/assistant")) {
+    return "assistant";
+  }
+
   if (pathname.startsWith("/tenancy")) {
     return "tenancy";
   }
@@ -40,6 +50,10 @@ function modeFromPathname(pathname: string): AppMode | null {
   return null;
 }
 
+function isValidMode(value: string | null): value is AppMode {
+  return value === "compliance" || value === "tenancy" || value === "assistant";
+}
+
 export function AppModeProvider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
@@ -47,8 +61,8 @@ export function AppModeProvider({ children }: { children: React.ReactNode }) {
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
-    const saved = sessionStorage.getItem(STORAGE_KEY) as AppMode | null;
-    if (saved === "compliance" || saved === "tenancy") {
+    const saved = sessionStorage.getItem(STORAGE_KEY);
+    if (isValidMode(saved)) {
       setStoredMode(saved);
     }
   }, []);
@@ -76,9 +90,7 @@ export function AppModeProvider({ children }: { children: React.ReactNode }) {
       setMode(nextMode);
 
       window.setTimeout(() => {
-        router.push(
-          nextMode === "tenancy" ? "/tenancy/dashboard" : "/dashboard"
-        );
+        router.push(MODE_HOME[nextMode]);
         window.setTimeout(() => setIsTransitioning(false), 400);
       }, 50);
     },

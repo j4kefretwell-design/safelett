@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import BrandMonogram from "@/components/BrandMonogram";
-import { useAppMode } from "@/lib/app-mode";
+import { useAppMode, type AppMode } from "@/lib/app-mode";
 import { createClient } from "@/lib/supabase/client";
 
 const complianceNavItems = [
@@ -22,6 +22,11 @@ const tenancyNavItems = [
   { href: "/reminders", label: "Reminders" },
   { href: "/tenancy/notices", label: "Notices" },
   { href: "/tenancy/import", label: "Bulk Import" },
+] as const;
+
+const assistantNavItems = [
+  { href: "/assistant/draft", label: "Draft a Document" },
+  { href: "/assistant/ask", label: "Ask Your Portfolio" },
 ] as const;
 
 const utilityNavItems = [
@@ -79,8 +84,7 @@ function isTenancyNavActive(pathname: string, href: string): boolean {
 
   if (href === "/tenancy/notices") {
     return (
-      pathname === "/tenancy/notices" ||
-      pathname.includes("/draft-notice")
+      pathname === "/tenancy/notices" || pathname.includes("/draft-notice")
     );
   }
 
@@ -106,6 +110,34 @@ function isTenancyNavActive(pathname: string, href: string): boolean {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
+function isAssistantNavActive(pathname: string, href: string): boolean {
+  if (href === "/subscription") {
+    return pathname === "/subscription";
+  }
+
+  if (href === "/settings") {
+    return pathname === "/settings" || pathname.startsWith("/settings/");
+  }
+
+  if (href === "/help") {
+    return pathname === "/help" || pathname.startsWith("/help/");
+  }
+
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
+function sidebarBgClass(mode: AppMode) {
+  if (mode === "tenancy") return "bg-navy";
+  if (mode === "assistant") return "bg-forest";
+  return "bg-raspberry";
+}
+
+function modeHome(mode: AppMode) {
+  if (mode === "tenancy") return "/tenancy/dashboard";
+  if (mode === "assistant") return "/assistant/draft";
+  return "/dashboard";
+}
+
 interface AppSidebarProps {
   open: boolean;
   onClose: () => void;
@@ -117,8 +149,12 @@ export default function AppSidebar({ open, onClose }: AppSidebarProps) {
   const { mode } = useAppMode();
   const [email, setEmail] = useState<string | null>(null);
 
-  const navItems = mode === "tenancy" ? tenancyNavItems : complianceNavItems;
-  const isTenancy = mode === "tenancy";
+  const navItems =
+    mode === "tenancy"
+      ? tenancyNavItems
+      : mode === "assistant"
+        ? assistantNavItems
+        : complianceNavItems;
 
   useEffect(() => {
     const supabase = createClient();
@@ -150,7 +186,16 @@ export default function AppSidebar({ open, onClose }: AppSidebarProps) {
     router.refresh();
   }
 
-  function utilityLinkClass(isActive: boolean, kind: "link" | "subscription" | "signout") {
+  function isNavActive(href: string) {
+    if (mode === "tenancy") return isTenancyNavActive(pathname, href);
+    if (mode === "assistant") return isAssistantNavActive(pathname, href);
+    return isComplianceNavActive(pathname, href);
+  }
+
+  function utilityLinkClass(
+    isActive: boolean,
+    kind: "link" | "subscription" | "signout"
+  ) {
     const base =
       "block min-h-11 border-l-2 py-3 pl-5 pr-3 text-[11px] font-normal uppercase tracking-[0.14em] leading-relaxed transition-colors duration-200";
 
@@ -181,24 +226,22 @@ export default function AppSidebar({ open, onClose }: AppSidebarProps) {
       />
 
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-[min(100vw,18rem)] max-w-full flex-col transition-all duration-500 ease-out ${
-          isTenancy ? "bg-navy" : "bg-raspberry"
-        } ${open ? "translate-x-0" : "-translate-x-full"}`}
+        className={`fixed inset-y-0 left-0 z-50 flex w-[min(100vw,18rem)] max-w-full flex-col transition-all duration-500 ease-out ${sidebarBgClass(
+          mode
+        )} ${open ? "translate-x-0" : "-translate-x-full"}`}
         aria-hidden={!open}
       >
         <div className="flex justify-center px-6 pt-10 pb-8">
-          <BrandMonogram
-            href={isTenancy ? "/tenancy/dashboard" : "/dashboard"}
-            onClick={onClose}
-          />
+          <BrandMonogram href={modeHome(mode)} onClick={onClose} />
         </div>
 
-        <nav className="flex-1 overflow-y-auto px-4 py-4 pb-10" aria-label="Main navigation">
+        <nav
+          className="flex-1 overflow-y-auto px-4 py-4 pb-10"
+          aria-label="Main navigation"
+        >
           <ul className="space-y-1">
             {navItems.map((item) => {
-              const isActive = isTenancy
-                ? isTenancyNavActive(pathname, item.href)
-                : isComplianceNavActive(pathname, item.href);
+              const isActive = isNavActive(item.href);
 
               return (
                 <li key={item.href}>
@@ -217,6 +260,18 @@ export default function AppSidebar({ open, onClose }: AppSidebarProps) {
               );
             })}
 
+            {mode !== "assistant" && (
+              <li>
+                <Link
+                  href="/assistant/draft"
+                  onClick={onClose}
+                  className="mt-2 block min-h-11 border-l-2 border-transparent py-3 pl-5 pr-3 text-sm font-normal uppercase tracking-[0.14em] leading-relaxed text-[#9BB89B] transition-colors duration-200 hover:border-[#9BB89B]/50 hover:text-[#C5D6C5]"
+                >
+                  Assistant
+                </Link>
+              </li>
+            )}
+
             {email && (
               <li className="mt-8 px-5 pt-6">
                 <p className="truncate text-xs font-light leading-relaxed tracking-wide text-dusty-cream/70">
@@ -231,10 +286,7 @@ export default function AppSidebar({ open, onClose }: AppSidebarProps) {
 
             {utilityNavItems.map((item) => {
               const isActive =
-                item.href !== null &&
-                (isTenancy
-                  ? isTenancyNavActive(pathname, item.href)
-                  : isComplianceNavActive(pathname, item.href));
+                item.href !== null && isNavActive(item.href);
 
               if (item.kind === "signout") {
                 return (
