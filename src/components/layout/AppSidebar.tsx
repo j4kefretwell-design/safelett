@@ -21,6 +21,7 @@ const tenancyNavItems = [
   { href: "/tenancy/new", label: "Add Tenancy" },
   { href: "/reminders", label: "Reminders" },
   { href: "/tenancy/notices", label: "Notices" },
+  { href: "/tenancy/import", label: "Bulk Import" },
 ] as const;
 
 const utilityNavItems = [
@@ -89,12 +90,17 @@ function isTenancyNavActive(pathname: string, href: string): boolean {
       (pathname.startsWith("/tenancy/") &&
         pathname !== "/tenancy/new" &&
         pathname !== "/tenancy/notices" &&
+        pathname !== "/tenancy/import" &&
         !pathname.match(/^\/tenancy\/[^/]+\/edit$/))
     );
   }
 
   if (href === "/tenancy/new") {
     return pathname === "/tenancy/new";
+  }
+
+  if (href === "/tenancy/import") {
+    return pathname === "/tenancy/import";
   }
 
   return pathname === href || pathname.startsWith(`${href}/`);

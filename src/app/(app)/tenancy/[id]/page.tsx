@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import DeleteTenancyButton from "@/components/tenancy/DeleteTenancyButton";
+import TenancyTimeline from "@/components/tenancy/TenancyTimeline";
 import { AnimateIn } from "@/components/AnimateIn";
 import {
   DEPOSIT_SCHEME_LABELS,
@@ -203,6 +204,10 @@ export default async function TenancyDetailPage({ params }: TenancyDetailPagePro
           </div>
         </AnimateIn>
       </div>
+
+      <AnimateIn delay={175}>
+        <TenancyTimeline tenancy={record} />
+      </AnimateIn>
 
       <section className="mx-auto max-w-6xl px-5 pb-10 sm:px-12 lg:px-16">
         <AnimateIn delay={200}>

@@ -6,6 +6,7 @@ import { AnimateIn } from "@/components/AnimateIn";
 import CertificateContractorEmailLink from "@/components/CertificateContractorEmailLink";
 import PropertyContractors from "@/components/PropertyContractors";
 import PropertyNotes from "@/components/PropertyNotes";
+import PropertyTenancySummary from "@/components/PropertyTenancySummary";
 import ShareWithLandlordButton from "@/components/ShareWithLandlordButton";
 import StatusDot from "@/components/StatusDot";
 import PropertyPageHeader from "@/components/layout/PropertyPageHeader";
@@ -40,6 +41,7 @@ import {
   type Property,
   type PropertyContractorWithDetails,
 } from "@/lib/types";
+import type { Tenancy } from "@/lib/tenancy";
 
 interface PropertyDetailPageProps {
   params: Promise<{ id: string }>;
@@ -86,6 +88,25 @@ export default async function PropertyDetailPage({
     .order("name", { ascending: true });
 
   const contractorDirectory = (directoryContractors ?? []) as Contractor[];
+
+  const { data: linkedById } = await supabase
+    .from("tenancies")
+    .select("*")
+    .eq("property_id", id)
+    .order("end_date", { ascending: false });
+
+  const { data: linkedByAddress } = await supabase
+    .from("tenancies")
+    .select("*")
+    .is("property_id", null)
+    .ilike("property_address", typedProperty.address)
+    .order("end_date", { ascending: false });
+
+  const tenancyMap = new Map<string, Tenancy>();
+  for (const row of [...(linkedById ?? []), ...(linkedByAddress ?? [])]) {
+    tenancyMap.set(row.id as string, row as Tenancy);
+  }
+  const propertyTenancies = Array.from(tenancyMap.values());
 
   const contractorsByType = new Map<CertificateType, Contractor>();
   for (const assignment of assignmentList) {
@@ -342,6 +363,10 @@ export default async function PropertyDetailPage({
         directoryContractors={contractorDirectory}
       />
       </div>
+      </AnimateIn>
+
+      <AnimateIn delay={280}>
+        <PropertyTenancySummary tenancies={propertyTenancies} />
       </AnimateIn>
 
       <AnimateIn delay={300}>
