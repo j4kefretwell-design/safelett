@@ -797,7 +797,28 @@ export default function AssistantChat({
         </p>
       </aside>
 
-      <section className="relative flex min-h-0 min-w-0 flex-1 flex-col bg-parchment-line">
+      <section
+        className={`relative flex min-h-0 min-w-0 flex-1 flex-col ${
+          view.screen === "menu" ? "overflow-hidden" : "bg-parchment-line"
+        }`}
+      >
+        {view.screen === "menu" && (
+          <>
+            <div
+              className="absolute inset-0 bg-cover bg-center"
+              style={{
+                backgroundImage:
+                  "url(/george-ciobra-LX1k7rOj7Sg-unsplash.jpg)",
+              }}
+              aria-hidden
+            />
+            <div
+              className="absolute inset-0 bg-study/40"
+              aria-hidden
+            />
+          </>
+        )}
+
         {toast && (
           <div className="absolute right-8 top-5 z-10 text-[11px] uppercase tracking-[0.16em] text-moss">
             {toast}
@@ -805,38 +826,40 @@ export default function AssistantChat({
         )}
 
         {view.screen === "menu" && (
-          <div className="flex flex-1 flex-col items-center justify-center overflow-y-auto px-8 py-16 sm:px-16 lg:px-24">
-            <Monogram size={50} />
-            <p className="mt-8 text-[11px] italic text-moss">{greeting()}</p>
-            <h1 className="mt-3 font-serif text-2xl tracking-wide text-study sm:text-[1.75rem]">
-              What would you like to do?
-            </h1>
+          <div className="relative z-[1] flex flex-1 items-center justify-center p-5 sm:p-8">
+            <div className="flex h-[80%] max-h-[80%] w-[85%] flex-col items-center justify-center overflow-y-auto rounded-[16px] bg-parchment-line px-8 py-10 shadow-[0_24px_64px_rgba(28,43,35,0.28)] sm:px-14 sm:py-12">
+              <Monogram size={50} />
+              <p className="mt-8 text-[11px] italic text-moss">{greeting()}</p>
+              <h1 className="mt-3 font-serif text-2xl tracking-wide text-study sm:text-[1.75rem]">
+                What would you like to do?
+              </h1>
 
-            <div className="mt-12 w-full max-w-2xl space-y-3">
-              {MODE_BOXES.map((box) => (
-                <button
-                  key={box.label}
-                  type="button"
-                  onClick={() => open(box.kind)}
-                  className="flex h-[50px] w-full items-center justify-between gap-4 border border-olive bg-parchment-line px-5 text-left transition hover:border-study"
-                >
-                  <span className="shrink-0 text-[10px] font-normal uppercase tracking-[0.2em] text-study">
-                    {box.label}
-                  </span>
-                  <span className="truncate text-right text-[13px] text-cocoa">
-                    {box.description}
-                  </span>
-                </button>
-              ))}
+              <div className="mt-10 w-full max-w-2xl space-y-3">
+                {MODE_BOXES.map((box) => (
+                  <button
+                    key={box.label}
+                    type="button"
+                    onClick={() => open(box.kind)}
+                    className="flex h-[50px] w-full items-center justify-between gap-4 border border-olive bg-parchment-line px-5 text-left transition hover:border-study"
+                  >
+                    <span className="shrink-0 text-[10px] font-normal uppercase tracking-[0.2em] text-study">
+                      {box.label}
+                    </span>
+                    <span className="truncate text-right text-[13px] text-cocoa">
+                      {box.description}
+                    </span>
+                  </button>
+                ))}
+              </div>
+
+              <button
+                type="button"
+                onClick={() => open("compliance")}
+                className="mt-10 text-[12px] text-moss transition hover:text-study"
+              >
+                or run a Compliance Check →
+              </button>
             </div>
-
-            <button
-              type="button"
-              onClick={() => open("compliance")}
-              className="mt-10 text-[12px] text-moss transition hover:text-study"
-            >
-              or run a Compliance Check →
-            </button>
           </div>
         )}
 
@@ -1139,7 +1162,7 @@ export default function AssistantChat({
 
         {/* Mobile nav — compact strip when sidebar is hidden */}
         {!showChrome && (
-          <div className="flex items-center justify-center gap-5 border-t border-olive/20 px-4 py-3 sm:hidden">
+          <div className="relative z-[1] flex items-center justify-center gap-5 bg-parchment-line/90 px-4 py-3 sm:hidden">
             <button
               type="button"
               onClick={() => {
