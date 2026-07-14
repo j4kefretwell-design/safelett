@@ -9,6 +9,13 @@ import type { Tenancy } from "@/lib/tenancy";
 
 export const revalidate = 30;
 
+function greeting() {
+  const hour = new Date().getHours();
+  if (hour < 12) return "Good morning";
+  if (hour < 18) return "Good afternoon";
+  return "Good evening";
+}
+
 export default async function OverviewDashboardPage() {
   const supabase = await createClient();
 
@@ -37,95 +44,124 @@ export default async function OverviewDashboardPage() {
   });
 
   const everythingInOrder =
-    stats.attentionCount === 0 && stats.overdueItems === 0;
+    stats.urgentCount === 0 && stats.overdueItems === 0;
 
-  const attentionValue = stats.attentionCount || stats.overdueItems;
-
-  const statCards = [
-    {
-      label: "Total Properties",
-      value: stats.totalProperties,
-      description: "Across your portfolio",
-    },
-    {
-      label: "Active Tenancies",
-      value: stats.activeTenancies,
-      description: "Currently let",
-    },
-    {
-      label: "Expiring This Month",
-      value: stats.expiringThisMonth,
-      description: "Certificates and tenancy dates",
-    },
-    {
-      label: "Overdue Items",
-      value: stats.overdueItems,
-      description: "Requiring immediate attention",
-    },
-  ];
+  const attentionValue = stats.urgentCount || stats.overdueItems;
+  const complianceOk = stats.complianceNeedsAttention === 0;
+  const tenancyOk = stats.tenancyRenewalsDue === 0;
 
   return (
     <div className="min-h-[calc(100vh-4rem)] w-full overflow-x-hidden bg-greige text-umber">
-      <section
-        className="relative h-[220px] w-full overflow-hidden"
-        style={{ backgroundColor: "#3D2B1F" }}
-      >
-        <OptimizedFillImage
-          image={siteImages.hugoKruip}
-          alt=""
-          sizes="100vw"
-          priority
-          quality={60}
-          className="object-cover"
-          style={{ objectPosition: "center 20%" }}
-        />
-        <div className="absolute inset-0 bg-umber/50" aria-hidden />
-
-        <div className="absolute bottom-5 left-4 z-10 max-w-md bg-umber px-6 py-5 sm:bottom-8 sm:left-6 sm:max-w-sm sm:px-8 sm:py-6 lg:left-12">
-          <div className="h-px w-10 bg-gold" aria-hidden />
-          <p className="mt-4 text-[10px] font-normal uppercase tracking-[0.28em] text-gold">
-            Portfolio Status
-          </p>
-          <h1 className="mt-4 font-serif text-[1.125rem] font-normal leading-snug tracking-wide text-greige sm:text-[1.35rem]">
-            {everythingInOrder
-              ? "Everything in Order"
-              : `${attentionValue} ${
-                  attentionValue === 1
-                    ? "Item Needs Attention"
-                    : "Items Need Attention"
-                }`}
-          </h1>
-        </div>
+      {/* Greeting header */}
+      <section className={`bg-greige ${editorialPagePaddingClassName} py-12 sm:py-14`}>
+        <h1 className="font-serif text-3xl tracking-wide text-umber sm:text-4xl">
+          {greeting()}
+        </h1>
+        <p className="mt-4 font-serif text-lg tracking-wide text-umber/85 sm:text-xl">
+          {everythingInOrder
+            ? "Everything in order across your portfolio."
+            : `${attentionValue} ${
+                attentionValue === 1
+                  ? "item needs your attention."
+                  : "items need your attention."
+              }`}
+        </p>
       </section>
 
-      <section className={`${editorialPagePaddingClassName} py-12`}>
-        <div className="grid grid-cols-1 gap-4 min-[480px]:grid-cols-2 lg:grid-cols-4 lg:gap-5">
-          {statCards.map((card) => (
-            <div
-              key={card.label}
-              className="overview-stat-card relative flex h-full flex-col overflow-hidden border border-sand border-t-[3px] border-t-gold px-5 py-9 text-center shadow-[0_2px_8px_rgba(61,43,31,0.08)]"
-              style={{
-                background:
-                  "linear-gradient(165deg, #EDE6DF 0%, #E5DAD0 100%)",
-              }}
+      {/* Four action blocks — flush full-width row */}
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+        <Link
+          href="/compliance"
+          className="flex h-[160px] flex-col justify-between bg-umber p-5 transition hover:brightness-110 sm:p-6"
+        >
+          <div>
+            <span
+              className="mb-3 inline-block h-1.5 w-1.5 bg-raspberry"
+              aria-hidden
+            />
+            <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-dusty-cream">
+              Compliance
+            </p>
+            <p className="mt-3 font-serif text-3xl tracking-wide text-dusty-cream">
+              {stats.totalProperties}
+            </p>
+            <p
+              className={`mt-2 text-sm ${
+                complianceOk ? "text-compliant" : "text-attention"
+              }`}
             >
-              <div className="relative z-[1]">
-                <p className="font-serif text-4xl tracking-wide text-umber sm:text-5xl">
-                  {card.value}
-                </p>
-                <p className="mt-4 text-[10px] font-normal uppercase tracking-[0.2em] text-leather">
-                  {card.label}
-                </p>
-                <p className="mt-2 text-[11px] font-light leading-relaxed text-tan">
-                  {card.description}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
+              {complianceOk
+                ? "All Compliant"
+                : `${stats.complianceNeedsAttention} Need Attention`}
+            </p>
+          </div>
+          <p className="text-right text-sm text-gold">View →</p>
+        </Link>
+
+        <Link
+          href="/tenancy/dashboard"
+          className="flex h-[160px] flex-col justify-between bg-[#2C3E5C] p-5 transition hover:brightness-110 sm:p-6"
+        >
+          <div>
+            <span
+              className="mb-3 inline-block h-1.5 w-1.5 bg-navy"
+              aria-hidden
+            />
+            <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-dusty-cream">
+              Tenancy
+            </p>
+            <p className="mt-3 font-serif text-3xl tracking-wide text-dusty-cream">
+              {stats.totalTenancies}
+            </p>
+            <p
+              className={`mt-2 text-sm ${
+                tenancyOk ? "text-compliant" : "text-attention"
+              }`}
+            >
+              {tenancyOk
+                ? "All Current"
+                : `${stats.tenancyRenewalsDue} Due for Renewal`}
+            </p>
+          </div>
+          <p className="text-right text-sm text-gold">View →</p>
+        </Link>
+
+        <Link
+          href="#todays-actions"
+          className="flex h-[160px] flex-col justify-between bg-gold p-5 transition hover:brightness-105 sm:p-6"
+        >
+          <div>
+            <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-umber">
+              Actions
+            </p>
+            <p className="mt-3 font-serif text-3xl tracking-wide text-umber">
+              {stats.urgentCount}
+            </p>
+            <p className="mt-2 text-sm text-umber/80">
+              Items need attention today
+            </p>
+          </div>
+          <p className="text-right text-sm text-umber">View All →</p>
+        </Link>
+
+        <Link
+          href="/assistant"
+          className="flex h-[160px] flex-col justify-between bg-study p-5 transition hover:brightness-110 sm:p-6"
+        >
+          <div>
+            <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-dusty-cream">
+              Assistant
+            </p>
+            <p className="mt-4 max-w-[12rem] text-sm leading-relaxed text-dusty-cream/90">
+              Ask a question or draft a document
+            </p>
+          </div>
+          <p className="text-right text-sm text-moss">Open →</p>
+        </Link>
       </section>
 
-      <section className="bg-umber py-12">
+      {/* Today's Actions */}
+      <section id="todays-actions" className="scroll-mt-20 bg-umber py-12">
         <div className={editorialPagePaddingClassName}>
           <p className="text-[10px] font-normal uppercase tracking-[0.32em] text-dusty-cream">
             Action Required
@@ -173,6 +209,23 @@ export default async function OverviewDashboardPage() {
         </div>
       </section>
 
+      {/* Mid-page cottage strip */}
+      <section
+        className="relative h-[200px] w-full overflow-hidden"
+        style={{ backgroundColor: "#3D2B1F" }}
+      >
+        <OptimizedFillImage
+          image={siteImages.hugoKruip}
+          alt=""
+          sizes="100vw"
+          quality={60}
+          className="object-cover"
+          style={{ objectPosition: "center 65%" }}
+        />
+        <div className="absolute inset-0 bg-umber/30" aria-hidden />
+      </section>
+
+      {/* Quick access */}
       <section className={`${editorialPagePaddingClassName} py-12`}>
         <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
           <div className="border border-sand/60 border-t-[2px] border-t-raspberry bg-[#F5EDE5] px-6 py-10 shadow-[0_2px_8px_rgba(61,43,31,0.08)] sm:px-8">
@@ -222,22 +275,8 @@ export default async function OverviewDashboardPage() {
         </div>
       </section>
 
-      <section
-        className="relative h-[180px] w-full overflow-hidden"
-        style={{ backgroundColor: siteImages.benElliottHero.placeholderColor }}
-      >
-        <OptimizedFillImage
-          image={siteImages.benElliottHero}
-          alt=""
-          sizes="100vw"
-          quality={60}
-          className="object-cover"
-          style={{ objectPosition: "center 40%" }}
-        />
-        <div className="absolute inset-0 bg-umber/30" aria-hidden />
-      </section>
-
-      <section className={`${editorialPagePaddingClassName} py-12`}>
+      {/* Recent activity */}
+      <section className={`${editorialPagePaddingClassName} pb-16`}>
         <p className="text-[10px] font-normal uppercase tracking-[0.28em] text-umber">
           Recent Activity
         </p>

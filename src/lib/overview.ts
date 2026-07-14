@@ -6,6 +6,7 @@ import {
 import {
   getCertificateStatus,
   getDaysUntilExpiry,
+  getPropertyStatus,
 } from "@/lib/compliance";
 import {
   getDaysUntilDate,
@@ -34,11 +35,14 @@ export interface OverviewActivityItem {
 
 export interface OverviewStats {
   totalProperties: number;
+  totalTenancies: number;
   activeTenancies: number;
   expiringThisMonth: number;
   overdueItems: number;
   complianceExpiringSoon: number;
+  complianceNeedsAttention: number;
   tenancyRenewalsDue: number;
+  urgentCount: number;
   attentionCount: number;
 }
 
@@ -133,6 +137,16 @@ export function buildOverviewData({
   }
 
   actions.sort((a, b) => a.daysRemaining - b.daysRemaining);
+  const urgentCount = actions.length;
+  const urgentActions = actions.slice(0, 5);
+
+  const complianceNeedsAttention = properties.filter((property) => {
+    const certs = certificates.filter(
+      (certificate) => certificate.property_id === property.id
+    );
+    const status = getPropertyStatus(certs);
+    return status === "amber" || status === "red";
+  }).length;
 
   const certsExpiringThisMonth = certificates.filter((certificate) => {
     const days = getDaysUntilExpiry(certificate.expiry_date);
@@ -152,7 +166,8 @@ export function buildOverviewData({
   ).length;
 
   const overdueTenancies = tenancies.filter(
-    (tenancy) => getDaysUntilDate(tenancy.end_date) < 0 || isDepositProtectionOverdue(tenancy)
+    (tenancy) =>
+      getDaysUntilDate(tenancy.end_date) < 0 || isDepositProtectionOverdue(tenancy)
   ).length;
 
   const activeTenancies = tenancies.filter(
@@ -168,9 +183,6 @@ export function buildOverviewData({
     const status = getTenancyStatus(tenancy);
     return status === "renewal_due" || status === "expired";
   }).length;
-
-  const urgentActions = actions.slice(0, 5);
-  const attentionCount = urgentActions.length;
 
   const activityCandidates: OverviewActivityItem[] = [
     ...properties.map((property) => ({
@@ -207,12 +219,15 @@ export function buildOverviewData({
   return {
     stats: {
       totalProperties: properties.length,
+      totalTenancies: tenancies.length,
       activeTenancies,
       expiringThisMonth: certsExpiringThisMonth + tenancyDatesThisMonth,
       overdueItems: overdueCertificates + overdueTenancies,
       complianceExpiringSoon,
+      complianceNeedsAttention,
       tenancyRenewalsDue,
-      attentionCount,
+      urgentCount,
+      attentionCount: urgentCount,
     },
     actions: urgentActions,
     activity: activityCandidates,
