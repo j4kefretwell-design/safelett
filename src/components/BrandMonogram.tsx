@@ -8,7 +8,7 @@ interface BrandMonogramProps {
 }
 
 export default function BrandMonogram({
-  href = "/dashboard",
+  href = "/assistant",
   onClick,
   className = "",
   size = "sidebar",

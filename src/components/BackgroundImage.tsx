@@ -2,7 +2,10 @@
 
 import { useState } from "react";
 import OptimizedFillImage from "@/components/OptimizedFillImage";
-import { IMAGE_QUALITY, type SiteImageAsset } from "@/lib/site-images";
+import {
+  BACKGROUND_IMAGE_QUALITY,
+  type SiteImageAsset,
+} from "@/lib/site-images";
 
 interface BackgroundImageProps {
   image: SiteImageAsset;
@@ -22,7 +25,7 @@ export default function BackgroundImage({
   alt = "",
   sizes,
   priority = false,
-  quality = IMAGE_QUALITY,
+  quality = BACKGROUND_IMAGE_QUALITY,
   effect = "blur",
   className = "absolute inset-0",
   imageClassName = "object-cover",

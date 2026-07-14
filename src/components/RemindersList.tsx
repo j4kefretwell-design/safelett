@@ -126,6 +126,7 @@ function RemindersHeroHeader({ totalCount }: { totalCount: number }) {
         alt=""
         sizes="100vw"
         priority
+        quality={60}
         className="object-cover object-center"
       />
       <div className="absolute inset-0 bg-[#1A0A0C]/60" />

@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import {
   ASSISTANT_DISCLAIMER,
   ASSISTANT_DOCUMENTS,
@@ -23,6 +24,7 @@ import {
   buildMailtoUrl,
   formatNoticeForCopy,
 } from "@/lib/tenancy-notices";
+import { siteImages } from "@/lib/site-images";
 import type { Property } from "@/lib/types";
 import type { Tenancy } from "@/lib/tenancy";
 
@@ -805,17 +807,23 @@ export default function AssistantChat({
         {view.screen === "menu" && (
           <>
             <div
-              className="absolute inset-0 bg-cover bg-center"
+              className="absolute inset-0 overflow-hidden"
               style={{
-                backgroundImage:
-                  "url(/george-ciobra-LX1k7rOj7Sg-unsplash.jpg)",
+                backgroundColor: siteImages.georgeCiobra.placeholderColor,
               }}
               aria-hidden
-            />
-            <div
-              className="absolute inset-0 bg-study/40"
-              aria-hidden
-            />
+            >
+              <Image
+                src={siteImages.georgeCiobra.src}
+                alt=""
+                fill
+                priority
+                quality={60}
+                sizes="100vw"
+                className="object-cover object-center"
+              />
+            </div>
+            <div className="absolute inset-0 bg-study/40" aria-hidden />
           </>
         )}
 
@@ -827,12 +835,17 @@ export default function AssistantChat({
 
         {view.screen === "menu" && (
           <div className="relative z-[1] flex flex-1 items-center justify-center p-5 sm:p-8">
-            <div className="flex h-[80%] max-h-[80%] w-[85%] flex-col items-center justify-center overflow-y-auto rounded-[16px] bg-parchment-line px-8 py-10 shadow-[0_24px_64px_rgba(28,43,35,0.28)] sm:px-14 sm:py-12">
+            <div className="flex h-[88%] max-h-[88%] w-[92%] flex-col items-center justify-center overflow-y-auto rounded-[16px] bg-parchment-line px-8 py-10 shadow-[0_24px_64px_rgba(28,43,35,0.28)] sm:px-14 sm:py-12">
               <Monogram size={50} />
               <p className="mt-8 text-[11px] italic text-moss">{greeting()}</p>
               <h1 className="mt-3 font-serif text-2xl tracking-wide text-study sm:text-[1.75rem]">
-                What would you like to do?
+                Property Management Assistant
               </h1>
+              <p className="mt-4 max-w-xl text-center text-[13px] font-light leading-relaxed text-cocoa">
+                Your complete property management assistant. Ask questions,
+                draft correspondence, review compliance and manage your
+                portfolio.
+              </p>
 
               <div className="mt-10 w-full max-w-2xl space-y-3">
                 {MODE_BOXES.map((box) => (

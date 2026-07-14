@@ -32,6 +32,7 @@ export default function DashboardHeroBanner({ stats }: DashboardHeroBannerProps)
           alt=""
           sizes="100vw"
           priority
+          quality={60}
           className="object-cover opacity-[0.38]"
         />
       </div>

@@ -37,7 +37,10 @@ export default function OptimizedFillImage({
       fetchPriority={priority ? "high" : "auto"}
       onLoad={onLoad}
       className={className}
-      style={style}
+      style={{
+        backgroundColor: image.placeholderColor,
+        ...style,
+      }}
     />
   );
 }

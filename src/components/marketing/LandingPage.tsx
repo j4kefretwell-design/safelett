@@ -56,7 +56,7 @@ const moduleCards = [
   {
     title: "AI Assistant",
     subtitle:
-      "Document drafting and portfolio Q&A powered by your property data",
+      "Property Management Assistant — drafting, compliance review and portfolio Q&A",
     price: "Included in Professional",
     borderColor: "#1A2E1A",
     tintBg: "rgba(26, 46, 26, 0.10)",
@@ -83,7 +83,7 @@ const features = [
   {
     number: "03",
     module: "AI Assistant",
-    body: "Document drafting from your tenancy data, plus a portfolio assistant for properties, certificates and key dates.",
+    body: "Your Property Management Assistant for drafting correspondence, reviewing compliance and managing your portfolio.",
     accentColor: "#1A2E1A",
   },
 ];

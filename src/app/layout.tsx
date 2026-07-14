@@ -47,6 +47,12 @@ export default function RootLayout({
         <link
           rel="preload"
           as="image"
+          href="/george-ciobra-LX1k7rOj7Sg-unsplash.jpg"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          as="image"
           href="/anthony-fomin-zjBxPUHE_ok-unsplash.jpg"
           fetchPriority="high"
         />

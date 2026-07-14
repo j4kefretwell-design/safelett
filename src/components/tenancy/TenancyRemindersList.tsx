@@ -63,6 +63,7 @@ export default function TenancyRemindersList({
           alt=""
           sizes="100vw"
           priority
+          quality={60}
           className="object-cover object-center"
         />
         <div className="absolute inset-0 bg-navy/55" />

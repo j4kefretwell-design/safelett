@@ -29,6 +29,7 @@ export default function TenancyStatusBand({
         alt="Georgian manor house viewed through autumn leaves"
         sizes="100vw"
         priority
+        quality={60}
         className="object-cover object-center"
       />
       <div className="absolute inset-0 bg-navy/50" aria-hidden="true" />

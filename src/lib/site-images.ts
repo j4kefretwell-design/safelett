@@ -1,6 +1,8 @@
-export const IMAGE_QUALITY = 65;
+export const IMAGE_QUALITY = 60;
+export const BACKGROUND_IMAGE_QUALITY = 60;
 
-export const LIGHT_IMAGE_PLACEHOLDER = "#F2EDE8";
+export const LIGHT_IMAGE_PLACEHOLDER = "#F0ECE1";
+export const STUDY_IMAGE_PLACEHOLDER = "#1C2B23";
 export const NAVY_IMAGE_PLACEHOLDER = "#1B2A4A";
 export const AUTH_IMAGE_PLACEHOLDER = "#2C1A10";
 
@@ -16,11 +18,11 @@ export const siteImages = {
   },
   benElliottHero: {
     src: "/ben-elliott-8WJtlR3nlQY-unsplash.jpg",
-    placeholderColor: LIGHT_IMAGE_PLACEHOLDER,
+    placeholderColor: STUDY_IMAGE_PLACEHOLDER,
   },
   benElliottProperty: {
     src: "/ben-elliott-unPC3it1yDA-unsplash.jpg",
-    placeholderColor: LIGHT_IMAGE_PLACEHOLDER,
+    placeholderColor: STUDY_IMAGE_PLACEHOLDER,
   },
   bradStarkey: {
     src: "/brad-starkey-9QczXovmzCk-unsplash.jpg",
@@ -28,7 +30,7 @@ export const siteImages = {
   },
   georgeCiobra: {
     src: "/george-ciobra-LX1k7rOj7Sg-unsplash.jpg",
-    placeholderColor: NAVY_IMAGE_PLACEHOLDER,
+    placeholderColor: STUDY_IMAGE_PLACEHOLDER,
   },
   jonnyGiosManor: {
     src: "/jonny-gios-g5ctwViRHy8-unsplash.jpg",
@@ -52,7 +54,7 @@ export const siteImages = {
   },
   rummanAmin: {
     src: "/rumman-amin-CU0dmWuIz0c-unsplash.jpg",
-    placeholderColor: LIGHT_IMAGE_PLACEHOLDER,
+    placeholderColor: STUDY_IMAGE_PLACEHOLDER,
   },
   vojtech: {
     src: "/vojtech-bartonicek-wgG7jLQ7M0U-unsplash.jpg",

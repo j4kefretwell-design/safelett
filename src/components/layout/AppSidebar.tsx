@@ -25,7 +25,7 @@ const tenancyNavItems = [
 ] as const;
 
 const assistantNavItems = [
-  { href: "/assistant", label: "Assistant" },
+  { href: "/assistant", label: "Property Management Assistant" },
 ] as const;
 
 const utilityNavItems = [

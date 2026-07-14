@@ -23,7 +23,9 @@ function AppShellInner({ children }: AppShellProps) {
 
   return (
     <div
-      className={`min-h-screen overflow-x-hidden transition-colors duration-500 ease-out ${pageBg}`}
+      className={`app-mode-fade min-h-screen overflow-x-hidden transition-colors duration-500 ease-out ${pageBg} ${
+        isTransitioning ? "app-mode-fade--hidden" : "app-mode-fade--visible"
+      }`}
     >
       <TopNav
         sidebarOpen={sidebarOpen}
@@ -34,10 +36,8 @@ function AppShellInner({ children }: AppShellProps) {
         <AppSidebar open={sidebarOpen} onClose={closeSidebar} />
       )}
       <main
-        className={`app-mode-fade w-full min-w-0 overflow-x-hidden ${
+        className={`w-full min-w-0 overflow-x-hidden ${
           isAssistant ? "pt-16" : ""
-        } ${
-          isTransitioning ? "app-mode-fade--hidden" : "app-mode-fade--visible"
         }`}
       >
         {children}

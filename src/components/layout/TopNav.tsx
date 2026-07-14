@@ -4,6 +4,7 @@ import { Menu, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useAppMode, type AppMode } from "@/lib/app-mode";
 import { createClient } from "@/lib/supabase/client";
+import ModeSwitcher from "./ModeSwitcher";
 
 interface TopNavProps {
   sidebarOpen: boolean;
@@ -11,26 +12,10 @@ interface TopNavProps {
   hideMenu?: boolean;
 }
 
-const MODE_TABS: Array<{ id: AppMode; label: string }> = [
-  { id: "compliance", label: "Compliance" },
-  { id: "tenancy", label: "Tenancy" },
-  { id: "assistant", label: "Assistant" },
-];
-
 function headerBgClass(mode: AppMode) {
   if (mode === "tenancy") return "bg-navy";
   if (mode === "assistant") return "bg-study";
   return "bg-raspberry";
-}
-
-function activePillClass(mode: AppMode) {
-  if (mode === "tenancy") {
-    return "bg-navy-dark text-dusty-cream shadow-sm ring-1 ring-gold/50";
-  }
-  if (mode === "assistant") {
-    return "bg-olive text-dusty-cream shadow-sm ring-1 ring-moss/50";
-  }
-  return "bg-raspberry-dark text-dusty-cream shadow-sm ring-1 ring-gold/50";
 }
 
 export default function TopNav({
@@ -39,7 +24,8 @@ export default function TopNav({
   hideMenu = false,
 }: TopNavProps) {
   const router = useRouter();
-  const { mode, switchMode } = useAppMode();
+  const { mode } = useAppMode();
+  const isAssistant = mode === "assistant";
 
   async function handleSignOut() {
     const supabase = createClient();
@@ -47,10 +33,6 @@ export default function TopNav({
     router.push("/login");
     router.refresh();
   }
-
-  const modeLabel =
-    MODE_TABS.find((tab) => tab.id === mode)?.label ?? "Compliance";
-  const isAssistant = mode === "assistant";
 
   return (
     <header
@@ -61,7 +43,7 @@ export default function TopNav({
           isAssistant ? "border-moss" : "border-gold"
         }`}
       >
-        <div className="flex items-center gap-3 sm:gap-4">
+        <div className="flex items-center">
           {!hideMenu && (
             <button
               type="button"
@@ -76,55 +58,20 @@ export default function TopNav({
               )}
             </button>
           )}
-
-          <div
-            className={`${hideMenu ? "flex" : "hidden sm:flex"} items-center rounded-full border bg-black/10 p-0.5 ${
-              isAssistant ? "border-moss/30" : "border-gold/30"
-            }`}
-            role="tablist"
-            aria-label="Application mode"
-          >
-            {MODE_TABS.map((tab) => {
-              const isActive = mode === tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  type="button"
-                  role="tab"
-                  aria-selected={isActive}
-                  onClick={() => switchMode(tab.id)}
-                  className={`rounded-full px-2 py-1 text-[9px] font-normal uppercase tracking-[0.12em] transition duration-300 sm:px-2.5 sm:text-[10px] sm:tracking-[0.14em] ${
-                    isActive
-                      ? activePillClass(tab.id)
-                      : "text-dusty-cream/75 hover:text-dusty-cream"
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              );
-            })}
-          </div>
-
-          {!hideMenu && (
-            <span
-              className={`text-[10px] font-normal uppercase tracking-[0.2em] sm:hidden ${
-                isAssistant ? "text-moss" : "text-gold"
-              }`}
-            >
-              {modeLabel}
-            </span>
-          )}
         </div>
 
-        {isAssistant ? (
-          <p className="font-serif text-sm uppercase tracking-[0.28em] text-dusty-cream sm:text-base sm:tracking-[0.32em]">
-            Fretwell <span className="italic text-moss">&amp;</span> Co
-          </p>
-        ) : (
-          <p className="font-serif text-sm uppercase tracking-[0.28em] text-gold sm:text-base sm:tracking-[0.32em]">
-            Fretwell <span className="italic">&amp;</span> Co
-          </p>
-        )}
+        <div className="flex items-center gap-2.5 sm:gap-3">
+          {isAssistant ? (
+            <p className="font-serif text-sm uppercase tracking-[0.28em] text-dusty-cream sm:text-base sm:tracking-[0.32em]">
+              Fretwell <span className="italic text-moss">&amp;</span> Co
+            </p>
+          ) : (
+            <p className="font-serif text-sm uppercase tracking-[0.28em] text-gold sm:text-base sm:tracking-[0.32em]">
+              Fretwell <span className="italic">&amp;</span> Co
+            </p>
+          )}
+          <ModeSwitcher />
+        </div>
 
         <div className="flex justify-end">
           <button

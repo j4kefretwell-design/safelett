@@ -13,6 +13,7 @@ export default function DashboardCottageImage() {
         image={siteImages.benElliottHero}
         alt=""
         sizes="(max-width: 1024px) 100vw, 45vw"
+        quality={60}
         className="object-cover"
         style={{ objectPosition: "38% center" }}
       />

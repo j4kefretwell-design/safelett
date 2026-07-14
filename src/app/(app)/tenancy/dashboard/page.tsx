@@ -102,6 +102,7 @@ export default async function TenancyDashboardPage() {
               image={siteImages.annieSprattTopiary}
               alt=""
               sizes="(max-width: 1024px) 100vw, 45vw"
+              quality={60}
               className="object-cover"
               style={{ objectPosition: "center 75%" }}
             />

@@ -17,6 +17,7 @@ export default function DashboardEmptyState() {
           alt=""
           sizes="100vw"
           priority
+          quality={60}
           className="object-cover object-center"
         />
         <div className="absolute inset-0 bg-[#1A0A0C]/55" />

@@ -57,7 +57,7 @@ function isValidMode(value: string | null): value is AppMode {
 export function AppModeProvider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
-  const [storedMode, setStoredMode] = useState<AppMode>("compliance");
+  const [storedMode, setStoredMode] = useState<AppMode>("assistant");
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
@@ -91,8 +91,8 @@ export function AppModeProvider({ children }: { children: React.ReactNode }) {
 
       window.setTimeout(() => {
         router.push(MODE_HOME[nextMode]);
-        window.setTimeout(() => setIsTransitioning(false), 400);
-      }, 50);
+        window.setTimeout(() => setIsTransitioning(false), 40);
+      }, 400);
     },
     [mode, router, setMode]
   );
