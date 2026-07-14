@@ -41,7 +41,7 @@ export default async function OverviewDashboardPage() {
   const actionsOk = stats.urgentCount === 0;
 
   const panelClass =
-    "flex min-h-[140px] flex-1 flex-col justify-between bg-[rgba(240,236,225,0.92)] p-5 sm:min-h-[150px] sm:p-6";
+    "flex min-h-[180px] flex-1 flex-col justify-between bg-[rgba(240,236,225,0.94)] p-7 shadow-[0_4px_20px_rgba(61,43,31,0.14)] sm:min-h-[190px]";
 
   return (
     <div className="min-h-[calc(100vh-4rem)] w-full overflow-x-hidden bg-greige text-umber">
@@ -69,7 +69,7 @@ export default async function OverviewDashboardPage() {
         </div>
 
         {/* Floating band ~60% down the hero */}
-        <div className="absolute inset-x-0 top-[60%] z-[1] flex w-full -translate-y-1/2 flex-col sm:flex-row">
+        <div className="absolute inset-x-0 top-[60%] z-[1] flex w-full -translate-y-1/2 flex-col gap-3 px-3 sm:flex-row sm:px-4 lg:px-6">
           <Link href="/compliance" className={panelClass}>
             <div>
               <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-umber">
@@ -228,10 +228,10 @@ export default async function OverviewDashboardPage() {
 
       <section
         className="relative my-12 h-[160px] w-full overflow-hidden"
-        style={{ backgroundColor: "#3D2B1F" }}
+        style={{ backgroundColor: siteImages.bradStarkey.placeholderColor }}
       >
         <OptimizedFillImage
-          image={siteImages.hugoKruip}
+          image={siteImages.bradStarkey}
           alt=""
           sizes="100vw"
           quality={60}
