@@ -834,8 +834,8 @@ export default function AssistantChat({
         )}
 
         {view.screen === "menu" && (
-          <div className="relative z-[1] flex flex-1 items-center justify-center p-5 sm:p-8">
-            <div className="flex h-[88%] max-h-[88%] w-[92%] flex-col items-center justify-center overflow-y-auto rounded-[16px] bg-parchment-line px-8 py-10 shadow-[0_24px_64px_rgba(28,43,35,0.28)] sm:px-14 sm:py-12">
+          <div className="relative z-[1] flex flex-1 items-center justify-center p-4 sm:p-6 lg:p-12">
+            <div className="mx-auto flex h-[88%] max-h-[88%] w-[92%] flex-col items-center justify-center overflow-y-auto rounded-[16px] bg-parchment-line px-8 py-10 shadow-[0_24px_64px_rgba(28,43,35,0.28)] sm:px-14 sm:py-12">
               <Monogram size={50} />
               <p className="mt-8 text-[11px] italic text-moss">{greeting()}</p>
               <h1 className="mt-3 font-serif text-2xl tracking-wide text-study sm:text-[1.75rem]">

@@ -41,7 +41,7 @@ export default function TopNav({
       className={`fixed inset-x-0 top-0 z-30 h-16 transition-colors duration-300 ease-out ${headerBgClass(mode)}`}
     >
       <div
-        className={`relative grid h-full grid-cols-[1fr_auto_1fr] items-center border-b px-3 sm:px-6 lg:px-10 ${
+        className={`relative grid h-full grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center border-b px-4 sm:px-6 lg:px-12 ${
           isOverview
             ? "border-sand"
             : isAssistant
@@ -55,7 +55,7 @@ export default function TopNav({
               type="button"
               aria-label={sidebarOpen ? "Close menu" : "Open menu"}
               onClick={onMenuClick}
-              className={`touch-target shrink-0 transition ${
+              className={`touch-target flex h-11 w-11 shrink-0 items-center justify-center transition ${
                 isOverview
                   ? "text-umber hover:text-umber/70"
                   : "text-dusty-cream hover:text-white"
@@ -71,7 +71,7 @@ export default function TopNav({
           <ModeSwitcher />
         </div>
 
-        <div className="px-2">
+        <div className="flex items-center justify-center px-2">
           {isOverview ? (
             <p className="whitespace-nowrap font-serif text-sm uppercase tracking-[0.28em] text-umber sm:text-base sm:tracking-[0.32em]">
               Fretwell <span className="italic text-gold">&amp;</span> Co
@@ -87,11 +87,11 @@ export default function TopNav({
           )}
         </div>
 
-        <div className="flex justify-end">
+        <div className="flex items-center justify-end">
           <button
             type="button"
             onClick={handleSignOut}
-            className={`touch-target shrink-0 text-[11px] font-normal uppercase tracking-[0.18em] transition sm:text-xs sm:tracking-[0.22em] ${
+            className={`touch-target flex h-11 items-center text-[11px] font-normal uppercase tracking-[0.18em] transition sm:text-xs sm:tracking-[0.22em] ${
               isOverview
                 ? "text-umber hover:text-gold"
                 : isAssistant

@@ -51,7 +51,7 @@ export const siteImages = {
   },
   hugoKruip: {
     src: "/hugo-kruip-i3Sx427bVXc-unsplash.jpg",
-    placeholderColor: LIGHT_IMAGE_PLACEHOLDER,
+    placeholderColor: "#3D2B1F",
   },
   rummanAmin: {
     src: "/rumman-amin-CU0dmWuIz0c-unsplash.jpg",

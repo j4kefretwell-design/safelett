@@ -201,7 +201,7 @@ export default function AppSidebar({ open, onClose }: AppSidebarProps) {
     kind: "link" | "subscription" | "signout"
   ) {
     const base =
-      "block min-h-11 border-l-2 py-3 pl-5 pr-3 text-[11px] font-normal uppercase tracking-[0.14em] leading-relaxed transition-colors duration-200";
+      "block min-h-11 border-l-2 py-3 pl-4 pr-2 text-[11px] font-normal uppercase tracking-[0.14em] leading-relaxed transition-colors duration-200";
 
     if (kind === "subscription") {
       return `${base} ${
@@ -240,10 +240,10 @@ export default function AppSidebar({ open, onClose }: AppSidebarProps) {
         </div>
 
         <nav
-          className="flex-1 overflow-y-auto px-4 py-4 pb-10"
+          className="flex-1 overflow-y-auto py-4 pb-10"
           aria-label="Main navigation"
         >
-          <ul className="space-y-1">
+          <ul className="space-y-1 px-5">
             {navItems.map((item) => {
               const isActive = isNavActive(item.href);
 
@@ -252,7 +252,7 @@ export default function AppSidebar({ open, onClose }: AppSidebarProps) {
                   <Link
                     href={item.href}
                     onClick={onClose}
-                    className={`block min-h-11 border-l-2 py-3 pl-5 pr-3 text-sm font-normal uppercase tracking-[0.14em] leading-relaxed transition-colors duration-200 ${
+                    className={`block min-h-11 border-l-2 py-3 pl-4 pr-2 text-sm font-normal uppercase tracking-[0.14em] leading-relaxed transition-colors duration-200 ${
                       isActive
                         ? "border-gold text-dusty-cream"
                         : "border-transparent text-dusty-cream/85 hover:border-gold/40 hover:text-dusty-cream"
@@ -269,7 +269,7 @@ export default function AppSidebar({ open, onClose }: AppSidebarProps) {
                 <Link
                   href="/assistant"
                   onClick={onClose}
-                  className="mt-2 block min-h-11 border-l-2 border-transparent py-3 pl-5 pr-3 text-sm font-normal uppercase tracking-[0.14em] leading-relaxed text-[#9BB89B] transition-colors duration-200 hover:border-[#9BB89B]/50 hover:text-[#C5D6C5]"
+                  className="mt-2 block min-h-11 border-l-2 border-transparent py-3 pl-4 pr-2 text-sm font-normal uppercase tracking-[0.14em] leading-relaxed text-[#9BB89B] transition-colors duration-200 hover:border-[#9BB89B]/50 hover:text-[#C5D6C5]"
                 >
                   Assistant
                 </Link>
@@ -277,15 +277,15 @@ export default function AppSidebar({ open, onClose }: AppSidebarProps) {
             )}
 
             {email && (
-              <li className="mt-8 px-5 pt-6">
-                <p className="truncate text-xs font-light leading-relaxed tracking-wide text-dusty-cream/70">
+              <li className="mt-8 pt-6">
+                <p className="truncate pl-4 text-xs font-light leading-relaxed tracking-wide text-dusty-cream/70">
                   {email}
                 </p>
               </li>
             )}
 
             <li className={email ? "mt-2" : "mt-8 pt-6"} aria-hidden="true">
-              <div className="mx-5 h-px bg-white/10" />
+              <div className="h-px bg-white/10" />
             </li>
 
             {utilityNavItems.map((item) => {

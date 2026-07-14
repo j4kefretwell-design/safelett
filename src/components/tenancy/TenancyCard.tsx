@@ -27,7 +27,7 @@ export default function TenancyCard({ tenancy, status }: TenancyCardProps) {
   return (
     <Link
       href={`/tenancy/${tenancy.id}`}
-      className="group tenancy-card flex min-h-[220px] flex-col justify-between border-l-[3px] border-l-steel p-6 transition duration-200 hover:border-navy sm:min-h-[260px] sm:p-8"
+      className="group tenancy-card flex h-full min-h-[220px] flex-col justify-between border-l-[3px] border-l-steel p-6 transition duration-200 hover:border-navy sm:min-h-[260px] sm:p-8"
     >
       <div>
         <h3 className="font-serif text-lg leading-snug tracking-wide text-tenancy-text transition group-hover:text-navy sm:text-xl lg:text-2xl">

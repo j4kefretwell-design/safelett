@@ -129,7 +129,7 @@ export default function DashboardPortfolio({ properties }: DashboardPortfolioPro
             </p>
           </div>
         ) : (
-          <ScrollRevealGroup className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <ScrollRevealGroup className="grid grid-cols-1 items-stretch gap-4 md:grid-cols-2 lg:grid-cols-3">
             {filteredProperties.map((property) => (
               <PropertyCard
                 key={property.id}

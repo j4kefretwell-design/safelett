@@ -15,6 +15,12 @@ const MODE_TABS: Array<{
     underlineClass: "bg-gold",
   },
   {
+    id: "assistant",
+    label: "Assistant",
+    short: "A",
+    underlineClass: "bg-study",
+  },
+  {
     id: "compliance",
     label: "Compliance",
     short: "C",
@@ -25,12 +31,6 @@ const MODE_TABS: Array<{
     label: "Tenancy",
     short: "T",
     underlineClass: "bg-navy",
-  },
-  {
-    id: "assistant",
-    label: "Assistant",
-    short: "A",
-    underlineClass: "bg-study",
   },
 ];
 

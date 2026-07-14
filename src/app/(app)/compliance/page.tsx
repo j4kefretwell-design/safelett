@@ -3,7 +3,7 @@ import DashboardCottageImage from "@/components/dashboard/DashboardCottageImage"
 import DashboardEmptyState from "@/components/DashboardEmptyState";
 import DashboardPortfolioActions from "@/components/DashboardPortfolioActions";
 import { getPropertyStatus } from "@/lib/compliance";
-import { btnGoldClassName } from "@/lib/ui";
+import { btnGoldClassName, editorialPagePaddingClassName } from "@/lib/ui";
 import { createClient } from "@/lib/supabase/server";
 import type { Certificate, ComplianceStatus, Property } from "@/lib/types";
 import DashboardPortfolio from "./DashboardPortfolio";
@@ -80,10 +80,10 @@ export default async function ComplianceDashboardPage() {
         needsAttention={needsAttention}
       />
 
-      <section className="dashboard-stats-band px-5 py-12 sm:px-12 sm:py-20 lg:px-16 lg:py-24">
+      <section className={`dashboard-stats-band ${editorialPagePaddingClassName} py-12`}>
         <div className="grid grid-cols-1 gap-4 min-[420px]:grid-cols-2 lg:grid-cols-4 lg:gap-5">
           {statItems.map((item) => (
-            <div key={item.label} className="dashboard-warm-card px-5 py-10 text-center">
+            <div key={item.label} className="dashboard-warm-card flex h-full flex-col px-5 py-10 text-center">
               <div className="dashboard-warm-card-content">
                 <p className="font-serif text-4xl tracking-wide text-text sm:text-5xl lg:text-6xl">
                   {item.value}
@@ -98,7 +98,7 @@ export default async function ComplianceDashboardPage() {
         </div>
       </section>
 
-      <section className="dashboard-parchment-bg px-5 sm:px-12 lg:px-16">
+      <section className={`dashboard-parchment-bg ${editorialPagePaddingClassName}`}>
         <div className="grid min-w-0 overflow-hidden lg:grid-cols-[45%_55%]">
           <DashboardCottageImage />
 
@@ -126,7 +126,7 @@ export default async function ComplianceDashboardPage() {
         <div className="mt-2 h-px w-10 bg-gold" aria-hidden="true" />
       </section>
 
-      <section className="dashboard-parchment-bg px-5 pb-16 pt-10 sm:px-12 sm:pb-24 lg:px-16 lg:pb-28">
+      <section className={`dashboard-parchment-bg ${editorialPagePaddingClassName} pb-16 pt-10 sm:pb-24 lg:pb-28`}>
         <div className="mb-8 flex justify-end">
           <DashboardPortfolioActions />
         </div>

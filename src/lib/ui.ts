@@ -5,7 +5,7 @@ export const searchInputClassName =
   "w-full border-0 border-b border-leather/25 bg-transparent px-0 py-3 text-base font-light leading-relaxed text-text outline-none transition placeholder:italic placeholder:text-leather/45 focus:border-b-2 focus:border-leather focus:pb-[calc(0.75rem-1px)]";
 
 export const labelClassName =
-  "mb-2 block text-sm font-normal uppercase tracking-[0.14em] text-espresso";
+  "mb-2 block w-full text-left text-sm font-normal uppercase tracking-[0.14em] text-espresso";
 
 export const capsLabelClassName =
   "caps-label text-leather";
@@ -87,21 +87,20 @@ export const statCardClassName =
 export const dashboardWarmCardClassName = "dashboard-warm-card";
 
 export const sectionBandClassName =
-  "bg-raspberry px-5 py-3 sm:px-12 lg:px-16";
+  "bg-raspberry px-4 py-3 sm:px-6 lg:px-12";
 
 export const sectionBandAlternateClassName =
-  "bg-espresso px-5 py-3 sm:px-12 lg:px-16";
+  "bg-espresso px-4 py-3 sm:px-6 lg:px-12";
 
 export const sectionBandLabelClassName =
   "caps-label text-dusty-cream";
 
 export const editorialContentClassName =
-  "mx-auto w-full max-w-6xl px-5 sm:px-12 lg:px-16";
+  "mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-12";
 
 export const editorialBleedClassName = "w-full min-w-0";
 
-export const editorialPagePaddingClassName =
-  "px-5 sm:px-12 lg:px-16";
+export const editorialPagePaddingClassName = "px-4 sm:px-6 lg:px-12";
 
 export const sectionTitleClassName =
   "font-serif text-xl tracking-wide text-text";
@@ -141,13 +140,13 @@ export const settingsSectionLabelClassName =
   "caps-label text-leather";
 
 export const editorialListRowClassName =
-  "flex items-center gap-6 border-b border-leather/10 px-5 py-7 sm:gap-8 sm:px-10";
+  "flex items-center gap-6 border-b border-leather/10 px-4 py-7 sm:gap-8 sm:px-6 lg:px-12";
 
 export const reminderGroupLabelClassName =
-  "bg-raspberry px-5 py-2.5 caps-label text-dusty-cream sm:px-12 lg:px-16";
+  "bg-raspberry px-4 py-2.5 caps-label text-dusty-cream sm:px-6 lg:px-12";
 
 export const editorialFormLabelClassName =
-  "mb-3 block caps-label text-leather";
+  "mb-3 block w-full text-left caps-label text-leather";
 
 export const editorialFormInputClassName =
   "w-full border-0 border-b border-leather bg-transparent px-0 py-4 font-serif text-lg font-normal tracking-wide text-text outline-none transition placeholder:italic placeholder:text-leather/45 focus:border-gold focus:pb-[calc(1rem-1px)]";

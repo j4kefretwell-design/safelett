@@ -76,7 +76,7 @@ export default function TenancyPortfolio({ tenancies }: TenancyPortfolioProps) {
           No tenancies match your search.
         </p>
       ) : (
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid grid-cols-1 items-stretch gap-4 md:grid-cols-2 xl:grid-cols-3">
           {filtered.map((tenancy) => (
             <TenancyCard
               key={tenancy.id}
