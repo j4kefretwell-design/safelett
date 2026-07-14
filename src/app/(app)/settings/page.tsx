@@ -2,6 +2,8 @@ import SettingsClient from "@/components/settings/SettingsClient";
 import { getUserProfile } from "@/lib/user-profile";
 import { createClient } from "@/lib/supabase/server";
 
+export const revalidate = 60;
+
 export default async function SettingsPage() {
   const supabase = await createClient();
   const {

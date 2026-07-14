@@ -91,8 +91,8 @@ export function AppModeProvider({ children }: { children: React.ReactNode }) {
 
       window.setTimeout(() => {
         router.push(MODE_HOME[nextMode]);
-        window.setTimeout(() => setIsTransitioning(false), 40);
-      }, 400);
+        window.setTimeout(() => setIsTransitioning(false), 30);
+      }, 300);
     },
     [mode, router, setMode]
   );

@@ -1,7 +1,9 @@
-import AssistantChat from "@/components/assistant/AssistantChat";
+import AssistantChatLazy from "@/components/assistant/AssistantChatLazy";
 import { createClient } from "@/lib/supabase/server";
 import type { Property } from "@/lib/types";
 import type { Tenancy } from "@/lib/tenancy";
+
+export const revalidate = 30;
 
 export default async function AssistantHomePage({
   searchParams,
@@ -33,7 +35,7 @@ export default async function AssistantHomePage({
       : null;
 
   return (
-    <AssistantChat
+    <AssistantChatLazy
       properties={(properties ?? []) as Property[]}
       tenancies={(tenancies ?? []) as Tenancy[]}
       initialAction={action}

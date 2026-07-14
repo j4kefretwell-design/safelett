@@ -36,14 +36,14 @@ export default function TopNav({
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-30 h-16 transition-colors duration-500 ease-out ${headerBgClass(mode)}`}
+      className={`fixed inset-x-0 top-0 z-30 h-16 transition-colors duration-300 ease-out ${headerBgClass(mode)}`}
     >
       <div
-        className={`relative grid h-full grid-cols-[1fr_auto_1fr] items-center border-b px-4 sm:px-6 lg:px-10 ${
+        className={`relative grid h-full grid-cols-[1fr_auto_1fr] items-center border-b px-3 sm:px-6 lg:px-10 ${
           isAssistant ? "border-moss" : "border-gold"
         }`}
       >
-        <div className="flex items-center">
+        <div className="flex min-w-0 items-center gap-3 sm:gap-5">
           {!hideMenu && (
             <button
               type="button"
@@ -58,19 +58,19 @@ export default function TopNav({
               )}
             </button>
           )}
+          <ModeSwitcher />
         </div>
 
-        <div className="flex items-center gap-2.5 sm:gap-3">
+        <div className="px-2">
           {isAssistant ? (
-            <p className="font-serif text-sm uppercase tracking-[0.28em] text-dusty-cream sm:text-base sm:tracking-[0.32em]">
+            <p className="whitespace-nowrap font-serif text-sm uppercase tracking-[0.28em] text-dusty-cream sm:text-base sm:tracking-[0.32em]">
               Fretwell <span className="italic text-moss">&amp;</span> Co
             </p>
           ) : (
-            <p className="font-serif text-sm uppercase tracking-[0.28em] text-gold sm:text-base sm:tracking-[0.32em]">
+            <p className="whitespace-nowrap font-serif text-sm uppercase tracking-[0.28em] text-gold sm:text-base sm:tracking-[0.32em]">
               Fretwell <span className="italic">&amp;</span> Co
             </p>
           )}
-          <ModeSwitcher />
         </div>
 
         <div className="flex justify-end">

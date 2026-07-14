@@ -1,5 +1,6 @@
 export const IMAGE_QUALITY = 60;
 export const BACKGROUND_IMAGE_QUALITY = 60;
+export const CONTENT_IMAGE_QUALITY = 75;
 
 export const LIGHT_IMAGE_PLACEHOLDER = "#F0ECE1";
 export const STUDY_IMAGE_PLACEHOLDER = "#1C2B23";

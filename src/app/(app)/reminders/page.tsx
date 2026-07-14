@@ -11,8 +11,9 @@ import {
   type Tenancy,
 } from "@/lib/tenancy";
 import { createClient } from "@/lib/supabase/server";
-import type { Certificate, CertificateType, Property } from "@/lib/types";
-import type { ComplianceStatus } from "@/lib/types";
+import type { Certificate, Property, ComplianceStatus } from "@/lib/types";
+
+export const revalidate = 30;
 
 interface ReminderRow {
   certificate: Certificate;

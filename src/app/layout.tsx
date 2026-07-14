@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DM_Sans, Inter, Playfair_Display } from "next/font/google";
+import { DM_Sans, Playfair_Display } from "next/font/google";
 import CookieNotice from "@/components/CookieNotice";
 import { BRAND_NAME } from "@/lib/brand";
 import "./globals.css";
@@ -8,17 +8,25 @@ const dmSans = DM_Sans({
   variable: "--font-dm-sans",
   subsets: ["latin"],
   weight: ["300", "400", "500"],
-});
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
+  display: "swap",
+  preload: true,
 });
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
   subsets: ["latin"],
+  display: "swap",
+  preload: true,
 });
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseOrigin = (() => {
+  try {
+    return supabaseUrl ? new URL(supabaseUrl).origin : null;
+  } catch {
+    return null;
+  }
+})();
 
 export const metadata: Metadata = {
   title: `${BRAND_NAME} — Property Compliance Tracking`,
@@ -42,8 +50,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${dmSans.variable} ${inter.variable} ${playfair.variable}`}>
+    <html lang="en" className={`${dmSans.variable} ${playfair.variable}`}>
       <head>
+        {supabaseOrigin && (
+          <>
+            <link rel="preconnect" href={supabaseOrigin} crossOrigin="" />
+            <link rel="dns-prefetch" href={supabaseOrigin} />
+          </>
+        )}
+        <link rel="preconnect" href="https://api.resend.com" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://api.resend.com" />
         <link
           rel="preload"
           as="image"
@@ -63,7 +79,9 @@ export default function RootLayout({
           fetchPriority="high"
         />
       </head>
-      <body className={`${dmSans.className} bg-dusty-cream font-light text-text antialiased`}>
+      <body
+        className={`${dmSans.className} bg-dusty-cream font-light text-text antialiased`}
+      >
         {children}
         <CookieNotice />
       </body>

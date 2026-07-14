@@ -13,6 +13,8 @@ import {
 import { btnGoldClassName } from "@/lib/ui";
 import { createClient } from "@/lib/supabase/server";
 
+export const revalidate = 30;
+
 export default async function TenancyDashboardPage() {
   const supabase = await createClient();
 

@@ -60,8 +60,7 @@
   --color-ink: #1a0a0c;
 
   --font-serif: var(--font-playfair), "Georgia", "Times New Roman", serif;
-  --font-sans: var(--font-dm-sans), var(--font-inter), "Helvetica Neue", Arial,
-    sans-serif;
+  --font-sans: var(--font-dm-sans), "Helvetica Neue", Arial, sans-serif;
 }
 
 @layer components {
@@ -376,7 +375,7 @@
   }
 
   .app-mode-fade {
-    transition: opacity 0.4s ease;
+    transition: opacity 0.3s ease;
   }
 
   .app-mode-fade--hidden {
