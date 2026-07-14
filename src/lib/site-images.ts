@@ -53,6 +53,10 @@ export const siteImages = {
     src: "/hugo-kruip-i3Sx427bVXc-unsplash.jpg",
     placeholderColor: "#3D2B1F",
   },
+  lukeGalloway: {
+    src: "/luke-galloway-zv3D-Vq_SU0-unsplash.jpg",
+    placeholderColor: "#3D2B1F",
+  },
   rummanAmin: {
     src: "/rumman-amin-CU0dmWuIz0c-unsplash.jpg",
     placeholderColor: STUDY_IMAGE_PLACEHOLDER,

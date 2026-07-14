@@ -10,7 +10,6 @@ export type OverviewCarouselPanel = {
   labelAccent?: "gold" | "umber";
   value: string;
   detail: string;
-  footer?: string;
 };
 
 type OverviewHeroCarouselProps = {
@@ -87,7 +86,6 @@ export default function OverviewHeroCarousel({
             const isRight = offset === 1;
             const visible = Math.abs(offset) <= 1;
 
-            // Center ~50% width; flanks peek with image showing through gaps.
             let slotClass =
               "left-1/2 w-[min(88%,420px)] -translate-x-1/2 -translate-y-1/2 scale-95 opacity-0 sm:w-[28%]";
             if (isCenter) {
@@ -102,39 +100,34 @@ export default function OverviewHeroCarousel({
             }
 
             const content = (
-              <>
-                <div>
-                  <p
-                    className={`text-[10px] font-normal uppercase tracking-[0.22em] ${
-                      panel.labelAccent === "gold" ? "text-gold" : "text-umber"
-                    }`}
-                  >
-                    {panel.label}
-                  </p>
-                  <p
-                    className={`mt-5 font-serif tracking-wide text-umber ${
-                      isCenter
-                        ? "text-3xl sm:text-4xl lg:text-5xl"
-                        : "text-2xl sm:text-3xl"
-                    }`}
-                  >
-                    {panel.value}
-                  </p>
-                  <p
-                    className={`mt-3 text-leather ${
-                      isCenter ? "text-base" : "text-sm"
-                    }`}
-                  >
-                    {panel.detail}
-                  </p>
-                </div>
-                {panel.footer ? (
-                  <p className="mt-4 text-base text-gold">{panel.footer}</p>
-                ) : null}
-              </>
+              <div>
+                <p
+                  className={`text-[10px] font-normal uppercase tracking-[0.22em] ${
+                    panel.labelAccent === "gold" ? "text-gold" : "text-umber"
+                  }`}
+                >
+                  {panel.label}
+                </p>
+                <p
+                  className={`mt-4 font-serif tracking-wide text-umber ${
+                    isCenter
+                      ? "text-3xl sm:text-4xl lg:text-5xl"
+                      : "text-2xl sm:text-3xl"
+                  }`}
+                >
+                  {panel.value}
+                </p>
+                <p
+                  className={`mt-3 text-leather ${
+                    isCenter ? "text-base" : "text-sm"
+                  }`}
+                >
+                  {panel.detail}
+                </p>
+              </div>
             );
 
-            const cardClass = `absolute top-1/2 flex min-h-[200px] flex-col justify-between rounded-xl bg-[rgba(240,236,225,0.95)] p-9 shadow-[0_8px_28px_rgba(61,43,31,0.18)] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] sm:min-h-[220px] ${slotClass} ${
+            const cardClass = `absolute top-1/2 flex min-h-[180px] flex-col justify-center rounded-2xl border-t border-[#C4A35A] bg-[rgba(240,236,225,0.95)] p-7 shadow-[0_8px_28px_rgba(61,43,31,0.18)] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] sm:min-h-[200px] ${slotClass} ${
               isCenter ? "z-20" : visible ? "z-10" : "z-0"
             } ${visible ? "" : "pointer-events-none invisible"}`;
 

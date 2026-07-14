@@ -31,34 +31,36 @@ export default async function OverviewDashboardPage() {
     certificates = (data ?? []) as Certificate[];
   }
 
-  const { stats, actions, activity } = buildOverviewData({
+  const { stats, actions } = buildOverviewData({
     properties: propertyList,
     certificates,
     tenancies: tenancyList,
   });
 
-  const complianceOk = stats.complianceNeedsAttention === 0;
-  const tenancyOk = stats.tenancyRenewalsDue === 0;
   const actionsOk = stats.urgentCount === 0;
+  const complianceOk = stats.immediateComplianceCount === 0;
+  const tenancyOk = stats.immediateTenancyCount === 0;
+
+  const portfolioSummary = actionsOk
+    ? "Nothing needs your attention right now."
+    : stats.urgentCount === 1
+      ? "1 item needs attention this week."
+      : `${stats.urgentCount} items need attention this week.`;
 
   const carouselPanels = [
     {
       id: "compliance",
       href: "/compliance",
       label: "Compliance",
-      value: String(stats.totalProperties),
-      detail: complianceOk
-        ? "All compliant"
-        : `${stats.complianceNeedsAttention} expiring`,
+      value: String(stats.immediateComplianceCount),
+      detail: complianceOk ? "All clear" : "Needs attention",
     },
     {
       id: "tenancy",
       href: "/tenancy/dashboard",
       label: "Tenancy",
-      value: String(stats.totalTenancies),
-      detail: tenancyOk
-        ? "All current"
-        : `${stats.tenancyRenewalsDue} renewing soon`,
+      value: String(stats.immediateTenancyCount),
+      detail: tenancyOk ? "All current" : "Needs attention",
     },
     {
       id: "actions",
@@ -66,35 +68,33 @@ export default async function OverviewDashboardPage() {
       label: "Actions",
       labelAccent: "gold" as const,
       value: String(stats.urgentCount),
-      detail: actionsOk ? "Nothing urgent" : "Items need attention",
+      detail: actionsOk ? "Nothing urgent" : "Act this week",
     },
     {
       id: "assistant",
       href: "/assistant",
       label: "Assistant",
-      value: "Ready to help",
-      detail: "Ask, draft, or review your portfolio",
-      footer: "Open →",
+      value: "Ready",
+      detail: "Ask or draft",
     },
   ];
 
   return (
     <div className="min-h-[calc(100vh-4rem)] w-full overflow-x-hidden bg-greige text-umber">
-      {/* Full-viewport hero */}
-      <section className="relative h-[calc(100vh-4rem)] min-h-[520px] w-full overflow-hidden">
+      <section className="relative h-[calc((100vh-4rem)*0.85)] min-h-[440px] w-full overflow-hidden">
         <div
           className="absolute inset-0"
-          style={{ backgroundColor: "#3D2B1F" }}
+          style={{ backgroundColor: siteImages.lukeGalloway.placeholderColor }}
           aria-hidden
         >
           <OptimizedFillImage
-            image={siteImages.hugoKruip}
+            image={siteImages.lukeGalloway}
             alt=""
             sizes="100vw"
             priority
             quality={60}
             className="object-cover"
-            style={{ objectPosition: "center 65%" }}
+            style={{ objectPosition: "center 40%" }}
           />
           <div
             className="absolute inset-0"
@@ -106,7 +106,6 @@ export default async function OverviewDashboardPage() {
         <OverviewHeroCarousel panels={carouselPanels} />
       </section>
 
-      {/* Light content below hero */}
       <section
         id="todays-actions"
         className={`scroll-mt-20 bg-greige ${editorialPagePaddingClassName} py-12`}
@@ -121,7 +120,7 @@ export default async function OverviewDashboardPage() {
             <span className="text-gold" aria-hidden>
               ✓
             </span>
-            Your portfolio is in good order.
+            Nothing needs your attention right now.
           </p>
         ) : (
           <ul className="mt-8">
@@ -153,97 +152,62 @@ export default async function OverviewDashboardPage() {
         )}
       </section>
 
-      <section className={`${editorialPagePaddingClassName} pb-4`}>
-        <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
-          <div className="border border-sand/50 border-t-[2px] border-t-raspberry bg-[#F5EDE5] px-6 py-9 sm:px-8">
-            <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-raspberry">
-              Compliance
-            </p>
-            <p className="mt-4 font-serif text-3xl text-umber">
+      <section className="my-12 grid w-full grid-cols-1 md:grid-cols-[45%_55%]">
+        <div
+          className="relative min-h-[280px] overflow-hidden md:min-h-[360px]"
+          style={{ backgroundColor: siteImages.rummanAmin.placeholderColor }}
+        >
+          <OptimizedFillImage
+            image={siteImages.rummanAmin}
+            alt=""
+            sizes="(max-width: 768px) 100vw, 45vw"
+            quality={60}
+            className="object-cover"
+            style={{ objectPosition: "center 30%" }}
+          />
+        </div>
+
+        <div className="flex flex-col justify-center bg-[#F2EDE8] px-8 py-12 sm:px-12 lg:px-16">
+          <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-gold">
+            Your portfolio at a glance
+          </p>
+
+          <div className="mt-8 space-y-5">
+            <p className="font-serif text-4xl tracking-wide text-umber sm:text-5xl">
               {stats.totalProperties}
+              <span className="ml-3 text-base font-sans tracking-normal text-leather">
+                {stats.totalProperties === 1 ? "property" : "properties"}
+              </span>
             </p>
-            <p className="mt-1 text-sm text-leather">
-              {stats.totalProperties === 1 ? "property" : "properties"}
+            <p className="font-serif text-4xl tracking-wide text-umber sm:text-5xl">
+              {stats.totalTenancies}
+              <span className="ml-3 text-base font-sans tracking-normal text-leather">
+                {stats.totalTenancies === 1 ? "tenancy" : "tenancies"}
+              </span>
             </p>
-            <p className="mt-3 text-sm text-leather">
-              {stats.complianceExpiringSoon} expiring soon
-            </p>
+          </div>
+
+          <div className="mt-8 h-px w-20 bg-gold/70" aria-hidden />
+
+          <p className="mt-6 text-[15px] font-light leading-relaxed text-umber">
+            {portfolioSummary}
+          </p>
+
+          <div className="mt-8 flex flex-col gap-3">
             <Link
               href="/compliance"
-              className="mt-5 inline-block text-sm text-raspberry transition hover:text-umber"
+              className="text-sm text-raspberry transition hover:text-umber"
             >
               View Compliance →
             </Link>
-          </div>
-
-          <div className="border border-sand/40 border-t-[2px] border-t-navy bg-[#EDF0F5] px-6 py-9 sm:px-8">
-            <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-navy">
-              Tenancy
-            </p>
-            <p className="mt-4 font-serif text-3xl text-navy">
-              {stats.activeTenancies}
-            </p>
-            <p className="mt-1 text-sm text-steel">
-              {stats.activeTenancies === 1
-                ? "active tenancy"
-                : "active tenancies"}
-            </p>
-            <p className="mt-3 text-sm text-steel">
-              {stats.tenancyRenewalsDue}{" "}
-              {stats.tenancyRenewalsDue === 1 ? "renewal due" : "renewals due"}
-            </p>
             <Link
               href="/tenancy/dashboard"
-              className="mt-5 inline-block text-sm text-navy transition hover:text-navy-dark"
+              className="text-sm text-navy transition hover:text-navy-dark"
             >
               View Tenancy →
             </Link>
           </div>
         </div>
-      </section>
-
-      <section
-        className="relative my-12 h-[160px] w-full overflow-hidden"
-        style={{ backgroundColor: siteImages.rummanAmin.placeholderColor }}
-      >
-        <OptimizedFillImage
-          image={siteImages.rummanAmin}
-          alt=""
-          sizes="100vw"
-          quality={60}
-          className="object-cover"
-          style={{ objectPosition: "center 30%" }}
-        />
-        <div className="absolute inset-0 bg-umber/25" aria-hidden />
-      </section>
-
-      <section className={`${editorialPagePaddingClassName} pb-16`}>
-        <p className="text-[10px] font-normal uppercase tracking-[0.28em] text-umber">
-          Recent Activity
-        </p>
-        <div className="mt-3 h-px w-24 bg-gold/70" aria-hidden />
-
-        {activity.length === 0 ? (
-          <p className="mt-8 text-sm text-leather">
-            Activity will appear here as you manage your portfolio.
-          </p>
-        ) : (
-          <ul className="mt-8">
-            {activity.map((item, index) => (
-              <li
-                key={item.id}
-                className={`grid grid-cols-[7.5rem_1fr] items-baseline gap-6 border-l-[3px] border-l-gold px-5 py-5 sm:grid-cols-[9rem_1fr] sm:px-6 ${
-                  index % 2 === 0 ? "bg-greige" : "bg-greige-alt"
-                }`}
-              >
-                <span className="text-xs text-leather">{item.dateLabel}</span>
-                <span className="font-serif text-[15px] tracking-wide text-umber">
-                  {item.description}
-                </span>
-              </li>
-            ))}
-          </ul>
-        )}
       </section>
     </div>
   );
