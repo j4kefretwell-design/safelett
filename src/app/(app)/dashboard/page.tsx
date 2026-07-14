@@ -41,7 +41,7 @@ export default async function OverviewDashboardPage() {
   const actionsOk = stats.urgentCount === 0;
 
   const panelClass =
-    "flex min-h-[180px] flex-1 flex-col justify-between bg-[rgba(240,236,225,0.94)] p-7 shadow-[0_4px_20px_rgba(61,43,31,0.14)] sm:min-h-[190px]";
+    "flex min-h-[200px] flex-1 flex-col justify-between bg-[rgba(240,236,225,0.94)] p-9 shadow-[0_4px_20px_rgba(61,43,31,0.14)] sm:min-h-[220px]";
 
   return (
     <div className="min-h-[calc(100vh-4rem)] w-full overflow-x-hidden bg-greige text-umber">
@@ -68,17 +68,17 @@ export default async function OverviewDashboardPage() {
           />
         </div>
 
-        {/* Floating band ~60% down the hero */}
-        <div className="absolute inset-x-0 top-[60%] z-[1] flex w-full -translate-y-1/2 flex-col gap-3 px-3 sm:flex-row sm:px-4 lg:px-6">
+        {/* Floating band — dominant boxes over backdrop */}
+        <div className="absolute inset-x-0 top-1/2 z-[1] flex h-[82%] w-full -translate-y-1/2 flex-col gap-3 px-3 sm:flex-row sm:px-4 lg:px-6">
           <Link href="/compliance" className={panelClass}>
             <div>
               <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-umber">
                 Compliance
               </p>
-              <p className="mt-3 font-serif text-3xl tracking-wide text-umber sm:text-4xl">
+              <p className="mt-5 font-serif text-3xl tracking-wide text-umber sm:text-4xl lg:text-5xl">
                 {stats.totalProperties}
               </p>
-              <p className="mt-2 text-sm text-leather">
+              <p className="mt-3 text-base text-leather">
                 {complianceOk
                   ? "All compliant"
                   : `${stats.complianceNeedsAttention} expiring`}
@@ -91,10 +91,10 @@ export default async function OverviewDashboardPage() {
               <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-umber">
                 Tenancy
               </p>
-              <p className="mt-3 font-serif text-3xl tracking-wide text-umber sm:text-4xl">
+              <p className="mt-5 font-serif text-3xl tracking-wide text-umber sm:text-4xl lg:text-5xl">
                 {stats.totalTenancies}
               </p>
-              <p className="mt-2 text-sm text-leather">
+              <p className="mt-3 text-base text-leather">
                 {tenancyOk
                   ? "All current"
                   : `${stats.tenancyRenewalsDue} renewing soon`}
@@ -107,10 +107,10 @@ export default async function OverviewDashboardPage() {
               <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-gold">
                 Actions
               </p>
-              <p className="mt-3 font-serif text-3xl tracking-wide text-umber sm:text-4xl">
+              <p className="mt-5 font-serif text-3xl tracking-wide text-umber sm:text-4xl lg:text-5xl">
                 {stats.urgentCount}
               </p>
-              <p className="mt-2 text-sm text-leather">
+              <p className="mt-3 text-base text-leather">
                 {actionsOk ? "Nothing urgent" : "Items need attention"}
               </p>
             </div>
@@ -121,11 +121,11 @@ export default async function OverviewDashboardPage() {
               <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-umber">
                 Assistant
               </p>
-              <p className="mt-3 font-serif text-2xl tracking-wide text-umber sm:text-3xl">
+              <p className="mt-5 font-serif text-3xl tracking-wide text-umber sm:text-4xl">
                 Ready to help
               </p>
             </div>
-            <p className="mt-4 text-sm text-gold">Open →</p>
+            <p className="mt-4 text-base text-gold">Open →</p>
           </Link>
         </div>
       </section>
@@ -228,15 +228,15 @@ export default async function OverviewDashboardPage() {
 
       <section
         className="relative my-12 h-[160px] w-full overflow-hidden"
-        style={{ backgroundColor: siteImages.bradStarkey.placeholderColor }}
+        style={{ backgroundColor: siteImages.rummanAmin.placeholderColor }}
       >
         <OptimizedFillImage
-          image={siteImages.bradStarkey}
+          image={siteImages.rummanAmin}
           alt=""
           sizes="100vw"
           quality={60}
           className="object-cover"
-          style={{ objectPosition: "center 65%" }}
+          style={{ objectPosition: "center 30%" }}
         />
         <div className="absolute inset-0 bg-umber/25" aria-hidden />
       </section>
