@@ -187,14 +187,15 @@ export default async function OverviewDashboardPage() {
       <section className="grid w-full grid-cols-1 md:grid-cols-[40%_60%]">
         <div
           className="relative min-h-[300px] overflow-hidden md:min-h-[420px]"
-          style={{ backgroundColor: siteImages.annieSprattManor.placeholderColor }}
+          style={{ backgroundColor: siteImages.sajeerMoCastle.placeholderColor }}
         >
           <OptimizedFillImage
-            image={siteImages.annieSprattManor}
+            image={siteImages.sajeerMoCastle}
             alt=""
             sizes="(max-width: 768px) 100vw, 40vw"
             quality={60}
-            className="object-cover object-center"
+            className="object-cover"
+            style={{ objectPosition: "center 30%" }}
           />
         </div>
 

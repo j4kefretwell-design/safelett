@@ -45,6 +45,10 @@ export const siteImages = {
     src: "/annie-spratt-9wa278tcEsc-unsplash.jpg",
     placeholderColor: NAVY_IMAGE_PLACEHOLDER,
   },
+  sajeerMoCastle: {
+    src: "/1784064261839_sajeer-mo-w3IfODdl6T8-unsplash.jpg",
+    placeholderColor: "#2C3A42",
+  },
   annieSprattTopiary: {
     src: "/annie-spratt-4jT7kYTY5Ow-unsplash.jpg",
     placeholderColor: NAVY_IMAGE_PLACEHOLDER,
