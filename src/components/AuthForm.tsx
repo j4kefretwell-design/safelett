@@ -88,7 +88,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
       }
     }
 
-    router.push("/assistant");
+    router.push("/dashboard");
     router.refresh();
   }
 

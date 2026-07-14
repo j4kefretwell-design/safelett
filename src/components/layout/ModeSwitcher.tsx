@@ -9,6 +9,12 @@ const MODE_TABS: Array<{
   underlineClass: string;
 }> = [
   {
+    id: "overview",
+    label: "Overview",
+    short: "O",
+    underlineClass: "bg-gold",
+  },
+  {
     id: "compliance",
     label: "Compliance",
     short: "C",
@@ -30,10 +36,11 @@ const MODE_TABS: Array<{
 
 export default function ModeSwitcher() {
   const { mode, switchMode } = useAppMode();
+  const isOverview = mode === "overview";
 
   return (
     <div
-      className="flex items-center gap-3 sm:gap-5"
+      className="flex items-center gap-2.5 sm:gap-4"
       role="tablist"
       aria-label="Application mode"
     >
@@ -46,10 +53,14 @@ export default function ModeSwitcher() {
             role="tab"
             aria-selected={isActive}
             onClick={() => switchMode(tab.id)}
-            className={`relative pb-1.5 text-[12px] font-normal uppercase tracking-[0.16em] transition ${
-              isActive
-                ? "text-dusty-cream"
-                : "text-dusty-cream/55 hover:text-dusty-cream/85"
+            className={`relative pb-1.5 text-[11px] font-normal uppercase tracking-[0.14em] transition sm:text-[12px] sm:tracking-[0.16em] ${
+              isOverview
+                ? isActive
+                  ? "text-umber"
+                  : "text-umber/50 hover:text-umber/80"
+                : isActive
+                  ? "text-dusty-cream"
+                  : "text-dusty-cream/55 hover:text-dusty-cream/85"
             }`}
           >
             <span className="hidden sm:inline">{tab.label}</span>

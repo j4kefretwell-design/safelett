@@ -135,7 +135,7 @@ export default async function PropertyDetailPage({
         <PropertyPageHeader
         title={typedProperty.address}
         description={`${PROPERTY_TYPE_LABELS[typedProperty.property_type]} · ${typedProperty.bedrooms} ${typedProperty.bedrooms === 1 ? "bedroom" : "bedrooms"}`}
-        backHref="/dashboard"
+        backHref="/compliance"
         backLabel="Back to Dashboard"
         actionHref={`/properties/${id}/certificates/new`}
         actionLabel="Add Certificate"

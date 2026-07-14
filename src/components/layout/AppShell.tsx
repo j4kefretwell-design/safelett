@@ -14,12 +14,16 @@ function AppShellInner({ children }: AppShellProps) {
   const closeSidebar = useCallback(() => setSidebarOpen(false), []);
   const { mode, isTransitioning } = useAppMode();
   const isAssistant = mode === "assistant";
+  const isOverview = mode === "overview";
+  const hideMenu = isAssistant || isOverview;
 
-  const pageBg = isAssistant
-    ? "bg-study"
-    : mode === "tenancy"
-      ? "bg-tenancy-bg pt-16"
-      : "bg-dusty-cream pt-16";
+  const pageBg = isOverview
+    ? "bg-greige pt-16"
+    : isAssistant
+      ? "bg-study"
+      : mode === "tenancy"
+        ? "bg-tenancy-bg pt-16"
+        : "bg-dusty-cream pt-16";
 
   return (
     <div
@@ -30,11 +34,9 @@ function AppShellInner({ children }: AppShellProps) {
       <TopNav
         sidebarOpen={sidebarOpen}
         onMenuClick={() => setSidebarOpen((open) => !open)}
-        hideMenu={isAssistant}
+        hideMenu={hideMenu}
       />
-      {!isAssistant && (
-        <AppSidebar open={sidebarOpen} onClose={closeSidebar} />
-      )}
+      {!hideMenu && <AppSidebar open={sidebarOpen} onClose={closeSidebar} />}
       <main
         className={`w-full min-w-0 overflow-x-hidden ${
           isAssistant ? "pt-16" : ""

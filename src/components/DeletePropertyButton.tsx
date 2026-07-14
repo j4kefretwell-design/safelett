@@ -48,7 +48,7 @@ export default function DeletePropertyButton({
       return;
     }
 
-    router.push("/dashboard");
+    router.push("/compliance");
     router.refresh();
   }
 

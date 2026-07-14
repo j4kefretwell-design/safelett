@@ -10,12 +10,13 @@ import {
 } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
-export type AppMode = "compliance" | "tenancy" | "assistant";
+export type AppMode = "overview" | "compliance" | "tenancy" | "assistant";
 
 const STORAGE_KEY = "fretwell-app-mode";
 
 const MODE_HOME: Record<AppMode, string> = {
-  compliance: "/dashboard",
+  overview: "/dashboard",
+  compliance: "/compliance",
   tenancy: "/tenancy/dashboard",
   assistant: "/assistant",
 };
@@ -39,7 +40,7 @@ function modeFromPathname(pathname: string): AppMode | null {
   }
 
   if (
-    pathname.startsWith("/dashboard") ||
+    pathname.startsWith("/compliance") ||
     pathname.startsWith("/properties") ||
     pathname.startsWith("/contractors") ||
     pathname.startsWith("/news")
@@ -47,17 +48,26 @@ function modeFromPathname(pathname: string): AppMode | null {
     return "compliance";
   }
 
+  if (pathname === "/dashboard" || pathname.startsWith("/dashboard/")) {
+    return "overview";
+  }
+
   return null;
 }
 
 function isValidMode(value: string | null): value is AppMode {
-  return value === "compliance" || value === "tenancy" || value === "assistant";
+  return (
+    value === "overview" ||
+    value === "compliance" ||
+    value === "tenancy" ||
+    value === "assistant"
+  );
 }
 
 export function AppModeProvider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
-  const [storedMode, setStoredMode] = useState<AppMode>("assistant");
+  const [storedMode, setStoredMode] = useState<AppMode>("overview");
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {

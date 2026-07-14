@@ -7,7 +7,7 @@ import SidebarUser from "@/components/layout/SidebarUser";
 import { NAV_ICONS } from "@/lib/icons";
 
 const navItems = [
-  { href: "/dashboard", label: "Dashboard", icon: NAV_ICONS.dashboard },
+  { href: "/compliance", label: "Dashboard", icon: NAV_ICONS.dashboard },
   { href: "/reminders", label: "Reminders", icon: NAV_ICONS.reminders },
   { href: "/properties/new", label: "Add Property", icon: NAV_ICONS.addProperty },
   { href: "/properties/import", label: "Bulk Import", icon: NAV_ICONS.bulkImport },
@@ -15,9 +15,9 @@ const navItems = [
 ];
 
 function isNavActive(pathname: string, href: string): boolean {
-  if (href === "/dashboard") {
+  if (href === "/compliance") {
     return (
-      pathname === "/dashboard" ||
+      pathname === "/compliance" ||
       (pathname.startsWith("/properties/") &&
         pathname !== "/properties/new" &&
         pathname !== "/properties/import")

@@ -8,7 +8,7 @@ interface BrandWordmarkProps {
 }
 
 export default function BrandWordmark({
-  href = "/assistant",
+  href = "/dashboard",
   variant = "sidebar",
   onClick,
   className = "",

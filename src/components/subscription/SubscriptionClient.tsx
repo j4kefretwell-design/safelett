@@ -52,14 +52,19 @@ export default function SubscriptionClient() {
     ? "tenancy-slate-bg"
     : isAssistant
       ? "bg-greige"
-      : "dashboard-parchment-bg";
-  const headingClass = isTenancy ? "text-tenancy-text" : "text-text";
+      : mode === "overview"
+        ? "bg-greige"
+        : "dashboard-parchment-bg";
+  const headingClass =
+    isTenancy ? "text-tenancy-text" : mode === "overview" ? "text-umber" : "text-text";
   const mutedClass = isTenancy ? "text-steel" : "text-leather";
   const summaryBarClass = isTenancy
     ? "bg-navy"
     : isAssistant
       ? "bg-study"
-      : "bg-raspberry";
+      : mode === "overview"
+        ? "bg-umber"
+        : "bg-raspberry";
 
   return (
     <div className={`${pageBg} min-h-[calc(100vh-4rem)] px-5 py-12 pb-40 sm:px-12 lg:px-16`}>

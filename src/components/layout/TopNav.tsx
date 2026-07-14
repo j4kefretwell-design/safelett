@@ -13,6 +13,7 @@ interface TopNavProps {
 }
 
 function headerBgClass(mode: AppMode) {
+  if (mode === "overview") return "bg-greige";
   if (mode === "tenancy") return "bg-navy";
   if (mode === "assistant") return "bg-study";
   return "bg-raspberry";
@@ -26,6 +27,7 @@ export default function TopNav({
   const router = useRouter();
   const { mode } = useAppMode();
   const isAssistant = mode === "assistant";
+  const isOverview = mode === "overview";
 
   async function handleSignOut() {
     const supabase = createClient();
@@ -40,7 +42,11 @@ export default function TopNav({
     >
       <div
         className={`relative grid h-full grid-cols-[1fr_auto_1fr] items-center border-b px-3 sm:px-6 lg:px-10 ${
-          isAssistant ? "border-moss" : "border-gold"
+          isOverview
+            ? "border-sand"
+            : isAssistant
+              ? "border-moss"
+              : "border-gold"
         }`}
       >
         <div className="flex min-w-0 items-center gap-3 sm:gap-5">
@@ -49,7 +55,11 @@ export default function TopNav({
               type="button"
               aria-label={sidebarOpen ? "Close menu" : "Open menu"}
               onClick={onMenuClick}
-              className="touch-target shrink-0 text-dusty-cream transition hover:text-white"
+              className={`touch-target shrink-0 transition ${
+                isOverview
+                  ? "text-umber hover:text-umber/70"
+                  : "text-dusty-cream hover:text-white"
+              }`}
             >
               {sidebarOpen ? (
                 <X className="h-6 w-6" strokeWidth={1.25} />
@@ -62,7 +72,11 @@ export default function TopNav({
         </div>
 
         <div className="px-2">
-          {isAssistant ? (
+          {isOverview ? (
+            <p className="whitespace-nowrap font-serif text-sm uppercase tracking-[0.28em] text-umber sm:text-base sm:tracking-[0.32em]">
+              Fretwell <span className="italic text-gold">&amp;</span> Co
+            </p>
+          ) : isAssistant ? (
             <p className="whitespace-nowrap font-serif text-sm uppercase tracking-[0.28em] text-dusty-cream sm:text-base sm:tracking-[0.32em]">
               Fretwell <span className="italic text-moss">&amp;</span> Co
             </p>
@@ -77,8 +91,12 @@ export default function TopNav({
           <button
             type="button"
             onClick={handleSignOut}
-            className={`touch-target shrink-0 text-[11px] font-normal uppercase tracking-[0.18em] text-dusty-cream transition sm:text-xs sm:tracking-[0.22em] ${
-              isAssistant ? "hover:text-moss" : "hover:text-gold"
+            className={`touch-target shrink-0 text-[11px] font-normal uppercase tracking-[0.18em] transition sm:text-xs sm:tracking-[0.22em] ${
+              isOverview
+                ? "text-umber hover:text-gold"
+                : isAssistant
+                  ? "text-dusty-cream hover:text-moss"
+                  : "text-dusty-cream hover:text-gold"
             }`}
           >
             Sign Out

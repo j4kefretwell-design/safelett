@@ -8,7 +8,7 @@ import { useAppMode, type AppMode } from "@/lib/app-mode";
 import { createClient } from "@/lib/supabase/client";
 
 const complianceNavItems = [
-  { href: "/dashboard", label: "Dashboard" },
+  { href: "/compliance", label: "Dashboard" },
   { href: "/reminders", label: "Reminders" },
   { href: "/properties/new", label: "Add Property" },
   { href: "/contractors", label: "Contractors" },
@@ -36,9 +36,9 @@ const utilityNavItems = [
 ] as const;
 
 function isComplianceNavActive(pathname: string, href: string): boolean {
-  if (href === "/dashboard") {
+  if (href === "/compliance") {
     return (
-      pathname === "/dashboard" ||
+      pathname === "/compliance" ||
       (pathname.startsWith("/properties/") &&
         pathname !== "/properties/new" &&
         pathname !== "/properties/import")
@@ -138,7 +138,8 @@ function sidebarBgClass(mode: AppMode) {
 function modeHome(mode: AppMode) {
   if (mode === "tenancy") return "/tenancy/dashboard";
   if (mode === "assistant") return "/assistant";
-  return "/dashboard";
+  if (mode === "overview") return "/dashboard";
+  return "/compliance";
 }
 
 interface AppSidebarProps {
