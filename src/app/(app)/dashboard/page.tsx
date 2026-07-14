@@ -76,15 +76,17 @@ export default async function OverviewDashboardPage() {
           sizes="100vw"
           priority
           quality={60}
-          className="object-cover object-center"
+          className="object-cover"
+          style={{ objectPosition: "center 20%" }}
         />
         <div className="absolute inset-0 bg-umber/50" aria-hidden />
 
-        <div className="absolute bottom-5 left-4 z-10 max-w-md bg-umber px-6 py-5 sm:bottom-8 sm:left-6 sm:px-8 sm:py-6 lg:left-12">
-          <p className="text-[10px] font-normal uppercase tracking-[0.28em] text-gold">
+        <div className="absolute bottom-5 left-4 z-10 max-w-md bg-umber px-6 py-5 sm:bottom-8 sm:left-6 sm:max-w-sm sm:px-8 sm:py-6 lg:left-12">
+          <div className="h-px w-10 bg-gold" aria-hidden />
+          <p className="mt-4 text-[10px] font-normal uppercase tracking-[0.28em] text-gold">
             Portfolio Status
           </p>
-          <h1 className="mt-3 font-serif text-xl tracking-wide text-greige sm:text-[1.35rem]">
+          <h1 className="mt-4 font-serif text-[1.125rem] font-normal leading-snug tracking-wide text-greige sm:text-[1.35rem]">
             {everythingInOrder
               ? "Everything in Order"
               : `${attentionValue} ${
@@ -101,36 +103,38 @@ export default async function OverviewDashboardPage() {
           {statCards.map((card) => (
             <div
               key={card.label}
-              className="flex h-full flex-col border border-sand px-5 py-9 text-center"
+              className="overview-stat-card relative flex h-full flex-col overflow-hidden border border-sand border-t-[3px] border-t-gold px-5 py-9 text-center shadow-[0_2px_8px_rgba(61,43,31,0.08)]"
               style={{
                 background:
-                  "linear-gradient(165deg, #EDE6DF 0%, #E8E0D5 100%)",
+                  "linear-gradient(165deg, #EDE6DF 0%, #E5DAD0 100%)",
               }}
             >
-              <p className="font-serif text-4xl tracking-wide text-umber sm:text-5xl">
-                {card.value}
-              </p>
-              <p className="mt-4 text-[10px] font-normal uppercase tracking-[0.2em] text-leather">
-                {card.label}
-              </p>
-              <p className="mt-2 text-xs font-light leading-relaxed text-leather/80">
-                {card.description}
-              </p>
+              <div className="relative z-[1]">
+                <p className="font-serif text-4xl tracking-wide text-umber sm:text-5xl">
+                  {card.value}
+                </p>
+                <p className="mt-4 text-[10px] font-normal uppercase tracking-[0.2em] text-leather">
+                  {card.label}
+                </p>
+                <p className="mt-2 text-[11px] font-light leading-relaxed text-tan">
+                  {card.description}
+                </p>
+              </div>
             </div>
           ))}
         </div>
       </section>
 
-      <section className="bg-[#E8E0D5] py-12">
+      <section className="bg-umber py-12">
         <div className={editorialPagePaddingClassName}>
-          <p className="text-[10px] font-normal uppercase tracking-[0.28em] text-umber">
-            Today&apos;s Actions
+          <p className="text-[10px] font-normal uppercase tracking-[0.32em] text-dusty-cream">
+            Action Required
           </p>
-          <div className="mt-3 h-px w-24 bg-gold" aria-hidden />
+          <div className="mt-3 h-px w-24 bg-gold/60" aria-hidden />
 
           {actions.length === 0 ? (
-            <p className="mt-10 flex items-center gap-3 text-[15px] font-light text-umber">
-              <span className="text-gold" aria-hidden>
+            <p className="mt-12 flex items-center justify-center gap-3 text-center text-[15px] italic text-dusty-cream">
+              <span className="not-italic text-gold" aria-hidden>
                 ✓
               </span>
               Your portfolio is in good order.
@@ -138,30 +142,25 @@ export default async function OverviewDashboardPage() {
           ) : (
             <ul className="mt-8">
               {actions.map((item) => (
-                <li key={item.id} className="border-b border-sand/60 last:border-b-0">
+                <li
+                  key={item.id}
+                  className="border-b border-white/10 last:border-b-0"
+                >
                   <Link
                     href={item.href}
-                    className={`flex items-center gap-5 border-l-[3px] px-5 py-6 transition hover:bg-black/[0.03] sm:px-6 ${
+                    className={`flex items-center gap-5 border-l-[3px] px-5 py-6 transition hover:bg-white/[0.04] sm:px-6 ${
                       item.module === "compliance"
                         ? "border-l-raspberry"
-                        : "border-l-navy"
+                        : "border-l-[#8BA3C7]"
                     }`}
                   >
                     <div className="min-w-0 flex-1">
-                      <p className="font-serif text-[17px] tracking-wide text-umber">
+                      <p className="font-serif text-[17px] tracking-wide text-dusty-cream">
                         {item.address}
                       </p>
-                      <p className="mt-1.5 text-sm text-leather">{item.detail}</p>
+                      <p className="mt-1.5 text-sm text-sand">{item.detail}</p>
                     </div>
-                    <p
-                      className={`shrink-0 text-sm font-normal tabular-nums ${
-                        item.daysRemaining < 0
-                          ? item.module === "compliance"
-                            ? "text-raspberry"
-                            : "text-navy"
-                          : "text-leather"
-                      }`}
-                    >
+                    <p className="shrink-0 text-sm font-normal tabular-nums text-gold">
                       {item.daysRemaining < 0
                         ? `${Math.abs(item.daysRemaining)}d overdue`
                         : `${item.daysRemaining}d`}
@@ -175,11 +174,8 @@ export default async function OverviewDashboardPage() {
       </section>
 
       <section className={`${editorialPagePaddingClassName} py-12`}>
-        <div className="grid grid-cols-1 gap-0 border border-sand lg:grid-cols-2">
-          <div
-            className="border-t-[3px] border-t-raspberry border-b border-sand px-6 py-10 sm:px-8 lg:border-b-0 lg:border-r lg:border-sand"
-            style={{ backgroundColor: "rgba(51, 24, 28, 0.05)" }}
-          >
+        <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+          <div className="border border-sand/60 border-t-[2px] border-t-raspberry bg-[#F5EDE5] px-6 py-10 shadow-[0_2px_8px_rgba(61,43,31,0.08)] sm:px-8">
             <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-raspberry">
               Compliance
             </p>
@@ -194,34 +190,31 @@ export default async function OverviewDashboardPage() {
             </p>
             <Link
               href="/compliance"
-              className="mt-6 inline-block text-sm text-gold transition hover:text-umber"
+              className="mt-6 inline-block text-sm text-raspberry transition hover:text-umber"
             >
               View Compliance →
             </Link>
           </div>
 
-          <div
-            className="border-t-[3px] border-t-navy px-6 py-10 sm:px-8"
-            style={{ backgroundColor: "rgba(27, 42, 74, 0.05)" }}
-          >
+          <div className="border border-sand/40 border-t-[2px] border-t-navy bg-[#EDF0F5] px-6 py-10 shadow-[0_2px_8px_rgba(61,43,31,0.08)] sm:px-8">
             <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-navy">
               Tenancy
             </p>
-            <p className="mt-5 font-serif text-3xl text-umber">
+            <p className="mt-5 font-serif text-3xl text-navy">
               {stats.activeTenancies}
             </p>
-            <p className="mt-1 text-sm text-leather">
+            <p className="mt-1 text-sm text-steel">
               {stats.activeTenancies === 1
                 ? "active tenancy"
                 : "active tenancies"}
             </p>
-            <p className="mt-4 text-sm text-leather">
+            <p className="mt-4 text-sm text-steel">
               {stats.tenancyRenewalsDue}{" "}
               {stats.tenancyRenewalsDue === 1 ? "renewal due" : "renewals due"}
             </p>
             <Link
               href="/tenancy/dashboard"
-              className="mt-6 inline-block text-sm text-gold transition hover:text-umber"
+              className="mt-6 inline-block text-sm text-navy transition hover:text-navy-dark"
             >
               View Tenancy →
             </Link>
@@ -230,7 +223,7 @@ export default async function OverviewDashboardPage() {
       </section>
 
       <section
-        className="relative h-[140px] w-full overflow-hidden"
+        className="relative h-[180px] w-full overflow-hidden"
         style={{ backgroundColor: siteImages.benElliottHero.placeholderColor }}
       >
         <OptimizedFillImage
@@ -239,9 +232,9 @@ export default async function OverviewDashboardPage() {
           sizes="100vw"
           quality={60}
           className="object-cover"
-          style={{ objectPosition: "center 60%" }}
+          style={{ objectPosition: "center 40%" }}
         />
-        <div className="absolute inset-0 bg-umber/35" aria-hidden />
+        <div className="absolute inset-0 bg-umber/30" aria-hidden />
       </section>
 
       <section className={`${editorialPagePaddingClassName} py-12`}>
@@ -259,7 +252,7 @@ export default async function OverviewDashboardPage() {
             {activity.map((item, index) => (
               <li
                 key={item.id}
-                className={`grid grid-cols-[7.5rem_1fr] items-baseline gap-6 px-4 py-4 sm:grid-cols-[9rem_1fr] sm:px-5 ${
+                className={`grid grid-cols-[7.5rem_1fr] items-baseline gap-6 border-l-[3px] border-l-gold px-5 py-5 sm:grid-cols-[9rem_1fr] sm:px-6 ${
                   index % 2 === 0 ? "bg-greige" : "bg-greige-alt"
                 }`}
               >

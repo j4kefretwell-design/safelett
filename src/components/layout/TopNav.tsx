@@ -73,15 +73,15 @@ export default function TopNav({
 
         <div className="flex items-center justify-center px-2">
           {isOverview ? (
-            <p className="whitespace-nowrap font-serif text-sm uppercase tracking-[0.28em] text-umber sm:text-base sm:tracking-[0.32em]">
+            <p className="whitespace-nowrap font-serif text-base uppercase tracking-[0.28em] text-umber sm:text-lg sm:tracking-[0.32em]">
               Fretwell <span className="italic text-gold">&amp;</span> Co
             </p>
           ) : isAssistant ? (
-            <p className="whitespace-nowrap font-serif text-sm uppercase tracking-[0.28em] text-dusty-cream sm:text-base sm:tracking-[0.32em]">
+            <p className="whitespace-nowrap font-serif text-base uppercase tracking-[0.28em] text-dusty-cream sm:text-lg sm:tracking-[0.32em]">
               Fretwell <span className="italic text-moss">&amp;</span> Co
             </p>
           ) : (
-            <p className="whitespace-nowrap font-serif text-sm uppercase tracking-[0.28em] text-gold sm:text-base sm:tracking-[0.32em]">
+            <p className="whitespace-nowrap font-serif text-base uppercase tracking-[0.28em] text-gold sm:text-lg sm:tracking-[0.32em]">
               Fretwell <span className="italic">&amp;</span> Co
             </p>
           )}
