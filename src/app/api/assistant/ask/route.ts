@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import {
   ASSISTANT_MODEL,
-  ASSISTANT_PLAIN_TEXT_FORMAT,
+  buildAssistantSystemPrompt,
 } from "@/lib/assistant";
 import { getAssistantApiErrorMessage } from "@/lib/assistant-api";
 import {
@@ -120,7 +120,9 @@ export async function POST(request: Request) {
       }
 
       const context = buildTenancyReviewContext(typed, property, certificates);
-      system = `You are a professional tenancy review assistant for a UK property manager using Fretwell & Co. Review the tenancy data below and answer questions about key dates, deposit status, right to rent and upcoming actions. Be accurate and concise. Do not give legal advice. Do not draft documents. ${ASSISTANT_PLAIN_TEXT_FORMAT} Tenancy data: ${context}`;
+      system = `${buildAssistantSystemPrompt(context)}
+
+Session focus: Tenancy review. Prioritise key dates, deposit status, right to rent, upcoming actions and related correspondence for this tenancy. You may still help with general property management questions and drafting when asked.`;
     } else if (mode === "property") {
       if (!payload.propertyId) {
         return NextResponse.json(
@@ -167,16 +169,12 @@ export async function POST(request: Request) {
         (certRows ?? []) as Certificate[],
         linkedTenancies
       );
-      system = `You are a professional property report assistant for a UK property manager using Fretwell & Co. Using the property data below, provide a clear compliance and tenancy summary for this single property. Highlight overdue items, items needing attention soon, missing certificates and tenancy risks. Do not give legal advice. Do not draft documents. ${ASSISTANT_PLAIN_TEXT_FORMAT} Property data: ${context}`;
+      system = `${buildAssistantSystemPrompt(context)}
+
+Session focus: Property report. Prioritise a clear compliance and tenancy summary for this property, including overdue items, items needing attention soon, missing certificates and tenancy risks. You may still help with general property management questions and drafting when asked.`;
     } else {
       const portfolioData = await buildPortfolioContext(supabase, user.id);
-      system = `You are a professional property portfolio assistant for a UK property manager using Fretwell & Co. You have access to their portfolio data below. Answer questions about their properties, tenancies and compliance certificates accurately and concisely. Do not give legal advice. For legal questions recommend they consult a qualified professional. Always be helpful, accurate and professional.
-
-Important: This chat is for portfolio questions only. Never draft letters, notices or other documents here. If the user asks you to draft or write a document, reply politely with exactly this guidance: "For document drafting, start a new Draft session from the main menu." Do not produce drafted correspondence in this mode.
-
-${ASSISTANT_PLAIN_TEXT_FORMAT}
-
-Portfolio data: ${portfolioData}`;
+      system = buildAssistantSystemPrompt(portfolioData);
     }
 
     const anthropic = new Anthropic({

@@ -78,22 +78,22 @@ const ASK_EXAMPLES = [
 const MODE_BOXES = [
   {
     label: "ASK",
-    description: "Ask anything about your portfolio",
+    description: "Questions about your portfolio or property management",
     kind: "ask" as const,
   },
   {
     label: "DRAFT",
-    description: "Generate a letter or notice",
+    description: "Letters, notices and professional correspondence",
     kind: "draft" as const,
   },
   {
     label: "TENANCY",
-    description: "Review a single tenancy",
+    description: "Review tenancy details and generate notices",
     kind: "tenancy" as const,
   },
   {
     label: "REPORT",
-    description: "Property compliance summary",
+    description: "Full property compliance and tenancy report",
     kind: "property" as const,
   },
 ] as const;
@@ -341,7 +341,15 @@ export default function AssistantChat({
       const data = await response.json();
       if (!response.ok)
         throw new Error(data.error || "Unable to run compliance check.");
-      append({ role: "assistant", content: data.summary as string });
+      const summary = (data.summary as string).trim();
+      const followUp =
+        "Would you like me to draft contractor booking emails for any of these?";
+      const withFollowUp = summary.toLowerCase().includes(
+        "contractor booking emails"
+      )
+        ? summary
+        : `${summary}\n\n${followUp}`;
+      append({ role: "assistant", content: withFollowUp });
     } catch (caught) {
       const message =
         caught instanceof Error
@@ -1091,43 +1099,41 @@ export default function AssistantChat({
               </div>
             </div>
 
-            {view.screen !== "compliance" && (
-              <div className="absolute inset-x-0 bottom-0 bg-parchment-line">
-                <form
-                  onSubmit={(event) => {
-                    event.preventDefault();
-                    if (view.screen === "draft") submitDraft();
-                    else void ask(input, mode, entityId);
-                  }}
-                  className="flex w-full items-center gap-3 border-t border-olive px-8 py-4 sm:px-16 lg:px-28"
+            <div className="absolute inset-x-0 bottom-0 bg-parchment-line">
+              <form
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  if (view.screen === "draft") submitDraft();
+                  else void ask(input, mode, entityId);
+                }}
+                className="flex w-full items-center gap-3 border-t border-olive px-8 py-4 sm:px-16 lg:px-28"
+              >
+                <label htmlFor="assistant-mode-input" className="sr-only">
+                  Message
+                </label>
+                <input
+                  id="assistant-mode-input"
+                  value={input}
+                  onChange={(event) => setInput(event.target.value)}
+                  disabled={loading}
+                  placeholder="Type your message..."
+                  className="min-w-0 flex-1 border-0 bg-transparent text-[14px] text-[#1A0A0C] outline-none placeholder:text-cocoa/50"
+                />
+                <button
+                  type="submit"
+                  disabled={
+                    loading ||
+                    (view.screen === "draft"
+                      ? draftState.awaiting !== "field"
+                      : !input.trim())
+                  }
+                  aria-label="Send"
+                  className="text-moss transition hover:text-study disabled:opacity-30"
                 >
-                  <label htmlFor="assistant-mode-input" className="sr-only">
-                    Message
-                  </label>
-                  <input
-                    id="assistant-mode-input"
-                    value={input}
-                    onChange={(event) => setInput(event.target.value)}
-                    disabled={loading}
-                    placeholder="Type your message..."
-                    className="min-w-0 flex-1 border-0 bg-transparent text-[14px] text-[#1A0A0C] outline-none placeholder:text-cocoa/50"
-                  />
-                  <button
-                    type="submit"
-                    disabled={
-                      loading ||
-                      (view.screen === "draft"
-                        ? draftState.awaiting !== "field"
-                        : !input.trim())
-                    }
-                    aria-label="Send"
-                    className="text-moss transition hover:text-study disabled:opacity-30"
-                  >
-                    →
-                  </button>
-                </form>
-              </div>
-            )}
+                  →
+                </button>
+              </form>
+            </div>
           </>
         )}
 
