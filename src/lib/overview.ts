@@ -20,6 +20,10 @@ export interface OverviewActionItem {
   id: string;
   module: OverviewActionModule;
   address: string;
+  /** Certificate or tenancy type shown beneath the address */
+  typeLabel: string;
+  /** What needs doing — short italic status */
+  actionLabel: string;
   detail: string;
   daysRemaining: number;
   href: string;
@@ -83,6 +87,8 @@ export function buildOverviewData({
       id: `cert-${certificate.id}`,
       module: "compliance",
       address: property.address,
+      typeLabel: label,
+      actionLabel: days < 0 ? "Certificate overdue" : "Certificate expiring",
       detail:
         days < 0
           ? `${label} overdue`
@@ -100,6 +106,8 @@ export function buildOverviewData({
         id: `tenancy-end-${tenancy.id}`,
         module: "tenancy",
         address: tenancy.property_address,
+        typeLabel: tenancy.tenant_names,
+        actionLabel: daysUntilEnd < 0 ? "Tenancy ended" : "Renewal due",
         detail:
           daysUntilEnd < 0
             ? `Tenancy ended (${tenancy.tenant_names})`
@@ -116,6 +124,8 @@ export function buildOverviewData({
           id: `rent-review-${tenancy.id}`,
           module: "tenancy",
           address: tenancy.property_address,
+          typeLabel: tenancy.tenant_names,
+          actionLabel: "Rent review due",
           detail: `Rent review in ${daysUntilReview} day${
             daysUntilReview === 1 ? "" : "s"
           } — ${tenancy.tenant_names}`,
@@ -130,6 +140,8 @@ export function buildOverviewData({
         id: `deposit-${tenancy.id}`,
         module: "tenancy",
         address: tenancy.property_address,
+        typeLabel: tenancy.tenant_names,
+        actionLabel: "Deposit unprotected",
         detail: `Deposit unprotected — ${tenancy.tenant_names}`,
         daysRemaining: Math.min(daysUntilEnd, 0),
         href: `/tenancy/${tenancy.id}`,

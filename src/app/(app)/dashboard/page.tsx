@@ -42,10 +42,10 @@ export default async function OverviewDashboardPage() {
   const tenancyOk = stats.immediateTenancyCount === 0;
 
   const portfolioSummary = actionsOk
-    ? "Nothing needs your attention right now."
+    ? "Everything in order"
     : stats.urgentCount === 1
-      ? "1 item needs attention this week."
-      : `${stats.urgentCount} items need attention this week.`;
+      ? "1 item needs attention"
+      : `${stats.urgentCount} items need attention`;
 
   const carouselPanels = [
     {
@@ -54,6 +54,7 @@ export default async function OverviewDashboardPage() {
       label: "Compliance",
       value: String(stats.immediateComplianceCount),
       detail: complianceOk ? "All clear" : "Needs attention",
+      watermark: "burgundy" as const,
     },
     {
       id: "tenancy",
@@ -61,14 +62,15 @@ export default async function OverviewDashboardPage() {
       label: "Tenancy",
       value: String(stats.immediateTenancyCount),
       detail: tenancyOk ? "All current" : "Needs attention",
+      watermark: "navy" as const,
     },
     {
       id: "actions",
       href: "#todays-actions",
       label: "Actions",
-      labelAccent: "gold" as const,
       value: String(stats.urgentCount),
       detail: actionsOk ? "Nothing urgent" : "Act this week",
+      watermark: "gold" as const,
     },
     {
       id: "assistant",
@@ -76,11 +78,12 @@ export default async function OverviewDashboardPage() {
       label: "Assistant",
       value: "Ready",
       detail: "Ask or draft",
+      watermark: "study" as const,
     },
   ];
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] w-full overflow-x-hidden bg-greige text-umber">
+    <div className="min-h-[calc(100vh-4rem)] w-full overflow-x-hidden bg-[#F2EDE8] text-umber">
       <section className="relative h-[calc((100vh-4rem)*0.85)] min-h-[440px] w-full overflow-hidden">
         <div
           className="absolute inset-0"
@@ -108,101 +111,136 @@ export default async function OverviewDashboardPage() {
 
       <section
         id="todays-actions"
-        className={`scroll-mt-20 bg-greige ${editorialPagePaddingClassName} py-12`}
+        className={`scroll-mt-20 bg-[#F2EDE8] ${editorialPagePaddingClassName} py-14`}
       >
-        <p className="text-[10px] font-normal uppercase tracking-[0.28em] text-umber">
-          Today&apos;s Actions
+        <p className="text-[10px] font-normal uppercase tracking-[0.28em] text-[#6B503C]">
+          Action Required
         </p>
-        <div className="mt-3 h-px w-24 bg-gold/70" aria-hidden />
+        <div className="mt-3 h-px w-16 bg-[#C4A35A]/80" aria-hidden />
 
         {actions.length === 0 ? (
-          <p className="mt-10 flex items-center gap-3 text-[15px] font-light text-umber">
-            <span className="text-gold" aria-hidden>
+          <div className="mt-16 flex flex-col items-center justify-center text-center">
+            <span
+              className="flex h-10 w-10 items-center justify-center text-2xl text-[#C4A35A]"
+              aria-hidden
+            >
               ✓
             </span>
-            Nothing needs your attention right now.
-          </p>
+            <p className="mt-5 font-serif text-xl italic tracking-wide text-[#3D2B1F]">
+              Your portfolio is in order.
+            </p>
+          </div>
         ) : (
-          <ul className="mt-8">
-            {actions.map((item) => (
-              <li key={item.id}>
-                <Link
-                  href={item.href}
-                  className="flex items-center gap-5 border-l-[3px] border-l-gold px-5 py-5 transition hover:bg-greige-alt/80 sm:px-6"
-                >
-                  <div className="min-w-0 flex-1">
-                    <p className="font-serif text-[17px] tracking-wide text-umber">
-                      {item.address}
-                    </p>
-                    <p className="mt-1.5 text-sm text-leather">{item.detail}</p>
-                  </div>
-                  <p
-                    className={`shrink-0 text-sm tabular-nums ${
-                      item.daysRemaining < 0 ? "text-raspberry" : "text-leather"
-                    }`}
+          <ul className="mt-10">
+            {actions.map((item) => {
+              const overdue = item.daysRemaining < 0;
+              const soon = !overdue && item.daysRemaining <= 7;
+              const daysColour = overdue
+                ? "text-urgent"
+                : soon
+                  ? "text-attention"
+                  : "text-[#6B503C]";
+              const dotColour =
+                item.module === "compliance" ? "bg-[#33181C]" : "bg-[#1B2A4A]";
+
+              return (
+                <li key={item.id}>
+                  <Link
+                    href={item.href}
+                    className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-x-4 gap-y-2 border-b border-[#C5AC91]/70 py-5 transition hover:bg-[#EDE6DF]/70 sm:grid-cols-[auto_minmax(0,1.2fr)_minmax(0,1fr)_auto] sm:gap-6"
                   >
-                    {item.daysRemaining < 0
-                      ? `${Math.abs(item.daysRemaining)}d overdue`
-                      : `${item.daysRemaining}d`}
-                  </p>
-                </Link>
-              </li>
-            ))}
+                    <span
+                      className={`h-2.5 w-2.5 shrink-0 ${dotColour}`}
+                      aria-hidden
+                    />
+                    <div className="min-w-0 sm:contents">
+                      <div className="min-w-0">
+                        <p className="truncate font-serif text-[17px] tracking-wide text-[#3D2B1F]">
+                          {item.address}
+                        </p>
+                        <p className="mt-1 truncate text-[12px] text-[#6B503C]">
+                          {item.typeLabel}
+                        </p>
+                      </div>
+                      <p className="mt-1 min-w-0 truncate text-[13px] italic text-cocoa sm:mt-0">
+                        {item.actionLabel}
+                      </p>
+                    </div>
+                    <p
+                      className={`shrink-0 text-right text-lg font-semibold tabular-nums ${daysColour}`}
+                    >
+                      {overdue
+                        ? Math.abs(item.daysRemaining)
+                        : item.daysRemaining}
+                      <span className="ml-0.5 text-[11px] font-normal uppercase tracking-wide">
+                        d
+                      </span>
+                    </p>
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         )}
       </section>
 
-      <section className="my-12 grid w-full grid-cols-1 md:grid-cols-[45%_55%]">
+      <section className="grid w-full grid-cols-1 md:grid-cols-[40%_60%]">
         <div
-          className="relative min-h-[280px] overflow-hidden md:min-h-[360px]"
-          style={{ backgroundColor: siteImages.rummanAmin.placeholderColor }}
+          className="relative min-h-[300px] overflow-hidden md:min-h-[420px]"
+          style={{ backgroundColor: siteImages.annieSprattManor.placeholderColor }}
         >
           <OptimizedFillImage
-            image={siteImages.rummanAmin}
+            image={siteImages.annieSprattManor}
             alt=""
-            sizes="(max-width: 768px) 100vw, 45vw"
+            sizes="(max-width: 768px) 100vw, 40vw"
             quality={60}
-            className="object-cover"
-            style={{ objectPosition: "center 30%" }}
+            className="object-cover object-center"
           />
         </div>
 
-        <div className="flex flex-col justify-center bg-[#F2EDE8] px-8 py-12 sm:px-12 lg:px-16">
-          <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-gold">
-            Your portfolio at a glance
+        <div className="flex flex-col justify-center bg-[#F2EDE8] px-8 py-14 sm:px-12 lg:px-16 xl:px-20">
+          <p className="text-[10px] font-normal uppercase tracking-[0.28em] text-[#6B503C]">
+            Your Portfolio
           </p>
+          <div className="mt-3 h-px w-16 bg-[#C4A35A]/80" aria-hidden />
 
-          <div className="mt-8 space-y-5">
-            <p className="font-serif text-4xl tracking-wide text-umber sm:text-5xl">
-              {stats.totalProperties}
-              <span className="ml-3 text-base font-sans tracking-normal text-leather">
-                {stats.totalProperties === 1 ? "property" : "properties"}
-              </span>
-            </p>
-            <p className="font-serif text-4xl tracking-wide text-umber sm:text-5xl">
-              {stats.totalTenancies}
-              <span className="ml-3 text-base font-sans tracking-normal text-leather">
-                {stats.totalTenancies === 1 ? "tenancy" : "tenancies"}
-              </span>
-            </p>
+          <div className="mt-10 space-y-7">
+            <div className="flex items-baseline justify-between gap-6">
+              <p className="font-serif text-5xl tracking-wide text-[#3D2B1F] sm:text-[3.5rem]">
+                {stats.totalProperties}
+              </p>
+              <p className="text-right text-[10px] font-normal uppercase tracking-[0.2em] text-[#6B503C]">
+                Properties managed
+              </p>
+            </div>
+            <div className="flex items-baseline justify-between gap-6">
+              <p className="font-serif text-5xl tracking-wide text-[#3D2B1F] sm:text-[3.5rem]">
+                {stats.activeTenancies}
+              </p>
+              <p className="text-right text-[10px] font-normal uppercase tracking-[0.2em] text-[#6B503C]">
+                Active tenancies
+              </p>
+            </div>
           </div>
 
-          <div className="mt-8 h-px w-20 bg-gold/70" aria-hidden />
+          <div className="mt-10 h-px w-full bg-[#C5AC91]/70" aria-hidden />
 
-          <p className="mt-6 text-[15px] font-light leading-relaxed text-umber">
+          <p className="mt-8 font-serif text-lg italic leading-relaxed tracking-wide text-[#3D2B1F]">
             {portfolioSummary}
           </p>
 
-          <div className="mt-8 flex flex-col gap-3">
+          <div className="mt-8 h-px w-full bg-[#C5AC91]/70" aria-hidden />
+
+          <div className="mt-8 flex flex-col gap-4">
             <Link
               href="/compliance"
-              className="text-sm text-raspberry transition hover:text-umber"
+              className="text-sm text-[#33181C] transition hover:opacity-80"
             >
               View Compliance →
             </Link>
             <Link
               href="/tenancy/dashboard"
-              className="text-sm text-navy transition hover:text-navy-dark"
+              className="text-sm text-[#1B2A4A] transition hover:opacity-80"
             >
               View Tenancy →
             </Link>

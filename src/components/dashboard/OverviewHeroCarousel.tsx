@@ -7,13 +7,20 @@ export type OverviewCarouselPanel = {
   id: string;
   href: string;
   label: string;
-  labelAccent?: "gold" | "umber";
   value: string;
   detail: string;
+  watermark: "burgundy" | "navy" | "gold" | "study";
 };
 
 type OverviewHeroCarouselProps = {
   panels: OverviewCarouselPanel[];
+};
+
+const WATERMARK: Record<OverviewCarouselPanel["watermark"], string> = {
+  burgundy: "#33181C",
+  navy: "#1B2A4A",
+  gold: "#C4A35A",
+  study: "#1C2B23",
 };
 
 function wrapOffset(index: number, active: number, length: number) {
@@ -100,34 +107,38 @@ export default function OverviewHeroCarousel({
             }
 
             const content = (
-              <div>
-                <p
-                  className={`text-[10px] font-normal uppercase tracking-[0.22em] ${
-                    panel.labelAccent === "gold" ? "text-gold" : "text-umber"
-                  }`}
-                >
-                  {panel.label}
-                </p>
-                <p
-                  className={`mt-4 font-serif tracking-wide text-umber ${
-                    isCenter
-                      ? "text-3xl sm:text-4xl lg:text-5xl"
-                      : "text-2xl sm:text-3xl"
-                  }`}
-                >
-                  {panel.value}
-                </p>
-                <p
-                  className={`mt-3 text-leather ${
-                    isCenter ? "text-base" : "text-sm"
-                  }`}
-                >
-                  {panel.detail}
-                </p>
-              </div>
+              <>
+                <span
+                  aria-hidden
+                  className="absolute left-1/2 top-0 h-[2px] w-10 -translate-x-1/2 bg-[#C4A35A]"
+                />
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute -bottom-10 -right-10 h-44 w-44 rounded-full"
+                  style={{
+                    backgroundColor: WATERMARK[panel.watermark],
+                    opacity: 0.06,
+                  }}
+                />
+                <div className="relative z-[1]">
+                  <p className="text-[10px] font-normal uppercase tracking-[0.28em] text-[#6B503C]">
+                    {panel.label}
+                  </p>
+                  <p
+                    className={`mt-6 font-serif tracking-wide text-[#3D2B1F] ${
+                      isCenter ? "text-[3.5rem] leading-none" : "text-[2.5rem] leading-none"
+                    }`}
+                  >
+                    {panel.value}
+                  </p>
+                  <p className="mt-5 text-[13px] italic text-[#6B503C]">
+                    {panel.detail}
+                  </p>
+                </div>
+              </>
             );
 
-            const cardClass = `absolute top-1/2 flex min-h-[180px] flex-col justify-center rounded-2xl border-t border-[#C4A35A] bg-[rgba(240,236,225,0.95)] p-7 shadow-[0_8px_28px_rgba(61,43,31,0.18)] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] sm:min-h-[200px] ${slotClass} ${
+            const cardClass = `absolute top-1/2 flex min-h-[190px] flex-col justify-center overflow-hidden rounded-[20px] bg-[rgba(240,236,225,0.95)] p-8 shadow-[0_8px_28px_rgba(61,43,31,0.16),inset_0_1px_0_rgba(255,255,255,0.6)] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] sm:min-h-[210px] sm:p-9 ${slotClass} ${
               isCenter ? "z-20" : visible ? "z-10" : "z-0"
             } ${visible ? "" : "pointer-events-none invisible"}`;
 
