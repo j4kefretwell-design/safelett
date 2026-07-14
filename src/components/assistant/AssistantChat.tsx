@@ -77,6 +77,53 @@ const ASK_EXAMPLES = [
   "Which properties are fully compliant?",
 ] as const;
 
+type ComposerMode = "ask" | "draft" | "tenancy" | "property";
+
+const COMPOSER_MODES: Record<
+  ComposerMode,
+  {
+    label: string;
+    title: string;
+    placeholder: string;
+    chips: string[];
+  }
+> = {
+  ask: {
+    label: "ASK",
+    title: "Ask your portfolio",
+    placeholder:
+      "Ask anything about your properties, tenancies or compliance...",
+    chips: [
+      "Which certificates expire this month?",
+      "Any urgent actions?",
+      "Are all deposits protected?",
+    ],
+  },
+  draft: {
+    label: "DRAFT",
+    title: "Draft a document",
+    placeholder:
+      "Describe the document you need — e.g. 'Rent increase letter for 42 Brook Street'",
+    chips: [
+      "Rent increase notice",
+      "End of tenancy letter",
+      "Maintenance access letter",
+    ],
+  },
+  tenancy: {
+    label: "TENANCY",
+    title: "Review a tenancy",
+    placeholder: "Which tenancy would you like to review?",
+    chips: [],
+  },
+  property: {
+    label: "REPORT",
+    title: "Full property report",
+    placeholder: "Which property would you like a full report on?",
+    chips: [],
+  },
+};
+
 const MODE_BOXES = [
   {
     label: "ASK",
@@ -103,6 +150,62 @@ const MODE_BOXES = [
     kind: "property" as const,
   },
 ] as const;
+
+function matchDraftDocument(text: string): AssistantDocumentType | null {
+  const q = text.trim().toLowerCase();
+  if (!q) return null;
+  if (
+    q === "rent increase notice" ||
+    q.includes("rent increase") ||
+    q.includes("section 13")
+  ) {
+    return "rent_increase";
+  }
+  if (q === "end of tenancy letter" || q.includes("end of tenancy")) {
+    return "end_of_tenancy";
+  }
+  if (
+    q === "maintenance access letter" ||
+    q.includes("maintenance access") ||
+    q.includes("access letter")
+  ) {
+    return "maintenance_access";
+  }
+  return null;
+}
+
+function matchTenancy(text: string, items: Tenancy[]): Tenancy | null {
+  const q = text.trim().toLowerCase();
+  if (!q) return null;
+  const exact = items.find(
+    (item) =>
+      item.tenant_names.toLowerCase() === q ||
+      item.property_address.toLowerCase() === q ||
+      `${item.tenant_names} — ${item.property_address}`.toLowerCase() === q
+  );
+  if (exact) return exact;
+  const matches = items.filter(
+    (item) =>
+      item.tenant_names.toLowerCase().includes(q) ||
+      item.property_address.toLowerCase().includes(q) ||
+      q.includes(item.tenant_names.toLowerCase()) ||
+      q.includes(item.property_address.toLowerCase())
+  );
+  return matches.length === 1 ? matches[0] : null;
+}
+
+function matchProperty(text: string, items: Property[]): Property | null {
+  const q = text.trim().toLowerCase();
+  if (!q) return null;
+  const exact = items.find((item) => item.address.toLowerCase() === q);
+  if (exact) return exact;
+  const matches = items.filter(
+    (item) =>
+      item.address.toLowerCase().includes(q) ||
+      q.includes(item.address.toLowerCase())
+  );
+  return matches.length === 1 ? matches[0] : null;
+}
 
 const uid = () => crypto.randomUUID();
 
@@ -211,7 +314,10 @@ export default function AssistantChat({
   const [savedChatId, setSavedChatId] = useState<string | null>(null);
   const [currentKind, setCurrentKind] = useState<AssistantChatKind>("ask");
   const [toast, setToast] = useState<string | null>(null);
+  const [composerMode, setComposerMode] = useState<ComposerMode | null>(null);
+  const [composerInput, setComposerInput] = useState("");
   const bottomRef = useRef<HTMLDivElement>(null);
+  const composerTextareaRef = useRef<HTMLTextAreaElement>(null);
   const startedRef = useRef(false);
   const sessionId =
     view.screen === "menu" || view.screen === "saved" || view.screen === "drafts"
@@ -243,6 +349,22 @@ export default function AssistantChat({
     return () => window.clearTimeout(timer);
   }, [toast]);
 
+  useEffect(() => {
+    if (!composerMode) return;
+    const timer = window.setTimeout(() => {
+      composerTextareaRef.current?.focus();
+    }, 40);
+    function onKey(event: KeyboardEvent) {
+      if (event.key === "Escape") closeComposer();
+    }
+    window.addEventListener("keydown", onKey);
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener("keydown", onKey);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [composerMode]);
+
   function reset(kind: AssistantChatKind = "ask") {
     setMessages([]);
     setInput("");
@@ -255,7 +377,19 @@ export default function AssistantChat({
 
   function goToMenu() {
     reset();
+    setComposerMode(null);
+    setComposerInput("");
     setView({ screen: "menu" });
+  }
+
+  function openComposer(mode: ComposerMode) {
+    setComposerMode(mode);
+    setComposerInput("");
+  }
+
+  function closeComposer() {
+    setComposerMode(null);
+    setComposerInput("");
   }
 
   function open(kind: AssistantChatKind) {
@@ -272,6 +406,73 @@ export default function AssistantChat({
       void runCompliance();
     }
     return id;
+  }
+
+  function submitComposer() {
+    const trimmed = composerInput.trim();
+    if (!composerMode || !trimmed || loading) return;
+    const mode = composerMode;
+    closeComposer();
+
+    if (mode === "ask") {
+      const id = uid();
+      reset("ask");
+      setView({ screen: "ask", sessionId: id });
+      void ask(trimmed, "ask", undefined, []);
+      return;
+    }
+
+    if (mode === "draft") {
+      const documentType = matchDraftDocument(trimmed);
+      const id = uid();
+      if (documentType) {
+        reset("draft");
+        beginDraft(documentType, id);
+        return;
+      }
+      reset("ask");
+      setView({ screen: "ask", sessionId: id });
+      void ask(
+        `Please help me draft the following: ${trimmed}`,
+        "ask",
+        undefined,
+        []
+      );
+      return;
+    }
+
+    if (mode === "tenancy") {
+      const matched = matchTenancy(trimmed, tenancies);
+      if (matched) {
+        selectTenancy(matched);
+        return;
+      }
+      const id = uid();
+      reset("ask");
+      setView({ screen: "ask", sessionId: id });
+      void ask(
+        `I'd like to review this tenancy: ${trimmed}. Please help identify it and provide a full overview.`,
+        "ask",
+        undefined,
+        []
+      );
+      return;
+    }
+
+    const matched = matchProperty(trimmed, properties);
+    if (matched) {
+      selectProperty(matched);
+      return;
+    }
+    const id = uid();
+    reset("ask");
+    setView({ screen: "ask", sessionId: id });
+    void ask(
+      `I'd like a full compliance and tenancy report for: ${trimmed}. Please help identify the property and produce the report.`,
+      "ask",
+      undefined,
+      []
+    );
   }
 
   function append(message: Omit<AssistantChatMessage, "id">) {
@@ -371,8 +572,12 @@ export default function AssistantChat({
     }
   }
 
-  function beginDraft(documentType: AssistantDocumentType) {
-    if (!sessionId) return;
+  function beginDraft(
+    documentType: AssistantDocumentType,
+    sessionOverride?: string
+  ) {
+    const activeSession = sessionOverride ?? sessionId;
+    if (!activeSession) return;
     const definition = getAssistantDocument(documentType);
     if (!definition) return;
     const opening: AssistantChatMessage[] = [
@@ -405,7 +610,8 @@ export default function AssistantChat({
     }
     setMessages(opening);
     setDraftState(next);
-    setView({ screen: "draft", sessionId, documentType });
+    setCurrentKind("draft");
+    setView({ screen: "draft", sessionId: activeSession, documentType });
   }
 
   function nextDraftStep(state: DraftState, documentType: AssistantDocumentType) {
@@ -711,8 +917,15 @@ export default function AssistantChat({
     if (startedRef.current || !initialAction) return;
     startedRef.current = true;
     if (initialAction === "expiry") {
-      open("ask");
-      window.setTimeout(() => void ask("Which certificates expire soon?", "ask"), 0);
+      openComposer("ask");
+      setComposerInput("Which certificates expire soon?");
+    } else if (
+      initialAction === "ask" ||
+      initialAction === "draft" ||
+      initialAction === "tenancy" ||
+      initialAction === "property"
+    ) {
+      openComposer(initialAction);
     } else {
       open(initialAction);
     }
@@ -750,6 +963,14 @@ export default function AssistantChat({
     "block w-full py-1 text-left text-[12px] tracking-[0.14em] text-dusty-cream/80 transition hover:text-dusty-cream";
   const pickRow =
     "flex w-full items-center justify-between gap-4 border-t border-olive/25 py-5 text-left transition hover:text-study";
+
+  const composerConfig = composerMode ? COMPOSER_MODES[composerMode] : null;
+  const composerChips =
+    composerMode === "tenancy"
+      ? tenancies.slice(0, 4).map((item) => item.tenant_names)
+      : composerMode === "property"
+        ? properties.slice(0, 4).map((item) => item.address)
+        : (composerConfig?.chips ?? []);
 
   return (
     <div className="flex h-[calc(100vh-4rem)] w-full overflow-hidden">
@@ -837,6 +1058,80 @@ export default function AssistantChat({
           </div>
         )}
 
+        {composerMode && composerConfig && (
+          <div className="absolute inset-0 z-40 flex items-center justify-center p-4 sm:p-6">
+            <button
+              type="button"
+              aria-label="Close composer"
+              className="absolute inset-0 bg-black/40 backdrop-blur-[2px]"
+              onClick={closeComposer}
+            />
+            <div
+              role="dialog"
+              aria-modal="true"
+              aria-label={composerConfig.title}
+              className="assistant-composer-modal relative z-[1] w-[90%] max-w-[640px] rounded-[20px] bg-[#F0ECE1] p-10 shadow-[0_20px_60px_rgba(0,0,0,0.3)]"
+            >
+              <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-study">
+                {composerConfig.title}
+              </p>
+              <div className="mt-3 h-px w-full bg-moss/70" aria-hidden />
+
+              <label htmlFor="assistant-composer-input" className="sr-only">
+                {composerConfig.title}
+              </label>
+              <textarea
+                id="assistant-composer-input"
+                ref={composerTextareaRef}
+                value={composerInput}
+                onChange={(event) => setComposerInput(event.target.value)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" && !event.shiftKey) {
+                    event.preventDefault();
+                    submitComposer();
+                  }
+                }}
+                placeholder={composerConfig.placeholder}
+                rows={6}
+                className="mt-6 h-[180px] w-full resize-none border-0 bg-transparent font-serif text-[1.35rem] leading-relaxed text-study placeholder:text-[#A89F7C] focus:outline-none focus:ring-0"
+              />
+
+              {composerChips.length > 0 && (
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {composerChips.map((chip) => (
+                    <button
+                      key={chip}
+                      type="button"
+                      onClick={() => setComposerInput(chip)}
+                      className="rounded-full border border-olive/35 bg-[#F0ECE1] px-3 py-1.5 text-[11px] tracking-wide text-cocoa/80 transition hover:border-moss hover:text-study"
+                    >
+                      {chip}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              <div className="mt-8 flex items-center justify-end gap-5">
+                <button
+                  type="button"
+                  onClick={closeComposer}
+                  className="text-[13px] text-cocoa transition hover:text-study"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={submitComposer}
+                  disabled={!composerInput.trim() || loading}
+                  className="rounded-lg bg-study px-5 py-2.5 text-[13px] text-parchment-line transition hover:bg-olive disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  Send →
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {view.screen === "menu" && (
           <div className="relative z-[1] flex flex-1 items-center justify-center p-4 sm:p-6 lg:p-12">
             <div className="mx-auto flex h-[88%] max-h-[88%] w-[92%] flex-col items-center justify-center overflow-y-auto rounded-[16px] bg-parchment-line px-8 py-10 shadow-[0_24px_64px_rgba(28,43,35,0.28)] sm:px-14 sm:py-12">
@@ -856,7 +1151,7 @@ export default function AssistantChat({
                   <button
                     key={box.label}
                     type="button"
-                    onClick={() => open(box.kind)}
+                    onClick={() => openComposer(box.kind)}
                     className="group flex min-h-[56px] w-full cursor-text items-center gap-4 rounded-xl border border-olive/80 bg-parchment-line px-5 py-3.5 text-left shadow-[inset_0_1px_0_rgba(255,255,255,0.35)] transition hover:border-moss/70 focus-visible:border-moss focus-visible:outline-none focus-visible:shadow-[0_0_0_1px_var(--color-moss),0_0_0_4px_rgba(168,159,124,0.35)]"
                   >
                     <span className="shrink-0 text-[10px] font-normal uppercase tracking-[0.2em] text-study">
