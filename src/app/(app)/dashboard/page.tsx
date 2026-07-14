@@ -186,74 +186,82 @@ export default async function OverviewDashboardPage() {
         )}
       </section>
 
-      <section className="grid w-full grid-cols-1 md:grid-cols-[40%_60%]">
-        <div
-          className="relative min-h-[300px] overflow-hidden md:min-h-[420px]"
-          style={{ backgroundColor: siteImages.sajeerMoCastle.placeholderColor }}
-        >
-          <OptimizedFillImage
-            image={siteImages.sajeerMoCastle}
-            alt=""
-            sizes="(max-width: 768px) 100vw, 40vw"
-            quality={60}
-            className="object-cover"
-            style={{ objectPosition: "center 30%" }}
-          />
-        </div>
+      <section className="w-full bg-[#F2EDE8]">
+        <div className="h-px w-full bg-[#C4A35A]" aria-hidden />
 
-        <div className="flex flex-col justify-center bg-[#F2EDE8] px-8 py-14 sm:px-12 lg:px-16 xl:px-20">
-          <p className="text-[10px] font-normal uppercase tracking-[0.28em] text-[#6B503C]">
-            Your Portfolio at a Glance
-          </p>
-          <div className="mt-3 h-px w-16 bg-[#C4A35A]/80" aria-hidden />
+        <div className="grid w-full grid-cols-1 items-stretch md:grid-cols-[40%_60%]">
+          <div
+            className="relative min-h-[320px] w-full overflow-hidden md:min-h-0"
+            style={{ backgroundColor: siteImages.sajeerMoCastle.placeholderColor }}
+          >
+            <div className="absolute inset-0">
+              <OptimizedFillImage
+                image={siteImages.sajeerMoCastle}
+                alt=""
+                sizes="(max-width: 768px) 100vw, 40vw"
+                quality={60}
+                className="object-cover"
+                style={{ objectPosition: "center 30%" }}
+              />
+            </div>
+          </div>
 
-          <dl className="mt-10">
-            {(
-              [
-                ["Properties", String(stats.totalProperties)],
-                ["Tenancies", String(stats.activeTenancies)],
-                ["Compliant", String(compliantCount)],
-                ["Status", portfolioStatus],
-              ] as const
-            ).map(([label, value], index) => (
-              <div
-                key={label}
-                className={`grid grid-cols-[7.5rem_1fr] items-baseline gap-6 py-4 sm:grid-cols-[9rem_1fr] ${
-                  index < 3 ? "border-b border-[#C5AC91]/70" : ""
-                }`}
-              >
-                <dt className="text-[10px] font-normal uppercase tracking-[0.2em] text-[#6B503C]">
-                  {label}
-                </dt>
-                <dd
-                  className={`font-serif tracking-wide text-[#3D2B1F] ${
-                    label === "Status"
-                      ? "text-xl sm:text-2xl"
-                      : "text-3xl sm:text-4xl"
+          <div className="flex w-full flex-col justify-center bg-[#F2EDE8] px-8 py-14 sm:px-12 lg:px-16 xl:px-20">
+            <p className="text-[10px] font-normal uppercase tracking-[0.28em] text-[#6B503C]">
+              Your Portfolio at a Glance
+            </p>
+            <div className="mt-3 h-px w-16 bg-[#C4A35A]/80" aria-hidden />
+
+            <dl className="mt-10">
+              {(
+                [
+                  ["Properties", String(stats.totalProperties)],
+                  ["Tenancies", String(stats.activeTenancies)],
+                  ["Compliant", String(compliantCount)],
+                  ["Status", portfolioStatus],
+                ] as const
+              ).map(([label, value], index) => (
+                <div
+                  key={label}
+                  className={`grid grid-cols-[7.5rem_1fr] items-baseline gap-6 py-4 sm:grid-cols-[9rem_1fr] ${
+                    index < 3 ? "border-b border-[#C5AC91]/70" : ""
                   }`}
                 >
-                  {value}
-                </dd>
-              </div>
-            ))}
-          </dl>
+                  <dt className="text-[10px] font-normal uppercase tracking-[0.2em] text-[#6B503C]">
+                    {label}
+                  </dt>
+                  <dd
+                    className={`font-serif tracking-wide text-[#3D2B1F] ${
+                      label === "Status"
+                        ? "text-xl sm:text-2xl"
+                        : "text-3xl sm:text-4xl"
+                    }`}
+                  >
+                    {value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
 
-          <div className="mt-10 flex flex-wrap items-center gap-4">
-            <Link
-              href="/compliance"
-              className="text-sm text-[#33181C] transition hover:opacity-80"
-            >
-              View Compliance →
-            </Link>
-            <span className="h-4 w-px bg-[#C5AC91]" aria-hidden />
-            <Link
-              href="/tenancy/dashboard"
-              className="text-sm text-[#1B2A4A] transition hover:opacity-80"
-            >
-              View Tenancy →
-            </Link>
+            <div className="mt-10 flex flex-wrap items-center gap-4">
+              <Link
+                href="/compliance"
+                className="text-sm text-[#33181C] transition hover:opacity-80"
+              >
+                View Compliance →
+              </Link>
+              <span className="h-4 w-px bg-[#C5AC91]" aria-hidden />
+              <Link
+                href="/tenancy/dashboard"
+                className="text-sm text-[#1B2A4A] transition hover:opacity-80"
+              >
+                View Tenancy →
+              </Link>
+            </div>
           </div>
         </div>
+
+        <div className="h-px w-full bg-[#C4A35A]" aria-hidden />
       </section>
     </div>
   );
