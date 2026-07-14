@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import ConfirmDialog from "@/components/ConfirmDialog";
+import { useToast } from "@/components/toast/ToastProvider";
 import { createClient } from "@/lib/supabase/client";
 import {
   btnDangerClassName,
@@ -19,12 +20,14 @@ interface ContractorCardProps {
 
 export default function ContractorCard({ contractor }: ContractorCardProps) {
   const router = useRouter();
+  const { deleted, error: toastError } = useToast();
   const [loading, setLoading] = useState(false);
   const [confirming, setConfirming] = useState(false);
 
   async function handleDelete() {
     setLoading(true);
     const supabase = createClient();
+    const snapshot = { ...contractor };
     const { error } = await supabase
       .from("contractors")
       .delete()
@@ -34,10 +37,14 @@ export default function ContractorCard({ contractor }: ContractorCardProps) {
     setConfirming(false);
 
     if (error) {
-      window.alert(error.message);
+      toastError();
       return;
     }
 
+    deleted("Contractor deleted", async () => {
+      await supabase.from("contractors").insert(snapshot);
+      router.refresh();
+    });
     router.refresh();
   }
 

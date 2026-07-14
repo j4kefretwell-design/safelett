@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Upload } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/components/toast/ToastProvider";
 import { createClient } from "@/lib/supabase/client";
 import {
   CERTIFICATE_LABELS,
@@ -49,6 +50,7 @@ export default function CertificateForm({
   editorial = false,
 }: CertificateFormProps) {
   const router = useRouter();
+  const { success, error: toastError } = useToast();
   const isEditing = Boolean(certificate);
   const [certificateType, setCertificateType] = useState<CertificateType>(
     certificate?.certificate_type ?? "gas_safety"
@@ -99,6 +101,7 @@ export default function CertificateForm({
 
       if (updateError) {
         setError(updateError.message);
+        toastError();
         setLoading(false);
         return;
       }
@@ -126,6 +129,7 @@ export default function CertificateForm({
 
         if (uploadError) {
           setError(uploadError.message);
+          toastError();
           setLoading(false);
           return;
         }
@@ -136,6 +140,7 @@ export default function CertificateForm({
           .eq("id", certificate.id);
       }
 
+      success("Certificate saved successfully");
       router.push(`/properties/${propertyId}`);
       router.refresh();
       return;
@@ -155,6 +160,7 @@ export default function CertificateForm({
 
     if (insertError || !newCertificate) {
       setError(insertError?.message ?? "Failed to add certificate.");
+      toastError();
       setLoading(false);
       return;
     }
@@ -177,6 +183,7 @@ export default function CertificateForm({
       if (uploadError) {
         await supabase.from("certificates").delete().eq("id", newCertificate.id);
         setError(uploadError.message);
+        toastError();
         setLoading(false);
         return;
       }
@@ -187,6 +194,7 @@ export default function CertificateForm({
         .eq("id", newCertificate.id);
     }
 
+    success("Certificate added");
     router.push(`/properties/${propertyId}`);
     router.refresh();
   }

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import ConfirmDialog from "@/components/ConfirmDialog";
+import { useToast } from "@/components/toast/ToastProvider";
 import { deleteCertificateDocuments } from "@/lib/certificate-documents";
 import { createClient } from "@/lib/supabase/client";
 
@@ -18,6 +19,7 @@ export default function DeleteCertificateButton({
   documentPath,
 }: DeleteCertificateButtonProps) {
   const router = useRouter();
+  const { deleted, error: toastError } = useToast();
   const [loading, setLoading] = useState(false);
   const [confirming, setConfirming] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -27,6 +29,11 @@ export default function DeleteCertificateButton({
     setError(null);
 
     const supabase = createClient();
+    const { data: certificateRow } = await supabase
+      .from("certificates")
+      .select("*")
+      .eq("id", certificateId)
+      .maybeSingle();
 
     if (documentPath) {
       await deleteCertificateDocuments(supabase, [documentPath]);
@@ -39,12 +46,18 @@ export default function DeleteCertificateButton({
 
     if (deleteError) {
       setError(deleteError.message);
+      toastError();
       setLoading(false);
       setConfirming(false);
       return;
     }
 
     setConfirming(false);
+    deleted("Certificate deleted", async () => {
+      if (!certificateRow) return;
+      await supabase.from("certificates").insert(certificateRow);
+      router.refresh();
+    });
     router.refresh();
     setLoading(false);
   }
@@ -59,9 +72,7 @@ export default function DeleteCertificateButton({
       >
         {loading ? "Deleting..." : "Delete"}
       </button>
-      {error && (
-        <p className="mt-1 text-xs text-urgent">{error}</p>
-      )}
+      {error && <p className="mt-1 text-xs text-urgent">{error}</p>}
       <ConfirmDialog
         open={confirming}
         title="Delete certificate?"

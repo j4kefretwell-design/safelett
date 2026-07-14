@@ -27,7 +27,7 @@ export default function TenancyEmptyState() {
             href="/tenancy/new"
             className={`${btnGoldOutlineClassName} mt-10 w-full sm:w-auto`}
           >
-            Add Your First Tenancy
+            Add Tenancy
           </Link>
         </div>
       </section>

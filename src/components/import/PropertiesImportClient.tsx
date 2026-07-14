@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Upload } from "lucide-react";
 import PageBackLink from "@/components/PageBackLink";
+import { useToast } from "@/components/toast/ToastProvider";
 import {
   btnOutlineClassName,
   btnPrimaryClassName,
@@ -40,6 +41,7 @@ Dates must be YYYY-MM-DD. Leave certificate columns empty for property-only rows
 
 export default function PropertiesImportClient() {
   const router = useRouter();
+  const { success, error: toastError } = useToast();
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -83,6 +85,7 @@ export default function PropertiesImportClient() {
         } else {
           setError(data.error ?? "Import failed.");
         }
+        toastError();
         setLoading(false);
         return;
       }
@@ -92,9 +95,11 @@ export default function PropertiesImportClient() {
         certificatesCreated: data.certificatesCreated ?? 0,
       });
       setFile(null);
+      success("Import completed successfully");
       router.refresh();
     } catch {
       setError("Unable to upload file. Please try again.");
+      toastError();
     }
 
     setLoading(false);

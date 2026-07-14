@@ -78,6 +78,56 @@
   animation: assistant-composer-in 0.2s ease forwards;
 }
 
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+.skeleton-shimmer {
+  background-color: #e8e2da;
+  background-image: linear-gradient(
+    90deg,
+    #e8e2da 0%,
+    #f7f3ee 45%,
+    #ebe5dc 55%,
+    #e8e2da 100%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.6s ease-in-out infinite;
+}
+
+.skeleton-shimmer-navy {
+  background-color: #d8dee8;
+  background-image: linear-gradient(
+    90deg,
+    #d8dee8 0%,
+    #eef1f6 45%,
+    #dce2ec 55%,
+    #d8dee8 100%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.6s ease-in-out infinite;
+}
+
+@keyframes toast-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(1.25rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.toast-slide-in {
+  animation: toast-slide-in 0.28s ease forwards;
+}
+
 @layer components {
   .heritage-card {
     position: relative;

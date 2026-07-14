@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/components/toast/ToastProvider";
 import { createClient } from "@/lib/supabase/client";
 import {
   btnPrimaryClassName,
@@ -41,6 +42,7 @@ export default function PropertyForm({
   editorial = false,
 }: PropertyFormProps) {
   const router = useRouter();
+  const { success, error: toastError } = useToast();
   const isEditing = Boolean(property);
   const [address, setAddress] = useState(property?.address ?? "");
   const [propertyType, setPropertyType] = useState<PropertyType>(
@@ -81,10 +83,12 @@ export default function PropertyForm({
 
       if (updateError) {
         setError(updateError.message);
+        toastError();
         setLoading(false);
         return;
       }
 
+      success("Property saved successfully");
       router.push(`/properties/${property.id}`);
       router.refresh();
       return;
@@ -103,10 +107,12 @@ export default function PropertyForm({
 
     if (insertError) {
       setError(insertError.message);
+      toastError();
       setLoading(false);
       return;
     }
 
+    success("Property saved successfully");
     router.push(`/properties/${data.id}`);
     router.refresh();
   }

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { useToast } from "@/components/toast/ToastProvider";
 import {
   buildGmailComposeUrl,
   buildMailtoUrl,
@@ -30,6 +31,7 @@ export default function ContractorEmailDraftClient({
   propertyAddress,
   backHref,
 }: ContractorEmailDraftClientProps) {
+  const { success, error: toastError } = useToast();
   const [body, setBody] = useState(initialDraft.body);
   const [copied, setCopied] = useState(false);
 
@@ -45,9 +47,11 @@ export default function ContractorEmailDraftClient({
     try {
       await navigator.clipboard.writeText(formatEmailForCopy(draft));
       setCopied(true);
+      success("Email copied to clipboard");
       window.setTimeout(() => setCopied(false), 2500);
     } catch {
       setCopied(false);
+      toastError("Unable to copy email.");
     }
   }
 

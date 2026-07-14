@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/components/toast/ToastProvider";
 import { createClient } from "@/lib/supabase/client";
 import {
   buildTenancyDocumentPath,
@@ -43,6 +44,7 @@ export default function TenancyForm({
   properties: initialProperties = [],
 }: TenancyFormProps) {
   const router = useRouter();
+  const { success, error: toastError } = useToast();
   const isEditing = Boolean(tenancy);
 
   const [properties, setProperties] = useState<Property[]>(initialProperties);
@@ -231,9 +233,11 @@ export default function TenancyForm({
         }
       }
 
+      success(isEditing ? "Tenancy updated" : "Tenancy added");
       router.push(`/tenancy/${tenancyId}`);
       router.refresh();
     } catch (submitError) {
+      toastError();
       setError(
         submitError instanceof Error ? submitError.message : "Unable to save tenancy."
       );

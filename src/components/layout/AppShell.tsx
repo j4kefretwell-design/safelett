@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
+import { ToastProvider } from "@/components/toast/ToastProvider";
 import { AppModeProvider, useAppMode } from "@/lib/app-mode";
 import AppSidebar from "./AppSidebar";
 import TopNav from "./TopNav";
@@ -51,7 +52,9 @@ function AppShellInner({ children }: AppShellProps) {
 export default function AppShell({ children }: AppShellProps) {
   return (
     <AppModeProvider>
-      <AppShellInner>{children}</AppShellInner>
+      <ToastProvider>
+        <AppShellInner>{children}</AppShellInner>
+      </ToastProvider>
     </AppModeProvider>
   );
 }

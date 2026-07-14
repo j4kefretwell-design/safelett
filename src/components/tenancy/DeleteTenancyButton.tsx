@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import ConfirmDialog from "@/components/ConfirmDialog";
+import { useToast } from "@/components/toast/ToastProvider";
 import { createClient } from "@/lib/supabase/client";
 import { btnDangerClassName } from "@/lib/ui";
 
@@ -12,20 +13,34 @@ interface DeleteTenancyButtonProps {
 
 export default function DeleteTenancyButton({ tenancyId }: DeleteTenancyButtonProps) {
   const router = useRouter();
+  const { deleted, error: toastError } = useToast();
   const [loading, setLoading] = useState(false);
   const [confirming, setConfirming] = useState(false);
 
   async function handleDelete() {
     setLoading(true);
     const supabase = createClient();
+    const { data: tenancyRow } = await supabase
+      .from("tenancies")
+      .select("*")
+      .eq("id", tenancyId)
+      .maybeSingle();
+
     const { error } = await supabase.from("tenancies").delete().eq("id", tenancyId);
 
     if (error) {
+      toastError();
       setLoading(false);
       setConfirming(false);
       return;
     }
 
+    setConfirming(false);
+    deleted("Tenancy deleted", async () => {
+      if (!tenancyRow) return;
+      await supabase.from("tenancies").insert(tenancyRow);
+      router.refresh();
+    });
     router.push("/tenancy/dashboard");
     router.refresh();
   }

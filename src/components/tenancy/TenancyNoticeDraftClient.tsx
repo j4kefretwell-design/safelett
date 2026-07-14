@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { useToast } from "@/components/toast/ToastProvider";
 import {
   buildGmailComposeUrl,
   buildMailtoUrl,
@@ -10,7 +11,7 @@ import {
   type TenancyNoticeDraft,
   type TenancyNoticeType,
 } from "@/lib/tenancy-notices";
-import { capsLabelClassName } from "@/lib/ui";
+import { capsLabelClassName, pageBackLinkClassName } from "@/lib/ui";
 
 interface TenancyNoticeDraftClientProps {
   drafts: Record<TenancyNoticeType, TenancyNoticeDraft>;
@@ -28,6 +29,7 @@ export default function TenancyNoticeDraftClient({
   propertyAddress,
   backHref,
 }: TenancyNoticeDraftClientProps) {
+  const { success, error: toastError } = useToast();
   const [noticeType, setNoticeType] = useState<TenancyNoticeType>("renewal_offer");
   const [body, setBody] = useState(drafts.renewal_offer.body);
   const [copied, setCopied] = useState(false);
@@ -49,18 +51,17 @@ export default function TenancyNoticeDraftClient({
     try {
       await navigator.clipboard.writeText(formatNoticeForCopy(draft));
       setCopied(true);
+      success("Notice copied to clipboard");
       window.setTimeout(() => setCopied(false), 2500);
     } catch {
       setCopied(false);
+      toastError("Unable to copy notice.");
     }
   }
 
   return (
     <div className="tenancy-slate-bg min-h-[calc(100vh-4rem)] px-5 py-10 sm:px-12 sm:py-14 lg:px-16">
-      <Link
-        href={backHref}
-        className="text-base font-light leading-relaxed text-steel transition hover:text-navy"
-      >
+      <Link href={backHref} className={pageBackLinkClassName}>
         ← Back to Tenancy
       </Link>
 

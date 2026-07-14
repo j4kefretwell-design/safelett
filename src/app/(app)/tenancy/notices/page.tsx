@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { formatTenancyDate, type Tenancy } from "@/lib/tenancy";
-import { btnPrimaryClassName } from "@/lib/ui";
+import { btnGoldOutlineClassName, btnPrimaryClassName } from "@/lib/ui";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function TenancyNoticesPage() {
@@ -35,15 +35,24 @@ export default async function TenancyNoticesPage() {
       </p>
 
       {tenancyList.length === 0 ? (
-        <div className="mt-12 border border-steel/15 bg-white p-8 text-center">
-          <p className="text-sm text-steel">
-            Add a tenancy first to generate notices.
+        <div className="mt-16 flex flex-col items-center border border-steel/15 bg-white px-8 py-16 text-center">
+          <p className="font-serif text-2xl italic tracking-wide text-tenancy-text">
+            No notices drafted yet.
+          </p>
+          <p className="mt-3 max-w-md text-sm font-light text-steel">
+            Add a tenancy to begin drafting professional notices and letters.
           </p>
           <Link
             href="/tenancy/new"
-            className={`${btnPrimaryClassName} mt-6 inline-flex bg-navy hover:bg-navy-dark`}
+            className={`${btnPrimaryClassName} mt-8 bg-navy hover:bg-navy-dark`}
           >
             Add Tenancy
+          </Link>
+          <Link
+            href="/assistant"
+            className={`${btnGoldOutlineClassName} mt-4 border-navy/40 text-navy hover:border-navy`}
+          >
+            Draft a Notice →
           </Link>
         </div>
       ) : (

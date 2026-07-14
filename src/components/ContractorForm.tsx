@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useToast } from "@/components/toast/ToastProvider";
 import { createClient } from "@/lib/supabase/client";
 import {
   btnPrimaryClassName,
@@ -23,6 +24,7 @@ interface ContractorFormProps {
 
 export default function ContractorForm({ contractor }: ContractorFormProps) {
   const router = useRouter();
+  const { success, error: toastError } = useToast();
   const isEditing = Boolean(contractor);
 
   const [name, setName] = useState(contractor?.name ?? "");
@@ -91,9 +93,11 @@ export default function ContractorForm({ contractor }: ContractorFormProps) {
 
       if (updateError) {
         setError(updateError.message);
+        toastError();
         setLoading(false);
         return;
       }
+      success("Contractor saved successfully");
     } else {
       const { error: insertError } = await supabase.from("contractors").insert({
         ...payload,
@@ -102,9 +106,11 @@ export default function ContractorForm({ contractor }: ContractorFormProps) {
 
       if (insertError) {
         setError(insertError.message);
+        toastError();
         setLoading(false);
         return;
       }
+      success("Contractor added");
     }
 
     router.push("/contractors");

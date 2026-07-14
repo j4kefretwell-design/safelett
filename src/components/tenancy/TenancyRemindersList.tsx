@@ -102,9 +102,14 @@ export default function TenancyRemindersList({
 
       <div className="mx-auto max-w-6xl px-5 py-10 sm:px-12 lg:px-16">
         {grouped.length === 0 ? (
-          <p className="py-16 text-center text-sm text-steel">
-            No tenancy deadlines in the next 90 days.
-          </p>
+          <div className="my-8 flex flex-col items-center justify-center bg-navy px-8 py-16 text-center">
+            <span className="text-2xl text-gold" aria-hidden>
+              ✓
+            </span>
+            <p className="mt-5 font-serif text-2xl italic tracking-wide text-dusty-cream sm:text-3xl">
+              All tenancies are in good order.
+            </p>
+          </div>
         ) : (
           grouped.map((group) => (
             <section key={group.key} className="mb-12">

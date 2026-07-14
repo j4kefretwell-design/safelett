@@ -1,13 +1,50 @@
+export function OverviewSkeleton() {
+  return (
+    <div className="min-h-[calc(100vh-4rem)] w-full bg-[#F2EDE8]">
+      <div className="relative h-[calc((100vh-4rem)*0.85)] min-h-[440px] w-full overflow-hidden bg-[#3D2B1F]/20">
+        <div className="absolute inset-x-0 top-1/2 flex h-[60%] -translate-y-1/2 items-center justify-center gap-3 px-16">
+          <div className="skeleton-shimmer hidden h-[200px] w-[22%] rounded-[20px] sm:block" />
+          <div className="skeleton-shimmer h-[220px] w-[min(92%,520px)] rounded-[20px] sm:w-[50%]" />
+          <div className="skeleton-shimmer hidden h-[200px] w-[22%] rounded-[20px] sm:block" />
+        </div>
+      </div>
+      <div className="px-4 py-14 sm:px-6 lg:px-12">
+        <div className="skeleton-shimmer h-3 w-36" />
+        <div className="skeleton-shimmer mt-3 h-px w-16" />
+        <div className="mt-10 space-y-0">
+          {Array.from({ length: 3 }).map((_, index) => (
+            <div
+              key={index}
+              className="skeleton-shimmer h-[4.5rem] border-b border-[#C5AC91]/40"
+            />
+          ))}
+        </div>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-[40%_60%]">
+        <div className="skeleton-shimmer min-h-[300px] md:min-h-[420px]" />
+        <div className="bg-[#F2EDE8] px-8 py-14 sm:px-12 lg:px-16">
+          <div className="skeleton-shimmer h-3 w-32" />
+          <div className="skeleton-shimmer mt-3 h-px w-16" />
+          <div className="skeleton-shimmer mt-10 h-12 w-24" />
+          <div className="skeleton-shimmer mt-7 h-12 w-24" />
+          <div className="skeleton-shimmer mt-10 h-px w-full" />
+          <div className="skeleton-shimmer mt-8 h-6 w-56" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function DashboardSkeleton() {
   return (
-    <div className="dashboard-parchment-bg min-h-[calc(100vh-4rem)] w-full animate-pulse">
-      <div className="h-48 w-full bg-study/15 sm:h-56" />
+    <div className="dashboard-parchment-bg min-h-[calc(100vh-4rem)] w-full">
+      <div className="skeleton-shimmer h-48 w-full sm:h-56" />
       <div className="mx-auto max-w-6xl px-5 py-10 sm:px-10">
-        <div className="h-8 w-56 bg-study/10" />
-        <div className="mt-3 h-4 w-80 max-w-full bg-study/10" />
+        <div className="skeleton-shimmer h-8 w-56" />
+        <div className="skeleton-shimmer mt-3 h-4 w-80 max-w-full" />
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: 6 }).map((_, index) => (
-            <div key={index} className="h-36 bg-study/10" />
+            <div key={index} className="skeleton-shimmer h-36" />
           ))}
         </div>
       </div>
@@ -17,11 +54,11 @@ export function DashboardSkeleton() {
 
 export function RemindersSkeleton() {
   return (
-    <div className="min-h-[calc(100vh-4rem)] w-full animate-pulse">
-      <div className="h-56 w-full bg-study/20" />
+    <div className="min-h-[calc(100vh-4rem)] w-full bg-[#F2EDE8]">
+      <div className="skeleton-shimmer h-56 w-full" />
       <div className="mx-auto max-w-4xl space-y-4 px-5 py-10 sm:px-10">
         {Array.from({ length: 5 }).map((_, index) => (
-          <div key={index} className="h-20 bg-study/10" />
+          <div key={index} className="skeleton-shimmer h-20" />
         ))}
       </div>
     </div>
@@ -30,13 +67,13 @@ export function RemindersSkeleton() {
 
 export function TenancyDashboardSkeleton() {
   return (
-    <div className="tenancy-slate-bg min-h-[calc(100vh-4rem)] w-full animate-pulse">
-      <div className="h-48 w-full bg-navy/20 sm:h-56" />
+    <div className="tenancy-slate-bg min-h-[calc(100vh-4rem)] w-full">
+      <div className="skeleton-shimmer-navy h-48 w-full sm:h-56" />
       <div className="mx-auto max-w-6xl px-5 py-10 sm:px-10">
-        <div className="h-8 w-52 bg-navy/15" />
+        <div className="skeleton-shimmer-navy h-8 w-52" />
         <div className="mt-8 grid gap-4 sm:grid-cols-2">
           {Array.from({ length: 4 }).map((_, index) => (
-            <div key={index} className="h-32 bg-navy/10" />
+            <div key={index} className="skeleton-shimmer-navy h-32" />
           ))}
         </div>
       </div>
@@ -46,11 +83,11 @@ export function TenancyDashboardSkeleton() {
 
 export function SettingsSkeleton() {
   return (
-    <div className="mx-auto max-w-2xl animate-pulse px-5 py-12 sm:px-10">
-      <div className="h-8 w-40 bg-study/10" />
+    <div className="mx-auto max-w-2xl px-5 py-12 sm:px-10">
+      <div className="skeleton-shimmer h-8 w-40" />
       <div className="mt-8 space-y-4">
         {Array.from({ length: 4 }).map((_, index) => (
-          <div key={index} className="h-14 bg-study/10" />
+          <div key={index} className="skeleton-shimmer h-14" />
         ))}
       </div>
     </div>
@@ -62,7 +99,7 @@ export function AssistantSkeleton() {
     <div className="flex h-[calc(100vh-4rem)] w-full overflow-hidden bg-study">
       <aside className="hidden w-[200px] shrink-0 bg-study sm:block" />
       <div className="relative flex flex-1 items-center justify-center bg-study/80 p-6">
-        <div className="h-[88%] w-[92%] animate-pulse rounded-[16px] bg-parchment-line/90" />
+        <div className="skeleton-shimmer h-[88%] w-[92%] rounded-[16px]" />
       </div>
     </div>
   );
@@ -70,10 +107,23 @@ export function AssistantSkeleton() {
 
 export function ImportSkeleton() {
   return (
-    <div className="mx-auto max-w-3xl animate-pulse px-5 py-16 sm:px-10">
-      <div className="h-8 w-48 bg-study/10" />
-      <div className="mt-6 h-4 w-full max-w-md bg-study/10" />
-      <div className="mt-10 h-40 bg-study/10" />
+    <div className="mx-auto max-w-3xl px-5 py-16 sm:px-10">
+      <div className="skeleton-shimmer h-8 w-48" />
+      <div className="skeleton-shimmer mt-6 h-4 w-full max-w-md" />
+      <div className="skeleton-shimmer mt-10 h-40" />
+    </div>
+  );
+}
+
+export function NewsSkeleton() {
+  return (
+    <div className="dashboard-parchment-bg min-h-[calc(100vh-4rem)] w-full">
+      <div className="skeleton-shimmer h-28 w-full" />
+      <div className="space-y-5 px-5 py-10 sm:px-12 lg:px-16">
+        {Array.from({ length: 3 }).map((_, index) => (
+          <div key={index} className="skeleton-shimmer h-40" />
+        ))}
+      </div>
     </div>
   );
 }

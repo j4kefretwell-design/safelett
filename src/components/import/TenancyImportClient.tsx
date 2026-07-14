@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Upload } from "lucide-react";
 import PageBackLink from "@/components/PageBackLink";
+import { useToast } from "@/components/toast/ToastProvider";
 import {
   btnOutlineClassName,
   editorialFormCancelClassName,
@@ -43,6 +44,7 @@ Dates must be YYYY-MM-DD. If property_address matches an existing property, the 
 
 export default function TenancyImportClient() {
   const router = useRouter();
+  const { success, error: toastError } = useToast();
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -99,9 +101,15 @@ export default function TenancyImportClient() {
         tenanciesCreated: data.tenanciesCreated ?? 0,
       });
       setFile(null);
+      success(
+        `${data.tenanciesCreated ?? 0} ${
+          (data.tenanciesCreated ?? 0) === 1 ? "tenancy" : "tenancies"
+        } imported`
+      );
       router.refresh();
     } catch {
       setError("Unable to upload file. Please try again.");
+      toastError();
     }
 
     setLoading(false);
@@ -132,6 +140,23 @@ export default function TenancyImportClient() {
         className="flex min-w-0 flex-col bg-white px-5 py-10 sm:px-8 sm:py-12 lg:px-16 lg:py-16"
       >
         <PageBackLink href="/tenancy/dashboard">← Back to Tenancy</PageBackLink>
+
+        {!file && !result ? (
+          <div className="mt-8 border border-steel/15 bg-[#f0f2f5]/40 px-6 py-8 sm:px-8">
+            <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-navy">
+              Before you upload
+            </p>
+            <div className="mt-3 h-px w-14 bg-gold/70" aria-hidden />
+            <p className="mt-5 max-w-xl font-serif text-xl italic tracking-wide text-tenancy-text">
+              Import your tenancy portfolio in three simple steps.
+            </p>
+            <ol className="mt-5 space-y-2 text-sm font-light leading-relaxed text-steel">
+              <li>1. Download the CSV template with the correct columns.</li>
+              <li>2. Fill one row per tenancy using YYYY-MM-DD dates.</li>
+              <li>3. Upload the completed file to import everything at once.</li>
+            </ol>
+          </div>
+        ) : null}
 
         <label
           htmlFor="tenancy-csv-upload"

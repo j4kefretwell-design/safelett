@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import ConfirmDialog from "@/components/ConfirmDialog";
+import { useToast } from "@/components/toast/ToastProvider";
 import { deleteCertificateDocuments } from "@/lib/certificate-documents";
 import { createClient } from "@/lib/supabase/client";
 import { btnDangerClassName, cardClassName } from "@/lib/ui";
@@ -19,6 +20,7 @@ export default function DeletePropertyButton({
   documentPaths,
 }: DeletePropertyButtonProps) {
   const router = useRouter();
+  const { deleted, error: toastError } = useToast();
   const [loading, setLoading] = useState(false);
   const [confirming, setConfirming] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -29,6 +31,11 @@ export default function DeletePropertyButton({
 
     const supabase = createClient();
 
+    const [{ data: propertyRow }, { data: certificateRows }] = await Promise.all([
+      supabase.from("properties").select("*").eq("id", propertyId).maybeSingle(),
+      supabase.from("certificates").select("*").eq("property_id", propertyId),
+    ]);
+
     await deleteCertificateDocuments(supabase, documentPaths);
 
     const { error: deleteError } = await supabase
@@ -38,11 +45,21 @@ export default function DeletePropertyButton({
 
     if (deleteError) {
       setError(deleteError.message);
+      toastError();
       setLoading(false);
       setConfirming(false);
       return;
     }
 
+    setConfirming(false);
+    deleted("Property deleted", async () => {
+      if (!propertyRow) return;
+      await supabase.from("properties").insert(propertyRow);
+      if (certificateRows?.length) {
+        await supabase.from("certificates").insert(certificateRows);
+      }
+      router.refresh();
+    });
     router.push("/compliance");
     router.refresh();
   }
