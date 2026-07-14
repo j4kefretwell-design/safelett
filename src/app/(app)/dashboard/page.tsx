@@ -5,7 +5,7 @@ import DashboardPortfolioActions from "@/components/DashboardPortfolioActions";
 import { getPropertyStatus } from "@/lib/compliance";
 import { btnGoldClassName } from "@/lib/ui";
 import { createClient } from "@/lib/supabase/server";
-import type { Certificate, Property } from "@/lib/types";
+import type { Certificate, ComplianceStatus, Property } from "@/lib/types";
 import DashboardPortfolio from "./DashboardPortfolio";
 import DashboardStatusBand from "./DashboardStatusBand";
 
