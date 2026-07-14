@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { pageBackLinkClassName } from "@/lib/ui";
 
 interface EditorialFormShellProps {
   title: string;
@@ -25,10 +26,7 @@ export default function EditorialFormShell({
       </section>
 
       <div className="mx-auto max-w-2xl px-5 py-10 sm:px-8 sm:py-14">
-        <Link
-          href={backHref}
-          className="text-base font-light leading-relaxed text-leather transition hover:text-text"
-        >
+        <Link href={backHref} className={pageBackLinkClassName}>
           ← {backLabel}
         </Link>
         <div className="mt-10">{children}</div>

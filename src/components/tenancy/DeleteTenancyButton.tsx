@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import ConfirmDialog from "@/components/ConfirmDialog";
 import { createClient } from "@/lib/supabase/client";
 import { btnDangerClassName } from "@/lib/ui";
 
@@ -21,6 +22,7 @@ export default function DeleteTenancyButton({ tenancyId }: DeleteTenancyButtonPr
 
     if (error) {
       setLoading(false);
+      setConfirming(false);
       return;
     }
 
@@ -28,8 +30,8 @@ export default function DeleteTenancyButton({ tenancyId }: DeleteTenancyButtonPr
     router.refresh();
   }
 
-  if (!confirming) {
-    return (
+  return (
+    <>
       <button
         type="button"
         onClick={() => setConfirming(true)}
@@ -37,26 +39,15 @@ export default function DeleteTenancyButton({ tenancyId }: DeleteTenancyButtonPr
       >
         Delete Tenancy
       </button>
-    );
-  }
-
-  return (
-    <div className="flex flex-wrap items-center gap-3">
-      <button
-        type="button"
-        onClick={handleDelete}
-        disabled={loading}
-        className={btnDangerClassName}
-      >
-        {loading ? "Deleting..." : "Confirm Delete"}
-      </button>
-      <button
-        type="button"
-        onClick={() => setConfirming(false)}
-        className="text-sm text-steel underline-offset-4 hover:underline"
-      >
-        Cancel
-      </button>
-    </div>
+      <ConfirmDialog
+        open={confirming}
+        title="Delete tenancy?"
+        message="Are you sure you want to delete this tenancy record? This cannot be undone."
+        confirmLabel="Confirm Delete"
+        loading={loading}
+        onConfirm={() => void handleDelete()}
+        onCancel={() => setConfirming(false)}
+      />
+    </>
   );
 }

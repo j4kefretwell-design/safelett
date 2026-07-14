@@ -1,12 +1,13 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import {
-  btnOutlineClassName,
   btnPrimaryClassName,
   capsLabelClassName,
+  editorialFormCancelClassName,
   inputClassName,
   labelClassName,
 } from "@/lib/ui";
@@ -203,7 +204,7 @@ export default function ContractorForm({ contractor }: ContractorFormProps) {
         </p>
       )}
 
-      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+      <div>
         <button
           type="submit"
           disabled={loading}
@@ -215,14 +216,9 @@ export default function ContractorForm({ contractor }: ContractorFormProps) {
               ? "Save Contractor"
               : "Add Contractor"}
         </button>
-        <button
-          type="button"
-          onClick={() => router.push("/contractors")}
-          disabled={loading}
-          className={`${btnOutlineClassName} w-full sm:w-auto`}
-        >
+        <Link href="/contractors" className={editorialFormCancelClassName}>
           Cancel
-        </button>
+        </Link>
       </div>
     </form>
   );

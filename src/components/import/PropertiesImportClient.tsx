@@ -1,11 +1,14 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Upload } from "lucide-react";
+import PageBackLink from "@/components/PageBackLink";
 import {
   btnOutlineClassName,
   btnPrimaryClassName,
+  editorialFormCancelClassName,
   goldLabelClassName,
 } from "@/lib/ui";
 
@@ -121,9 +124,11 @@ export default function PropertiesImportClient() {
         onSubmit={handleSubmit}
         className="flex min-w-0 flex-col bg-white px-5 py-10 sm:px-8 sm:py-12 lg:px-16 lg:py-16"
       >
+        <PageBackLink href="/compliance">← Back to Dashboard</PageBackLink>
+
         <label
           htmlFor="csv-upload"
-          className="flex flex-1 cursor-pointer flex-col items-center justify-center border border-dashed border-leather/30 bg-dusty-cream/30 px-8 py-24 text-center transition hover:border-leather/50"
+          className="mt-8 flex flex-1 cursor-pointer flex-col items-center justify-center border border-dashed border-leather/30 bg-dusty-cream/30 px-8 py-24 text-center transition hover:border-leather/50"
         >
           <Upload className="h-8 w-8 text-leather/40" strokeWidth={1.25} />
           <p className="mt-6 font-serif text-xl tracking-wide text-text">
@@ -167,13 +172,18 @@ export default function PropertiesImportClient() {
         )}
 
         <div className="mt-auto space-y-6 pt-10">
-          <button
-            type="submit"
-            disabled={loading || !file}
-            className={`${btnPrimaryClassName} w-full sm:w-auto`}
-          >
-            {loading ? "Importing..." : "Import Properties"}
-          </button>
+          <div>
+            <button
+              type="submit"
+              disabled={loading || !file}
+              className={`${btnPrimaryClassName} w-full sm:w-auto`}
+            >
+              {loading ? "Importing..." : "Import Properties"}
+            </button>
+            <Link href="/compliance" className={editorialFormCancelClassName}>
+              Cancel
+            </Link>
+          </div>
 
           <button
             type="button"

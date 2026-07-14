@@ -162,8 +162,17 @@ export const editorialFormSectionRuleClassName = "my-10 h-px w-full bg-gold/50";
 export const editorialFormSubmitClassName =
   "flex h-12 w-full items-center justify-center bg-raspberry text-sm font-normal uppercase tracking-[0.12em] text-dusty-cream transition duration-200 hover:bg-raspberry-dark disabled:cursor-not-allowed disabled:opacity-50";
 
+/** Cancel link beneath form submit buttons */
 export const editorialFormCancelClassName =
   "mt-4 block w-full text-center text-sm font-light text-gold-readable transition hover:text-gold";
+
+/** Back / exit link — top left of pages */
+export const pageBackLinkClassName =
+  "inline-block text-sm font-light text-gold-readable transition hover:text-gold";
+
+/** Inline cancel beside confirm actions (delete, etc.) */
+export const inlineCancelLinkClassName =
+  "text-sm font-light text-gold-readable transition hover:text-gold";
 
 export const draftContractorEmailBtnClassName =
   "inline-flex min-h-10 items-center justify-center gap-2 border border-raspberry bg-raspberry px-4 py-2.5 text-[11px] font-normal uppercase tracking-[0.12em] text-dusty-cream transition duration-200 hover:border-gold";

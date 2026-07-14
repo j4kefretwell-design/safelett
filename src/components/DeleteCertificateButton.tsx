@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import ConfirmDialog from "@/components/ConfirmDialog";
 import { deleteCertificateDocuments } from "@/lib/certificate-documents";
 import { createClient } from "@/lib/supabase/client";
 
@@ -18,17 +19,12 @@ export default function DeleteCertificateButton({
 }: DeleteCertificateButtonProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [confirming, setConfirming] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   async function handleDelete() {
-    const confirmed = window.confirm(
-      `Are you sure you want to delete the ${certificateLabel} certificate? This cannot be undone.`
-    );
-
-    if (!confirmed) {
-      return;
-    }
-
     setLoading(true);
+    setError(null);
 
     const supabase = createClient();
 
@@ -42,23 +38,39 @@ export default function DeleteCertificateButton({
       .eq("id", certificateId);
 
     if (deleteError) {
-      window.alert(deleteError.message);
+      setError(deleteError.message);
       setLoading(false);
+      setConfirming(false);
       return;
     }
 
+    setConfirming(false);
     router.refresh();
     setLoading(false);
   }
 
   return (
-    <button
-      type="button"
-      onClick={handleDelete}
-      disabled={loading}
-      className="text-sm font-medium text-urgent transition hover:text-burgundy disabled:opacity-50"
-    >
-      {loading ? "Deleting..." : "Delete"}
-    </button>
+    <>
+      <button
+        type="button"
+        onClick={() => setConfirming(true)}
+        disabled={loading}
+        className="text-sm font-medium text-urgent transition hover:text-burgundy disabled:opacity-50"
+      >
+        {loading ? "Deleting..." : "Delete"}
+      </button>
+      {error && (
+        <p className="mt-1 text-xs text-urgent">{error}</p>
+      )}
+      <ConfirmDialog
+        open={confirming}
+        title="Delete certificate?"
+        message={`Are you sure you want to delete the ${certificateLabel} certificate? This cannot be undone.`}
+        confirmLabel="Confirm Delete"
+        loading={loading}
+        onConfirm={() => void handleDelete()}
+        onCancel={() => setConfirming(false)}
+      />
+    </>
   );
 }

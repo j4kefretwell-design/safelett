@@ -9,8 +9,9 @@ import {
   type ContractorEmailDraft,
 } from "@/lib/contractor-email";
 import {
-  editorialFormSubmitClassName,
   capsLabelClassName,
+  editorialFormSubmitClassName,
+  pageBackLinkClassName,
 } from "@/lib/ui";
 
 interface ContractorEmailDraftClientProps {
@@ -52,10 +53,7 @@ export default function ContractorEmailDraftClient({
 
   return (
     <div className="dashboard-parchment-bg min-h-[calc(100vh-4rem)] w-full min-w-0 overflow-x-hidden px-5 py-10 sm:px-12 sm:py-14 lg:px-16">
-      <Link
-        href={backHref}
-        className="text-base font-light leading-relaxed text-leather transition hover:text-text"
-      >
+      <Link href={backHref} className={pageBackLinkClassName}>
         ← Back to Property
       </Link>
 

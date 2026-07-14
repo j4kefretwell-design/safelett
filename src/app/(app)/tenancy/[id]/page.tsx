@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import PageBackLink from "@/components/PageBackLink";
 import DeleteTenancyButton from "@/components/tenancy/DeleteTenancyButton";
 import TenancyTimeline from "@/components/tenancy/TenancyTimeline";
 import { AnimateIn } from "@/components/AnimateIn";
@@ -110,7 +111,10 @@ export default async function TenancyDetailPage({ params }: TenancyDetailPagePro
     <div className="tenancy-slate-bg min-h-[calc(100vh-4rem)]">
       <section className="bg-navy px-5 py-12 sm:px-12 lg:px-16">
         <AnimateIn>
-          <p className={capsLabelClassName}>Tenancy Record</p>
+          <PageBackLink href="/tenancy/dashboard" className="text-gold">
+            ← Back to Tenancy
+          </PageBackLink>
+          <p className={`${capsLabelClassName} mt-8`}>Tenancy Record</p>
           <h1 className="mt-4 font-serif text-3xl tracking-wide text-dusty-cream sm:text-4xl">
             {record.tenant_names}
           </h1>

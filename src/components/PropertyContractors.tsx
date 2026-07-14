@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import ConfirmDialog from "@/components/ConfirmDialog";
 import { createClient } from "@/lib/supabase/client";
 import {
   btnOutlineClassName,
@@ -10,6 +11,7 @@ import {
   btnSecondaryClassName,
   capsLabelClassName,
   cardClassName,
+  inlineCancelLinkClassName,
   labelClassName,
   linkClassName,
   mutedTextClassName,
@@ -43,6 +45,7 @@ export default function PropertyContractors({
     useState<CertificateType | "">("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [unlinkId, setUnlinkId] = useState<string | null>(null);
 
   const assignedTypes = useMemo(
     () => new Set(assignments.map((assignment) => assignment.certificate_type)),
@@ -131,10 +134,6 @@ export default function PropertyContractors({
   }
 
   async function handleUnlink(assignmentId: string) {
-    if (!window.confirm("Remove this contractor link from the property?")) {
-      return;
-    }
-
     setLoading(true);
     const supabase = createClient();
     const { error: deleteError } = await supabase
@@ -145,6 +144,7 @@ export default function PropertyContractors({
     if (deleteError) {
       setError(deleteError.message);
       setLoading(false);
+      setUnlinkId(null);
       return;
     }
 
@@ -152,6 +152,7 @@ export default function PropertyContractors({
       current.filter((assignment) => assignment.id !== assignmentId)
     );
     setLoading(false);
+    setUnlinkId(null);
     router.refresh();
   }
 
@@ -254,7 +255,7 @@ export default function PropertyContractors({
             </p>
           )}
 
-          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+          <div className="mt-6 flex flex-col gap-3">
             <button
               type="button"
               onClick={handleLink}
@@ -267,13 +268,13 @@ export default function PropertyContractors({
               type="button"
               onClick={closeForm}
               disabled={loading}
-              className={`${btnOutlineClassName} w-full sm:w-auto`}
+              className={`${inlineCancelLinkClassName} text-center sm:text-left`}
             >
               Cancel
             </button>
             <Link
               href="/contractors/new"
-              className={`${linkClassName} self-center text-sm`}
+              className={`${linkClassName} text-sm`}
             >
               Add new to directory →
             </Link>
@@ -320,7 +321,7 @@ export default function PropertyContractors({
                 </div>
                 <button
                   type="button"
-                  onClick={() => handleUnlink(assignment.id)}
+                  onClick={() => setUnlinkId(assignment.id)}
                   disabled={loading}
                   className={`${btnOutlineClassName} shrink-0 px-4 py-2 text-sm`}
                 >
@@ -337,6 +338,18 @@ export default function PropertyContractors({
           {error}
         </p>
       )}
+
+      <ConfirmDialog
+        open={unlinkId != null}
+        title="Unlink contractor?"
+        message="Remove this contractor link from the property?"
+        confirmLabel="Confirm"
+        loading={loading}
+        onConfirm={() => {
+          if (unlinkId) void handleUnlink(unlinkId);
+        }}
+        onCancel={() => setUnlinkId(null)}
+      />
     </div>
   );
 }

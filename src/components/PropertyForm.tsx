@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import {
   btnPrimaryClassName,
-  btnSecondaryClassName,
   editorialFormCancelClassName,
   editorialFormInputClassName,
   editorialFormLabelClassName,
@@ -188,14 +187,12 @@ export default function PropertyForm({
           >
             {loading ? "Saving..." : "Save Changes"}
           </button>
-          {property && (
-            <Link
-              href={`/properties/${property.id}`}
-              className={editorialFormCancelClassName}
-            >
-              Cancel
-            </Link>
-          )}
+          <Link
+            href={property ? `/properties/${property.id}` : "/compliance"}
+            className={editorialFormCancelClassName}
+          >
+            Cancel
+          </Link>
         </div>
       </form>
     );
@@ -289,7 +286,7 @@ export default function PropertyForm({
         </p>
       )}
 
-      <div className={`flex flex-wrap gap-4 pt-2 ${fullWidthSubmit ? "flex-col" : ""}`}>
+      <div className={fullWidthSubmit ? "pt-2" : "pt-2"}>
         <button
           type="submit"
           disabled={loading}
@@ -301,11 +298,12 @@ export default function PropertyForm({
               ? "Save Changes"
               : "Add Property"}
         </button>
-        {isEditing && property && (
-          <Link href={`/properties/${property.id}`} className={btnSecondaryClassName}>
-            Cancel
-          </Link>
-        )}
+        <Link
+          href={property ? `/properties/${property.id}` : "/compliance"}
+          className={editorialFormCancelClassName}
+        >
+          Cancel
+        </Link>
       </div>
     </form>
   );

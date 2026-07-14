@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import ConfirmDialog from "@/components/ConfirmDialog";
 import { createClient } from "@/lib/supabase/client";
 import {
   btnDangerClassName,
@@ -19,16 +20,9 @@ interface ContractorCardProps {
 export default function ContractorCard({ contractor }: ContractorCardProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [confirming, setConfirming] = useState(false);
 
   async function handleDelete() {
-    if (
-      !window.confirm(
-        `Remove ${contractor.name} from your directory? They will be unlinked from all properties.`
-      )
-    ) {
-      return;
-    }
-
     setLoading(true);
     const supabase = createClient();
     const { error } = await supabase
@@ -37,6 +31,7 @@ export default function ContractorCard({ contractor }: ContractorCardProps) {
       .eq("id", contractor.id);
 
     setLoading(false);
+    setConfirming(false);
 
     if (error) {
       window.alert(error.message);
@@ -87,13 +82,23 @@ export default function ContractorCard({ contractor }: ContractorCardProps) {
         </Link>
         <button
           type="button"
-          onClick={handleDelete}
+          onClick={() => setConfirming(true)}
           disabled={loading}
           className={`${btnDangerClassName} px-4 py-2 text-sm`}
         >
           {loading ? "Removing..." : "Delete"}
         </button>
       </div>
+
+      <ConfirmDialog
+        open={confirming}
+        title="Remove contractor?"
+        message={`Remove ${contractor.name} from your directory? They will be unlinked from all properties.`}
+        confirmLabel="Confirm Delete"
+        loading={loading}
+        onConfirm={() => void handleDelete()}
+        onCancel={() => setConfirming(false)}
+      />
     </article>
   );
 }

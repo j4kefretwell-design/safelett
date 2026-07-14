@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import PageBackLink from "@/components/PageBackLink";
 import TenancyForm from "@/components/tenancy/TenancyForm";
 import { AnimateIn } from "@/components/AnimateIn";
 import type { Property } from "@/lib/types";
@@ -25,7 +26,8 @@ export default async function EditTenancyPage({ params }: EditTenancyPageProps) 
   return (
     <AnimateIn>
       <div className="tenancy-slate-bg min-h-[calc(100vh-4rem)] px-5 py-12 sm:px-12 lg:px-16">
-        <p className="text-[10px] font-normal uppercase tracking-[0.32em] text-gold">
+        <PageBackLink href={`/tenancy/${id}`}>← Back to Tenancy</PageBackLink>
+        <p className="mt-8 text-[10px] font-normal uppercase tracking-[0.32em] text-gold">
           Edit Tenancy
         </p>
         <h1 className="mt-5 font-serif text-3xl tracking-wide text-tenancy-text sm:text-4xl">

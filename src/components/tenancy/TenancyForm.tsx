@@ -23,7 +23,7 @@ import {
 import type { Property } from "@/lib/types";
 import {
   btnPrimaryClassName,
-  btnSecondaryClassName,
+  editorialFormCancelClassName,
   fileInputClassName,
   inputClassName,
   labelClassName,
@@ -514,7 +514,7 @@ export default function TenancyForm({
         </p>
       )}
 
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+      <div>
         <button
           type="submit"
           disabled={loading}
@@ -524,7 +524,7 @@ export default function TenancyForm({
         </button>
         <Link
           href={isEditing && tenancy ? `/tenancy/${tenancy.id}` : "/tenancy/dashboard"}
-          className={`${btnSecondaryClassName} w-full text-center sm:w-auto`}
+          className={editorialFormCancelClassName}
         >
           Cancel
         </Link>

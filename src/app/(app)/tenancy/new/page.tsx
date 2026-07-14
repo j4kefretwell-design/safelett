@@ -1,6 +1,7 @@
 "use client";
 
 import BackgroundImage from "@/components/BackgroundImage";
+import PageBackLink from "@/components/PageBackLink";
 import TenancyForm from "@/components/tenancy/TenancyForm";
 import { AnimateIn } from "@/components/AnimateIn";
 import { siteImages } from "@/lib/site-images";
@@ -32,7 +33,8 @@ export default function NewTenancyPage() {
         </div>
 
         <div className="flex w-full flex-col bg-white px-8 py-14 sm:px-12 lg:px-16 lg:py-20 xl:px-20">
-          <p className="text-[10px] font-normal uppercase tracking-[0.32em] text-gold">
+          <PageBackLink href="/tenancy/dashboard">← Back to Tenancy</PageBackLink>
+          <p className="mt-8 text-[10px] font-normal uppercase tracking-[0.32em] text-gold">
             Add a Tenancy
           </p>
           <h1 className="mt-5 max-w-xl font-serif text-3xl tracking-wide text-tenancy-text sm:text-4xl">

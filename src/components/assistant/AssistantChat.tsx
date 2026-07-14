@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import ConfirmDialog from "@/components/ConfirmDialog";
 import {
   ASSISTANT_DISCLAIMER,
   ASSISTANT_DOCUMENTS,
@@ -316,6 +317,7 @@ export default function AssistantChat({
   const [toast, setToast] = useState<string | null>(null);
   const [composerMode, setComposerMode] = useState<ComposerMode | null>(null);
   const [composerInput, setComposerInput] = useState("");
+  const [deleteChatId, setDeleteChatId] = useState<string | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const composerTextareaRef = useRef<HTMLTextAreaElement>(null);
   const startedRef = useRef(false);
@@ -943,7 +945,12 @@ export default function AssistantChat({
     view.screen === "draft-pick" ||
     view.screen === "tenancy-pick" ||
     view.screen === "property-pick";
+  const isDocumentDrafter =
+    view.screen === "draft" || view.screen === "draft-pick";
   const showChrome = activeChat || isPicker || view.screen === "saved" || view.screen === "drafts";
+  const exitChatLabel = isDocumentDrafter ? "← Start Over" : "← New Chat";
+  const exitChatClassName =
+    "text-sm font-light text-gold-readable transition hover:text-gold";
   const mode =
     view.screen === "tenancy"
       ? "tenancy"
@@ -974,6 +981,18 @@ export default function AssistantChat({
 
   return (
     <div className="flex h-[calc(100vh-4rem)] w-full overflow-hidden">
+      <ConfirmDialog
+        open={deleteChatId != null}
+        title="Delete chat?"
+        message="This saved chat will be permanently removed."
+        confirmLabel="Confirm Delete"
+        onConfirm={() => {
+          if (deleteChatId) {
+            void deleteChat(deleteChatId).finally(() => setDeleteChatId(null));
+          }
+        }}
+        onCancel={() => setDeleteChatId(null)}
+      />
       <aside className="hidden h-full w-[200px] shrink-0 flex-col bg-study sm:flex">
         <div className="px-5 pt-8">
           <button type="button" onClick={goToMenu} aria-label="New chat">
@@ -1072,7 +1091,15 @@ export default function AssistantChat({
               aria-label={composerConfig.title}
               className="assistant-composer-modal relative z-[1] w-[90%] max-w-[640px] rounded-[20px] bg-[#F0ECE1] p-10 shadow-[0_20px_60px_rgba(0,0,0,0.3)]"
             >
-              <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-study">
+              <button
+                type="button"
+                aria-label="Close"
+                onClick={closeComposer}
+                className="absolute right-5 top-5 text-xl font-light leading-none text-gold-readable transition hover:text-gold"
+              >
+                ×
+              </button>
+              <p className="pr-8 text-[10px] font-normal uppercase tracking-[0.22em] text-study">
                 {composerConfig.title}
               </p>
               <div className="mt-3 h-px w-full bg-moss/70" aria-hidden />
@@ -1115,7 +1142,7 @@ export default function AssistantChat({
                 <button
                   type="button"
                   onClick={closeComposer}
-                  className="text-[13px] text-cocoa transition hover:text-study"
+                  className="text-sm font-light text-gold-readable transition hover:text-gold"
                 >
                   Cancel
                 </button>
@@ -1181,7 +1208,7 @@ export default function AssistantChat({
             <button
               type="button"
               onClick={goToMenu}
-              className="text-[13px] text-cocoa transition hover:text-study"
+              className={exitChatClassName}
             >
               ← New Chat
             </button>
@@ -1210,7 +1237,7 @@ export default function AssistantChat({
                       <button
                         type="button"
                         aria-label={`Delete ${chat.title}`}
-                        onClick={() => void deleteChat(chat.id)}
+                        onClick={() => setDeleteChatId(chat.id)}
                         className="text-[11px] uppercase tracking-[0.12em] text-cocoa/50 transition hover:text-study"
                       >
                         Delete
@@ -1228,7 +1255,7 @@ export default function AssistantChat({
             <button
               type="button"
               onClick={goToMenu}
-              className="text-[13px] text-cocoa transition hover:text-study"
+              className={exitChatClassName}
             >
               ← New Chat
             </button>
@@ -1264,9 +1291,9 @@ export default function AssistantChat({
             <button
               type="button"
               onClick={goToMenu}
-              className="text-[13px] text-cocoa transition hover:text-study"
+              className={exitChatClassName}
             >
-              ← New Chat
+              {view.screen === "draft-pick" ? "← Start Over" : "← New Chat"}
             </button>
             <div className="mx-auto mt-12 max-w-xl">
               <ul>
@@ -1350,9 +1377,9 @@ export default function AssistantChat({
                 <button
                   type="button"
                   onClick={goToMenu}
-                  className="text-[13px] text-cocoa transition hover:text-study"
+                  className={exitChatClassName}
                 >
-                  ← New Chat
+                  {exitChatLabel}
                 </button>
                 {messages.length > 0 && (
                   <button

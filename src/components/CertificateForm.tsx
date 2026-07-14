@@ -20,7 +20,6 @@ import {
 } from "@/lib/storage";
 import {
   btnPrimaryClassName,
-  btnSecondaryClassName,
   editorialFormCancelClassName,
   editorialFormInputClassName,
   editorialFormLabelClassName,
@@ -453,7 +452,7 @@ export default function CertificateForm({
         </p>
       )}
 
-      <div className="flex flex-wrap gap-4 pt-2">
+      <div className="pt-2">
         <button type="submit" disabled={loading} className={btnPrimaryClassName}>
           {loading
             ? "Saving..."
@@ -461,14 +460,12 @@ export default function CertificateForm({
               ? "Save Changes"
               : "Add Certificate"}
         </button>
-        {isEditing && (
-          <Link
-            href={`/properties/${propertyId}`}
-            className={btnSecondaryClassName}
-          >
-            Cancel
-          </Link>
-        )}
+        <Link
+          href={`/properties/${propertyId}`}
+          className={editorialFormCancelClassName}
+        >
+          Cancel
+        </Link>
       </div>
     </form>
   );

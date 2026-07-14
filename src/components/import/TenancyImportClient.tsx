@@ -1,10 +1,13 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Upload } from "lucide-react";
+import PageBackLink from "@/components/PageBackLink";
 import {
   btnOutlineClassName,
+  editorialFormCancelClassName,
   goldLabelClassName,
 } from "@/lib/ui";
 
@@ -128,9 +131,11 @@ export default function TenancyImportClient() {
         onSubmit={handleSubmit}
         className="flex min-w-0 flex-col bg-white px-5 py-10 sm:px-8 sm:py-12 lg:px-16 lg:py-16"
       >
+        <PageBackLink href="/tenancy/dashboard">← Back to Tenancy</PageBackLink>
+
         <label
           htmlFor="tenancy-csv-upload"
-          className="flex flex-1 cursor-pointer flex-col items-center justify-center border border-dashed border-steel/30 bg-[#f0f2f5]/60 px-8 py-24 text-center transition hover:border-navy/40"
+          className="mt-8 flex flex-1 cursor-pointer flex-col items-center justify-center border border-dashed border-steel/30 bg-[#f0f2f5]/60 px-8 py-24 text-center transition hover:border-navy/40"
         >
           <Upload className="h-8 w-8 text-steel/40" strokeWidth={1.25} />
           <p className="mt-6 font-serif text-xl tracking-wide text-tenancy-text">
@@ -184,13 +189,21 @@ export default function TenancyImportClient() {
         )}
 
         <div className="mt-auto space-y-6 pt-10">
-          <button
-            type="submit"
-            disabled={loading || !file}
-            className="inline-flex min-h-11 w-full items-center justify-center bg-navy px-6 py-3 text-[0.9375rem] font-normal uppercase tracking-[0.1em] text-dusty-cream transition hover:bg-navy-dark disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
-          >
-            {loading ? "Importing..." : "Import Tenancies"}
-          </button>
+          <div>
+            <button
+              type="submit"
+              disabled={loading || !file}
+              className="inline-flex min-h-11 w-full items-center justify-center bg-navy px-6 py-3 text-[0.9375rem] font-normal uppercase tracking-[0.1em] text-dusty-cream transition hover:bg-navy-dark disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+            >
+              {loading ? "Importing..." : "Import Tenancies"}
+            </button>
+            <Link
+              href="/tenancy/dashboard"
+              className={editorialFormCancelClassName}
+            >
+              Cancel
+            </Link>
+          </div>
 
           <button
             type="button"

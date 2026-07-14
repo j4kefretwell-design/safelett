@@ -7,7 +7,12 @@ import BrandWordmark from "@/components/BrandWordmark";
 import PasswordInput from "@/components/PasswordInput";
 import { createClient } from "@/lib/supabase/client";
 import { siteImages } from "@/lib/site-images";
-import { authCardClassName, btnPrimaryClassName } from "@/lib/ui";
+import {
+  authCardClassName,
+  btnPrimaryClassName,
+  editorialFormCancelClassName,
+  pageBackLinkClassName,
+} from "@/lib/ui";
 
 export default function ResetPasswordForm() {
   const [password, setPassword] = useState("");
@@ -141,7 +146,10 @@ export default function ResetPasswordForm() {
           </div>
         ) : (
           <>
-            <h1 className="font-serif text-2xl tracking-wide text-text sm:text-3xl">
+            <Link href="/login" className={pageBackLinkClassName}>
+              ← Back to Sign In
+            </Link>
+            <h1 className="mt-8 font-serif text-2xl tracking-wide text-text sm:text-3xl">
               Set new password
             </h1>
             <p className="mt-4 text-sm font-light leading-relaxed text-cocoa">
@@ -173,13 +181,18 @@ export default function ResetPasswordForm() {
                 </p>
               )}
 
-              <button
-                type="submit"
-                disabled={loading}
-                className={`${btnPrimaryClassName} w-full`}
-              >
-                {loading ? "Please wait..." : "Update password"}
-              </button>
+              <div>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className={`${btnPrimaryClassName} w-full`}
+                >
+                  {loading ? "Please wait..." : "Update password"}
+                </button>
+                <Link href="/login" className={editorialFormCancelClassName}>
+                  Cancel
+                </Link>
+              </div>
             </form>
           </>
         )}

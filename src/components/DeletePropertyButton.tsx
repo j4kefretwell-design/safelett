@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import ConfirmDialog from "@/components/ConfirmDialog";
 import { deleteCertificateDocuments } from "@/lib/certificate-documents";
 import { createClient } from "@/lib/supabase/client";
 import { btnDangerClassName, cardClassName } from "@/lib/ui";
@@ -19,17 +20,10 @@ export default function DeletePropertyButton({
 }: DeletePropertyButtonProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [confirming, setConfirming] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   async function handleDelete() {
-    const confirmed = window.confirm(
-      `Are you sure you want to delete "${propertyAddress}"? This will permanently remove the property and all its certificates.`
-    );
-
-    if (!confirmed) {
-      return;
-    }
-
     setError(null);
     setLoading(true);
 
@@ -45,6 +39,7 @@ export default function DeletePropertyButton({
     if (deleteError) {
       setError(deleteError.message);
       setLoading(false);
+      setConfirming(false);
       return;
     }
 
@@ -65,12 +60,22 @@ export default function DeletePropertyButton({
       )}
       <button
         type="button"
-        onClick={handleDelete}
+        onClick={() => setConfirming(true)}
         disabled={loading}
         className={`${btnDangerClassName} mt-4`}
       >
-        {loading ? "Deleting..." : "Delete Property"}
+        Delete Property
       </button>
+
+      <ConfirmDialog
+        open={confirming}
+        title="Delete property?"
+        message={`Are you sure you want to delete "${propertyAddress}"? This will permanently remove the property and all its certificates.`}
+        confirmLabel="Confirm Delete"
+        loading={loading}
+        onConfirm={() => void handleDelete()}
+        onCancel={() => setConfirming(false)}
+      />
     </div>
   );
 }
