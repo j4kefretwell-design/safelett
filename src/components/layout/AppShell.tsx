@@ -16,7 +16,7 @@ function AppShellInner({ children }: AppShellProps) {
   const isAssistant = mode === "assistant";
 
   const pageBg = isAssistant
-    ? "bg-ink-green"
+    ? "bg-study"
     : mode === "tenancy"
       ? "bg-tenancy-bg pt-16"
       : "bg-dusty-cream pt-16";

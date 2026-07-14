@@ -52,9 +52,10 @@
   --color-umber: #3d2b1f;
   --color-forest: #1c2b23;
   --color-forest-dark: #152019;
-  --color-ink-green: #1c2b23;
+  /* Assistant study palette — single-token names (avoid ink-green / line-cream clashes) */
+  --color-study: #1c2b23;
   --color-olive: #3f4a3c;
-  --color-line-cream: #f0ece1;
+  --color-parchment-line: #f0ece1;
   --color-moss: #a89f7c;
   --color-ink: #1a0a0c;
 

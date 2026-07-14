@@ -58,7 +58,7 @@ export default function SubscriptionClient() {
   const summaryBarClass = isTenancy
     ? "bg-navy"
     : isAssistant
-      ? "bg-forest"
+      ? "bg-study"
       : "bg-raspberry";
 
   return (
@@ -163,7 +163,7 @@ export default function SubscriptionClient() {
                 isTenancy
                   ? "bg-white text-navy hover:bg-dusty-cream"
                   : isAssistant
-                    ? "bg-dusty-cream text-forest hover:bg-white"
+                    ? "bg-dusty-cream text-study hover:bg-white"
                     : "bg-dusty-cream text-raspberry hover:bg-white"
               }`}
             >

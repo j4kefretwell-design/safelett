@@ -19,12 +19,14 @@ const MODE_TABS: Array<{ id: AppMode; label: string }> = [
 
 function headerBgClass(mode: AppMode) {
   if (mode === "tenancy") return "bg-navy";
-  if (mode === "assistant") return "bg-ink-green";
+  if (mode === "assistant") return "bg-study";
   return "bg-raspberry";
 }
 
 function activePillClass(mode: AppMode) {
-  if (mode === "tenancy") return "bg-navy-dark text-dusty-cream shadow-sm ring-1 ring-gold/50";
+  if (mode === "tenancy") {
+    return "bg-navy-dark text-dusty-cream shadow-sm ring-1 ring-gold/50";
+  }
   if (mode === "assistant") {
     return "bg-olive text-dusty-cream shadow-sm ring-1 ring-moss/50";
   }
@@ -49,16 +51,16 @@ export default function TopNav({
   const modeLabel =
     MODE_TABS.find((tab) => tab.id === mode)?.label ?? "Compliance";
   const isAssistant = mode === "assistant";
-  const accentBorder = isAssistant ? "border-moss" : "border-gold";
-  const accentText = isAssistant ? "text-moss" : "text-gold";
-  const switcherBorder = isAssistant ? "border-moss/30" : "border-gold/30";
-  const signOutHover = isAssistant ? "hover:text-moss" : "hover:text-gold";
 
   return (
     <header
       className={`fixed inset-x-0 top-0 z-30 h-16 transition-colors duration-500 ease-out ${headerBgClass(mode)}`}
     >
-      <div className={`relative grid h-full grid-cols-[1fr_auto_1fr] items-center border-b px-4 sm:px-6 lg:px-10 ${accentBorder}`}>
+      <div
+        className={`relative grid h-full grid-cols-[1fr_auto_1fr] items-center border-b px-4 sm:px-6 lg:px-10 ${
+          isAssistant ? "border-moss" : "border-gold"
+        }`}
+      >
         <div className="flex items-center gap-3 sm:gap-4">
           {!hideMenu && (
             <button
@@ -76,7 +78,9 @@ export default function TopNav({
           )}
 
           <div
-            className={`${hideMenu ? "flex" : "hidden sm:flex"} items-center rounded-full border bg-black/10 p-0.5 ${switcherBorder}`}
+            className={`${hideMenu ? "flex" : "hidden sm:flex"} items-center rounded-full border bg-black/10 p-0.5 ${
+              isAssistant ? "border-moss/30" : "border-gold/30"
+            }`}
             role="tablist"
             aria-label="Application mode"
           >
@@ -102,21 +106,33 @@ export default function TopNav({
           </div>
 
           {!hideMenu && (
-            <span className={`text-[10px] font-normal uppercase tracking-[0.2em] sm:hidden ${accentText}`}>
+            <span
+              className={`text-[10px] font-normal uppercase tracking-[0.2em] sm:hidden ${
+                isAssistant ? "text-moss" : "text-gold"
+              }`}
+            >
               {modeLabel}
             </span>
           )}
         </div>
 
-        <p className={`font-serif text-sm uppercase tracking-[0.28em] sm:text-base sm:tracking-[0.32em] ${accentText}`}>
-          Fretwell <span className="italic">&amp;</span> Co
-        </p>
+        {isAssistant ? (
+          <p className="font-serif text-sm uppercase tracking-[0.28em] text-dusty-cream sm:text-base sm:tracking-[0.32em]">
+            Fretwell <span className="italic text-moss">&amp;</span> Co
+          </p>
+        ) : (
+          <p className="font-serif text-sm uppercase tracking-[0.28em] text-gold sm:text-base sm:tracking-[0.32em]">
+            Fretwell <span className="italic">&amp;</span> Co
+          </p>
+        )}
 
         <div className="flex justify-end">
           <button
             type="button"
             onClick={handleSignOut}
-            className={`touch-target shrink-0 text-[11px] font-normal uppercase tracking-[0.18em] text-dusty-cream transition sm:text-xs sm:tracking-[0.22em] ${signOutHover}`}
+            className={`touch-target shrink-0 text-[11px] font-normal uppercase tracking-[0.18em] text-dusty-cream transition sm:text-xs sm:tracking-[0.22em] ${
+              isAssistant ? "hover:text-moss" : "hover:text-gold"
+            }`}
           >
             Sign Out
           </button>
