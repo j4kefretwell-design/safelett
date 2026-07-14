@@ -81,21 +81,25 @@ const MODE_BOXES = [
   {
     label: "ASK",
     description: "Questions about your portfolio or property management",
+    placeholder: "Ask a question about your portfolio…",
     kind: "ask" as const,
   },
   {
     label: "DRAFT",
     description: "Letters, notices and professional correspondence",
+    placeholder: "What would you like to draft…",
     kind: "draft" as const,
   },
   {
     label: "TENANCY",
     description: "Review tenancy details and generate notices",
+    placeholder: "Review a tenancy or generate a notice…",
     kind: "tenancy" as const,
   },
   {
     label: "REPORT",
     description: "Full property compliance and tenancy report",
+    placeholder: "Run a property compliance report…",
     kind: "property" as const,
   },
 ] as const;
@@ -853,14 +857,15 @@ export default function AssistantChat({
                     key={box.label}
                     type="button"
                     onClick={() => open(box.kind)}
-                    className="flex h-[50px] w-full items-center justify-between gap-4 border border-olive bg-parchment-line px-5 text-left transition hover:border-study"
+                    className="group flex min-h-[56px] w-full cursor-text items-center gap-4 rounded-xl border border-olive/80 bg-parchment-line px-5 py-3.5 text-left shadow-[inset_0_1px_0_rgba(255,255,255,0.35)] transition hover:border-moss/70 focus-visible:border-moss focus-visible:outline-none focus-visible:shadow-[0_0_0_1px_var(--color-moss),0_0_0_4px_rgba(168,159,124,0.35)]"
                   >
                     <span className="shrink-0 text-[10px] font-normal uppercase tracking-[0.2em] text-study">
                       {box.label}
                     </span>
-                    <span className="truncate text-right text-[13px] text-cocoa">
-                      {box.description}
+                    <span className="min-w-0 flex-1 truncate text-[13px] text-cocoa/45 transition group-hover:text-cocoa/55">
+                      {box.placeholder}
                     </span>
+                    <span className="sr-only">{box.description}</span>
                   </button>
                 ))}
               </div>

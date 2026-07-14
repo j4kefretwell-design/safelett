@@ -1,4 +1,5 @@
 import Link from "next/link";
+import OverviewHeroCarousel from "@/components/dashboard/OverviewHeroCarousel";
 import OptimizedFillImage from "@/components/OptimizedFillImage";
 import { buildOverviewData } from "@/lib/overview";
 import { siteImages } from "@/lib/site-images";
@@ -40,8 +41,42 @@ export default async function OverviewDashboardPage() {
   const tenancyOk = stats.tenancyRenewalsDue === 0;
   const actionsOk = stats.urgentCount === 0;
 
-  const panelClass =
-    "flex min-h-[200px] flex-1 flex-col justify-between bg-[rgba(240,236,225,0.94)] p-9 shadow-[0_4px_20px_rgba(61,43,31,0.14)] sm:min-h-[220px]";
+  const carouselPanels = [
+    {
+      id: "compliance",
+      href: "/compliance",
+      label: "Compliance",
+      value: String(stats.totalProperties),
+      detail: complianceOk
+        ? "All compliant"
+        : `${stats.complianceNeedsAttention} expiring`,
+    },
+    {
+      id: "tenancy",
+      href: "/tenancy/dashboard",
+      label: "Tenancy",
+      value: String(stats.totalTenancies),
+      detail: tenancyOk
+        ? "All current"
+        : `${stats.tenancyRenewalsDue} renewing soon`,
+    },
+    {
+      id: "actions",
+      href: "#todays-actions",
+      label: "Actions",
+      labelAccent: "gold" as const,
+      value: String(stats.urgentCount),
+      detail: actionsOk ? "Nothing urgent" : "Items need attention",
+    },
+    {
+      id: "assistant",
+      href: "/assistant",
+      label: "Assistant",
+      value: "Ready to help",
+      detail: "Ask, draft, or review your portfolio",
+      footer: "Open →",
+    },
+  ];
 
   return (
     <div className="min-h-[calc(100vh-4rem)] w-full overflow-x-hidden bg-greige text-umber">
@@ -68,66 +103,7 @@ export default async function OverviewDashboardPage() {
           />
         </div>
 
-        {/* Floating band — dominant boxes over backdrop */}
-        <div className="absolute inset-x-0 top-1/2 z-[1] flex h-[82%] w-full -translate-y-1/2 flex-col gap-3 px-3 sm:flex-row sm:px-4 lg:px-6">
-          <Link href="/compliance" className={panelClass}>
-            <div>
-              <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-umber">
-                Compliance
-              </p>
-              <p className="mt-5 font-serif text-3xl tracking-wide text-umber sm:text-4xl lg:text-5xl">
-                {stats.totalProperties}
-              </p>
-              <p className="mt-3 text-base text-leather">
-                {complianceOk
-                  ? "All compliant"
-                  : `${stats.complianceNeedsAttention} expiring`}
-              </p>
-            </div>
-          </Link>
-
-          <Link href="/tenancy/dashboard" className={panelClass}>
-            <div>
-              <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-umber">
-                Tenancy
-              </p>
-              <p className="mt-5 font-serif text-3xl tracking-wide text-umber sm:text-4xl lg:text-5xl">
-                {stats.totalTenancies}
-              </p>
-              <p className="mt-3 text-base text-leather">
-                {tenancyOk
-                  ? "All current"
-                  : `${stats.tenancyRenewalsDue} renewing soon`}
-              </p>
-            </div>
-          </Link>
-
-          <Link href="#todays-actions" className={panelClass}>
-            <div>
-              <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-gold">
-                Actions
-              </p>
-              <p className="mt-5 font-serif text-3xl tracking-wide text-umber sm:text-4xl lg:text-5xl">
-                {stats.urgentCount}
-              </p>
-              <p className="mt-3 text-base text-leather">
-                {actionsOk ? "Nothing urgent" : "Items need attention"}
-              </p>
-            </div>
-          </Link>
-
-          <Link href="/assistant" className={panelClass}>
-            <div>
-              <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-umber">
-                Assistant
-              </p>
-              <p className="mt-5 font-serif text-3xl tracking-wide text-umber sm:text-4xl">
-                Ready to help
-              </p>
-            </div>
-            <p className="mt-4 text-base text-gold">Open →</p>
-          </Link>
-        </div>
+        <OverviewHeroCarousel panels={carouselPanels} />
       </section>
 
       {/* Light content below hero */}
