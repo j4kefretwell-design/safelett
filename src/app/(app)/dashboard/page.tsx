@@ -41,11 +41,15 @@ export default async function OverviewDashboardPage() {
   const complianceOk = stats.immediateComplianceCount === 0;
   const tenancyOk = stats.immediateTenancyCount === 0;
 
-  const portfolioSummary = actionsOk
+  const compliantCount = Math.max(
+    0,
+    stats.totalProperties - stats.complianceNeedsAttention
+  );
+  const portfolioStatus = actionsOk
     ? "Everything in order"
     : stats.urgentCount === 1
       ? "1 item needs attention"
-      : `${stats.urgentCount} items need attention`;
+      : `${stats.urgentCount} need attention`;
 
   const carouselPanels = [
     {
@@ -54,7 +58,6 @@ export default async function OverviewDashboardPage() {
       label: "Compliance",
       value: String(stats.immediateComplianceCount),
       detail: complianceOk ? "All clear" : "Needs attention",
-      watermark: "burgundy" as const,
     },
     {
       id: "tenancy",
@@ -62,7 +65,6 @@ export default async function OverviewDashboardPage() {
       label: "Tenancy",
       value: String(stats.immediateTenancyCount),
       detail: tenancyOk ? "All current" : "Needs attention",
-      watermark: "navy" as const,
     },
     {
       id: "actions",
@@ -70,15 +72,15 @@ export default async function OverviewDashboardPage() {
       label: "Actions",
       value: String(stats.urgentCount),
       detail: actionsOk ? "Nothing urgent" : "Act this week",
-      watermark: "gold" as const,
     },
     {
       id: "assistant",
       href: "/assistant",
       label: "Assistant",
-      value: "Ready",
-      detail: "Ask or draft",
-      watermark: "study" as const,
+      labelColor: "study" as const,
+      value: "Your Personal Assistant",
+      valueSize: "phrase" as const,
+      footer: "Open →",
     },
   ];
 
@@ -201,44 +203,49 @@ export default async function OverviewDashboardPage() {
 
         <div className="flex flex-col justify-center bg-[#F2EDE8] px-8 py-14 sm:px-12 lg:px-16 xl:px-20">
           <p className="text-[10px] font-normal uppercase tracking-[0.28em] text-[#6B503C]">
-            Your Portfolio
+            Your Portfolio at a Glance
           </p>
           <div className="mt-3 h-px w-16 bg-[#C4A35A]/80" aria-hidden />
 
-          <div className="mt-10 space-y-7">
-            <div className="flex items-baseline justify-between gap-6">
-              <p className="font-serif text-5xl tracking-wide text-[#3D2B1F] sm:text-[3.5rem]">
-                {stats.totalProperties}
-              </p>
-              <p className="text-right text-[10px] font-normal uppercase tracking-[0.2em] text-[#6B503C]">
-                Properties managed
-              </p>
-            </div>
-            <div className="flex items-baseline justify-between gap-6">
-              <p className="font-serif text-5xl tracking-wide text-[#3D2B1F] sm:text-[3.5rem]">
-                {stats.activeTenancies}
-              </p>
-              <p className="text-right text-[10px] font-normal uppercase tracking-[0.2em] text-[#6B503C]">
-                Active tenancies
-              </p>
-            </div>
-          </div>
+          <dl className="mt-10">
+            {(
+              [
+                ["Properties", String(stats.totalProperties)],
+                ["Tenancies", String(stats.activeTenancies)],
+                ["Compliant", String(compliantCount)],
+                ["Status", portfolioStatus],
+              ] as const
+            ).map(([label, value], index) => (
+              <div
+                key={label}
+                className={`grid grid-cols-[7.5rem_1fr] items-baseline gap-6 py-4 sm:grid-cols-[9rem_1fr] ${
+                  index < 3 ? "border-b border-[#C5AC91]/70" : ""
+                }`}
+              >
+                <dt className="text-[10px] font-normal uppercase tracking-[0.2em] text-[#6B503C]">
+                  {label}
+                </dt>
+                <dd
+                  className={`font-serif tracking-wide text-[#3D2B1F] ${
+                    label === "Status"
+                      ? "text-xl sm:text-2xl"
+                      : "text-3xl sm:text-4xl"
+                  }`}
+                >
+                  {value}
+                </dd>
+              </div>
+            ))}
+          </dl>
 
-          <div className="mt-10 h-px w-full bg-[#C5AC91]/70" aria-hidden />
-
-          <p className="mt-8 font-serif text-lg italic leading-relaxed tracking-wide text-[#3D2B1F]">
-            {portfolioSummary}
-          </p>
-
-          <div className="mt-8 h-px w-full bg-[#C5AC91]/70" aria-hidden />
-
-          <div className="mt-8 flex flex-col gap-4">
+          <div className="mt-10 flex flex-wrap items-center gap-4">
             <Link
               href="/compliance"
               className="text-sm text-[#33181C] transition hover:opacity-80"
             >
               View Compliance →
             </Link>
+            <span className="h-4 w-px bg-[#C5AC91]" aria-hidden />
             <Link
               href="/tenancy/dashboard"
               className="text-sm text-[#1B2A4A] transition hover:opacity-80"
