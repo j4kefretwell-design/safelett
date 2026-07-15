@@ -204,7 +204,7 @@ export default async function PropertyDetailPage({
                   index % 2 === 0 ? tableRowEvenClassName : tableRowOddClassName;
 
                 return (
-                  <div key={cert.id} className={`${rowClass} p-6`}>
+                  <div key={cert.id} className={`${rowClass} space-y-1 p-5 sm:p-6`}>
                     <div className="flex items-start justify-between gap-4">
                       <div className="min-w-0 flex-1">
                         <p className="flex items-center gap-2 font-serif text-lg text-text">
@@ -214,7 +214,7 @@ export default async function PropertyDetailPage({
                           />
                           {CERTIFICATE_LABELS[cert.certificate_type]}
                         </p>
-                        <div className="mt-4 space-y-1 text-sm font-light text-cocoa">
+                        <div className="mt-4 space-y-2 text-sm font-light text-cocoa">
                           <p>
                             {dateLabels.issue}: {formatDate(cert.issue_date)}
                           </p>
@@ -227,7 +227,7 @@ export default async function PropertyDetailPage({
                             href={documentUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className={`${linkClassName} mt-4 inline-block`}
+                            className={`${linkClassName} mt-4 inline-flex min-h-11 items-center`}
                           >
                             View document
                           </a>
@@ -240,10 +240,10 @@ export default async function PropertyDetailPage({
                             expiryDate={cert.expiry_date}
                             contractorsByType={contractorsByType}
                           />
-                          <div className="flex flex-wrap gap-4">
+                          <div className="flex flex-wrap gap-2">
                             <Link
                               href={`/properties/${id}/certificates/${cert.id}/edit`}
-                              className={linkClassName}
+                              className={`${linkClassName} inline-flex min-h-11 items-center`}
                             >
                               Edit
                             </Link>

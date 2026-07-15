@@ -1,11 +1,11 @@
 export function OverviewSkeleton() {
   return (
     <div className="min-h-[calc(100vh-4rem)] w-full bg-[#F2EDE8]">
-      <div className="relative h-[calc((100vh-4rem)*0.85)] min-h-[440px] w-full overflow-hidden bg-[#3D2B1F]/20">
-        <div className="absolute inset-x-0 top-1/2 flex h-[60%] -translate-y-1/2 items-center justify-center gap-3 px-16">
-          <div className="skeleton-shimmer hidden h-[200px] w-[22%] rounded-[20px] sm:block" />
-          <div className="skeleton-shimmer h-[220px] w-[min(92%,520px)] rounded-[20px] sm:w-[50%]" />
-          <div className="skeleton-shimmer hidden h-[200px] w-[22%] rounded-[20px] sm:block" />
+      <div className="relative h-[60vh] min-h-[360px] w-full overflow-hidden bg-[#3D2B1F]/20 md:h-[calc((100vh-4rem)*0.85)] md:min-h-[440px]">
+        <div className="absolute inset-x-0 top-1/2 flex h-[60%] -translate-y-1/2 items-center justify-center gap-3 px-4 sm:px-16">
+          <div className="skeleton-shimmer hidden h-[200px] w-[22%] rounded-[20px] md:block" />
+          <div className="skeleton-shimmer h-[200px] w-full max-w-[520px] rounded-[20px] md:h-[220px] md:w-[50%]" />
+          <div className="skeleton-shimmer hidden h-[200px] w-[22%] rounded-[20px] md:block" />
         </div>
       </div>
       <div className="px-4 py-14 sm:px-6 lg:px-12">
@@ -15,7 +15,7 @@ export function OverviewSkeleton() {
           {Array.from({ length: 3 }).map((_, index) => (
             <div
               key={index}
-              className="skeleton-shimmer h-[4.5rem] border-b border-[#C5AC91]/40"
+              className="skeleton-shimmer h-14 border-b border-[#C5AC91]/40"
             />
           ))}
         </div>
@@ -26,7 +26,7 @@ export function OverviewSkeleton() {
         <div className="skeleton-shimmer mt-6 h-4 w-32 bg-white/10" />
       </div>
       <div className="grid grid-cols-1 bg-[#EDE6DF] md:grid-cols-[40%_60%]">
-        <div className="skeleton-shimmer min-h-[320px] md:min-h-[420px]" />
+        <div className="skeleton-shimmer h-[200px] md:min-h-[420px]" />
         <div className="px-8 py-14 sm:px-12 lg:px-16">
           <div className="skeleton-shimmer h-3 w-24" />
           <div className="skeleton-shimmer mt-3 h-px w-16" />
@@ -47,16 +47,16 @@ export function OverviewSkeleton() {
 export function DashboardSkeleton() {
   return (
     <div className="dashboard-parchment-bg min-h-[calc(100vh-4rem)] w-full">
-      <div className="skeleton-shimmer h-[220px] w-full sm:h-[280px] lg:h-[320px]" />
+      <div className="skeleton-shimmer h-[200px] w-full sm:h-[280px] lg:h-[320px]" />
       <div className="mx-auto max-w-6xl px-5 py-12 sm:px-10">
-        <div className="grid grid-cols-1 gap-4 min-[420px]:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           {Array.from({ length: 4 }).map((_, index) => (
             <div key={index} className="skeleton-shimmer h-36" />
           ))}
         </div>
       </div>
       <div className="mx-auto grid max-w-6xl grid-cols-1 gap-0 px-5 sm:px-10 lg:grid-cols-[45%_55%]">
-        <div className="skeleton-shimmer min-h-[220px] sm:min-h-[280px]" />
+        <div className="skeleton-shimmer hidden min-h-[280px] lg:block" />
         <div className="skeleton-shimmer min-h-[220px] sm:min-h-[280px]" />
       </div>
       <div className="mx-auto max-w-6xl px-5 py-10 sm:px-10">
@@ -86,17 +86,17 @@ export function RemindersSkeleton() {
 export function TenancyDashboardSkeleton() {
   return (
     <div className="tenancy-slate-bg min-h-[calc(100vh-4rem)] w-full">
-      <div className="skeleton-shimmer-navy h-[220px] w-full sm:h-[280px] lg:h-[320px]" />
+      <div className="skeleton-shimmer-navy h-[200px] w-full sm:h-[280px] lg:h-[320px]" />
       <div className="mx-auto max-w-6xl px-5 py-12 sm:px-10">
-        <div className="grid grid-cols-1 gap-4 min-[420px]:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           {Array.from({ length: 4 }).map((_, index) => (
             <div key={index} className="skeleton-shimmer-navy h-36" />
           ))}
         </div>
       </div>
       <div className="mx-auto grid max-w-6xl grid-cols-1 px-5 sm:px-10 lg:grid-cols-[45%_55%]">
-        <div className="skeleton-shimmer-navy min-h-[240px] lg:min-h-[280px]" />
-        <div className="skeleton-shimmer-navy min-h-[240px] lg:min-h-[280px]" />
+        <div className="skeleton-shimmer-navy hidden min-h-[280px] lg:block" />
+        <div className="skeleton-shimmer-navy min-h-[220px] sm:min-h-[280px]" />
       </div>
       <div className="mx-auto max-w-6xl px-5 py-10 sm:px-10">
         <div className="mt-4 grid gap-4 sm:grid-cols-2">

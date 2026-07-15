@@ -88,7 +88,7 @@ export default async function ComplianceDashboardPage() {
       />
 
       <section className={`dashboard-stats-band ${editorialPagePaddingClassName} py-12`}>
-        <div className="grid grid-cols-1 gap-4 min-[420px]:grid-cols-2 lg:grid-cols-4 lg:gap-5">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4 lg:gap-5">
           {statItems.map((item) => (
             <div key={item.label} className="dashboard-warm-card flex h-full flex-col px-5 py-10 text-center">
               <div className="dashboard-warm-card-content">
@@ -107,7 +107,9 @@ export default async function ComplianceDashboardPage() {
 
       <section className={`dashboard-parchment-bg ${editorialPagePaddingClassName}`}>
         <div className="grid min-w-0 overflow-hidden lg:grid-cols-[45%_55%]">
-          <DashboardCottageImage />
+          <div className="hidden lg:block">
+            <DashboardCottageImage />
+          </div>
 
           <div className="dashboard-cottage-panel flex flex-col justify-center border-t border-gold px-6 py-10 sm:px-10 lg:border-t-0 lg:border-l lg:px-14 lg:py-10">
             <p className="max-w-md font-serif text-xl leading-snug tracking-wide text-raspberry sm:text-2xl lg:text-[1.65rem]">

@@ -238,7 +238,7 @@ export default function AppSidebar({ open, onClose }: AppSidebarProps) {
       />
 
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-[min(100vw,18rem)] max-w-full flex-col transition-all duration-500 ease-out ${sidebarBgClass(
+        className={`fixed inset-y-0 left-0 z-50 flex w-[min(100vw,18rem)] max-w-full flex-col transition-transform duration-300 ease-out ${sidebarBgClass(
           mode
         )} ${open ? "translate-x-0" : "-translate-x-full"}`}
         aria-hidden={!open}

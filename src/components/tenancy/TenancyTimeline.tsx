@@ -77,7 +77,7 @@ export default function TenancyTimeline({ tenancy }: { tenancy: Tenancy }) {
         Timeline
       </h2>
 
-      <div className="mt-10 overflow-x-auto pb-2">
+      <div className="mt-10 overflow-x-auto overscroll-x-contain pb-2 [-webkit-overflow-scrolling:touch]">
         <div className="relative min-w-[28rem] px-4 pt-8 pb-4">
           <div className="absolute top-10 right-8 left-8 h-px bg-steel/25" />
           <div

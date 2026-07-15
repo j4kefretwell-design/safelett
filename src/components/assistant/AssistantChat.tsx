@@ -319,6 +319,8 @@ export default function AssistantChat({
   const [composerMode, setComposerMode] = useState<ComposerMode | null>(null);
   const [composerInput, setComposerInput] = useState("");
   const [deleteChatId, setDeleteChatId] = useState<string | null>(null);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [keyboardInset, setKeyboardInset] = useState(0);
   const bottomRef = useRef<HTMLDivElement>(null);
   const followUpRef = useRef<HTMLTextAreaElement>(null);
   const composerTextareaRef = useRef<HTMLTextAreaElement>(null);
@@ -371,6 +373,38 @@ export default function AssistantChat({
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [composerMode]);
+
+  useEffect(() => {
+    if (!composerMode) {
+      setKeyboardInset(0);
+      return;
+    }
+    const vv = window.visualViewport;
+    if (!vv) return;
+    function syncKeyboardInset() {
+      const inset = Math.max(
+        0,
+        window.innerHeight - vv!.height - vv!.offsetTop
+      );
+      setKeyboardInset(inset);
+    }
+    syncKeyboardInset();
+    vv.addEventListener("resize", syncKeyboardInset);
+    vv.addEventListener("scroll", syncKeyboardInset);
+    return () => {
+      vv.removeEventListener("resize", syncKeyboardInset);
+      vv.removeEventListener("scroll", syncKeyboardInset);
+    };
+  }, [composerMode]);
+
+  useEffect(() => {
+    if (!mobileNavOpen) return;
+    function onKey(event: KeyboardEvent) {
+      if (event.key === "Escape") setMobileNavOpen(false);
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [mobileNavOpen]);
 
   function reset(kind: AssistantChatKind = "ask") {
     setMessages([]);
@@ -1008,9 +1042,82 @@ export default function AssistantChat({
   const chipClass =
     "border border-olive/40 px-3 py-1.5 text-[11px] tracking-wide text-cocoa transition hover:border-study hover:text-study disabled:opacity-40";
   const navItem =
-    "block w-full py-1 text-left text-[12px] tracking-[0.14em] text-dusty-cream/80 transition hover:text-dusty-cream";
+    "flex min-h-11 w-full items-center py-3 text-left text-[12px] tracking-[0.14em] text-dusty-cream/80 transition hover:text-dusty-cream";
   const pickRow =
     "flex w-full items-center justify-between gap-4 border-t border-olive/25 py-5 text-left transition hover:text-study";
+
+  function renderAssistantNav(onNavigate?: () => void) {
+    return (
+      <>
+        <div className="px-5 pt-8">
+          <button
+            type="button"
+            onClick={() => {
+              goToMenu();
+              onNavigate?.();
+            }}
+            aria-label="New chat"
+          >
+            <div className="flex h-10 w-10 items-center justify-center border border-moss">
+              <span className="font-serif text-xs tracking-tight text-dusty-cream">
+                F<span className="mx-px text-moss">&amp;</span>Co
+              </span>
+            </div>
+          </button>
+          <div className="mt-5 h-px bg-moss/60" />
+        </div>
+
+        <nav className="mt-10 flex flex-col gap-2 px-5">
+          <button
+            type="button"
+            onClick={() => {
+              goToMenu();
+              onNavigate?.();
+            }}
+            className={navItem}
+          >
+            New Chat
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              reset();
+              setView({ screen: "saved" });
+              onNavigate?.();
+            }}
+            className={navItem}
+          >
+            Saved Chats
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              open("compliance");
+              onNavigate?.();
+            }}
+            className={navItem}
+          >
+            Compliance Check
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              reset();
+              setView({ screen: "drafts" });
+              onNavigate?.();
+            }}
+            className={navItem}
+          >
+            Drafts
+          </button>
+        </nav>
+
+        <p className="mt-auto line-clamp-3 px-5 pb-6 text-[10px] leading-relaxed text-dusty-cream/30">
+          {ASSISTANT_DISCLAIMER}
+        </p>
+      </>
+    );
+  }
 
   const composerConfig = composerMode ? COMPOSER_MODES[composerMode] : null;
   const composerChips =
@@ -1034,54 +1141,28 @@ export default function AssistantChat({
         }}
         onCancel={() => setDeleteChatId(null)}
       />
-      <aside className="hidden h-full w-[200px] shrink-0 flex-col bg-study sm:flex">
-        <div className="px-5 pt-8">
-          <button type="button" onClick={goToMenu} aria-label="New chat">
-            <div className="flex h-10 w-10 items-center justify-center border border-moss">
-              <span className="font-serif text-xs tracking-tight text-dusty-cream">
-                F<span className="mx-px text-moss">&amp;</span>Co
-              </span>
-            </div>
-          </button>
-          <div className="mt-5 h-px bg-moss/60" />
-        </div>
 
-        <nav className="mt-10 flex flex-col gap-8 px-5">
-          <button type="button" onClick={goToMenu} className={navItem}>
-            New Chat
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              reset();
-              setView({ screen: "saved" });
-            }}
-            className={navItem}
-          >
-            Saved Chats
-          </button>
-          <button
-            type="button"
-            onClick={() => open("compliance")}
-            className={navItem}
-          >
-            Compliance Check
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              reset();
-              setView({ screen: "drafts" });
-            }}
-            className={navItem}
-          >
-            Drafts
-          </button>
-        </nav>
+      {/* Desktop left panel */}
+      <aside className="hidden h-full w-[200px] shrink-0 flex-col bg-study md:flex">
+        {renderAssistantNav()}
+      </aside>
 
-        <p className="mt-auto line-clamp-3 px-5 pb-6 text-[10px] leading-relaxed text-dusty-cream/30">
-          {ASSISTANT_DISCLAIMER}
-        </p>
+      {/* Mobile left panel drawer */}
+      <button
+        type="button"
+        aria-label="Close assistant menu"
+        className={`fixed inset-0 z-40 bg-[#0c1612]/55 transition-opacity duration-300 ease-out md:hidden ${
+          mobileNavOpen ? "opacity-100" : "pointer-events-none opacity-0"
+        }`}
+        onClick={() => setMobileNavOpen(false)}
+      />
+      <aside
+        className={`fixed inset-y-0 left-0 z-50 flex w-[min(100vw,17rem)] flex-col bg-study transition-transform duration-300 ease-out md:hidden ${
+          mobileNavOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+        aria-hidden={!mobileNavOpen}
+      >
+        {renderAssistantNav(() => setMobileNavOpen(false))}
       </aside>
 
       <section
@@ -1089,6 +1170,24 @@ export default function AssistantChat({
           view.screen === "menu" ? "overflow-hidden" : "bg-parchment-line"
         }`}
       >
+        {/* Mobile: open left panel */}
+        <button
+          type="button"
+          aria-label="Open assistant menu"
+          onClick={() => setMobileNavOpen(true)}
+          className="absolute left-3 top-3 z-20 flex h-11 w-11 items-center justify-center border border-moss/50 bg-study/80 text-dusty-cream backdrop-blur-sm transition hover:bg-study md:hidden"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            className="h-5 w-5"
+            aria-hidden
+          >
+            <path d="M4 7h16M4 12h16M4 17h16" strokeLinecap="round" />
+          </svg>
+        </button>
         {view.screen === "menu" && (
           <>
             <div
@@ -1125,7 +1224,15 @@ export default function AssistantChat({
         )}
 
         {composerMode && composerConfig && (
-          <div className="absolute inset-0 z-40 flex items-center justify-center p-4 sm:p-6">
+          <div
+            className="absolute inset-0 z-40 flex items-end justify-center p-3 sm:items-center sm:p-6"
+            style={{
+              paddingBottom:
+                keyboardInset > 0
+                  ? Math.max(12, keyboardInset + 8)
+                  : undefined,
+            }}
+          >
             <button
               type="button"
               aria-label="Close composer"
@@ -1136,17 +1243,17 @@ export default function AssistantChat({
               role="dialog"
               aria-modal="true"
               aria-label={composerConfig.title}
-              className="assistant-composer-modal relative z-[1] w-[90%] max-w-[640px] rounded-[20px] bg-[#F0ECE1] p-10 shadow-[0_20px_60px_rgba(0,0,0,0.3)]"
+              className="assistant-composer-modal relative z-[1] max-h-[min(90dvh,640px)] w-[95%] max-w-[640px] overflow-y-auto rounded-[20px] bg-[#F0ECE1] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.3)] sm:p-10"
             >
               <button
                 type="button"
                 aria-label="Close"
                 onClick={closeComposer}
-                className="absolute right-5 top-5 text-xl font-light leading-none text-gold-readable transition hover:text-gold"
+                className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center text-xl font-light leading-none text-gold-readable transition hover:text-gold sm:right-5 sm:top-5"
               >
                 ×
               </button>
-              <p className="pr-8 text-[10px] font-normal uppercase tracking-[0.22em] text-study">
+              <p className="pr-10 text-[10px] font-normal uppercase tracking-[0.22em] text-study">
                 {composerConfig.title}
               </p>
               <div className="mt-3 h-px w-full bg-moss/70" aria-hidden />
@@ -1167,7 +1274,7 @@ export default function AssistantChat({
                 }}
                 placeholder={composerConfig.placeholder}
                 rows={6}
-                className="mt-6 h-[180px] w-full resize-none border-0 bg-transparent font-serif text-[1.35rem] leading-relaxed text-study placeholder:text-[#A89F7C] focus:outline-none focus:ring-0"
+                className="mt-6 h-[min(180px,28vh)] w-full resize-none border-0 bg-transparent font-serif text-base leading-relaxed text-study placeholder:text-[#A89F7C] focus:outline-none focus:ring-0 sm:text-[1.35rem]"
               />
 
               {composerChips.length > 0 && (
@@ -1177,7 +1284,7 @@ export default function AssistantChat({
                       key={chip}
                       type="button"
                       onClick={() => setComposerInput(chip)}
-                      className="rounded-full border border-olive/35 bg-[#F0ECE1] px-3 py-1.5 text-[11px] tracking-wide text-cocoa/80 transition hover:border-moss hover:text-study"
+                      className="min-h-11 rounded-full border border-olive/35 bg-[#F0ECE1] px-3 py-1.5 text-[11px] tracking-wide text-cocoa/80 transition hover:border-moss hover:text-study"
                     >
                       {chip}
                     </button>
@@ -1185,11 +1292,11 @@ export default function AssistantChat({
                 </div>
               )}
 
-              <div className="mt-8 flex items-center justify-end gap-5">
+              <div className="mt-8 flex flex-col-reverse items-stretch gap-3 sm:flex-row sm:items-center sm:justify-end sm:gap-5">
                 <button
                   type="button"
                   onClick={closeComposer}
-                  className="text-sm font-light text-gold-readable transition hover:text-gold"
+                  className="flex min-h-12 items-center justify-center text-sm font-light text-gold-readable transition hover:text-gold"
                 >
                   Cancel
                 </button>
@@ -1197,7 +1304,7 @@ export default function AssistantChat({
                   type="button"
                   onClick={submitComposer}
                   disabled={!composerInput.trim() || loading}
-                  className="rounded-lg bg-study px-5 py-2.5 text-[13px] text-parchment-line transition hover:bg-olive disabled:cursor-not-allowed disabled:opacity-40"
+                  className="flex min-h-12 w-full items-center justify-center bg-study px-6 text-[11px] font-normal uppercase tracking-[0.16em] text-dusty-cream transition hover:bg-olive disabled:cursor-not-allowed disabled:opacity-40 sm:w-auto"
                 >
                   Send →
                 </button>
@@ -1251,7 +1358,7 @@ export default function AssistantChat({
         )}
 
         {view.screen === "saved" && (
-          <div className="flex-1 overflow-y-auto px-8 py-8 sm:px-16 lg:px-24">
+          <div className="flex-1 overflow-y-auto px-4 pb-8 pt-14 sm:px-16 sm:pt-8 lg:px-24">
             <button
               type="button"
               onClick={goToMenu}
@@ -1298,7 +1405,7 @@ export default function AssistantChat({
         )}
 
         {view.screen === "drafts" && (
-          <div className="flex-1 overflow-y-auto px-8 py-8 sm:px-16 lg:px-24">
+          <div className="flex-1 overflow-y-auto px-4 pb-8 pt-14 sm:px-16 sm:pt-8 lg:px-24">
             <button
               type="button"
               onClick={goToMenu}
@@ -1334,7 +1441,7 @@ export default function AssistantChat({
         )}
 
         {isPicker && (
-          <div className="flex-1 overflow-y-auto px-8 py-8 sm:px-16 lg:px-24">
+          <div className="flex-1 overflow-y-auto px-4 pb-8 pt-14 sm:px-16 sm:pt-8 lg:px-24">
             <button
               type="button"
               onClick={goToMenu}
@@ -1419,7 +1526,7 @@ export default function AssistantChat({
 
         {activeChat && (
           <>
-            <div className="min-h-0 flex-1 overflow-y-auto px-8 py-8 sm:px-16 lg:px-28">
+            <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-8 pt-14 sm:px-16 sm:pt-8 lg:px-28">
               <div className="mx-auto flex max-w-2xl items-center justify-between gap-4">
                 <button
                   type="button"
@@ -1524,16 +1631,16 @@ export default function AssistantChat({
               </div>
             </div>
 
-            <div className="absolute inset-x-0 bottom-0 bg-parchment-line">
+            <div className="absolute inset-x-0 bottom-0 bg-parchment-line pb-[env(safe-area-inset-bottom)]">
               <div className="h-px w-full bg-moss" aria-hidden />
               <form
                 onSubmit={(event) => {
                   event.preventDefault();
                   submitFollowUp(input);
                 }}
-                className="px-8 py-4 sm:px-16 lg:px-28"
+                className="px-4 py-3 sm:px-16 sm:py-4 lg:px-28"
               >
-                <div className="relative mx-auto max-w-2xl">
+                <div className="relative mx-auto w-full max-w-2xl">
                   <label htmlFor="assistant-mode-input" className="sr-only">
                     Follow-up question
                   </label>
@@ -1551,7 +1658,7 @@ export default function AssistantChat({
                     disabled={loading}
                     rows={3}
                     placeholder="Ask a follow-up question..."
-                    className="min-h-[80px] w-full resize-none rounded-[12px] border border-olive bg-[#F0ECE1] px-4 py-3.5 pr-14 text-[14px] leading-relaxed text-study placeholder:text-moss focus:outline-none focus:ring-1 focus:ring-olive/60 disabled:opacity-60"
+                    className="min-h-[80px] w-full resize-none rounded-[12px] border border-olive bg-[#F0ECE1] px-4 py-3.5 pr-14 text-base leading-relaxed text-study placeholder:text-moss focus:outline-none focus:ring-1 focus:ring-olive/60 disabled:opacity-60 [font-size:16px]"
                   />
                   <button
                     type="submit"
@@ -1564,7 +1671,7 @@ export default function AssistantChat({
                         : !input.trim())
                     }
                     aria-label="Send"
-                    className="absolute bottom-3 right-3 flex h-8 w-8 items-center justify-center rounded-md bg-study text-parchment-line transition hover:bg-olive disabled:opacity-30"
+                    className="absolute bottom-3 right-3 flex h-11 w-11 items-center justify-center rounded-md bg-study text-parchment-line transition hover:bg-olive disabled:opacity-30"
                   >
                     <svg
                       viewBox="0 0 16 16"
@@ -1585,39 +1692,6 @@ export default function AssistantChat({
               </form>
             </div>
           </>
-        )}
-
-        {/* Mobile nav — compact strip when sidebar is hidden */}
-        {!showChrome && (
-          <div className="relative z-[1] flex items-center justify-center gap-5 bg-parchment-line/90 px-4 py-3 sm:hidden">
-            <button
-              type="button"
-              onClick={() => {
-                reset();
-                setView({ screen: "saved" });
-              }}
-              className="text-[10px] tracking-[0.12em] text-cocoa"
-            >
-              Saved
-            </button>
-            <button
-              type="button"
-              onClick={() => open("compliance")}
-              className="text-[10px] tracking-[0.12em] text-cocoa"
-            >
-              Compliance
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                reset();
-                setView({ screen: "drafts" });
-              }}
-              className="text-[10px] tracking-[0.12em] text-cocoa"
-            >
-              Drafts
-            </button>
-          </div>
         )}
       </section>
     </div>

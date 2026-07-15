@@ -84,7 +84,7 @@ export default async function TenancyDashboardPage() {
       />
 
       <section className={`${editorialPagePaddingClassName} py-12`}>
-        <div className="grid grid-cols-1 gap-4 min-[420px]:grid-cols-2 lg:grid-cols-4 lg:gap-5">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4 lg:gap-5">
           {statItems.map((item) => (
             <div key={item.label} className="tenancy-card flex h-full flex-col px-5 py-10 text-center">
               <p className="font-serif text-4xl tracking-wide text-tenancy-text sm:text-5xl lg:text-6xl">
@@ -104,13 +104,13 @@ export default async function TenancyDashboardPage() {
       <section className={editorialPagePaddingClassName}>
         <div className="grid min-w-0 overflow-hidden lg:grid-cols-[45%_55%]">
           <div
-            className="relative min-h-[240px] overflow-hidden lg:min-h-[280px]"
+            className="relative hidden min-h-[280px] overflow-hidden lg:block"
             style={{ backgroundColor: siteImages.annieSprattTopiary.placeholderColor }}
           >
             <OptimizedFillImage
               image={siteImages.annieSprattTopiary}
               alt=""
-              sizes="(max-width: 768px) 100vw, 50vw"
+              sizes="50vw"
               quality={CONTENT_IMAGE_QUALITY}
               className="object-cover"
               style={{ objectPosition: "center 75%" }}

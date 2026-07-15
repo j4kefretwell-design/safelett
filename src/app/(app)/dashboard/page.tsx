@@ -165,7 +165,7 @@ export default async function OverviewDashboardPage() {
       <RoutePrefetcher
         paths={[MODE_HOME.overview, MODE_HOME.tenancy, MODE_HOME.assistant]}
       />
-      <section className="relative h-[calc((100vh-4rem)*0.85)] min-h-[440px] w-full overflow-hidden">
+      <section className="relative h-[60vh] min-h-[360px] w-full overflow-hidden md:h-[calc((100vh-4rem)*0.85)] md:min-h-[440px]">
         <div
           className="absolute inset-0"
           style={{ backgroundColor: siteImages.lukeGalloway.placeholderColor }}
@@ -228,7 +228,7 @@ export default async function OverviewDashboardPage() {
                 <li key={item.id}>
                   <Link
                     href={item.href}
-                    className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-x-4 gap-y-2 border-b border-[#C5AC91]/70 py-5 transition hover:bg-[#EDE6DF]/70 sm:grid-cols-[auto_minmax(0,1.2fr)_minmax(0,1fr)_auto] sm:gap-6"
+                    className="grid min-h-14 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-x-4 gap-y-2 border-b border-[#C5AC91]/70 py-5 transition hover:bg-[#EDE6DF]/70 sm:grid-cols-[auto_minmax(0,1.2fr)_minmax(0,1fr)_auto] sm:gap-6"
                   >
                     <span
                       className={`h-2.5 w-2.5 shrink-0 ${dotColour}`}
@@ -286,7 +286,7 @@ export default async function OverviewDashboardPage() {
 
         <div className="grid w-full grid-cols-1 md:grid-cols-[40%_60%] md:items-stretch">
           <div
-            className="relative min-h-[320px] w-full md:min-h-0"
+            className="relative h-[200px] w-full md:h-auto md:min-h-0"
             style={{ backgroundColor: siteImages.sajeerMoCastle.placeholderColor }}
           >
             <OptimizedFillImage

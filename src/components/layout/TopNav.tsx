@@ -1,7 +1,8 @@
 "use client";
 
-import { Menu, X } from "lucide-react";
+import { Menu, X, MoreVertical } from "lucide-react";
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAppMode, type AppMode } from "@/lib/app-mode";
 import { createClient } from "@/lib/supabase/client";
@@ -29,20 +30,50 @@ export default function TopNav({
   const { mode } = useAppMode();
   const isAssistant = mode === "assistant";
   const isOverview = mode === "overview";
+  const [accountOpen, setAccountOpen] = useState(false);
+  const accountRef = useRef<HTMLDivElement>(null);
 
   async function handleSignOut() {
+    setAccountOpen(false);
     const supabase = createClient();
     await supabase.auth.signOut();
     router.push("/login");
     router.refresh();
   }
 
+  useEffect(() => {
+    function onPointerDown(event: MouseEvent | TouchEvent) {
+      if (!accountRef.current?.contains(event.target as Node)) {
+        setAccountOpen(false);
+      }
+    }
+    function onKey(event: KeyboardEvent) {
+      if (event.key === "Escape") setAccountOpen(false);
+    }
+    document.addEventListener("mousedown", onPointerDown);
+    document.addEventListener("touchstart", onPointerDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onPointerDown);
+      document.removeEventListener("touchstart", onPointerDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, []);
+
+  const accountMenuClass = isOverview
+    ? "border-sand bg-greige text-umber"
+    : mode === "assistant"
+      ? "border-moss bg-study text-dusty-cream"
+      : mode === "tenancy"
+        ? "border-gold/40 bg-navy text-dusty-cream"
+        : "border-gold/40 bg-raspberry text-dusty-cream";
+
   return (
     <header
       className={`fixed inset-x-0 top-0 z-30 h-16 shrink-0 transition-colors duration-200 ease-out ${headerBgClass(mode)}`}
     >
       <div
-        className={`relative grid h-16 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center border-b px-4 sm:px-6 lg:px-12 ${
+        className={`relative grid h-16 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center border-b px-3 sm:px-6 lg:px-12 ${
           isOverview
             ? "border-sand"
             : isAssistant
@@ -50,7 +81,7 @@ export default function TopNav({
               : "border-gold"
         }`}
       >
-        <div className="flex min-w-0 items-center gap-3 sm:gap-5">
+        <div className="flex min-w-0 items-center gap-2 sm:gap-5">
           <div className="flex h-11 w-11 shrink-0 items-center justify-center">
             {!hideMenu ? (
               <button
@@ -74,43 +105,90 @@ export default function TopNav({
           <ModeSwitcher />
         </div>
 
-        <div className="flex items-center justify-center px-2">
+        <div className="flex min-w-0 items-center justify-center px-1">
           {isOverview ? (
-            <p className="whitespace-nowrap font-serif text-base uppercase tracking-[0.28em] text-umber sm:text-lg sm:tracking-[0.32em]">
+            <p className="whitespace-nowrap font-serif text-[0.8125rem] uppercase tracking-[0.16em] text-umber sm:text-base sm:tracking-[0.28em] md:text-lg md:tracking-[0.32em]">
               Fretwell <span className="italic text-gold">&amp;</span> Co
             </p>
           ) : isAssistant ? (
-            <p className="whitespace-nowrap font-serif text-base uppercase tracking-[0.28em] text-dusty-cream sm:text-lg sm:tracking-[0.32em]">
+            <p className="whitespace-nowrap font-serif text-[0.8125rem] uppercase tracking-[0.16em] text-dusty-cream sm:text-base sm:tracking-[0.28em] md:text-lg md:tracking-[0.32em]">
               Fretwell <span className="italic text-moss">&amp;</span> Co
             </p>
           ) : (
-            <p className="whitespace-nowrap font-serif text-base uppercase tracking-[0.28em] text-gold sm:text-lg sm:tracking-[0.32em]">
+            <p className="whitespace-nowrap font-serif text-[0.8125rem] uppercase tracking-[0.16em] text-gold sm:text-base sm:tracking-[0.28em] md:text-lg md:tracking-[0.32em]">
               Fretwell <span className="italic">&amp;</span> Co
             </p>
           )}
         </div>
 
-        <div className="flex items-center justify-end gap-4 sm:gap-5">
-          <Link
-            href="/subscription"
-            prefetch
-            className="touch-target flex h-11 items-center text-[11px] font-normal uppercase tracking-[0.18em] text-[#C4A35A] transition hover:opacity-80 sm:text-xs sm:tracking-[0.22em]"
-          >
-            Subscription
-          </Link>
-          <button
-            type="button"
-            onClick={handleSignOut}
-            className={`touch-target flex h-11 items-center text-[11px] font-normal uppercase tracking-[0.18em] transition sm:text-xs sm:tracking-[0.22em] ${
-              isOverview
-                ? "text-umber hover:text-gold"
-                : isAssistant
-                  ? "text-dusty-cream hover:text-moss"
-                  : "text-dusty-cream hover:text-gold"
-            }`}
-          >
-            Sign Out
-          </button>
+        <div className="flex items-center justify-end">
+          {/* Desktop links */}
+          <div className="hidden items-center gap-4 md:flex md:gap-5">
+            <Link
+              href="/subscription"
+              prefetch
+              className="touch-target flex h-11 items-center text-xs font-normal uppercase tracking-[0.22em] text-[#C4A35A] transition hover:opacity-80"
+            >
+              Subscription
+            </Link>
+            <button
+              type="button"
+              onClick={() => void handleSignOut()}
+              className={`touch-target flex h-11 items-center text-xs font-normal uppercase tracking-[0.22em] transition ${
+                isOverview
+                  ? "text-umber hover:text-gold"
+                  : isAssistant
+                    ? "text-dusty-cream hover:text-moss"
+                    : "text-dusty-cream hover:text-gold"
+              }`}
+            >
+              Sign Out
+            </button>
+          </div>
+
+          {/* Mobile account menu */}
+          <div ref={accountRef} className="relative md:hidden">
+            <button
+              type="button"
+              aria-expanded={accountOpen}
+              aria-haspopup="menu"
+              aria-label="Account menu"
+              onClick={() => setAccountOpen((value) => !value)}
+              className={`touch-target flex h-11 w-11 items-center justify-center transition ${
+                isOverview
+                  ? "text-umber hover:text-umber/70"
+                  : "text-dusty-cream hover:text-white"
+              }`}
+            >
+              <MoreVertical className="h-5 w-5" strokeWidth={1.5} />
+            </button>
+
+            {accountOpen ? (
+              <div
+                role="menu"
+                className={`absolute right-0 top-full z-50 mt-2 min-w-[12rem] border py-1 shadow-[0_12px_32px_rgba(0,0,0,0.18)] ${accountMenuClass}`}
+              >
+                <Link
+                  href="/subscription"
+                  role="menuitem"
+                  onClick={() => setAccountOpen(false)}
+                  className="flex min-h-11 items-center px-4 text-[11px] font-normal uppercase tracking-[0.16em] text-[#C4A35A] transition hover:bg-white/5"
+                >
+                  Subscription
+                </Link>
+                <button
+                  type="button"
+                  role="menuitem"
+                  onClick={() => void handleSignOut()}
+                  className={`flex min-h-11 w-full items-center px-4 text-left text-[11px] font-normal uppercase tracking-[0.16em] transition hover:bg-white/5 ${
+                    isOverview ? "text-umber" : "text-dusty-cream"
+                  }`}
+                >
+                  Sign Out
+                </button>
+              </div>
+            ) : null}
+          </div>
         </div>
       </div>
     </header>

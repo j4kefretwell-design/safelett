@@ -1,8 +1,8 @@
 export const inputClassName =
-  "w-full border-0 border-b border-leather/30 bg-transparent px-0 py-3 text-base font-light leading-relaxed text-text outline-none transition placeholder:italic placeholder:text-leather/50 focus:border-b-2 focus:border-leather focus:pb-[calc(0.75rem-1px)]";
+  "w-full border-0 border-b border-leather/30 bg-transparent px-0 py-3 text-base font-light leading-relaxed text-text outline-none transition placeholder:italic placeholder:text-leather/50 focus:border-b-2 focus:border-leather focus:pb-[calc(0.75rem-1px)] [font-size:16px]";
 
 export const searchInputClassName =
-  "w-full border-0 border-b border-leather/25 bg-transparent px-0 py-3 text-base font-light leading-relaxed text-text outline-none transition placeholder:italic placeholder:text-leather/45 focus:border-b-2 focus:border-leather focus:pb-[calc(0.75rem-1px)]";
+  "w-full border-0 border-b border-leather/25 bg-transparent px-0 py-3 text-base font-light leading-relaxed text-text outline-none transition placeholder:italic placeholder:text-leather/45 focus:border-b-2 focus:border-leather focus:pb-[calc(0.75rem-1px)] [font-size:16px]";
 
 export const labelClassName =
   "mb-2 block w-full text-left text-sm font-normal uppercase tracking-[0.14em] text-espresso";
@@ -13,13 +13,13 @@ export const capsLabelClassName =
 export const selectClassName = inputClassName;
 
 export const textareaClassName =
-  "w-full resize-y border-0 border-b border-leather/30 bg-transparent px-0 py-3 text-base font-light leading-relaxed text-text outline-none transition placeholder:text-leather/50 focus:border-b-2 focus:border-leather focus:pb-[calc(0.75rem-1px)]";
+  "w-full resize-y border-0 border-b border-leather/30 bg-transparent px-0 py-3 text-base font-light leading-relaxed text-text outline-none transition placeholder:text-leather/50 focus:border-b-2 focus:border-leather focus:pb-[calc(0.75rem-1px)] [font-size:16px]";
 
 export const fileInputClassName =
   "w-full border-0 border-b border-leather/30 bg-transparent py-3 text-base font-light leading-relaxed text-text file:mr-4 file:border-0 file:bg-raspberry file:px-4 file:py-2.5 file:text-sm file:font-normal file:uppercase file:tracking-wider file:text-dusty-cream hover:file:bg-raspberry-dark";
 
 const btnBaseClassName =
-  "inline-flex min-h-11 items-center justify-center px-6 py-3 text-[0.9375rem] font-normal uppercase leading-normal tracking-[0.1em] transition duration-200 disabled:cursor-not-allowed disabled:opacity-50";
+  "inline-flex min-h-12 items-center justify-center px-6 py-3 text-[0.9375rem] font-normal uppercase leading-normal tracking-[0.1em] transition duration-200 disabled:cursor-not-allowed disabled:opacity-50";
 
 export const btnPrimaryClassName =
   `${btnBaseClassName} bg-raspberry text-dusty-cream hover:bg-raspberry-dark`;
@@ -64,7 +64,7 @@ export const authLabelLoginClassName =
   "mb-2 block text-sm font-normal uppercase tracking-[0.14em] text-umber";
 
 export const authInputLoginClassName =
-  "w-full border-0 border-b border-[#6B503C] bg-transparent px-0 py-3 text-base font-light leading-relaxed text-umber outline-none transition placeholder:italic placeholder:text-umber/45 focus:border-b-2 focus:border-[#6B503C] focus:pb-[calc(0.75rem-1px)]";
+  "w-full border-0 border-b border-[#6B503C] bg-transparent px-0 py-3 text-base font-light leading-relaxed text-umber outline-none transition placeholder:italic placeholder:text-umber/45 focus:border-b-2 focus:border-[#6B503C] focus:pb-[calc(0.75rem-1px)] [font-size:16px]";
 
 export const authBtnLoginClassName =
   `${btnBaseClassName} w-full bg-umber text-dusty-cream hover:bg-umber/90`;
@@ -79,10 +79,10 @@ export const btnGoldOutlineClassName =
   `${btnBaseClassName} border border-gold bg-transparent text-gold hover:bg-gold/10`;
 
 export const btnNavyClassName =
-  `${btnBaseClassName} bg-navy text-dusty-cream hover:bg-navy-dark`;
+  `${btnBaseClassName} w-full bg-navy text-dusty-cream hover:bg-navy-dark sm:w-auto`;
 
 export const btnNavyOutlineClassName =
-  `${btnBaseClassName} border border-navy bg-transparent text-navy hover:bg-navy/5`;
+  `${btnBaseClassName} w-full border border-navy bg-transparent text-navy hover:bg-navy/5 sm:w-auto`;
 
 export const formCardClassName =
   "border border-leather/15 bg-white p-6 sm:p-8 lg:p-10";
@@ -166,11 +166,11 @@ export const editorialFormTextareaClassName =
 export const editorialFormSectionRuleClassName = "my-10 h-px w-full bg-gold/50";
 
 export const editorialFormSubmitClassName =
-  "flex h-12 w-full items-center justify-center bg-raspberry text-sm font-normal uppercase tracking-[0.12em] text-dusty-cream transition duration-200 hover:bg-raspberry-dark disabled:cursor-not-allowed disabled:opacity-50";
+  "flex h-12 min-h-12 w-full items-center justify-center bg-raspberry text-sm font-normal uppercase tracking-[0.12em] text-dusty-cream transition duration-200 hover:bg-raspberry-dark disabled:cursor-not-allowed disabled:opacity-50";
 
 /** Cancel link beneath form submit buttons */
 export const editorialFormCancelClassName =
-  "mt-4 block w-full text-center text-sm font-light text-gold-readable transition hover:text-gold";
+  "mt-4 flex min-h-11 w-full items-center justify-center text-center text-sm font-light text-gold-readable transition hover:text-gold";
 
 /** Back / exit link — top left of pages */
 export const pageBackLinkClassName =

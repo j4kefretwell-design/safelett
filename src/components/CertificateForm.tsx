@@ -461,7 +461,7 @@ export default function CertificateForm({
       )}
 
       <div className="pt-2">
-        <button type="submit" disabled={loading} className={btnPrimaryClassName}>
+        <button type="submit" disabled={loading} className={`${btnPrimaryClassName} w-full sm:w-auto`}>
           {loading
             ? "Saving..."
             : isEditing

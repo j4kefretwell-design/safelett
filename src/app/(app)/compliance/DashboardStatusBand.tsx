@@ -24,7 +24,7 @@ export default function DashboardStatusBand({
 
   return (
     <section
-      className="relative h-[220px] w-full overflow-hidden sm:h-[280px] lg:h-[320px]"
+      className="relative h-[200px] w-full overflow-hidden sm:h-[280px] lg:h-[320px]"
       style={{ backgroundColor: siteImages.anthonyFomin.placeholderColor }}
     >
       <OptimizedFillImage
