@@ -12,6 +12,8 @@ interface TopNavProps {
   sidebarOpen: boolean;
   onMenuClick: () => void;
   hideMenu?: boolean;
+  /** Offset when trial banner is visible above the bar */
+  withTrialBanner?: boolean;
 }
 
 function headerBgClass(mode: AppMode) {
@@ -25,6 +27,7 @@ export default function TopNav({
   sidebarOpen,
   onMenuClick,
   hideMenu = false,
+  withTrialBanner = false,
 }: TopNavProps) {
   const router = useRouter();
   const { mode } = useAppMode();
@@ -70,7 +73,9 @@ export default function TopNav({
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-30 h-16 shrink-0 transition-colors duration-200 ease-out ${headerBgClass(mode)}`}
+      className={`fixed inset-x-0 z-30 h-16 shrink-0 transition-[top,background-color] duration-200 ease-out ${
+        withTrialBanner ? "top-11" : "top-0"
+      } ${headerBgClass(mode)}`}
     >
       <div
         className={`relative grid h-16 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center border-b px-3 sm:px-6 lg:px-12 ${

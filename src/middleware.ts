@@ -1,5 +1,19 @@
 import { createServerClient, type SetAllCookies } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { getTrialAccessForUser } from "@/lib/trial-server";
+
+function isTrialExemptPath(pathname: string): boolean {
+  if (pathname === "/subscription" || pathname.startsWith("/subscription/")) {
+    return true;
+  }
+  if (pathname.startsWith("/api/stripe/")) {
+    return true;
+  }
+  if (pathname === "/api/welcome-email") {
+    return true;
+  }
+  return false;
+}
 
 export async function middleware(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request });
@@ -32,13 +46,16 @@ export async function middleware(request: NextRequest) {
 
   const pathname = request.nextUrl.pathname;
 
-  if (pathname.startsWith("/api/") || pathname.startsWith("/portal/")) {
+  // Webhooks and public portal must always pass through
+  if (
+    pathname === "/api/stripe/webhook" ||
+    pathname.startsWith("/portal/")
+  ) {
     return supabaseResponse;
   }
 
   const isAuthPage =
-    pathname.startsWith("/login") ||
-    pathname.startsWith("/signup");
+    pathname.startsWith("/login") || pathname.startsWith("/signup");
 
   const isPublicPage =
     pathname === "/" ||
@@ -48,7 +65,7 @@ export async function middleware(request: NextRequest) {
     pathname === "/privacy-policy" ||
     pathname === "/terms";
 
-  if (!user && !isPublicPage) {
+  if (!user && !isPublicPage && !pathname.startsWith("/api/")) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
     return NextResponse.redirect(url);
@@ -58,6 +75,31 @@ export async function middleware(request: NextRequest) {
     const url = request.nextUrl.clone();
     url.pathname = "/dashboard";
     return NextResponse.redirect(url);
+  }
+
+  if (user && !isPublicPage) {
+    try {
+      const access = await getTrialAccessForUser(supabase, user.id);
+
+      if (!access.allowed && !isTrialExemptPath(pathname)) {
+        if (pathname.startsWith("/api/")) {
+          return NextResponse.json(
+            {
+              error:
+                "Your free trial has ended. Subscribe to continue.",
+            },
+            { status: 402 }
+          );
+        }
+
+        const url = request.nextUrl.clone();
+        url.pathname = "/subscription";
+        url.searchParams.set("trial", "ended");
+        return NextResponse.redirect(url);
+      }
+    } catch (error) {
+      console.error("[middleware] trial access check failed", error);
+    }
   }
 
   return supabaseResponse;

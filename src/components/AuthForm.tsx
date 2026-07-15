@@ -59,7 +59,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
     const supabase = createClient();
 
     if (mode === "signup") {
-      const { error: signUpError } = await supabase.auth.signUp({
+      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
         email,
         password,
       });
@@ -68,6 +68,19 @@ export default function AuthForm({ mode }: AuthFormProps) {
         setError(signUpError.message);
         setLoading(false);
         return;
+      }
+
+      const newUserId = signUpData.user?.id;
+      if (newUserId) {
+        const startedAt = new Date().toISOString();
+        await supabase.from("user_profiles").upsert({
+          id: newUserId,
+          trial_started_at: startedAt,
+          email_alerts_enabled: true,
+          alert_at_60: true,
+          alert_at_30: true,
+          alert_at_7: true,
+        });
       }
 
       void fetch("/api/welcome-email", {

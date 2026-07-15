@@ -4,6 +4,26 @@ import {
   type UserProfile,
 } from "@/lib/types";
 
+function withTrialDefaults(
+  userId: string,
+  data?: Partial<UserProfile> | null
+): UserProfile {
+  const now = new Date().toISOString();
+  return {
+    id: userId,
+    ...DEFAULT_USER_PROFILE,
+    trial_started_at: data?.trial_started_at ?? now,
+    created_at: data?.created_at ?? now,
+    updated_at: data?.updated_at ?? now,
+    full_name: data?.full_name ?? null,
+    email_alerts_enabled:
+      data?.email_alerts_enabled ?? DEFAULT_USER_PROFILE.email_alerts_enabled,
+    alert_at_60: data?.alert_at_60 ?? DEFAULT_USER_PROFILE.alert_at_60,
+    alert_at_30: data?.alert_at_30 ?? DEFAULT_USER_PROFILE.alert_at_30,
+    alert_at_7: data?.alert_at_7 ?? DEFAULT_USER_PROFILE.alert_at_7,
+  };
+}
+
 export async function getUserProfile(
   supabase: SupabaseClient,
   userId: string
@@ -15,22 +35,31 @@ export async function getUserProfile(
     .maybeSingle();
 
   if (data) {
-    return data as UserProfile;
+    const profile = data as UserProfile;
+    if (!profile.trial_started_at) {
+      const startedAt = new Date().toISOString();
+      await supabase
+        .from("user_profiles")
+        .update({ trial_started_at: startedAt, updated_at: startedAt })
+        .eq("id", userId);
+      return { ...profile, trial_started_at: startedAt };
+    }
+    return profile;
   }
 
+  const startedAt = new Date().toISOString();
   const { data: created, error } = await supabase
     .from("user_profiles")
-    .insert({ id: userId, ...DEFAULT_USER_PROFILE })
+    .insert({
+      id: userId,
+      ...DEFAULT_USER_PROFILE,
+      trial_started_at: startedAt,
+    })
     .select("*")
     .single();
 
   if (error || !created) {
-    return {
-      id: userId,
-      ...DEFAULT_USER_PROFILE,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    };
+    return withTrialDefaults(userId, { trial_started_at: startedAt });
   }
 
   return created as UserProfile;

@@ -20,7 +20,13 @@ function planFromSelection(
   return null;
 }
 
-export default function SubscriptionClient() {
+interface SubscriptionClientProps {
+  trialEnded?: boolean;
+}
+
+export default function SubscriptionClient({
+  trialEnded = false,
+}: SubscriptionClientProps) {
   const [selection, setSelection] = useState<SubscriptionSelection>({
     compliance: false,
     tenancy: false,
@@ -48,16 +54,11 @@ export default function SubscriptionClient() {
         };
       }
 
-      const next = { ...current, [id]: !current[id], professional: false };
-      if (next.compliance && next.tenancy) {
-        // Both selected shows £55 bundle in the summary bar
-      }
-      return next;
+      return { ...current, [id]: !current[id], professional: false };
     });
   }
 
   async function startCheckout(plan: SubscriptionModuleId) {
-    console.log("[subscription] startCheckout clicked", plan);
     setError(null);
     setLoadingPlan(plan);
 
@@ -69,56 +70,24 @@ export default function SubscriptionClient() {
         body: JSON.stringify({ plan }),
       });
 
-      console.log(
-        "[subscription] API HTTP status:",
-        response.status,
-        response.statusText
-      );
-
       const rawText = await response.text();
-      console.log("[subscription] API raw response text:", rawText);
-
-      let data: {
-        url?: string;
-        id?: string;
-        sessionId?: string;
-        error?: string;
-      } = {};
+      let data: { url?: string; error?: string } = {};
       try {
-        data = JSON.parse(rawText) as {
-          url?: string;
-          id?: string;
-          sessionId?: string;
-          error?: string;
-        };
-      } catch (parseError) {
-        console.error("[subscription] Failed to parse API JSON:", parseError);
+        data = JSON.parse(rawText) as { url?: string; error?: string };
+      } catch {
         throw new Error("Checkout API returned a non-JSON response.");
       }
-
-      console.log("[subscription] API parsed response:", data);
-      console.log("[subscription] data.url (used for redirect):", data.url);
 
       if (!response.ok) {
         throw new Error(data.error || `Checkout failed (${response.status}).`);
       }
 
-      const checkoutUrl = data.url;
-      if (!checkoutUrl || typeof checkoutUrl !== "string") {
-        console.error(
-          "[subscription] Missing data.url — full response was:",
-          data
-        );
+      if (!data.url || typeof data.url !== "string") {
         throw new Error(data.error || "Checkout API did not return a URL.");
       }
 
-      console.log(
-        "[subscription] About to redirect with window.location.href =",
-        checkoutUrl
-      );
-      window.location.href = checkoutUrl;
+      window.location.href = data.url;
     } catch (checkoutError) {
-      console.error("[subscription] checkout failed:", checkoutError);
       setError(
         checkoutError instanceof Error
           ? checkoutError.message
@@ -130,7 +99,6 @@ export default function SubscriptionClient() {
 
   async function continueToPayment() {
     const plan = planFromSelection(selection);
-    console.log("[subscription] Continue to Payment", { selection, plan });
 
     if (selection.compliance && selection.tenancy && !selection.professional) {
       setError(
@@ -163,7 +131,6 @@ export default function SubscriptionClient() {
 
       window.location.href = data.url;
     } catch (portalError) {
-      console.error("[subscription] portal failed", portalError);
       setError(
         portalError instanceof Error
           ? portalError.message
@@ -175,32 +142,51 @@ export default function SubscriptionClient() {
 
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-greige px-5 py-12 pb-44 text-umber sm:px-12 lg:px-16">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div>
+      {trialEnded ? (
+        <div className="mx-auto max-w-3xl text-center">
           <p className="text-[10px] font-normal uppercase tracking-[0.32em] text-gold">
-            Subscription
+            Trial ended
           </p>
-          <h1 className="mt-5 font-serif text-3xl tracking-wide text-umber sm:text-4xl">
-            Choose Your Plan
+          <p className="mt-5 text-sm font-light text-leather">
+            Your free trial has ended. Subscribe to continue.
+          </p>
+          <p className="mt-3 text-base font-light text-leather">
+            Your 14-day free trial has ended.
+          </p>
+          <h1 className="mt-6 font-serif text-3xl tracking-wide text-umber sm:text-4xl md:text-5xl">
+            Subscribe to continue using Fretwell &amp; Co.
           </h1>
-          <p className="mt-4 max-w-2xl text-sm font-light leading-relaxed text-leather">
-            Live pricing for Compliance, Tenancy, and Professional. Bundle
-            discounts apply when you combine modules — or take Professional for
-            everything including the AI Assistant.
-          </p>
+          <div className="mx-auto mt-6 h-px w-16 bg-gold" aria-hidden />
         </div>
-        <button
-          type="button"
-          onClick={() => void openPortal()}
-          disabled={managing}
-          className="inline-flex min-h-11 shrink-0 items-center justify-center border border-gold/50 px-5 text-[11px] font-normal uppercase tracking-[0.14em] text-gold transition hover:border-gold disabled:opacity-50"
-        >
-          {managing ? "Opening…" : "Manage subscription"}
-        </button>
-      </div>
+      ) : (
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-[10px] font-normal uppercase tracking-[0.32em] text-gold">
+              Subscription
+            </p>
+            <h1 className="mt-5 font-serif text-3xl tracking-wide text-umber sm:text-4xl">
+              Choose Your Plan
+            </h1>
+            <p className="mt-4 max-w-2xl text-sm font-light leading-relaxed text-leather">
+              Live pricing for Compliance, Tenancy, and Professional. Bundle
+              discounts apply when you combine modules — or take Professional for
+              everything including the AI Assistant.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => void openPortal()}
+            disabled={managing}
+            className="inline-flex min-h-11 shrink-0 items-center justify-center border border-gold/50 px-5 text-[11px] font-normal uppercase tracking-[0.14em] text-gold transition hover:border-gold disabled:opacity-50"
+          >
+            {managing ? "Opening…" : "Manage subscription"}
+          </button>
+        </div>
+      )}
 
-      {/* Bundle savings */}
-      <div className="mt-10 grid gap-3 sm:grid-cols-2">
+      <div
+        className={`grid gap-3 sm:grid-cols-2 ${trialEnded ? "mt-12" : "mt-10"}`}
+      >
         <div className="border border-umber/10 bg-white/70 px-5 py-4">
           <p className="text-[10px] font-normal uppercase tracking-[0.2em] text-gold">
             Bundle
@@ -209,8 +195,7 @@ export default function SubscriptionClient() {
             Compliance + Tenancy
           </p>
           <p className="mt-1 text-sm font-light text-leather">
-            £55/month{" "}
-            <span className="text-gold">(save £10)</span>
+            £55/month <span className="text-gold">(save £10)</span>
           </p>
         </div>
         <div className="border border-study/20 bg-white/70 px-5 py-4">
@@ -221,8 +206,7 @@ export default function SubscriptionClient() {
             Professional
           </p>
           <p className="mt-1 text-sm font-light text-leather">
-            £89/month{" "}
-            <span className="text-gold">(save £76)</span>
+            £89/month <span className="text-gold">(save £76)</span>
           </p>
         </div>
       </div>
@@ -273,18 +257,20 @@ export default function SubscriptionClient() {
                     </span>
                   </p>
                 </div>
-                <label className="flex shrink-0 cursor-pointer items-center gap-2 pt-1">
-                  <span className="sr-only">Add {module.name} to plan</span>
-                  <input
-                    type="checkbox"
-                    checked={isSelected}
-                    onChange={() => toggleModule(module.id)}
-                    className="h-4 w-4 accent-gold"
-                  />
-                  <span className="text-[10px] uppercase tracking-[0.14em] text-leather">
-                    Add
-                  </span>
-                </label>
+                {!trialEnded ? (
+                  <label className="flex shrink-0 cursor-pointer items-center gap-2 pt-1">
+                    <span className="sr-only">Add {module.name} to plan</span>
+                    <input
+                      type="checkbox"
+                      checked={isSelected}
+                      onChange={() => toggleModule(module.id)}
+                      className="h-4 w-4 accent-gold"
+                    />
+                    <span className="text-[10px] uppercase tracking-[0.14em] text-leather">
+                      Add
+                    </span>
+                  </label>
+                ) : null}
               </div>
 
               <ul className="mt-8 flex-1 space-y-3 text-sm font-light leading-relaxed text-leather">
@@ -312,7 +298,7 @@ export default function SubscriptionClient() {
         })}
       </div>
 
-      {summary ? (
+      {summary && !trialEnded ? (
         <div className="fixed inset-x-0 bottom-0 z-40 border-t border-gold/30 bg-umber px-5 py-5 sm:px-12">
           <div className="mx-auto flex max-w-6xl flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="text-dusty-cream">
@@ -350,23 +336,25 @@ export default function SubscriptionClient() {
         </div>
       ) : null}
 
-      <p className="mt-12 text-center text-xs font-light text-leather">
-        Already subscribed?{" "}
-        <button
-          type="button"
-          onClick={() => void openPortal()}
-          className="text-gold-readable underline-offset-2 transition hover:text-gold hover:underline"
-        >
-          Manage billing
-        </button>
-        {" · "}
-        <Link
-          href="/dashboard"
-          className="text-gold-readable underline-offset-2 transition hover:text-gold hover:underline"
-        >
-          Back to dashboard
-        </Link>
-      </p>
+      {!trialEnded ? (
+        <p className="mt-12 text-center text-xs font-light text-leather">
+          Already subscribed?{" "}
+          <button
+            type="button"
+            onClick={() => void openPortal()}
+            className="text-gold-readable underline-offset-2 transition hover:text-gold hover:underline"
+          >
+            Manage billing
+          </button>
+          {" · "}
+          <Link
+            href="/dashboard"
+            className="text-gold-readable underline-offset-2 transition hover:text-gold hover:underline"
+          >
+            Back to dashboard
+          </Link>
+        </p>
+      ) : null}
     </div>
   );
 }

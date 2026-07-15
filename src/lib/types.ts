@@ -73,6 +73,7 @@ export interface UserProfile {
   alert_at_60: boolean;
   alert_at_30: boolean;
   alert_at_7: boolean;
+  trial_started_at: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -86,6 +87,7 @@ export const DEFAULT_USER_PROFILE: Omit<
   alert_at_60: true,
   alert_at_30: true,
   alert_at_7: true,
+  trial_started_at: null,
 };
 
 export const PROPERTY_TYPE_LABELS: Record<PropertyType, string> = {
