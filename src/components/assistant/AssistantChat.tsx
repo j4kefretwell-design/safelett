@@ -7,6 +7,7 @@ import {
   ASSISTANT_DISCLAIMER,
   ASSISTANT_DOCUMENTS,
   getAssistantDocument,
+  parseAssistantReply,
   type AssistantDocumentType,
 } from "@/lib/assistant";
 import {
@@ -319,6 +320,7 @@ export default function AssistantChat({
   const [composerInput, setComposerInput] = useState("");
   const [deleteChatId, setDeleteChatId] = useState<string | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const followUpRef = useRef<HTMLTextAreaElement>(null);
   const composerTextareaRef = useRef<HTMLTextAreaElement>(null);
   const startedRef = useRef(false);
   const sessionId =
@@ -343,6 +345,9 @@ export default function AssistantChat({
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (!loading && messages.length > 0) {
+      followUpRef.current?.focus();
+    }
   }, [messages, loading, view.screen]);
 
   useEffect(() => {
@@ -519,9 +524,15 @@ export default function AssistantChat({
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Unable to get a response.");
+      const parsed = parseAssistantReply((data.reply as string) ?? "");
       setMessages((current) => [
         ...current,
-        { id: uid(), role: "assistant", content: data.reply as string },
+        {
+          id: uid(),
+          role: "assistant",
+          content: parsed.content,
+          suggestions: parsed.suggestions,
+        },
       ]);
     } catch (caught) {
       const message =
@@ -550,15 +561,19 @@ export default function AssistantChat({
       const data = await response.json();
       if (!response.ok)
         throw new Error(data.error || "Unable to run compliance check.");
-      const summary = (data.summary as string).trim();
-      const followUp =
-        "Would you like me to draft contractor booking emails for any of these?";
-      const withFollowUp = summary.toLowerCase().includes(
-        "contractor booking emails"
-      )
-        ? summary
-        : `${summary}\n\n${followUp}`;
-      append({ role: "assistant", content: withFollowUp });
+      const parsed = parseAssistantReply((data.summary as string).trim());
+      append({
+        role: "assistant",
+        content: parsed.content,
+        suggestions:
+          parsed.suggestions.length > 0
+            ? parsed.suggestions
+            : [
+                "View overdue items",
+                "Draft contractor emails for all overdue",
+                "Generate compliance report",
+              ],
+      });
     } catch (caught) {
       const message =
         caught instanceof Error
@@ -706,6 +721,11 @@ export default function AssistantChat({
           subject: data.subject,
           body: data.body,
         },
+        suggestions: [
+          "Send via Gmail",
+          "Draft another letter",
+          "Save this draft",
+        ],
       });
       setDraftState(emptyDraftState());
     } catch (caught) {
@@ -736,24 +756,58 @@ export default function AssistantChat({
     nextDraftStep(next, view.documentType);
   }
 
-  function submitDraft() {
-    if (view.screen !== "draft" || draftState.awaiting !== "field") return;
-    const definition = getAssistantDocument(view.documentType);
-    const field = definition?.fields[draftState.fieldIndex];
-    const value = input.trim();
-    if (!field || (field.required && !value)) return;
-    append({ role: "user", content: value || "(skipped)" });
-    setInput("");
-    const next: DraftState = {
-      ...draftState,
-      fields: value
-        ? { ...draftState.fields, [field.id]: value }
-        : draftState.fields,
-      fieldIndex: draftState.fieldIndex + 1,
-      awaiting: null,
-    };
-    setDraftState(next);
-    nextDraftStep(next, view.documentType);
+  function submitFollowUp(text: string) {
+    const trimmed = text.trim();
+    if (loading) return;
+
+    if (view.screen === "draft" && draftState.awaiting === "field") {
+      const definition = getAssistantDocument(view.documentType);
+      const field = definition?.fields[draftState.fieldIndex];
+      if (!field || (field.required && !trimmed)) return;
+      append({ role: "user", content: trimmed || "(skipped)" });
+      setInput("");
+      const next: DraftState = {
+        ...draftState,
+        fields: trimmed
+          ? { ...draftState.fields, [field.id]: trimmed }
+          : draftState.fields,
+        fieldIndex: draftState.fieldIndex + 1,
+        awaiting: null,
+      };
+      setDraftState(next);
+      nextDraftStep(next, view.documentType);
+      return;
+    }
+
+    if (!trimmed) return;
+
+    if (
+      view.screen === "draft" &&
+      draftState.awaiting !== null &&
+      draftState.awaiting !== "field"
+    ) {
+      return;
+    }
+
+    const followUpMode =
+      view.screen === "tenancy"
+        ? "tenancy"
+        : view.screen === "property"
+          ? "property"
+          : "ask";
+    const followUpEntity =
+      view.screen === "tenancy"
+        ? view.tenancyId
+        : view.screen === "property"
+          ? view.propertyId
+          : undefined;
+    void ask(trimmed, followUpMode, followUpEntity);
+  }
+
+  function submitSuggestion(suggestion: string) {
+    if (loading) return;
+    setInput(suggestion);
+    submitFollowUp(suggestion);
   }
 
   function selectTenancy(tenancy: Tenancy) {
@@ -951,19 +1005,6 @@ export default function AssistantChat({
   const exitChatLabel = isDocumentDrafter ? "← Start Over" : "← New Chat";
   const exitChatClassName =
     "text-sm font-light text-gold-readable transition hover:text-gold";
-  const mode =
-    view.screen === "tenancy"
-      ? "tenancy"
-      : view.screen === "property"
-        ? "property"
-        : "ask";
-  const entityId =
-    view.screen === "tenancy"
-      ? view.tenancyId
-      : view.screen === "property"
-        ? view.propertyId
-        : undefined;
-
   const chipClass =
     "border border-olive/40 px-3 py-1.5 text-[11px] tracking-wide text-cocoa transition hover:border-study hover:text-study disabled:opacity-40";
   const navItem =
@@ -1392,7 +1433,7 @@ export default function AssistantChat({
                 )}
               </div>
 
-              <div className="mx-auto mt-10 max-w-2xl space-y-7 pb-28">
+              <div className="mx-auto mt-10 max-w-2xl space-y-7 pb-36">
                 {view.screen === "ask" && !messages.length && !loading && (
                   <div>
                     <p className="border-l-2 border-study pl-4 text-[14px] leading-relaxed text-[#1A0A0C]/90">
@@ -1451,6 +1492,21 @@ export default function AssistantChat({
                         {message.document && (
                           <DocumentCard document={message.document} />
                         )}
+                        {message.suggestions && message.suggestions.length > 0 && (
+                          <div className="mt-4 flex flex-wrap gap-2">
+                            {message.suggestions.map((suggestion) => (
+                              <button
+                                key={suggestion}
+                                type="button"
+                                disabled={loading}
+                                onClick={() => submitSuggestion(suggestion)}
+                                className="rounded-[8px] border border-olive bg-[#F0ECE1] px-3 py-1.5 text-[12px] text-study transition hover:border-study disabled:opacity-40"
+                              >
+                                {suggestion}
+                              </button>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     </div>
                   )
@@ -1463,38 +1519,63 @@ export default function AssistantChat({
             </div>
 
             <div className="absolute inset-x-0 bottom-0 bg-parchment-line">
+              <div className="h-px w-full bg-moss" aria-hidden />
               <form
                 onSubmit={(event) => {
                   event.preventDefault();
-                  if (view.screen === "draft") submitDraft();
-                  else void ask(input, mode, entityId);
+                  submitFollowUp(input);
                 }}
-                className="flex w-full items-center gap-3 border-t border-olive px-8 py-4 sm:px-16 lg:px-28"
+                className="px-8 py-4 sm:px-16 lg:px-28"
               >
-                <label htmlFor="assistant-mode-input" className="sr-only">
-                  Message
-                </label>
-                <input
-                  id="assistant-mode-input"
-                  value={input}
-                  onChange={(event) => setInput(event.target.value)}
-                  disabled={loading}
-                  placeholder="Type your message..."
-                  className="min-w-0 flex-1 border-0 bg-transparent text-[14px] text-[#1A0A0C] outline-none placeholder:text-cocoa/50"
-                />
-                <button
-                  type="submit"
-                  disabled={
-                    loading ||
-                    (view.screen === "draft"
-                      ? draftState.awaiting !== "field"
-                      : !input.trim())
-                  }
-                  aria-label="Send"
-                  className="text-moss transition hover:text-study disabled:opacity-30"
-                >
-                  →
-                </button>
+                <div className="relative mx-auto max-w-2xl">
+                  <label htmlFor="assistant-mode-input" className="sr-only">
+                    Follow-up question
+                  </label>
+                  <textarea
+                    id="assistant-mode-input"
+                    ref={followUpRef}
+                    value={input}
+                    onChange={(event) => setInput(event.target.value)}
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter" && !event.shiftKey) {
+                        event.preventDefault();
+                        submitFollowUp(input);
+                      }
+                    }}
+                    disabled={loading}
+                    rows={3}
+                    placeholder="Ask a follow-up question..."
+                    className="min-h-[80px] w-full resize-none rounded-[12px] border border-olive bg-[#F0ECE1] px-4 py-3.5 pr-14 text-[14px] leading-relaxed text-study placeholder:text-moss focus:outline-none focus:ring-1 focus:ring-olive/60 disabled:opacity-60"
+                  />
+                  <button
+                    type="submit"
+                    disabled={
+                      loading ||
+                      (view.screen === "draft"
+                        ? draftState.awaiting === "property" ||
+                          draftState.awaiting === "tenancy" ||
+                          (draftState.awaiting === null && !input.trim())
+                        : !input.trim())
+                    }
+                    aria-label="Send"
+                    className="absolute bottom-3 right-3 flex h-8 w-8 items-center justify-center rounded-md bg-study text-parchment-line transition hover:bg-olive disabled:opacity-30"
+                  >
+                    <svg
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      className="h-3.5 w-3.5"
+                      aria-hidden
+                    >
+                      <path
+                        d="M3 8h9M8 3.5 12.5 8 8 12.5"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </button>
+                </div>
               </form>
             </div>
           </>

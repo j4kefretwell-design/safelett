@@ -55,7 +55,7 @@ export async function POST() {
 
     const system = `${buildAssistantSystemPrompt(portfolioFacts)}
 
-Session focus: Portfolio compliance check. Using only the factual portfolio data provided, produce a clean compliance status summary. Identify overdue certificates, items expiring soon, and missing core certificates. Be accurate and concise. Do not give legal advice or compliance judgements beyond stating what the data shows. Present the summary as clean labelled sections with blank lines between them. End with a one-line reminder that this is an information summary only, not legal advice. After the summary, always offer this natural follow-up suggestion as its own short paragraph: Would you like me to draft contractor booking emails for any of these?`;
+Session focus: Portfolio compliance check. Using only the factual portfolio data provided, produce a clean compliance status summary. Identify overdue certificates, items expiring soon, and missing core certificates. Be accurate and concise. Do not give legal advice or compliance judgements beyond stating what the data shows. Present the summary as clean labelled sections with blank lines between them. End with a one-line reminder that this is an information summary only, not legal advice.`;
 
     const anthropic = new Anthropic({
       apiKey: process.env.ANTHROPIC_API_KEY.trim(),

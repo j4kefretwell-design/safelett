@@ -22,6 +22,8 @@ export interface AssistantChatMessage {
   chips?: Array<{ id: string; label: string }>;
   chipKind?: "property" | "tenancy";
   document?: AssistantChatDocument;
+  /** Contextual next-step suggestions shown as pill buttons */
+  suggestions?: string[];
 }
 
 export interface AssistantChatRecord {

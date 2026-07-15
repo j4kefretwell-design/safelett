@@ -27,7 +27,48 @@ General property management Q&A
 
 Always be helpful, accurate and professional. Use formal British English. Never give definitive legal advice — for legal questions explain the general position and recommend consulting a qualified solicitor or letting agent professional body (ARLA/Propertymark).
 ${ASSISTANT_PLAIN_TEXT_FORMAT}
+After every response, suggest 2-3 relevant next actions the property manager might want to take based on what was just discussed. Add these at the very end of your response in this exact format: SUGGESTIONS:["action 1","action 2","action 3"]. Keep suggestions short, actionable and directly relevant to what was just discussed. Do not mention the suggestions block in the reply text itself.
 Portfolio data: ${portfolioData}`;
+}
+
+/** Strip trailing SUGGESTIONS trailer from an assistant reply for display. */
+export function parseAssistantReply(reply: string): {
+  content: string;
+  suggestions: string[];
+} {
+  const trimmed = reply.trim();
+  const patterns = [
+    /\n*\s*SUGGESTIONS\s*:\s*(\[[\s\S]*?\])\s*$/i,
+    /\n*\s*(\{\s*"suggestions"\s*:\s*\[[\s\S]*?\]\s*\})\s*$/i,
+  ];
+
+  for (const pattern of patterns) {
+    const match = trimmed.match(pattern);
+    if (!match?.[1] || match.index == null) continue;
+    try {
+      const parsed: unknown = JSON.parse(match[1]);
+      const raw = Array.isArray(parsed)
+        ? parsed
+        : parsed &&
+            typeof parsed === "object" &&
+            Array.isArray((parsed as { suggestions?: unknown }).suggestions)
+          ? (parsed as { suggestions: unknown[] }).suggestions
+          : null;
+      if (!raw) continue;
+      const suggestions = raw
+        .filter((item): item is string => typeof item === "string" && item.trim().length > 0)
+        .map((item) => item.trim())
+        .slice(0, 3);
+      return {
+        content: trimmed.slice(0, match.index).trimEnd(),
+        suggestions,
+      };
+    } catch {
+      /* try next pattern */
+    }
+  }
+
+  return { content: trimmed, suggestions: [] };
 }
 
 export type AssistantDocumentType =
