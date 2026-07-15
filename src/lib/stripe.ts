@@ -16,26 +16,68 @@ export function getStripe(): Stripe {
   return stripeClient;
 }
 
-export function getAppBaseUrl(): string {
-  return (
+export function getAppBaseUrl(request?: Request): string {
+  const configured =
     process.env.NEXT_PUBLIC_APP_URL?.replace(/\/$/, "") ||
-    "https://fretwellcompliance.uk"
+    "https://fretwellcompliance.uk";
+
+  if (!request) return configured;
+
+  try {
+    const origin = new URL(request.url).origin;
+    if (
+      origin.includes("localhost") ||
+      origin.includes("127.0.0.1")
+    ) {
+      return origin;
+    }
+  } catch {
+    // fall through to configured production URL
+  }
+
+  return configured;
+}
+
+function isValidPriceId(value: string | undefined): value is string {
+  const priceId = value?.trim();
+  return Boolean(
+    priceId &&
+      priceId.startsWith("price_") &&
+      !priceId.includes("placeholder")
   );
 }
 
 export function getStripePriceId(plan: SubscriptionModuleId): string | null {
-  const map: Record<SubscriptionModuleId, string | undefined> = {
-    compliance: process.env.STRIPE_PRICE_COMPLIANCE,
-    tenancy: process.env.STRIPE_PRICE_TENANCY,
-    professional: process.env.STRIPE_PRICE_PROFESSIONAL,
-  };
+  const candidates: Array<string | undefined> =
+    plan === "compliance"
+      ? [
+          process.env.STRIPE_PRICE_COMPLIANCE,
+          process.env.STRIPE_COMPLIANCE_PRICE_ID,
+        ]
+      : plan === "tenancy"
+        ? [
+            process.env.STRIPE_PRICE_TENANCY,
+            process.env.STRIPE_TENANCY_PRICE_ID,
+          ]
+        : [
+            process.env.STRIPE_PRICE_PROFESSIONAL,
+            process.env.STRIPE_PROFESSIONAL_PRICE_ID,
+          ];
 
-  const priceId = map[plan]?.trim();
-  if (!priceId || priceId.includes("placeholder")) {
-    return null;
+  for (const candidate of candidates) {
+    if (isValidPriceId(candidate)) {
+      return candidate.trim();
+    }
   }
 
-  return priceId;
+  console.error("[stripe] No valid price ID for plan", {
+    plan,
+    candidates: candidates.map((value) =>
+      value ? `${value.slice(0, 12)}…` : "(unset)"
+    ),
+  });
+
+  return null;
 }
 
 export function isStripePlan(value: unknown): value is SubscriptionModuleId {
