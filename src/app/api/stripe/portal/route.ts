@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { getAppBaseUrl, getStripe } from "@/lib/stripe";
+import { STRIPE_APP_ORIGIN, getStripe } from "@/lib/stripe";
 
 export async function POST() {
   try {
@@ -29,17 +29,24 @@ export async function POST() {
     }
 
     const stripe = getStripe();
-    const baseUrl = getAppBaseUrl();
 
     const session = await stripe.billingPortal.sessions.create({
       customer: subscription.stripe_customer_id,
-      return_url: `${baseUrl}/subscription`,
+      return_url: `${STRIPE_APP_ORIGIN}/subscription`,
     });
+
+    if (!session.url) {
+      return NextResponse.json(
+        { error: "Stripe did not return a portal URL." },
+        { status: 500 }
+      );
+    }
 
     return NextResponse.json({ url: session.url });
   } catch (error) {
     const message =
       error instanceof Error ? error.message : "Portal session failed.";
+    console.error("[stripe/portal] error", error);
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }

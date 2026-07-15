@@ -119,12 +119,29 @@ export default function SubscriptionClient() {
 
       console.log("[subscription] checkout response body", data);
 
-      if (!response.ok || !data.url) {
-        throw new Error(data.error || "Unable to start checkout.");
+      if (!response.ok) {
+        throw new Error(data.error || `Checkout failed (${response.status}).`);
       }
 
-      console.log("[subscription] redirecting to Stripe", data.url);
-      window.location.href = data.url;
+      if (!data.url || typeof data.url !== "string") {
+        console.error("[subscription] API returned no url", data);
+        throw new Error(data.error || "Checkout API did not return a URL.");
+      }
+
+      let checkoutUrl: string;
+      try {
+        const parsed = new URL(data.url);
+        if (parsed.protocol !== "https:") {
+          throw new Error(`Invalid checkout URL protocol: ${parsed.protocol}`);
+        }
+        checkoutUrl = parsed.toString();
+      } catch {
+        console.error("[subscription] Invalid checkout URL value", data.url);
+        throw new Error(`Not a valid checkout URL: ${String(data.url)}`);
+      }
+
+      console.log("[subscription] redirecting to Stripe Checkout", checkoutUrl);
+      window.location.href = checkoutUrl;
     } catch (checkoutError) {
       console.error("[subscription] checkout failed", checkoutError);
       setError(

@@ -16,26 +16,15 @@ export function getStripe(): Stripe {
   return stripeClient;
 }
 
-export function getAppBaseUrl(request?: Request): string {
-  const configured =
-    process.env.NEXT_PUBLIC_APP_URL?.replace(/\/$/, "") ||
-    "https://fretwellcompliance.uk";
+/** Canonical production site origin for Stripe redirect URLs. */
+export const STRIPE_APP_ORIGIN = "https://fretwellcompliance.uk";
 
-  if (!request) return configured;
-
-  try {
-    const origin = new URL(request.url).origin;
-    if (
-      origin.includes("localhost") ||
-      origin.includes("127.0.0.1")
-    ) {
-      return origin;
-    }
-  } catch {
-    // fall through to configured production URL
+export function getAppBaseUrl(): string {
+  const configured = process.env.NEXT_PUBLIC_APP_URL?.trim().replace(/\/$/, "");
+  if (configured && configured.startsWith("http")) {
+    return configured;
   }
-
-  return configured;
+  return STRIPE_APP_ORIGIN;
 }
 
 function isValidPriceId(value: string | undefined): value is string {
