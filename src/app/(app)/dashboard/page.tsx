@@ -1,7 +1,9 @@
 import Link from "next/link";
-import OverviewHeroCarousel from "@/components/dashboard/OverviewHeroCarousel";
+import OverviewHeroCarousel, {
+  type OverviewCarouselPanel,
+} from "@/components/dashboard/OverviewHeroCarousel";
 import OptimizedFillImage from "@/components/OptimizedFillImage";
-import { buildOverviewData } from "@/lib/overview";
+import { buildOverviewData, type OverviewActionItem } from "@/lib/overview";
 import { siteImages } from "@/lib/site-images";
 import { editorialPagePaddingClassName } from "@/lib/ui";
 import { createClient } from "@/lib/supabase/server";
@@ -9,6 +11,92 @@ import type { Certificate, Property } from "@/lib/types";
 import type { Tenancy } from "@/lib/tenancy";
 
 export const revalidate = 30;
+
+const STARTER_PLAN_FEATURES = [
+  "Compliance Certificate Tracking",
+  "Automated Email Alerts",
+  "Contractor Email Drafting",
+  "Annual Compliance Reports",
+] as const;
+
+function buildModulePanel({
+  id,
+  href,
+  label,
+  clearText,
+  actions,
+  module,
+}: {
+  id: string;
+  href: string;
+  label: string;
+  clearText: string;
+  actions: OverviewActionItem[];
+  module: "compliance" | "tenancy";
+}): OverviewCarouselPanel {
+  const moduleActions = actions.filter((item) => item.module === module);
+
+  if (moduleActions.length === 0) {
+    return { id, href, label, status: "clear", statusText: clearText };
+  }
+
+  const hasOverdue = moduleActions.some((item) => item.daysRemaining < 0);
+  if (hasOverdue) {
+    return {
+      id,
+      href,
+      label,
+      status: "overdue",
+      statusText: "Overdue",
+      count: moduleActions.length,
+    };
+  }
+
+  return {
+    id,
+    href,
+    label,
+    status: "attention",
+    statusText: "Action Needed",
+    count: moduleActions.length,
+  };
+}
+
+function buildActionsPanel(
+  actions: OverviewActionItem[],
+  urgentCount: number
+): OverviewCarouselPanel {
+  if (urgentCount === 0) {
+    return {
+      id: "actions",
+      href: "#todays-actions",
+      label: "Actions",
+      status: "clear",
+      statusText: "All Clear",
+    };
+  }
+
+  const hasOverdue = actions.some((item) => item.daysRemaining < 0);
+  if (hasOverdue) {
+    return {
+      id: "actions",
+      href: "#todays-actions",
+      label: "Actions",
+      status: "overdue",
+      statusText: "Overdue",
+      count: urgentCount,
+    };
+  }
+
+  return {
+    id: "actions",
+    href: "#todays-actions",
+    label: "Actions",
+    status: "attention",
+    statusText: "Action Needed",
+    count: urgentCount,
+  };
+}
 
 export default async function OverviewDashboardPage() {
   const supabase = await createClient();
@@ -37,52 +125,38 @@ export default async function OverviewDashboardPage() {
     tenancies: tenancyList,
   });
 
-  const actionsOk = stats.urgentCount === 0;
-  const complianceOk = stats.immediateComplianceCount === 0;
-  const tenancyOk = stats.immediateTenancyCount === 0;
-
-  const compliantCount = Math.max(
-    0,
-    stats.totalProperties - stats.complianceNeedsAttention
-  );
-  const portfolioStatus = actionsOk
-    ? "Everything in order"
-    : stats.urgentCount === 1
-      ? "1 item needs attention"
-      : `${stats.urgentCount} need attention`;
-
-  const carouselPanels = [
-    {
+  const carouselPanels: OverviewCarouselPanel[] = [
+    buildModulePanel({
       id: "compliance",
       href: "/compliance",
       label: "Compliance",
-      value: String(stats.immediateComplianceCount),
-      detail: complianceOk ? "All clear" : "Needs attention",
-    },
-    {
+      clearText: "Compliant",
+      actions,
+      module: "compliance",
+    }),
+    buildModulePanel({
       id: "tenancy",
       href: "/tenancy/dashboard",
       label: "Tenancy",
-      value: String(stats.immediateTenancyCount),
-      detail: tenancyOk ? "All current" : "Needs attention",
-    },
-    {
-      id: "actions",
-      href: "#todays-actions",
-      label: "Actions",
-      value: String(stats.urgentCount),
-      detail: actionsOk ? "Nothing urgent" : "Act this week",
-    },
+      clearText: "All Current",
+      actions,
+      module: "tenancy",
+    }),
+    buildActionsPanel(actions, stats.urgentCount),
     {
       id: "assistant",
       href: "/assistant",
       label: "Assistant",
-      labelColor: "study" as const,
-      value: "Your Personal Assistant",
-      valueSize: "phrase" as const,
+      labelColor: "study",
+      status: "promo",
+      statusText: "Your Assistant",
+      description: "Draft any email. Answer any question. Handle any admin.",
       footer: "Open →",
     },
   ];
+
+  const currentPlan = "Starter Plan";
+  const isHighestPlan = false;
 
   return (
     <div className="min-h-[calc(100vh-4rem)] w-full overflow-x-hidden bg-[#F2EDE8] text-umber">
@@ -186,78 +260,78 @@ export default async function OverviewDashboardPage() {
         )}
       </section>
 
-      <section className="w-full bg-[#F2EDE8]">
+      <section className="w-full bg-[#1C2B23] px-6 py-12 text-center sm:py-14">
+        <p className="text-[10px] font-normal uppercase tracking-[0.28em] text-parchment-line/75">
+          Fretwell &amp; Co Assistant
+        </p>
+        <p className="mx-auto mt-5 max-w-2xl font-serif text-xl leading-relaxed tracking-wide text-parchment-line sm:text-2xl">
+          Your AI property management assistant. Draft letters, answer questions,
+          prepare for meetings — anything a property manager needs.
+        </p>
+        <Link
+          href="/assistant"
+          className="mt-6 inline-block text-sm text-moss transition hover:text-gold"
+        >
+          Open Assistant →
+        </Link>
+      </section>
+
+      <section className="w-full bg-greige-alt">
         <div className="h-px w-full bg-[#C4A35A]" aria-hidden />
 
-        <div className="grid w-full grid-cols-1 items-stretch md:grid-cols-[40%_60%]">
+        <div className="grid w-full grid-cols-1 md:grid-cols-[40%_60%] md:items-stretch">
           <div
-            className="relative min-h-[320px] w-full overflow-hidden md:min-h-0"
+            className="relative min-h-[320px] w-full md:min-h-0"
             style={{ backgroundColor: siteImages.sajeerMoCastle.placeholderColor }}
           >
-            <div className="absolute inset-0">
-              <OptimizedFillImage
-                image={siteImages.sajeerMoCastle}
-                alt=""
-                sizes="(max-width: 768px) 100vw, 40vw"
-                quality={60}
-                className="object-cover"
-                style={{ objectPosition: "center 30%" }}
-              />
-            </div>
+            <OptimizedFillImage
+              image={siteImages.sajeerMoCastle}
+              alt=""
+              sizes="(max-width: 768px) 100vw, 40vw"
+              quality={60}
+              className="object-cover"
+              style={{ objectPosition: "center 30%" }}
+            />
           </div>
 
-          <div className="flex w-full flex-col justify-center bg-[#F2EDE8] px-8 py-14 sm:px-12 lg:px-16 xl:px-20">
+          <div className="flex w-full flex-col justify-center px-8 py-14 sm:px-12 lg:px-16 xl:px-20">
             <p className="text-[10px] font-normal uppercase tracking-[0.28em] text-[#6B503C]">
-              Your Portfolio at a Glance
+              Your Plan
             </p>
             <div className="mt-3 h-px w-16 bg-[#C4A35A]/80" aria-hidden />
 
-            <dl className="mt-10">
-              {(
-                [
-                  ["Properties", String(stats.totalProperties)],
-                  ["Tenancies", String(stats.activeTenancies)],
-                  ["Compliant", String(compliantCount)],
-                  ["Status", portfolioStatus],
-                ] as const
-              ).map(([label, value], index) => (
-                <div
-                  key={label}
-                  className={`grid grid-cols-[7.5rem_1fr] items-baseline gap-6 py-4 sm:grid-cols-[9rem_1fr] ${
-                    index < 3 ? "border-b border-[#C5AC91]/70" : ""
-                  }`}
-                >
-                  <dt className="text-[10px] font-normal uppercase tracking-[0.2em] text-[#6B503C]">
-                    {label}
-                  </dt>
-                  <dd
-                    className={`font-serif tracking-wide text-[#3D2B1F] ${
-                      label === "Status"
-                        ? "text-xl sm:text-2xl"
-                        : "text-3xl sm:text-4xl"
-                    }`}
-                  >
-                    {value}
-                  </dd>
-                </div>
-              ))}
-            </dl>
+            <p className="mt-8 font-serif text-3xl tracking-wide text-[#3D2B1F] sm:text-4xl">
+              {currentPlan}
+            </p>
 
-            <div className="mt-10 flex flex-wrap items-center gap-4">
+            <ul className="mt-8 space-y-3">
+              {STARTER_PLAN_FEATURES.map((feature) => (
+                <li
+                  key={feature}
+                  className="flex items-start gap-3 text-[13px] leading-relaxed text-[#6B503C]"
+                >
+                  <span className="mt-0.5 shrink-0 text-[#C4A35A]" aria-hidden>
+                    ✓
+                  </span>
+                  {feature}
+                </li>
+              ))}
+            </ul>
+
+            <div className="mt-10 h-px w-16 bg-[#C4A35A]/80" aria-hidden />
+
+            {isHighestPlan ? (
+              <p className="mt-8 text-sm italic text-[#6B503C]">
+                Your portfolio is fully supported.
+              </p>
+            ) : (
               <Link
-                href="/compliance"
-                className="text-sm text-[#33181C] transition hover:opacity-80"
+                href="/subscription"
+                className="mt-8 inline-block text-sm text-gold transition hover:opacity-80"
               >
-                View Compliance →
+                Upgrade to Professional →
               </Link>
-              <span className="h-4 w-px bg-[#C5AC91]" aria-hidden />
-              <Link
-                href="/tenancy/dashboard"
-                className="text-sm text-[#1B2A4A] transition hover:opacity-80"
-              >
-                View Tenancy →
-              </Link>
-            </div>
+            )}
           </div>
         </div>
 

@@ -3,14 +3,17 @@
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 
+export type CarouselPanelStatus = "clear" | "attention" | "overdue" | "promo";
+
 export type OverviewCarouselPanel = {
   id: string;
   href: string;
   label: string;
   labelColor?: "leather" | "study";
-  value: string;
-  valueSize?: "number" | "phrase";
-  detail?: string;
+  status: CarouselPanelStatus;
+  statusText: string;
+  count?: number;
+  description?: string;
   footer?: string;
 };
 
@@ -24,6 +27,50 @@ function wrapOffset(index: number, active: number, length: number) {
   if (offset < -length / 2) offset += length;
   return offset;
 }
+
+function StatusIcon({ status }: { status: CarouselPanelStatus }) {
+  if (status === "promo") return null;
+
+  if (status === "clear") {
+    return (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.25"
+        className="h-5 w-5 shrink-0 text-forest"
+        aria-hidden
+      >
+        <circle cx="12" cy="12" r="9" />
+        <path d="M8 12.5l2.5 2.5 5.5-5.5" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.25"
+      className={`h-5 w-5 shrink-0 ${
+        status === "overdue" ? "text-urgent" : "text-attention"
+      }`}
+      aria-hidden
+    >
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 8v5" strokeLinecap="round" />
+      <circle cx="12" cy="16" r="0.75" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+const statusTextClass: Record<CarouselPanelStatus, string> = {
+  clear: "text-forest",
+  attention: "text-attention",
+  overdue: "text-urgent",
+  promo: "text-[#3D2B1F]",
+};
 
 export default function OverviewHeroCarousel({
   panels,
@@ -101,9 +148,11 @@ export default function OverviewHeroCarousel({
                 "left-[calc(75%+6px)] hidden w-[28%] -translate-y-1/2 scale-[0.88] opacity-80 sm:block";
             }
 
-            const isPhrase = panel.valueSize === "phrase";
             const labelClass =
               panel.labelColor === "study" ? "text-study" : "text-[#6B503C]";
+            const heroSize = isCenter
+              ? "text-3xl leading-tight sm:text-[2.75rem]"
+              : "text-2xl leading-tight sm:text-3xl";
 
             const content = (
               <div className="relative z-[1] flex h-full flex-col justify-center">
@@ -112,22 +161,29 @@ export default function OverviewHeroCarousel({
                 >
                   {panel.label}
                 </p>
-                <p
-                  className={`mt-6 font-serif tracking-wide text-[#3D2B1F] ${
-                    isPhrase
-                      ? isCenter
-                        ? "text-3xl leading-tight sm:text-4xl"
-                        : "text-2xl leading-tight"
-                      : isCenter
-                        ? "text-[3.5rem] leading-none"
-                        : "text-[2.5rem] leading-none"
-                  }`}
-                >
-                  {panel.value}
-                </p>
-                {panel.detail ? (
-                  <p className="mt-5 text-[13px] italic text-[#6B503C]">
-                    {panel.detail}
+
+                <div className="mt-5 flex items-start gap-3">
+                  <StatusIcon status={panel.status} />
+                  <div className="min-w-0">
+                    <p
+                      className={`font-serif tracking-wide ${heroSize} ${statusTextClass[panel.status]}`}
+                    >
+                      {panel.statusText}
+                    </p>
+                    {panel.count != null && panel.count > 0 ? (
+                      <p className="mt-2 text-xl font-semibold tabular-nums text-[#6B503C] sm:text-2xl">
+                        {panel.count}
+                        <span className="ml-1.5 text-[11px] font-normal uppercase tracking-[0.18em]">
+                          {panel.count === 1 ? "item" : "items"}
+                        </span>
+                      </p>
+                    ) : null}
+                  </div>
+                </div>
+
+                {panel.description ? (
+                  <p className="mt-5 text-[13px] leading-relaxed text-[#6B503C]">
+                    {panel.description}
                   </p>
                 ) : null}
                 {panel.footer ? (
