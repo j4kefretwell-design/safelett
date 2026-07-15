@@ -1,8 +1,33 @@
 "use client";
 
+import { useState } from "react";
+import Link from "next/link";
 import SettingsSection from "@/components/settings/SettingsSection";
 
 export default function SettingsSubscription() {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function openPortal() {
+    setError(null);
+    setLoading(true);
+    try {
+      const response = await fetch("/api/stripe/portal", { method: "POST" });
+      const data = (await response.json()) as { url?: string; error?: string };
+      if (!response.ok || !data.url) {
+        throw new Error(data.error || "Unable to open billing portal.");
+      }
+      window.location.href = data.url;
+    } catch (portalError) {
+      setError(
+        portalError instanceof Error
+          ? portalError.message
+          : "Unable to open billing portal."
+      );
+      setLoading(false);
+    }
+  }
+
   return (
     <SettingsSection
       id="subscription"
@@ -15,25 +40,34 @@ export default function SettingsSubscription() {
           Current Plan
         </p>
         <p className="mt-4 font-serif text-3xl tracking-wide text-text">
-          Starter Plan
+          Manage billing in Stripe
         </p>
-
-        <div className="mt-8 flex items-baseline gap-2 border-t border-leather/15 pt-8">
-          <span className="font-serif text-5xl tracking-wide text-gold">£49</span>
-          <span className="text-sm font-light text-leather">/ month</span>
-        </div>
 
         <p className="mt-8 text-sm font-light leading-relaxed text-leather">
-          Full access to compliance tracking, automated alerts, secure document
-          storage, and contractor contacts across your portfolio.
+          Update your payment method, change plans, or cancel from the customer
+          portal. Or choose a plan on the subscription page.
         </p>
 
-        <button
-          type="button"
-          className="mt-10 border border-gold/50 px-8 py-3.5 text-[10px] font-normal uppercase tracking-[0.14em] text-gold transition hover:border-gold"
-        >
-          Upgrade Membership
-        </button>
+        {error ? (
+          <p className="mt-6 text-sm text-urgent">{error}</p>
+        ) : null}
+
+        <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+          <button
+            type="button"
+            onClick={() => void openPortal()}
+            disabled={loading}
+            className="border border-gold/50 px-8 py-3.5 text-[10px] font-normal uppercase tracking-[0.14em] text-gold transition hover:border-gold disabled:opacity-50"
+          >
+            {loading ? "Opening…" : "Manage billing"}
+          </button>
+          <Link
+            href="/subscription"
+            className="inline-flex items-center justify-center bg-raspberry px-8 py-3.5 text-[10px] font-normal uppercase tracking-[0.14em] text-dusty-cream transition hover:bg-raspberry-dark"
+          >
+            View plans
+          </Link>
+        </div>
       </div>
     </SettingsSection>
   );
