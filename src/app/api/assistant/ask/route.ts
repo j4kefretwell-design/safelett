@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import Anthropic from "@anthropic-ai/sdk";
+import { createAnthropicClient } from "@/lib/anthropic";
 import {
   ASSISTANT_MODEL,
   buildAssistantSystemPrompt,
@@ -177,9 +177,7 @@ Session focus: Property report. Prioritise a clear compliance and tenancy summar
       system = buildAssistantSystemPrompt(portfolioData);
     }
 
-    const anthropic = new Anthropic({
-      apiKey: process.env.ANTHROPIC_API_KEY.trim(),
-    });
+    const anthropic = await createAnthropicClient();
 
     const response = await anthropic.messages.create({
       model: ASSISTANT_MODEL,

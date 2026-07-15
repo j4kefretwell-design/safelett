@@ -10,6 +10,7 @@ const dmSans = DM_Sans({
   weight: ["300", "400", "500"],
   display: "swap",
   preload: true,
+  adjustFontFallback: true,
 });
 
 const playfair = Playfair_Display({
@@ -17,6 +18,7 @@ const playfair = Playfair_Display({
   subsets: ["latin"],
   display: "swap",
   preload: true,
+  adjustFontFallback: true,
 });
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -60,24 +62,6 @@ export default function RootLayout({
         )}
         <link rel="preconnect" href="https://api.resend.com" crossOrigin="" />
         <link rel="dns-prefetch" href="https://api.resend.com" />
-        <link
-          rel="preload"
-          as="image"
-          href="/george-ciobra-LX1k7rOj7Sg-unsplash.jpg"
-          fetchPriority="high"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href="/anthony-fomin-zjBxPUHE_ok-unsplash.jpg"
-          fetchPriority="high"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href="/vojtech-bartonicek-wgG7jLQ7M0U-unsplash.jpg"
-          fetchPriority="high"
-        />
       </head>
       <body
         className={`${dmSans.className} bg-dusty-cream font-light text-text antialiased`}

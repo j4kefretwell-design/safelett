@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import OptimizedFillImage from "@/components/OptimizedFillImage";
-import { siteImages } from "@/lib/site-images";
+import { IMAGE_QUALITY, siteImages } from "@/lib/site-images";
 import { btnOutlineClassName, editorialPagePaddingClassName } from "@/lib/ui";
 
 export default function DashboardEmptyState() {
@@ -17,7 +17,7 @@ export default function DashboardEmptyState() {
           alt=""
           sizes="100vw"
           priority
-          quality={60}
+          quality={IMAGE_QUALITY}
           className="object-cover object-center"
         />
         <div className="absolute inset-0 bg-[#1A0A0C]/55" />

@@ -26,7 +26,7 @@ import {
   buildMailtoUrl,
   formatNoticeForCopy,
 } from "@/lib/tenancy-notices";
-import { siteImages } from "@/lib/site-images";
+import { IMAGE_QUALITY, siteImages } from "@/lib/site-images";
 import type { Property } from "@/lib/types";
 import type { Tenancy } from "@/lib/tenancy";
 
@@ -1103,8 +1103,10 @@ export default function AssistantChat({
                 alt=""
                 fill
                 priority
-                quality={60}
+                quality={IMAGE_QUALITY}
                 sizes="100vw"
+                placeholder="blur"
+                blurDataURL={siteImages.georgeCiobra.blurDataURL}
                 className="object-cover object-center"
               />
             </div>

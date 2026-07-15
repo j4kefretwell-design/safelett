@@ -1,7 +1,7 @@
 "use client";
 
 import OptimizedFillImage from "@/components/OptimizedFillImage";
-import { siteImages } from "@/lib/site-images";
+import { IMAGE_QUALITY, siteImages } from "@/lib/site-images";
 import { editorialBleedClassName } from "@/lib/ui";
 
 interface DashboardHeroBannerProps {
@@ -32,7 +32,7 @@ export default function DashboardHeroBanner({ stats }: DashboardHeroBannerProps)
           alt=""
           sizes="100vw"
           priority
-          quality={60}
+          quality={IMAGE_QUALITY}
           className="object-cover opacity-[0.38]"
         />
       </div>

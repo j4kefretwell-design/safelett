@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import Anthropic from "@anthropic-ai/sdk";
+import { createAnthropicClient } from "@/lib/anthropic";
 import {
   ASSISTANT_MODEL,
   ASSISTANT_PLAIN_TEXT_FORMAT,
@@ -196,9 +196,7 @@ export async function POST(request: Request) {
   const system = `You are a professional property management assistant for a UK letting agency. Draft a ${document.name} letter for the following property and tenancy details: ${contextParts}. Use formal British English appropriate for professional property correspondence. The letter should be properly formatted with date, addresses, subject line, body paragraphs and sign-off. Begin the response with a single line "Subject: ..." then a blank line, then the full letter body. Place the date at the top right of the letter body, the recipient address block top left, a clear subject line in the body, proper paragraphs, and a professional sign-off from ${signOffName} at Fretwell & Co. Do not use markdown, asterisks, hashes or bullet symbols anywhere in the letter. Use plain text only with blank lines between paragraphs. End every document with this disclaimer on a new line: '${DOCUMENT_DISCLAIMER}'. ${ASSISTANT_PLAIN_TEXT_FORMAT}`;
 
   try {
-    const anthropic = new Anthropic({
-      apiKey: process.env.ANTHROPIC_API_KEY.trim(),
-    });
+    const anthropic = await createAnthropicClient();
 
     const response = await anthropic.messages.create({
       model: ASSISTANT_MODEL,

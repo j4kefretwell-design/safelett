@@ -13,7 +13,7 @@ interface AppShellProps {
 function AppShellInner({ children }: AppShellProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const closeSidebar = useCallback(() => setSidebarOpen(false), []);
-  const { mode, isTransitioning } = useAppMode();
+  const { mode } = useAppMode();
   const isAssistant = mode === "assistant";
   const isOverview = mode === "overview";
   const hideMenu = isAssistant || isOverview;
@@ -28,9 +28,7 @@ function AppShellInner({ children }: AppShellProps) {
 
   return (
     <div
-      className={`app-mode-fade min-h-screen overflow-x-hidden transition-colors duration-500 ease-out ${pageBg} ${
-        isTransitioning ? "app-mode-fade--hidden" : "app-mode-fade--visible"
-      }`}
+      className={`app-mode-fade min-h-screen overflow-x-hidden transition-[background-color,opacity] duration-200 ease-out ${pageBg}`}
     >
       <TopNav
         sidebarOpen={sidebarOpen}

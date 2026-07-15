@@ -38,10 +38,10 @@ export default function TopNav({
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-30 h-16 transition-colors duration-300 ease-out ${headerBgClass(mode)}`}
+      className={`fixed inset-x-0 top-0 z-30 h-16 shrink-0 transition-colors duration-200 ease-out ${headerBgClass(mode)}`}
     >
       <div
-        className={`relative grid h-full grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center border-b px-4 sm:px-6 lg:px-12 ${
+        className={`relative grid h-16 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center border-b px-4 sm:px-6 lg:px-12 ${
           isOverview
             ? "border-sand"
             : isAssistant
@@ -50,24 +50,26 @@ export default function TopNav({
         }`}
       >
         <div className="flex min-w-0 items-center gap-3 sm:gap-5">
-          {!hideMenu && (
-            <button
-              type="button"
-              aria-label={sidebarOpen ? "Close menu" : "Open menu"}
-              onClick={onMenuClick}
-              className={`touch-target flex h-11 w-11 shrink-0 items-center justify-center transition ${
-                isOverview
-                  ? "text-umber hover:text-umber/70"
-                  : "text-dusty-cream hover:text-white"
-              }`}
-            >
-              {sidebarOpen ? (
-                <X className="h-6 w-6" strokeWidth={1.25} />
-              ) : (
-                <Menu className="h-6 w-6" strokeWidth={1.25} />
-              )}
-            </button>
-          )}
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center">
+            {!hideMenu ? (
+              <button
+                type="button"
+                aria-label={sidebarOpen ? "Close menu" : "Open menu"}
+                onClick={onMenuClick}
+                className={`touch-target flex h-11 w-11 shrink-0 items-center justify-center transition ${
+                  isOverview
+                    ? "text-umber hover:text-umber/70"
+                    : "text-dusty-cream hover:text-white"
+                }`}
+              >
+                {sidebarOpen ? (
+                  <X className="h-6 w-6" strokeWidth={1.25} />
+                ) : (
+                  <Menu className="h-6 w-6" strokeWidth={1.25} />
+                )}
+              </button>
+            ) : null}
+          </div>
           <ModeSwitcher />
         </div>
 

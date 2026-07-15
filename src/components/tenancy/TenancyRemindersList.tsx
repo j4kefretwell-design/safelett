@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import OptimizedFillImage from "@/components/OptimizedFillImage";
 import { formatTenancyDate } from "@/lib/tenancy";
-import { siteImages } from "@/lib/site-images";
+import { IMAGE_QUALITY, siteImages } from "@/lib/site-images";
 import { btnPrimaryClassName, capsLabelClassName } from "@/lib/ui";
 import type { TenancyReminderRow } from "@/components/RemindersPageClient";
 
@@ -63,7 +63,7 @@ export default function TenancyRemindersList({
           alt=""
           sizes="100vw"
           priority
-          quality={60}
+          quality={IMAGE_QUALITY}
           className="object-cover object-center"
         />
         <div className="absolute inset-0 bg-navy/55" />

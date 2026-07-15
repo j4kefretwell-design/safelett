@@ -1,7 +1,7 @@
 "use client";
 
 import OptimizedFillImage from "@/components/OptimizedFillImage";
-import { siteImages } from "@/lib/site-images";
+import { IMAGE_QUALITY, siteImages } from "@/lib/site-images";
 
 export const DASHBOARD_HIGHLIGHT_AFFECTED_EVENT = "dashboard-highlight-affected";
 
@@ -32,7 +32,7 @@ export default function DashboardStatusBand({
         alt=""
         sizes="100vw"
         priority
-        quality={60}
+        quality={IMAGE_QUALITY}
         className="object-cover object-center"
       />
       <div className="absolute inset-0 bg-[#1A0A0C]/45" aria-hidden="true" />

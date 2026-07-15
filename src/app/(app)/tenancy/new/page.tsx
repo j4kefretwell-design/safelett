@@ -17,7 +17,7 @@ export default function NewTenancyPage() {
           <BackgroundImage
             image={siteImages.annieSprattManor}
             alt=""
-            sizes="40vw"
+            sizes="(max-width: 1024px) 100vw, 50vw"
             priority
             effect="fade"
           />

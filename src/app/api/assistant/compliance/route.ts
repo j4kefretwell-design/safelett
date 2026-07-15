@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import Anthropic from "@anthropic-ai/sdk";
+import { createAnthropicClient } from "@/lib/anthropic";
 import { ASSISTANT_MODEL, buildAssistantSystemPrompt } from "@/lib/assistant";
 import { getAssistantApiErrorMessage } from "@/lib/assistant-api";
 import {
@@ -57,9 +57,7 @@ export async function POST() {
 
 Session focus: Portfolio compliance check. Using only the factual portfolio data provided, produce a clean compliance status summary. Identify overdue certificates, items expiring soon, and missing core certificates. Be accurate and concise. Do not give legal advice or compliance judgements beyond stating what the data shows. Present the summary as clean labelled sections with blank lines between them. End with a one-line reminder that this is an information summary only, not legal advice.`;
 
-    const anthropic = new Anthropic({
-      apiKey: process.env.ANTHROPIC_API_KEY.trim(),
-    });
+    const anthropic = await createAnthropicClient();
 
     const response = await anthropic.messages.create({
       model: ASSISTANT_MODEL,

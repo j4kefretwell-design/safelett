@@ -293,7 +293,7 @@ export default function LandingPage() {
             <BackgroundImage
               image={siteImages.bradStarkey}
               alt="Refined interior"
-              sizes="(max-width: 1024px) 100vw, 50vw"
+              sizes="(max-width: 768px) 100vw, 50vw"
               priority
             />
             <div className="absolute inset-0 bg-[#1A0A0C]/25" />
@@ -391,7 +391,7 @@ export default function LandingPage() {
             <BackgroundImage
               image={siteImages.hugoKruip}
               alt="Architectural detail"
-              sizes="(max-width: 1024px) 100vw, 50vw"
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
           </div>
         </section>

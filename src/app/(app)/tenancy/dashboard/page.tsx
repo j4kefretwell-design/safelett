@@ -1,9 +1,10 @@
 import Link from "next/link";
 import OptimizedFillImage from "@/components/OptimizedFillImage";
+import RoutePrefetcher from "@/components/RoutePrefetcher";
 import TenancyEmptyState from "@/components/tenancy/TenancyEmptyState";
 import TenancyPortfolio from "@/components/tenancy/TenancyPortfolio";
 import TenancyStatusBand from "@/components/tenancy/TenancyStatusBand";
-import { siteImages } from "@/lib/site-images";
+import { CONTENT_IMAGE_QUALITY, siteImages } from "@/lib/site-images";
 import {
   getDaysUntilDate,
   getTenancyStatus,
@@ -26,7 +27,12 @@ export default async function TenancyDashboardPage() {
   const tenancyList = (tenancies ?? []) as Tenancy[];
 
   if (tenancyList.length === 0) {
-    return <TenancyEmptyState />;
+    return (
+      <>
+        <RoutePrefetcher paths={["/tenancy/new", "/reminders"]} />
+        <TenancyEmptyState />
+      </>
+    );
   }
 
   const activeCount = tenancyList.filter(
@@ -71,6 +77,7 @@ export default async function TenancyDashboardPage() {
 
   return (
     <div className="tenancy-slate-bg w-full min-w-0 overflow-x-hidden">
+      <RoutePrefetcher paths={["/tenancy/new", "/reminders"]} />
       <TenancyStatusBand
         activeCount={activeCount}
         renewalsDue={renewalsDue}
@@ -103,8 +110,8 @@ export default async function TenancyDashboardPage() {
             <OptimizedFillImage
               image={siteImages.annieSprattTopiary}
               alt=""
-              sizes="(max-width: 1024px) 100vw, 45vw"
-              quality={60}
+              sizes="(max-width: 768px) 100vw, 50vw"
+              quality={CONTENT_IMAGE_QUALITY}
               className="object-cover"
               style={{ objectPosition: "center 75%" }}
             />

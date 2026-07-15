@@ -35,7 +35,8 @@ export default async function EditContractorPage({ params }: EditContractorPageP
           <BackgroundImage
             image={siteImages.bradStarkey}
             alt=""
-            sizes="40vw"
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            priority
             effect="fade"
           />
           <div className="absolute inset-0 bg-espresso/65" />

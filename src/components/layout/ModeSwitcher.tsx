@@ -1,6 +1,14 @@
 "use client";
 
-import { useAppMode, type AppMode } from "@/lib/app-mode";
+import Link from "next/link";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import {
+  MODE_HOME,
+  MODE_PREFETCH_PATHS,
+  useAppMode,
+  type AppMode,
+} from "@/lib/app-mode";
 
 const MODE_TABS: Array<{
   id: AppMode;
@@ -35,8 +43,15 @@ const MODE_TABS: Array<{
 ];
 
 export default function ModeSwitcher() {
-  const { mode, switchMode } = useAppMode();
+  const router = useRouter();
+  const { mode, setMode } = useAppMode();
   const isOverview = mode === "overview";
+
+  useEffect(() => {
+    for (const path of MODE_PREFETCH_PATHS) {
+      router.prefetch(path);
+    }
+  }, [router]);
 
   return (
     <div
@@ -46,14 +61,19 @@ export default function ModeSwitcher() {
     >
       {MODE_TABS.map((tab) => {
         const isActive = mode === tab.id;
+        const href = MODE_HOME[tab.id];
+
         return (
-          <button
+          <Link
             key={tab.id}
-            type="button"
+            href={href}
+            prefetch
             role="tab"
             aria-selected={isActive}
-            onClick={() => switchMode(tab.id)}
-            className={`relative pb-1.5 text-[11px] font-normal uppercase tracking-[0.14em] transition sm:text-[12px] sm:tracking-[0.16em] ${
+            onMouseEnter={() => router.prefetch(href)}
+            onFocus={() => router.prefetch(href)}
+            onClick={() => setMode(tab.id)}
+            className={`relative pb-1.5 text-[11px] font-normal uppercase tracking-[0.14em] transition-opacity duration-200 ease-out sm:text-[12px] sm:tracking-[0.16em] ${
               isOverview
                 ? isActive
                   ? "text-umber"
@@ -71,7 +91,7 @@ export default function ModeSwitcher() {
                 aria-hidden
               />
             )}
-          </button>
+          </Link>
         );
       })}
     </div>

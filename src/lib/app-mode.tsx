@@ -14,18 +14,24 @@ export type AppMode = "overview" | "compliance" | "tenancy" | "assistant";
 
 const STORAGE_KEY = "fretwell-app-mode";
 
-const MODE_HOME: Record<AppMode, string> = {
+export const MODE_HOME: Record<AppMode, string> = {
   overview: "/dashboard",
   compliance: "/compliance",
   tenancy: "/tenancy/dashboard",
   assistant: "/assistant",
 };
 
+export const MODE_PREFETCH_PATHS = [
+  MODE_HOME.overview,
+  MODE_HOME.compliance,
+  MODE_HOME.tenancy,
+  MODE_HOME.assistant,
+] as const;
+
 interface AppModeContextValue {
   mode: AppMode;
   setMode: (mode: AppMode) => void;
   switchMode: (mode: AppMode) => void;
-  isTransitioning: boolean;
 }
 
 const AppModeContext = createContext<AppModeContextValue | null>(null);
@@ -68,7 +74,6 @@ export function AppModeProvider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
   const [storedMode, setStoredMode] = useState<AppMode>("overview");
-  const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
     const saved = sessionStorage.getItem(STORAGE_KEY);
@@ -95,21 +100,15 @@ export function AppModeProvider({ children }: { children: React.ReactNode }) {
   const switchMode = useCallback(
     (nextMode: AppMode) => {
       if (nextMode === mode) return;
-
-      setIsTransitioning(true);
       setMode(nextMode);
-
-      window.setTimeout(() => {
-        router.push(MODE_HOME[nextMode]);
-        window.setTimeout(() => setIsTransitioning(false), 30);
-      }, 300);
+      router.push(MODE_HOME[nextMode]);
     },
     [mode, router, setMode]
   );
 
   const value = useMemo(
-    () => ({ mode, setMode, switchMode, isTransitioning }),
-    [mode, setMode, switchMode, isTransitioning]
+    () => ({ mode, setMode, switchMode }),
+    [mode, setMode, switchMode]
   );
 
   return (

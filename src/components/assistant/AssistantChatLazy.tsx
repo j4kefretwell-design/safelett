@@ -6,7 +6,10 @@ import type { Property } from "@/lib/types";
 import type { Tenancy } from "@/lib/tenancy";
 
 const AssistantChat = dynamic(
-  () => import("@/components/assistant/AssistantChat"),
+  () =>
+    import(
+      /* webpackChunkName: "assistant-chat" */ "@/components/assistant/AssistantChat"
+    ),
   {
     loading: () => <AssistantSkeleton />,
     ssr: false,

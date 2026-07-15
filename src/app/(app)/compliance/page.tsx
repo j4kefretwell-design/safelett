@@ -2,6 +2,7 @@ import Link from "next/link";
 import DashboardCottageImage from "@/components/dashboard/DashboardCottageImage";
 import DashboardEmptyState from "@/components/DashboardEmptyState";
 import DashboardPortfolioActions from "@/components/DashboardPortfolioActions";
+import RoutePrefetcher from "@/components/RoutePrefetcher";
 import { getPropertyStatus } from "@/lib/compliance";
 import { btnGoldClassName, editorialPagePaddingClassName } from "@/lib/ui";
 import { createClient } from "@/lib/supabase/server";
@@ -44,7 +45,12 @@ export default async function ComplianceDashboardPage() {
   };
 
   if (propertiesWithStatus.length === 0) {
-    return <DashboardEmptyState />;
+    return (
+      <>
+        <RoutePrefetcher paths={["/properties/new", "/reminders"]} />
+        <DashboardEmptyState />
+      </>
+    );
   }
 
   const needsAttention = stats.attention + stats.overdue;
@@ -75,6 +81,7 @@ export default async function ComplianceDashboardPage() {
 
   return (
     <div className="dashboard-parchment-bg w-full min-w-0 overflow-x-hidden">
+      <RoutePrefetcher paths={["/properties/new", "/reminders"]} />
       <DashboardStatusBand
         isCompliant={isCompliant}
         needsAttention={needsAttention}

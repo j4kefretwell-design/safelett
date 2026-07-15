@@ -1,7 +1,7 @@
 "use client";
 
 import OptimizedFillImage from "@/components/OptimizedFillImage";
-import { siteImages } from "@/lib/site-images";
+import { IMAGE_QUALITY, siteImages } from "@/lib/site-images";
 
 interface TenancyStatusBandProps {
   activeCount: number;
@@ -29,7 +29,7 @@ export default function TenancyStatusBand({
         alt="Georgian manor house viewed through autumn leaves"
         sizes="100vw"
         priority
-        quality={60}
+        quality={IMAGE_QUALITY}
         className="object-cover object-center"
       />
       <div className="absolute inset-0 bg-navy/50" aria-hidden="true" />

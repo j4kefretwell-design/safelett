@@ -1,10 +1,27 @@
-import Anthropic from "@anthropic-ai/sdk";
+/** Anthropic SDK error shape — avoid importing the SDK just for typing. */
+type AnthropicLikeError = {
+  status?: number;
+  message?: string;
+};
+
+function isAnthropicApiError(error: unknown): error is AnthropicLikeError {
+  if (!error || typeof error !== "object") return false;
+  const name = (error as { name?: string; constructor?: { name?: string } }).name
+    ?? (error as { constructor?: { name?: string } }).constructor?.name;
+  return (
+    name === "APIError" ||
+    name === "AuthenticationError" ||
+    name === "RateLimitError" ||
+    name === "NotFoundError" ||
+    ("status" in error && typeof (error as AnthropicLikeError).status === "number")
+  );
+}
 
 export function getAssistantApiErrorMessage(
   error: unknown,
   fallback = "Unable to complete this request. Please try again shortly."
 ): { message: string; status: number } {
-  if (error instanceof Anthropic.APIError) {
+  if (isAnthropicApiError(error)) {
     if (error.status === 401) {
       return {
         message:

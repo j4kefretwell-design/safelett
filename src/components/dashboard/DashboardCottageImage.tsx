@@ -1,7 +1,7 @@
 "use client";
 
 import OptimizedFillImage from "@/components/OptimizedFillImage";
-import { siteImages } from "@/lib/site-images";
+import { CONTENT_IMAGE_QUALITY, siteImages } from "@/lib/site-images";
 
 export default function DashboardCottageImage() {
   return (
@@ -12,8 +12,8 @@ export default function DashboardCottageImage() {
       <OptimizedFillImage
         image={siteImages.benElliottHero}
         alt=""
-        sizes="(max-width: 1024px) 100vw, 45vw"
-        quality={60}
+        sizes="(max-width: 768px) 100vw, 50vw"
+        quality={CONTENT_IMAGE_QUALITY}
         className="object-cover"
         style={{ objectPosition: "38% center" }}
       />

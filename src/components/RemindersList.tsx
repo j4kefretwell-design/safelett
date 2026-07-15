@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Check } from "lucide-react";
 import OptimizedFillImage from "@/components/OptimizedFillImage";
 import { formatDate } from "@/lib/compliance";
-import { siteImages } from "@/lib/site-images";
+import { IMAGE_QUALITY, siteImages } from "@/lib/site-images";
 import {
   btnOutlineClassName,
   btnPrimaryClassName,
@@ -126,7 +126,7 @@ function RemindersHeroHeader({ totalCount }: { totalCount: number }) {
         alt=""
         sizes="100vw"
         priority
-        quality={60}
+        quality={IMAGE_QUALITY}
         className="object-cover object-center"
       />
       <div className="absolute inset-0 bg-[#1A0A0C]/60" />

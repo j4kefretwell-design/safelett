@@ -251,6 +251,7 @@ export default function AppSidebar({ open, onClose }: AppSidebarProps) {
                 <li key={item.href}>
                   <Link
                     href={item.href}
+                    prefetch
                     onClick={onClose}
                     className={`block min-h-11 border-l-2 py-3 pl-4 pr-2 text-sm font-normal uppercase tracking-[0.14em] leading-relaxed transition-colors duration-200 ${
                       isActive

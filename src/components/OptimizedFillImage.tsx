@@ -35,6 +35,8 @@ export default function OptimizedFillImage({
       priority={priority}
       loading={priority ? "eager" : "lazy"}
       fetchPriority={priority ? "high" : "auto"}
+      placeholder="blur"
+      blurDataURL={image.blurDataURL}
       onLoad={onLoad}
       className={className}
       style={{

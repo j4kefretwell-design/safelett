@@ -3,8 +3,10 @@ import OverviewHeroCarousel, {
   type OverviewCarouselPanel,
 } from "@/components/dashboard/OverviewHeroCarousel";
 import OptimizedFillImage from "@/components/OptimizedFillImage";
+import RoutePrefetcher from "@/components/RoutePrefetcher";
+import { MODE_HOME } from "@/lib/app-mode";
 import { buildOverviewData, type OverviewActionItem } from "@/lib/overview";
-import { siteImages } from "@/lib/site-images";
+import { CONTENT_IMAGE_QUALITY, IMAGE_QUALITY, siteImages } from "@/lib/site-images";
 import { editorialPagePaddingClassName } from "@/lib/ui";
 import { createClient } from "@/lib/supabase/server";
 import type { Certificate, Property } from "@/lib/types";
@@ -160,6 +162,9 @@ export default async function OverviewDashboardPage() {
 
   return (
     <div className="min-h-[calc(100vh-4rem)] w-full overflow-x-hidden bg-[#F2EDE8] text-umber">
+      <RoutePrefetcher
+        paths={[MODE_HOME.overview, MODE_HOME.tenancy, MODE_HOME.assistant]}
+      />
       <section className="relative h-[calc((100vh-4rem)*0.85)] min-h-[440px] w-full overflow-hidden">
         <div
           className="absolute inset-0"
@@ -171,7 +176,7 @@ export default async function OverviewDashboardPage() {
             alt=""
             sizes="100vw"
             priority
-            quality={60}
+            quality={IMAGE_QUALITY}
             className="object-cover"
             style={{ objectPosition: "center 40%" }}
           />
@@ -287,8 +292,8 @@ export default async function OverviewDashboardPage() {
             <OptimizedFillImage
               image={siteImages.sajeerMoCastle}
               alt=""
-              sizes="(max-width: 768px) 100vw, 40vw"
-              quality={60}
+              sizes="(max-width: 768px) 100vw, 50vw"
+              quality={CONTENT_IMAGE_QUALITY}
               className="object-cover"
               style={{ objectPosition: "center 30%" }}
             />

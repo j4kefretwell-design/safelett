@@ -17,7 +17,7 @@ export default function NewPropertyPage() {
           <BackgroundImage
             image={siteImages.benElliottProperty}
             alt=""
-            sizes="40vw"
+            sizes="(max-width: 1024px) 100vw, 50vw"
             priority
             effect="fade"
           />
