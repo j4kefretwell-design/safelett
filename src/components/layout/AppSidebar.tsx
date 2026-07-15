@@ -19,6 +19,7 @@ const complianceNavItems = [
 const tenancyNavItems = [
   { href: "/tenancy/dashboard", label: "Tenancy Dashboard" },
   { href: "/tenancy/new", label: "Add Tenancy" },
+  { href: "/tenancy/tenants", label: "Tenants" },
   { href: "/reminders", label: "Reminders" },
   { href: "/tenancy/notices", label: "Notices" },
   { href: "/tenancy/import", label: "Bulk Import" },
@@ -87,6 +88,12 @@ function isTenancyNavActive(pathname: string, href: string): boolean {
     );
   }
 
+  if (href === "/tenancy/tenants") {
+    return (
+      pathname === "/tenancy/tenants" || pathname.startsWith("/tenancy/tenants/")
+    );
+  }
+
   if (href === "/tenancy/dashboard") {
     return (
       pathname === "/tenancy/dashboard" ||
@@ -94,6 +101,7 @@ function isTenancyNavActive(pathname: string, href: string): boolean {
         pathname !== "/tenancy/new" &&
         pathname !== "/tenancy/notices" &&
         pathname !== "/tenancy/import" &&
+        !pathname.startsWith("/tenancy/tenants") &&
         !pathname.match(/^\/tenancy\/[^/]+\/edit$/))
     );
   }

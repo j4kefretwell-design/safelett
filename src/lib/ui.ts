@@ -78,6 +78,12 @@ export const authForgotLinkClassName =
 export const btnGoldOutlineClassName =
   `${btnBaseClassName} border border-gold bg-transparent text-gold hover:bg-gold/10`;
 
+export const btnNavyClassName =
+  `${btnBaseClassName} bg-navy text-dusty-cream hover:bg-navy-dark`;
+
+export const btnNavyOutlineClassName =
+  `${btnBaseClassName} border border-navy bg-transparent text-navy hover:bg-navy/5`;
+
 export const formCardClassName =
   "border border-leather/15 bg-white p-6 sm:p-8 lg:p-10";
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { Menu, X } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAppMode, type AppMode } from "@/lib/app-mode";
 import { createClient } from "@/lib/supabase/client";
@@ -89,7 +90,14 @@ export default function TopNav({
           )}
         </div>
 
-        <div className="flex items-center justify-end">
+        <div className="flex items-center justify-end gap-4 sm:gap-5">
+          <Link
+            href="/subscription"
+            prefetch
+            className="touch-target flex h-11 items-center text-[11px] font-normal uppercase tracking-[0.18em] text-[#C4A35A] transition hover:opacity-80 sm:text-xs sm:tracking-[0.22em]"
+          >
+            Subscription
+          </Link>
           <button
             type="button"
             onClick={handleSignOut}
