@@ -104,46 +104,56 @@ export default function SubscriptionClient() {
         body: JSON.stringify({ plan }),
       });
 
-      console.log("[subscription] checkout response status", response.status);
+      console.log("[subscription] API HTTP status:", response.status, response.statusText);
 
-      let data: { url?: string; error?: string; sessionId?: string } = {};
+      const rawText = await response.text();
+      console.log("[subscription] API raw response text:", rawText);
+
+      let data: {
+        url?: string;
+        id?: string;
+        sessionId?: string;
+        error?: string;
+      } = {};
       try {
-        data = (await response.json()) as {
+        data = JSON.parse(rawText) as {
           url?: string;
-          error?: string;
+          id?: string;
           sessionId?: string;
+          error?: string;
         };
-      } catch {
+      } catch (parseError) {
+        console.error("[subscription] Failed to parse API JSON:", parseError);
         throw new Error("Checkout API returned a non-JSON response.");
       }
 
-      console.log("[subscription] checkout response body", data);
+      console.log("[subscription] API parsed response:", data);
+      console.log("[subscription] data.url (used for redirect):", data.url);
+      console.log("[subscription] data.id:", data.id);
+      console.log("[subscription] data.sessionId:", data.sessionId);
+      console.log("[subscription] data.error:", data.error);
 
       if (!response.ok) {
         throw new Error(data.error || `Checkout failed (${response.status}).`);
       }
 
-      if (!data.url || typeof data.url !== "string") {
-        console.error("[subscription] API returned no url", data);
+      // Redirect using `url` only — never `id` / `sessionId`
+      const checkoutUrl = data.url;
+      if (!checkoutUrl || typeof checkoutUrl !== "string") {
+        console.error(
+          "[subscription] Missing data.url — full response was:",
+          data
+        );
         throw new Error(data.error || "Checkout API did not return a URL.");
       }
 
-      let checkoutUrl: string;
-      try {
-        const parsed = new URL(data.url);
-        if (parsed.protocol !== "https:") {
-          throw new Error(`Invalid checkout URL protocol: ${parsed.protocol}`);
-        }
-        checkoutUrl = parsed.toString();
-      } catch {
-        console.error("[subscription] Invalid checkout URL value", data.url);
-        throw new Error(`Not a valid checkout URL: ${String(data.url)}`);
-      }
-
-      console.log("[subscription] redirecting to Stripe Checkout", checkoutUrl);
+      console.log(
+        "[subscription] About to redirect with window.location.href =",
+        checkoutUrl
+      );
       window.location.href = checkoutUrl;
     } catch (checkoutError) {
-      console.error("[subscription] checkout failed", checkoutError);
+      console.error("[subscription] checkout failed:", checkoutError);
       setError(
         checkoutError instanceof Error
           ? checkoutError.message

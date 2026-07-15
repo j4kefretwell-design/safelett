@@ -79,9 +79,10 @@ export async function POST(request: Request) {
     }
 
     const priceId = getStripePriceId(plan);
-    console.log("[stripe/checkout] resolved priceId", priceId);
+    console.log("[stripe/checkout] price ID being used:", priceId);
 
     if (!priceId) {
+      console.error("[stripe/checkout] No price ID resolved for plan:", plan);
       return NextResponse.json(
         {
           error:
@@ -152,47 +153,43 @@ export async function POST(request: Request) {
 
     const session = await stripe.checkout.sessions.create(sessionParams);
 
-    console.log("[stripe/checkout] session created", {
-      id: session.id,
-      url: session.url,
-      urlType: typeof session.url,
-    });
+    console.log("[stripe/checkout] full Stripe session object:", JSON.stringify(session, null, 2));
+    console.log("[stripe/checkout] session.url specifically:", session.url);
+    console.log("[stripe/checkout] session.id specifically:", session.id);
 
     if (!session.url || typeof session.url !== "string") {
-      console.error("[stripe/checkout] Missing session.url", session);
-      return NextResponse.json(
-        { error: "Stripe did not return a checkout URL.", sessionId: session.id },
-        { status: 500 }
-      );
-    }
-
-    // Ensure the frontend only ever receives an absolute https URL
-    let checkoutUrl: string;
-    try {
-      const parsed = new URL(session.url);
-      if (parsed.protocol !== "https:") {
-        throw new Error(`Unexpected checkout URL protocol: ${parsed.protocol}`);
-      }
-      checkoutUrl = parsed.toString();
-    } catch (parseError) {
-      console.error("[stripe/checkout] Invalid session.url from Stripe", {
-        url: session.url,
-        parseError,
-      });
+      console.error("[stripe/checkout] Missing session.url — full session:", session);
       return NextResponse.json(
         {
-          error: "Stripe returned an invalid checkout URL.",
-          url: session.url,
+          error: "Stripe did not return a checkout URL.",
+          id: session.id,
+          sessionId: session.id,
         },
         { status: 500 }
       );
     }
 
-    console.log("[stripe/checkout] returning checkout URL", checkoutUrl);
-    return NextResponse.json({ url: checkoutUrl, sessionId: session.id });
+    console.log("[stripe/checkout] returning to frontend:", {
+      url: session.url,
+      id: session.id,
+    });
+
+    // Frontend must redirect using `url` (session.url), not `id`
+    return NextResponse.json({
+      url: session.url,
+      id: session.id,
+      sessionId: session.id,
+    });
   } catch (error) {
     const message = stripeErrorMessage(error);
-    console.error("[stripe/checkout] error", message, error);
+    console.error("[stripe/checkout] caught error:", message);
+    console.error("[stripe/checkout] caught error (raw):", error);
+    if (error && typeof error === "object") {
+      console.error(
+        "[stripe/checkout] caught error keys:",
+        Object.keys(error as object)
+      );
+    }
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
