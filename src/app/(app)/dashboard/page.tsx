@@ -4,7 +4,7 @@ import OverviewHeroCarousel, {
 } from "@/components/dashboard/OverviewHeroCarousel";
 import OptimizedFillImage from "@/components/OptimizedFillImage";
 import RoutePrefetcher from "@/components/RoutePrefetcher";
-import { MODE_HOME } from "@/lib/app-mode";
+import { MODE_HOME } from "@/lib/app-mode-routes";
 import { buildOverviewData, type OverviewActionItem } from "@/lib/overview";
 import { CONTENT_IMAGE_QUALITY, IMAGE_QUALITY, siteImages } from "@/lib/site-images";
 import { editorialPagePaddingClassName } from "@/lib/ui";

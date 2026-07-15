@@ -1,9 +1,15 @@
 import type { NextConfig } from "next";
-import bundleAnalyzer from "@next/bundle-analyzer";
 
-const withBundleAnalyzer = bundleAnalyzer({
-  enabled: process.env.ANALYZE === "true",
-});
+const withBundleAnalyzer = (() => {
+  try {
+    // Optional — only wraps when ANALYZE=true
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const analyzer = require("@next/bundle-analyzer");
+    return analyzer({ enabled: process.env.ANALYZE === "true" });
+  } catch {
+    return (config: NextConfig) => config;
+  }
+})();
 
 const nextConfig: NextConfig = {
   serverExternalPackages: [

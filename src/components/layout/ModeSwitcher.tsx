@@ -3,12 +3,8 @@
 import Link from "next/link";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import {
-  MODE_HOME,
-  MODE_PREFETCH_PATHS,
-  useAppMode,
-  type AppMode,
-} from "@/lib/app-mode";
+import { useAppMode, type AppMode } from "@/lib/app-mode";
+import { MODE_HOME, MODE_PREFETCH_PATHS } from "@/lib/app-mode-routes";
 
 const MODE_TABS: Array<{
   id: AppMode;

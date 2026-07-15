@@ -25,6 +25,10 @@ export default function OptimizedFillImage({
   style,
   onLoad,
 }: OptimizedFillImageProps) {
+  const hasBlur =
+    typeof image.blurDataURL === "string" &&
+    image.blurDataURL.startsWith("data:image/");
+
   return (
     <Image
       src={image.src}
@@ -33,10 +37,9 @@ export default function OptimizedFillImage({
       sizes={sizes}
       quality={quality}
       priority={priority}
-      loading={priority ? "eager" : "lazy"}
-      fetchPriority={priority ? "high" : "auto"}
-      placeholder="blur"
-      blurDataURL={image.blurDataURL}
+      {...(priority ? {} : { loading: "lazy" as const })}
+      placeholder={hasBlur ? "blur" : "empty"}
+      {...(hasBlur ? { blurDataURL: image.blurDataURL } : {})}
       onLoad={onLoad}
       className={className}
       style={{

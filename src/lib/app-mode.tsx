@@ -9,24 +9,15 @@ import {
   useState,
 } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import {
+  MODE_HOME,
+  type AppMode,
+} from "@/lib/app-mode-routes";
 
-export type AppMode = "overview" | "compliance" | "tenancy" | "assistant";
+export type { AppMode };
+export { MODE_HOME, MODE_PREFETCH_PATHS } from "@/lib/app-mode-routes";
 
 const STORAGE_KEY = "fretwell-app-mode";
-
-export const MODE_HOME: Record<AppMode, string> = {
-  overview: "/dashboard",
-  compliance: "/compliance",
-  tenancy: "/tenancy/dashboard",
-  assistant: "/assistant",
-};
-
-export const MODE_PREFETCH_PATHS = [
-  MODE_HOME.overview,
-  MODE_HOME.compliance,
-  MODE_HOME.tenancy,
-  MODE_HOME.assistant,
-] as const;
 
 interface AppModeContextValue {
   mode: AppMode;

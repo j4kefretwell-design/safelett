@@ -1105,8 +1105,12 @@ export default function AssistantChat({
                 priority
                 quality={IMAGE_QUALITY}
                 sizes="100vw"
-                placeholder="blur"
-                blurDataURL={siteImages.georgeCiobra.blurDataURL}
+                {...(siteImages.georgeCiobra.blurDataURL?.startsWith("data:image/")
+                  ? {
+                      placeholder: "blur" as const,
+                      blurDataURL: siteImages.georgeCiobra.blurDataURL,
+                    }
+                  : { placeholder: "empty" as const })}
                 className="object-cover object-center"
               />
             </div>
