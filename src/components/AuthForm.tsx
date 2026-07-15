@@ -140,14 +140,15 @@ export default function AuthForm({ mode }: AuthFormProps) {
       />
       <div className="absolute inset-0 bg-[#1A0A0C]/70" />
 
-      <Link
-        href="/"
-        className="absolute left-5 top-5 z-20 text-xs font-light tracking-wide text-gold/80 transition hover:text-gold sm:left-8 sm:top-8"
-      >
-        ← Back
-      </Link>
-
       <div className={`relative z-10 ${cardClassName}`}>
+        <Link
+          href="/"
+          aria-label="Back to home"
+          className="absolute right-4 top-4 z-10 flex h-8 w-8 items-center justify-center text-xl font-light leading-none text-[#6B503C] transition hover:text-[#C4A35A]"
+        >
+          ×
+        </Link>
+
         <div className="mb-10 text-center">
           <BrandWordmark
             href="/"
