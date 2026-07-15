@@ -4,9 +4,13 @@ export interface SubscriptionModule {
   id: SubscriptionModuleId;
   name: string;
   price: number;
+  priceNote: string;
   features: string[];
   accentClass: string;
   borderClass: string;
+  buttonClass: string;
+  checkClass: string;
+  badge?: string;
 }
 
 export const SUBSCRIPTION_MODULES: SubscriptionModule[] = [
@@ -14,43 +18,60 @@ export const SUBSCRIPTION_MODULES: SubscriptionModule[] = [
     id: "compliance",
     name: "Compliance",
     price: 30,
+    priceNote: "/month",
     accentClass: "border-t-raspberry bg-white",
-    borderClass: "border-raspberry/20",
+    borderClass: "border-raspberry/25",
+    buttonClass: "bg-raspberry text-dusty-cream hover:bg-raspberry-dark",
+    checkClass: "text-raspberry",
     features: [
       "Certificate tracking across all property types",
-      "Automated email alerts at 60, 30 and 7 days",
+      "Gas Safety, EICR, EPC, Fire Risk Assessment and all certificate types",
+      "Automated email alerts at 60, 30 and 7 days before expiry",
       "Contractor directory and email drafting",
       "Annual compliance report PDF",
-      "Landlord portal sharing",
+      "Landlord portal sharing link",
       "Bulk property import",
+      "Compliance news feed",
     ],
   },
   {
     id: "tenancy",
     name: "Tenancy",
     price: 35,
+    priceNote: "/month",
     accentClass: "border-t-navy bg-white",
-    borderClass: "border-navy/20",
+    borderClass: "border-navy/25",
+    buttonClass: "bg-navy text-dusty-cream hover:bg-navy-dark",
+    checkClass: "text-navy",
     features: [
-      "Tenancy date tracking and renewal alerts",
-      "Deposit protection monitoring",
+      "Full tenancy lifecycle tracking",
+      "Deposit protection monitoring with 30-day deadline alerts",
+      "Tenancy renewal and rent review alerts",
       "Right to rent expiry tracking",
-      "Professional tenancy notices",
-      "Document storage",
+      "Professional notice drafting (Section 13, Section 21, renewal offers)",
+      "Tenant directory and contact management",
+      "Tenancy document storage",
+      "Bulk tenancy import",
     ],
   },
   {
     id: "professional",
     name: "Professional",
     price: 89,
-    accentClass: "border-t-gold bg-white",
-    borderClass: "border-gold/40",
+    priceNote: "/month — includes everything",
+    accentClass: "border-t-study bg-[#FAFAF7]",
+    borderClass: "border-study/30",
+    buttonClass: "bg-study text-dusty-cream hover:bg-olive",
+    checkClass: "text-study",
+    badge: "Best Value",
     features: [
       "Everything in Compliance",
       "Everything in Tenancy",
-      "AI Assistant — document drafting & portfolio Q&A",
-      "Priority support",
+      "AI Property Management Assistant — draft any letter, answer any question, handle any admin",
+      "Portfolio Q&A — ask questions about your live data",
+      "Document drafting — professional letters, notices and correspondence",
       "Save £76/month vs buying separately",
+      "Priority support",
     ],
   },
 ];

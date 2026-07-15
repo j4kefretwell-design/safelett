@@ -3,7 +3,6 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { Check } from "lucide-react";
-import { useAppMode } from "@/lib/app-mode";
 import {
   calculateSubscriptionSummary,
   SUBSCRIPTION_MODULES,
@@ -15,18 +14,13 @@ function planFromSelection(
   selection: SubscriptionSelection
 ): SubscriptionModuleId | null {
   if (selection.professional) return "professional";
-  if (selection.compliance && selection.tenancy) return "professional";
+  if (selection.compliance && selection.tenancy) return null;
   if (selection.compliance) return "compliance";
   if (selection.tenancy) return "tenancy";
   return null;
 }
 
 export default function SubscriptionClient() {
-  const { mode } = useAppMode();
-  const isTenancy = mode === "tenancy";
-  const isAssistant = mode === "assistant";
-  const isOverview = mode === "overview";
-
   const [selection, setSelection] = useState<SubscriptionSelection>({
     compliance: false,
     tenancy: false,
@@ -43,35 +37,6 @@ export default function SubscriptionClient() {
     [selection]
   );
 
-  const pageBg = isTenancy
-    ? "tenancy-slate-bg"
-    : isAssistant
-      ? "bg-greige"
-      : isOverview
-        ? "bg-greige"
-        : "dashboard-parchment-bg";
-  const headingClass = isTenancy
-    ? "text-tenancy-text"
-    : isOverview
-      ? "text-umber"
-      : "text-text";
-  const mutedClass = isTenancy ? "text-steel" : "text-leather";
-  const summaryBarClass = isTenancy
-    ? "bg-navy"
-    : isAssistant
-      ? "bg-study"
-      : isOverview
-        ? "bg-umber"
-        : "bg-raspberry";
-
-  const subscribeButtonClass = isTenancy
-    ? "bg-navy text-dusty-cream hover:bg-navy-dark"
-    : isAssistant
-      ? "bg-study text-dusty-cream hover:bg-olive"
-      : isOverview
-        ? "bg-umber text-dusty-cream hover:bg-umber/90"
-        : "bg-raspberry text-dusty-cream hover:bg-raspberry-dark";
-
   function toggleModule(id: SubscriptionModuleId) {
     setSelection((current) => {
       if (id === "professional") {
@@ -83,9 +48,9 @@ export default function SubscriptionClient() {
         };
       }
 
-      const next = { ...current, [id]: !current[id] };
-      if (next.professional && (!next.compliance || !next.tenancy)) {
-        next.professional = false;
+      const next = { ...current, [id]: !current[id], professional: false };
+      if (next.compliance && next.tenancy) {
+        // Both selected shows £55 bundle in the summary bar
       }
       return next;
     });
@@ -104,7 +69,11 @@ export default function SubscriptionClient() {
         body: JSON.stringify({ plan }),
       });
 
-      console.log("[subscription] API HTTP status:", response.status, response.statusText);
+      console.log(
+        "[subscription] API HTTP status:",
+        response.status,
+        response.statusText
+      );
 
       const rawText = await response.text();
       console.log("[subscription] API raw response text:", rawText);
@@ -129,15 +98,11 @@ export default function SubscriptionClient() {
 
       console.log("[subscription] API parsed response:", data);
       console.log("[subscription] data.url (used for redirect):", data.url);
-      console.log("[subscription] data.id:", data.id);
-      console.log("[subscription] data.sessionId:", data.sessionId);
-      console.log("[subscription] data.error:", data.error);
 
       if (!response.ok) {
         throw new Error(data.error || `Checkout failed (${response.status}).`);
       }
 
-      // Redirect using `url` only — never `id` / `sessionId`
       const checkoutUrl = data.url;
       if (!checkoutUrl || typeof checkoutUrl !== "string") {
         console.error(
@@ -166,6 +131,14 @@ export default function SubscriptionClient() {
   async function continueToPayment() {
     const plan = planFromSelection(selection);
     console.log("[subscription] Continue to Payment", { selection, plan });
+
+    if (selection.compliance && selection.tenancy && !selection.professional) {
+      setError(
+        "Compliance + Tenancy together is £55/month. Choose Professional (£89) for everything including AI, or use Subscribe on each plan card."
+      );
+      return;
+    }
+
     if (!plan) {
       setError("Select at least one module to continue.");
       return;
@@ -201,24 +174,19 @@ export default function SubscriptionClient() {
   }
 
   return (
-    <div
-      className={`${pageBg} min-h-[calc(100vh-4rem)] px-5 py-12 pb-40 sm:px-12 lg:px-16`}
-    >
+    <div className="min-h-[calc(100vh-4rem)] bg-greige px-5 py-12 pb-44 text-umber sm:px-12 lg:px-16">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="text-[10px] font-normal uppercase tracking-[0.32em] text-gold">
             Subscription
           </p>
-          <h1
-            className={`mt-5 font-serif text-3xl tracking-wide sm:text-4xl ${headingClass}`}
-          >
-            Build Your Plan
+          <h1 className="mt-5 font-serif text-3xl tracking-wide text-umber sm:text-4xl">
+            Choose Your Plan
           </h1>
-          <p
-            className={`mt-4 max-w-2xl text-sm font-light leading-relaxed ${mutedClass}`}
-          >
-            Select the modules you need, then continue to secure Stripe
-            Checkout. You can also subscribe to a single plan directly.
+          <p className="mt-4 max-w-2xl text-sm font-light leading-relaxed text-leather">
+            Live pricing for Compliance, Tenancy, and Professional. Bundle
+            discounts apply when you combine modules — or take Professional for
+            everything including the AI Assistant.
           </p>
         </div>
         <button
@@ -231,6 +199,34 @@ export default function SubscriptionClient() {
         </button>
       </div>
 
+      {/* Bundle savings */}
+      <div className="mt-10 grid gap-3 sm:grid-cols-2">
+        <div className="border border-umber/10 bg-white/70 px-5 py-4">
+          <p className="text-[10px] font-normal uppercase tracking-[0.2em] text-gold">
+            Bundle
+          </p>
+          <p className="mt-2 font-serif text-lg tracking-wide text-umber">
+            Compliance + Tenancy
+          </p>
+          <p className="mt-1 text-sm font-light text-leather">
+            £55/month{" "}
+            <span className="text-gold">(save £10)</span>
+          </p>
+        </div>
+        <div className="border border-study/20 bg-white/70 px-5 py-4">
+          <p className="text-[10px] font-normal uppercase tracking-[0.2em] text-gold">
+            Best value
+          </p>
+          <p className="mt-2 font-serif text-lg tracking-wide text-umber">
+            Professional
+          </p>
+          <p className="mt-1 text-sm font-light text-leather">
+            £89/month{" "}
+            <span className="text-gold">(save £76)</span>
+          </p>
+        </div>
+      </div>
+
       {error ? (
         <div
           role="alert"
@@ -240,33 +236,44 @@ export default function SubscriptionClient() {
         </div>
       ) : null}
 
-      <div className="mt-12 grid gap-6 lg:grid-cols-3">
+      <div className="mt-12 grid items-stretch gap-6 lg:grid-cols-3 lg:gap-5">
         {SUBSCRIPTION_MODULES.map((module) => {
           const isSelected = selection[module.id];
           const isLoading = loadingPlan === module.id;
+          const isProfessional = module.id === "professional";
 
           return (
             <div
               key={module.id}
-              className={`flex flex-col border ${module.borderClass} ${module.accentClass} border-t-[3px] p-6 shadow-sm transition sm:p-8 ${
+              className={`relative flex flex-col border ${module.borderClass} ${module.accentClass} border-t-[3px] p-6 shadow-[0_8px_24px_rgba(61,43,31,0.06)] transition sm:p-8 ${
                 isSelected ? "ring-1 ring-gold/50" : ""
+              } ${
+                isProfessional
+                  ? "lg:-mt-3 lg:mb-[-0.75rem] lg:shadow-[0_16px_40px_rgba(28,43,35,0.12)]"
+                  : ""
               }`}
             >
+              {module.badge ? (
+                <span className="absolute -top-3 left-6 bg-gold px-3 py-1 text-[10px] font-normal uppercase tracking-[0.16em] text-umber">
+                  {module.badge}
+                </span>
+              ) : null}
+
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <h2
-                    className={`font-serif text-2xl tracking-wide ${headingClass}`}
-                  >
+                  <h2 className="font-serif text-2xl tracking-wide text-umber">
                     {module.name}
                   </h2>
-                  <p className={`mt-2 text-sm ${mutedClass}`}>
-                    £{module.price}
-                    {module.id !== "professional"
-                      ? "/month"
-                      : "/month (includes everything)"}
+                  <p className="mt-3 flex items-baseline gap-1.5">
+                    <span className="font-serif text-3xl tracking-wide text-umber">
+                      £{module.price}
+                    </span>
+                    <span className="text-sm font-light text-leather">
+                      {module.priceNote}
+                    </span>
                   </p>
                 </div>
-                <label className="flex shrink-0 cursor-pointer items-center gap-2">
+                <label className="flex shrink-0 cursor-pointer items-center gap-2 pt-1">
                   <span className="sr-only">Add {module.name} to plan</span>
                   <input
                     type="checkbox"
@@ -274,21 +281,17 @@ export default function SubscriptionClient() {
                     onChange={() => toggleModule(module.id)}
                     className="h-4 w-4 accent-gold"
                   />
-                  <span
-                    className={`text-[10px] uppercase tracking-[0.14em] ${mutedClass}`}
-                  >
-                    Add to plan
+                  <span className="text-[10px] uppercase tracking-[0.14em] text-leather">
+                    Add
                   </span>
                 </label>
               </div>
 
-              <ul
-                className={`mt-8 flex-1 space-y-3 text-sm font-light leading-relaxed ${mutedClass}`}
-              >
+              <ul className="mt-8 flex-1 space-y-3 text-sm font-light leading-relaxed text-leather">
                 {module.features.map((feature) => (
                   <li key={feature} className="flex items-start gap-2.5">
                     <Check
-                      className="mt-0.5 h-3.5 w-3.5 shrink-0 text-gold"
+                      className={`mt-0.5 h-3.5 w-3.5 shrink-0 ${module.checkClass}`}
                       strokeWidth={1.5}
                     />
                     {feature}
@@ -300,7 +303,7 @@ export default function SubscriptionClient() {
                 type="button"
                 disabled={loadingPlan !== null}
                 onClick={() => void startCheckout(module.id)}
-                className={`mt-8 inline-flex min-h-12 w-full items-center justify-center px-6 text-[11px] font-normal uppercase tracking-[0.14em] transition disabled:opacity-50 ${subscribeButtonClass}`}
+                className={`mt-8 inline-flex min-h-12 w-full items-center justify-center px-6 text-[11px] font-normal uppercase tracking-[0.14em] transition disabled:opacity-50 ${module.buttonClass}`}
               >
                 {isLoading ? "Redirecting…" : "Subscribe"}
               </button>
@@ -310,9 +313,7 @@ export default function SubscriptionClient() {
       </div>
 
       {summary ? (
-        <div
-          className={`fixed inset-x-0 bottom-0 z-40 border-t border-gold/30 ${summaryBarClass} px-5 py-5 sm:px-12`}
-        >
+        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-gold/30 bg-umber px-5 py-5 sm:px-12">
           <div className="mx-auto flex max-w-6xl flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="text-dusty-cream">
               <p className="text-[10px] font-normal uppercase tracking-[0.2em] text-gold">
@@ -341,13 +342,7 @@ export default function SubscriptionClient() {
               type="button"
               disabled={loadingPlan !== null}
               onClick={() => void continueToPayment()}
-              className={`inline-flex min-h-12 shrink-0 items-center justify-center px-8 py-3 text-sm font-normal uppercase tracking-[0.1em] transition disabled:opacity-50 ${
-                isTenancy
-                  ? "bg-white text-navy hover:bg-dusty-cream"
-                  : isAssistant
-                    ? "bg-dusty-cream text-study hover:bg-white"
-                    : "bg-dusty-cream text-raspberry hover:bg-white"
-              }`}
+              className="inline-flex min-h-12 shrink-0 items-center justify-center bg-dusty-cream px-8 py-3 text-sm font-normal uppercase tracking-[0.1em] text-umber transition hover:bg-white disabled:opacity-50"
             >
               {loadingPlan ? "Redirecting…" : "Continue to Payment"}
             </button>
@@ -355,7 +350,7 @@ export default function SubscriptionClient() {
         </div>
       ) : null}
 
-      <p className={`mt-10 text-center text-xs font-light ${mutedClass}`}>
+      <p className="mt-12 text-center text-xs font-light text-leather">
         Already subscribed?{" "}
         <button
           type="button"
