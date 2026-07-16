@@ -41,8 +41,8 @@ function AppShellInner({
       className={`app-mode-fade min-h-screen overflow-x-hidden transition-[background-color,opacity] duration-200 ease-out ${pageBg}`}
       style={
         {
-          /* 36px trial banner + 64px nav */
-          "--app-top-offset": showBanner ? "6.25rem" : "4rem",
+          /* 44px trial banner + 64px nav */
+          "--app-top-offset": showBanner ? "6.75rem" : "4rem",
         } as React.CSSProperties
       }
     >
