@@ -87,8 +87,8 @@ export const siteImages = {
     "hugoKruip"
   ),
   lukeGalloway: asset(
-    "/favicon_io-4/pexels-phil-ledwith-2738622-36425851.jpg",
-    "#8FA878",
+    "/favicon_io-4/pexels-jimmykphotos-34133658.jpg",
+    "#A67C4A",
     "lukeGalloway"
   ),
   rummanAmin: asset(
