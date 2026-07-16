@@ -18,7 +18,7 @@ import {
   type Tenancy,
 } from "@/lib/tenancy";
 import { getTenancyDocumentUrl } from "@/lib/tenancy-documents";
-import { btnPrimaryClassName, capsLabelClassName } from "@/lib/ui";
+import { btnPrimaryClassName, capsLabelClassName, appUnderNavClassName } from "@/lib/ui";
 import { createClient } from "@/lib/supabase/server";
 
 interface TenancyDetailPageProps {
@@ -110,8 +110,8 @@ export default async function TenancyDetailPage({ params }: TenancyDetailPagePro
   ];
 
   return (
-    <div className="tenancy-slate-bg min-h-[calc(100vh-4rem)]">
-      <section className="bg-navy px-5 py-12 sm:px-12 lg:px-16">
+    <div className="tenancy-slate-bg min-h-screen">
+      <section className={`${appUnderNavClassName} bg-navy px-5 pb-12 sm:px-12 lg:px-16`}>
         <AnimateIn>
           <PageBackLink href="/tenancy/dashboard" className="text-gold">
             ← Back to Tenancy

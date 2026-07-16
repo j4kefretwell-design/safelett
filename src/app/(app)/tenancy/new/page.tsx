@@ -1,6 +1,7 @@
 import PageBackLink from "@/components/PageBackLink";
 import AddTenancyWizard from "@/components/tenancy/AddTenancyWizard";
 import { AnimateIn } from "@/components/AnimateIn";
+import { appUnderNavClassName } from "@/lib/ui";
 import type { Property } from "@/lib/types";
 import { createClient } from "@/lib/supabase/server";
 
@@ -13,7 +14,7 @@ export default async function NewTenancyPage() {
 
   return (
     <AnimateIn>
-      <div className="min-h-[calc(100vh-4rem)] w-full bg-greige">
+      <div className={`min-h-screen w-full bg-greige ${appUnderNavClassName}`}>
         <div className="mx-auto w-full max-w-3xl px-5 py-10 sm:px-8 sm:py-14 lg:py-16">
           <PageBackLink href="/tenancy/dashboard">← Back to Tenancy</PageBackLink>
           <p className="mt-8 text-[10px] font-normal uppercase tracking-[0.32em] text-gold-readable">

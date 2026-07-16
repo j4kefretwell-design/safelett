@@ -217,7 +217,7 @@ export default async function OverviewDashboardPage() {
   const isHighestPlan = false;
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] w-full overflow-x-hidden bg-[#F2EDE8] text-umber">
+    <div className="min-h-screen w-full overflow-x-hidden bg-[#F2EDE8] text-umber">
       <RoutePrefetcher
         paths={[MODE_HOME.overview, MODE_HOME.tenancy, MODE_HOME.assistant]}
       />

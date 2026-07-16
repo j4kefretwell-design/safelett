@@ -14,6 +14,7 @@ import {
   formatDate,
   getCertificateStatus,
 } from "@/lib/compliance";
+import { appUnderNavClassName } from "@/lib/ui";
 import {
   formatCurrency,
   formatTenancyDate,
@@ -227,9 +228,11 @@ export default function PropertyDetailView({
   }
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] w-full min-w-0 overflow-x-hidden bg-greige-alt">
-      {/* Burgundy header band */}
-      <header className="bg-raspberry px-5 py-8 sm:px-12 lg:px-16">
+    <div className="min-h-screen w-full min-w-0 overflow-x-hidden bg-greige-alt">
+      {/* Burgundy header band — flush under fixed nav (same raspberry as TopNav) */}
+      <header
+        className={`${appUnderNavClassName} bg-raspberry px-5 pb-8 sm:px-12 lg:px-16`}
+      >
         <div className="mx-auto flex max-w-6xl flex-wrap items-start justify-between gap-6">
           <div className="min-w-0">
             <h1 className="font-serif text-2xl tracking-wide text-dusty-cream sm:text-3xl lg:text-4xl">

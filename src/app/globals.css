@@ -63,6 +63,10 @@
   --font-sans: var(--font-dm-sans), "Helvetica Neue", Arial, sans-serif;
 }
 
+.app-under-nav {
+  padding-top: var(--app-top-offset, 4rem);
+}
+
 @keyframes assistant-composer-in {
   from {
     opacity: 0;

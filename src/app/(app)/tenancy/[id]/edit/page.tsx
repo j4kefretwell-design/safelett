@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import PageBackLink from "@/components/PageBackLink";
 import TenancyForm from "@/components/tenancy/TenancyForm";
 import { AnimateIn } from "@/components/AnimateIn";
+import { appUnderNavClassName } from "@/lib/ui";
 import type { Property } from "@/lib/types";
 import type { Tenancy } from "@/lib/tenancy";
 import { createClient } from "@/lib/supabase/server";
@@ -25,7 +26,7 @@ export default async function EditTenancyPage({ params }: EditTenancyPageProps) 
 
   return (
     <AnimateIn>
-      <div className="tenancy-slate-bg min-h-[calc(100vh-4rem)] px-5 py-12 sm:px-12 lg:px-16">
+      <div className={`tenancy-slate-bg min-h-screen px-5 pb-12 sm:px-12 lg:px-16 ${appUnderNavClassName}`}>
         <PageBackLink href={`/tenancy/${id}`}>← Back to Tenancy</PageBackLink>
         <p className="mt-8 text-[10px] font-normal uppercase tracking-[0.32em] text-gold">
           Edit Tenancy

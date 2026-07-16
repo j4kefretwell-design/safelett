@@ -9,6 +9,7 @@ import {
   btnNavyOutlineClassName,
   capsLabelClassName,
   editorialPagePaddingClassName,
+  appUnderNavClassName,
 } from "@/lib/ui";
 
 export const revalidate = 30;
@@ -35,8 +36,10 @@ export default async function TenantsPage() {
   );
 
   return (
-    <div className="tenancy-slate-bg min-h-[calc(100vh-4rem)] w-full min-w-0 overflow-x-hidden">
-      <section className="bg-navy px-5 py-12 text-center sm:px-12 lg:px-16">
+    <div className="tenancy-slate-bg min-h-screen w-full min-w-0 overflow-x-hidden">
+      <section
+        className={`${appUnderNavClassName} bg-navy px-5 pb-12 text-center sm:px-12 lg:px-16`}
+      >
         <p className={`${capsLabelClassName} text-dusty-cream`}>Tenants</p>
         <p className="mt-3 text-sm italic leading-relaxed text-dusty-cream/85">
           Manage your tenant contacts and information

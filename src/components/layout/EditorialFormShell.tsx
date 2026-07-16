@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { pageBackLinkClassName } from "@/lib/ui";
+import { pageBackLinkClassName, appUnderNavClassName } from "@/lib/ui";
 
 interface EditorialFormShellProps {
   title: string;
@@ -17,8 +17,10 @@ export default function EditorialFormShell({
   children,
 }: EditorialFormShellProps) {
   return (
-    <div className="min-h-[calc(100vh-4rem)] w-full min-w-0 overflow-x-hidden bg-parchment-warm">
-      <section className="dashboard-portfolio-divider px-5 py-8 text-center sm:py-10">
+    <div className="min-h-screen w-full min-w-0 overflow-x-hidden bg-parchment-warm">
+      <section
+        className={`${appUnderNavClassName} dashboard-portfolio-divider px-5 pb-8 text-center sm:pb-10`}
+      >
         <p className="caps-label text-dusty-cream">{title}</p>
         <p className="mt-3 text-base italic leading-relaxed text-dusty-cream/90">
           {subtitle}

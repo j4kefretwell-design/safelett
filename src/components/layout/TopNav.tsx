@@ -73,13 +73,7 @@ export default function TopNav({
       className={`sticky top-0 z-50 h-16 w-full shrink-0 transition-colors duration-200 ease-out ${headerBgClass(mode)}`}
     >
       <div
-        className={`relative grid h-16 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center border-b px-3 sm:px-6 lg:px-12 ${
-          isOverview
-            ? "border-sand"
-            : isAssistant
-              ? "border-moss"
-              : "border-gold"
-        }`}
+        className="relative grid h-16 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center border-b border-gold px-3 sm:px-6 lg:px-12"
       >
         <div className="flex min-w-0 items-center gap-2 sm:gap-5">
           <div className="flex h-11 w-11 shrink-0 items-center justify-center">

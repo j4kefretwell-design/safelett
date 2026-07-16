@@ -1,6 +1,6 @@
 import Link from "next/link";
 import ContractorCard from "@/components/ContractorCard";
-import { btnPrimaryClassName, capsLabelClassName } from "@/lib/ui";
+import { btnPrimaryClassName, capsLabelClassName, appUnderNavClassName } from "@/lib/ui";
 import { createClient } from "@/lib/supabase/server";
 import type { Contractor } from "@/lib/types";
 
@@ -15,8 +15,10 @@ export default async function ContractorsPage() {
   const contractorList = (contractors ?? []) as Contractor[];
 
   return (
-    <div className="dashboard-parchment-bg min-h-[calc(100vh-4rem)] w-full min-w-0 overflow-x-hidden">
-      <section className="dashboard-portfolio-divider flex flex-col items-center justify-center px-5 py-10 text-center">
+    <div className="dashboard-parchment-bg min-h-screen w-full min-w-0 overflow-x-hidden">
+      <section
+        className={`${appUnderNavClassName} dashboard-portfolio-divider flex flex-col items-center justify-center px-5 pb-10 text-center`}
+      >
         <p className={capsLabelClassName}>Contractors</p>
         <p className="mt-3 text-base italic leading-relaxed text-dusty-cream/90">
           Manage your trusted contractors

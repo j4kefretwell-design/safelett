@@ -103,7 +103,11 @@ export const sectionBandLabelClassName =
 
 export const APP_TOP_NAV_HEIGHT = "4rem";
 export const APP_TRIAL_BANNER_HEIGHT = "2.75rem";
+/** Padding for content that sits below the fixed top nav (uses --app-top-offset from AppShell) */
+export const appUnderNavClassName = "app-under-nav";
+/** @deprecated Use appUnderNavClassName on page roots or module header bands instead */
 export const appMainOffsetClassName = "pt-16";
+/** @deprecated Use appUnderNavClassName — offset is driven by --app-top-offset when banner shows */
 export const appMainOffsetWithBannerClassName = "pt-[6.75rem]";
 
 export const editorialContentClassName =

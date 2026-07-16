@@ -3,10 +3,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { ToastProvider } from "@/components/toast/ToastProvider";
 import { AppModeProvider, useAppMode } from "@/lib/app-mode";
-import {
-  appMainOffsetClassName,
-  appMainOffsetWithBannerClassName,
-} from "@/lib/ui";
 import AppSidebar from "./AppSidebar";
 import TopNav from "./TopNav";
 import TrialBanner from "./TrialBanner";
@@ -52,8 +48,13 @@ function AppShellInner({
   return (
     <div
       className={`app-mode-fade min-h-screen overflow-x-hidden transition-[background-color,opacity] duration-200 ease-out ${pageBg}`}
+      style={
+        {
+          "--app-top-offset": showBanner ? "6.75rem" : "4rem",
+        } as React.CSSProperties
+      }
     >
-      {/* Fixed top chrome — stays visible while scrolling all modules */}
+      {/* Fixed top chrome — overlays page content; no layout gap below */}
       <div className="fixed inset-x-0 top-0 z-50">
         {showBanner ? (
           <TrialBanner
@@ -70,19 +71,7 @@ function AppShellInner({
 
       {!hideMenu && <AppSidebar open={sidebarOpen} onClose={closeSidebar} />}
 
-      <main
-        className={`w-full min-w-0 overflow-x-hidden ${
-          showBanner ? appMainOffsetWithBannerClassName : appMainOffsetClassName
-        }`}
-      >
-        <div
-          className={`min-h-screen ${pageBg} ${
-            showBanner ? "-mt-[6.75rem] pt-[6.75rem]" : "-mt-16 pt-16"
-          }`}
-        >
-          {children}
-        </div>
-      </main>
+      <main className="w-full min-w-0 overflow-x-hidden">{children}</main>
     </div>
   );
 }

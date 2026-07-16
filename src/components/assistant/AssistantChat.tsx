@@ -1128,7 +1128,7 @@ export default function AssistantChat({
         : (composerConfig?.chips ?? []);
 
   return (
-    <div className="flex h-[calc(100vh-4rem)] w-full overflow-hidden">
+    <div className="flex h-[100dvh] min-h-screen w-full overflow-hidden bg-study">
       <ConfirmDialog
         open={deleteChatId != null}
         title="Delete chat?"
