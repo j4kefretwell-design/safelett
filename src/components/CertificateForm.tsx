@@ -222,7 +222,7 @@ export default function CertificateForm({
             onChange={(e) =>
               setCertificateType(e.target.value as CertificateType)
             }
-            className={selectClass}
+            className={`${selectClass} mt-2 font-serif text-xl tracking-wide`}
           >
             {CERTIFICATE_TYPES.map((type) => (
               <option key={type} value={type}>
@@ -242,7 +242,7 @@ export default function CertificateForm({
         <div className="space-y-8">
           <div>
             <label htmlFor="issueDate" className={labelClass}>
-              {dateLabels.issue}
+              Issue Date
             </label>
             <input
               id="issueDate"
@@ -256,7 +256,7 @@ export default function CertificateForm({
 
           <div>
             <label htmlFor="expiryDate" className={labelClass}>
-              {dateLabels.expiry}
+              Expiry Date
             </label>
             <input
               id="expiryDate"
@@ -272,22 +272,6 @@ export default function CertificateForm({
         <div className={editorialFormSectionRuleClassName} aria-hidden="true" />
 
         <div>
-          <label htmlFor="notes" className={labelClass}>
-            Notes
-          </label>
-          <textarea
-            id="notes"
-            rows={5}
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
-            className={textareaClass}
-            placeholder="Any additional details..."
-          />
-        </div>
-
-        <div className={editorialFormSectionRuleClassName} aria-hidden="true" />
-
-        <div>
           <label
             htmlFor="document"
             className="flex cursor-pointer flex-col items-center border border-dashed border-leather bg-parchment px-6 py-12 text-center transition hover:border-gold"
@@ -298,7 +282,7 @@ export default function CertificateForm({
               aria-hidden="true"
             />
             <span className="text-sm font-normal uppercase tracking-[0.12em] text-leather">
-              Upload Certificate Document
+              Upload Certificate (Optional)
             </span>
             <span className="mt-2 text-xs font-light italic text-leather/70">
               PDF or JPEG accepted
@@ -335,11 +319,7 @@ export default function CertificateForm({
             disabled={loading}
             className={editorialFormSubmitClassName}
           >
-            {loading
-              ? "Saving..."
-              : isEditing
-                ? "Save Changes"
-                : "Add Certificate"}
+            {loading ? "Saving..." : isEditing ? "Save Changes" : "Save Certificate"}
           </button>
           <Link
             href={`/properties/${propertyId}`}

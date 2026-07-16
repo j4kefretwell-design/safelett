@@ -15,11 +15,13 @@ import {
 interface PropertyNotesProps {
   propertyId: string;
   initialNotes: string | null;
+  compact?: boolean;
 }
 
 export default function PropertyNotes({
   propertyId,
   initialNotes,
+  compact = false,
 }: PropertyNotesProps) {
   const router = useRouter();
   const [notes, setNotes] = useState(initialNotes ?? "");
@@ -47,6 +49,46 @@ export default function PropertyNotes({
     setSaved(true);
     setLoading(false);
     router.refresh();
+  }
+
+  if (compact) {
+    return (
+      <div>
+        <h2 className="font-serif text-xl tracking-wide text-text">Notes</h2>
+        <div className="mt-3 h-px w-16 bg-gold/80" aria-hidden />
+
+        <textarea
+          value={notes}
+          onChange={(e) => {
+            setNotes(e.target.value);
+            setSaved(false);
+          }}
+          rows={4}
+          placeholder='e.g. "Boiler located in kitchen cupboard"'
+          className={`${textareaClassName} mt-6`}
+        />
+
+        {error && (
+          <p className="mt-4 border border-urgent/20 bg-urgent-light/50 px-4 py-3 text-sm text-urgent">
+            {error}
+          </p>
+        )}
+
+        <div className="mt-4 flex items-center gap-4">
+          <button
+            type="button"
+            onClick={handleSave}
+            disabled={loading}
+            className="text-sm text-gold-readable transition hover:text-gold disabled:opacity-50"
+          >
+            {loading ? "Saving..." : "Save Notes"}
+          </button>
+          {saved && (
+            <span className="text-sm font-light text-compliant">Saved.</span>
+          )}
+        </div>
+      </div>
+    );
   }
 
   return (

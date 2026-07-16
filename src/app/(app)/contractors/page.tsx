@@ -24,7 +24,13 @@ export default async function ContractorsPage() {
       </section>
 
       <section className="px-5 py-10 sm:px-12 sm:py-12 lg:px-16">
-        <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+        <p className="max-w-3xl text-base leading-relaxed text-leather">
+          Add your trusted contractors here. Once saved, you can link them to
+          properties so Fretwell &amp; Co can draft booking emails automatically
+          when certificates are due.
+        </p>
+
+        <div className="mt-8 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-base leading-relaxed text-leather">
             {contractorList.length}{" "}
             {contractorList.length === 1 ? "contractor" : "contractors"} in your
