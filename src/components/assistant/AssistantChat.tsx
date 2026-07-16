@@ -1054,22 +1054,14 @@ export default function AssistantChat({
   const chipClass =
     "border border-olive/40 px-3 py-1.5 text-[11px] tracking-wide text-cocoa transition hover:border-study hover:text-study disabled:opacity-40";
   const navItem =
-    "flex min-h-11 w-full items-center py-3 text-left text-[12px] tracking-[0.14em] text-dusty-cream/80 transition hover:text-dusty-cream";
-  const navItemWelcome =
-    "flex min-h-11 w-full items-center py-3 text-left text-[12px] tracking-[0.14em] text-dusty-cream/85 transition hover:text-dusty-cream";
+    "flex min-h-11 w-full items-center py-3 text-left text-[11px] font-normal uppercase tracking-[0.14em] text-dusty-cream/80 transition hover:text-dusty-cream";
   const pickRow =
     "flex w-full items-center justify-between gap-4 border-t border-olive/25 py-5 text-left transition hover:text-study";
 
-  function renderAssistantNav(
-    onNavigate?: () => void,
-    variant: "default" | "welcome" = "default"
-  ) {
-    const isWelcome = variant === "welcome";
-    const itemClass = isWelcome ? navItemWelcome : navItem;
-
+  function renderAssistantNav(onNavigate?: () => void) {
     return (
       <>
-        <div className={`px-4 pt-8 ${isWelcome ? "sm:px-5" : "px-5"}`}>
+        <div className="px-5 pt-8">
           <button
             type="button"
             onClick={() => {
@@ -1078,31 +1070,23 @@ export default function AssistantChat({
             }}
             aria-label="New chat"
           >
-            <div
-              className={`flex h-10 w-10 items-center justify-center border ${
-                isWelcome ? "border-dusty-cream/50" : "border-moss"
-              }`}
-            >
-              <span
-                className={`font-serif text-xs tracking-tight ${
-                  isWelcome ? "text-dusty-cream" : "text-dusty-cream"
-                }`}
-              >
-                F<span className={`mx-px ${isWelcome ? "text-moss" : "text-moss"}`}>&amp;</span>Co
+            <div className="flex h-10 w-10 items-center justify-center border border-moss">
+              <span className="font-serif text-xs tracking-tight text-dusty-cream">
+                F<span className="mx-px text-moss">&amp;</span>Co
               </span>
             </div>
           </button>
-          {!isWelcome ? <div className="mt-5 h-px bg-moss/60" /> : null}
+          <div className="mt-5 h-px bg-moss/60" />
         </div>
 
-        <nav className={`mt-8 flex flex-col gap-1 px-4 sm:mt-10 sm:px-5`}>
+        <nav className="mt-8 flex flex-col gap-1 px-5 sm:mt-10">
           <button
             type="button"
             onClick={() => {
               goToMenu();
               onNavigate?.();
             }}
-            className={itemClass}
+            className={navItem}
           >
             New Chat
           </button>
@@ -1113,7 +1097,7 @@ export default function AssistantChat({
               setView({ screen: "saved" });
               onNavigate?.();
             }}
-            className={itemClass}
+            className={navItem}
           >
             Saved Chats
           </button>
@@ -1123,7 +1107,7 @@ export default function AssistantChat({
               open("compliance");
               onNavigate?.();
             }}
-            className={itemClass}
+            className={navItem}
           >
             Compliance Check
           </button>
@@ -1134,19 +1118,15 @@ export default function AssistantChat({
               setView({ screen: "drafts" });
               onNavigate?.();
             }}
-            className={itemClass}
+            className={navItem}
           >
             Drafts
           </button>
         </nav>
 
-        {!isWelcome ? (
-          <p className="mt-auto line-clamp-3 px-5 pb-6 text-[10px] leading-relaxed text-dusty-cream/30">
-            {ASSISTANT_DISCLAIMER}
-          </p>
-        ) : (
-          <div className="mt-auto" />
-        )}
+        <p className="mt-auto line-clamp-4 px-5 pb-6 text-[10px] leading-relaxed text-dusty-cream/30">
+          {ASSISTANT_DISCLAIMER}
+        </p>
       </>
     );
   }
@@ -1163,9 +1143,11 @@ export default function AssistantChat({
 
   return (
     <div
-      className={`relative flex h-[100dvh] min-h-screen w-full overflow-hidden ${
-        isMenu ? "bg-transparent" : "bg-study"
-      }`}
+      className="relative flex w-full overflow-hidden bg-study"
+      style={{
+        height: "calc(100dvh - var(--app-top-offset, 4rem))",
+        marginTop: "var(--app-top-offset, 4rem)",
+      }}
     >
       <ConfirmDialog
         open={deleteChatId != null}
@@ -1180,52 +1162,10 @@ export default function AssistantChat({
         onCancel={() => setDeleteChatId(null)}
       />
 
-      {isMenu ? (
-        <>
-          <div
-            className="absolute inset-0 overflow-hidden"
-            style={{
-              backgroundColor: siteImages.lukeGallowayEstate.placeholderColor,
-            }}
-            aria-hidden
-          >
-            <Image
-              src={siteImages.lukeGallowayEstate.src}
-              alt=""
-              fill
-              priority
-              quality={IMAGE_QUALITY}
-              sizes="100vw"
-              {...(siteImages.lukeGallowayEstate.blurDataURL?.startsWith(
-                "data:image/"
-              )
-                ? {
-                    placeholder: "blur" as const,
-                    blurDataURL: siteImages.lukeGallowayEstate.blurDataURL,
-                  }
-                : { placeholder: "empty" as const })}
-              className="object-cover"
-              style={{ objectPosition: "center 30%" }}
-            />
-          </div>
-          <div
-            className="absolute inset-0"
-            style={{ backgroundColor: "rgba(28, 43, 35, 0.35)" }}
-            aria-hidden
-          />
-        </>
-      ) : null}
-
       {/* Desktop left panel */}
-      {isMenu ? (
-        <aside className="absolute inset-y-0 left-0 z-20 hidden w-[9.5rem] flex-col bg-transparent md:flex lg:w-[10.5rem]">
-          {renderAssistantNav(undefined, "welcome")}
-        </aside>
-      ) : (
-        <aside className="hidden h-full w-[200px] shrink-0 flex-col bg-study md:flex">
-          {renderAssistantNav()}
-        </aside>
-      )}
+      <aside className="hidden h-full w-[180px] max-w-[180px] shrink-0 flex-col bg-[#1C2B23] md:flex">
+        {renderAssistantNav()}
+      </aside>
 
       {/* Mobile left panel drawer */}
       <button
@@ -1237,22 +1177,56 @@ export default function AssistantChat({
         onClick={() => setMobileNavOpen(false)}
       />
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-[min(100vw,17rem)] flex-col transition-transform duration-300 ease-out md:hidden ${
-          isMenu ? "bg-[#1C2B23]/92 backdrop-blur-sm" : "bg-study"
-        } ${mobileNavOpen ? "translate-x-0" : "-translate-x-full"}`}
+        className={`fixed inset-y-0 left-0 z-50 flex w-[min(100vw,180px)] flex-col bg-[#1C2B23] transition-transform duration-300 ease-out md:hidden ${
+          mobileNavOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
         aria-hidden={!mobileNavOpen}
       >
-        {renderAssistantNav(
-          () => setMobileNavOpen(false),
-          isMenu ? "welcome" : "default"
-        )}
+        {renderAssistantNav(() => setMobileNavOpen(false))}
       </aside>
 
       <section
         className={`relative flex min-h-0 min-w-0 flex-1 flex-col ${
-          isMenu ? "overflow-hidden bg-transparent" : "bg-parchment-line"
+          isMenu ? "overflow-hidden bg-study" : "bg-parchment-line"
         }`}
       >
+        {isMenu ? (
+          <>
+            <div
+              className="absolute inset-0 overflow-hidden"
+              style={{
+                backgroundColor:
+                  siteImages.lukeGallowayEstate.placeholderColor,
+              }}
+              aria-hidden
+            >
+              <Image
+                src={siteImages.lukeGallowayEstate.src}
+                alt=""
+                fill
+                priority
+                quality={IMAGE_QUALITY}
+                sizes="(max-width: 768px) 100vw, calc(100vw - 180px)"
+                {...(siteImages.lukeGallowayEstate.blurDataURL?.startsWith(
+                  "data:image/"
+                )
+                  ? {
+                      placeholder: "blur" as const,
+                      blurDataURL: siteImages.lukeGallowayEstate.blurDataURL,
+                    }
+                  : { placeholder: "empty" as const })}
+                className="object-cover"
+                style={{ objectPosition: "center 30%" }}
+              />
+            </div>
+            <div
+              className="absolute inset-0"
+              style={{ backgroundColor: "rgba(28, 43, 35, 0.35)" }}
+              aria-hidden
+            />
+          </>
+        ) : null}
+
         {/* Mobile: open left panel */}
         <button
           type="button"
@@ -1377,8 +1351,8 @@ export default function AssistantChat({
         )}
 
         {isMenu && (
-          <div className="relative z-[1] flex flex-1 items-center justify-center px-4 py-6 sm:px-6">
-            <div className="flex w-[92%] max-w-[580px] flex-col rounded-[20px] bg-[#F0ECE1] px-6 py-8 shadow-[0_8px_40px_rgba(0,0,0,0.25)] sm:px-10 sm:py-10">
+          <div className="relative z-[1] flex min-h-0 flex-1 items-center justify-center overflow-y-auto px-4 py-20 sm:px-6">
+            <div className="my-auto flex w-[92%] max-w-[580px] flex-col rounded-[20px] bg-[#F0ECE1] px-6 py-8 shadow-[0_8px_40px_rgba(0,0,0,0.25)] sm:px-10 sm:py-10">
               <div className="flex justify-center">
                 <Monogram size={40} />
               </div>
