@@ -1,33 +1,70 @@
 import Link from "next/link";
-import BackgroundImage from "@/components/BackgroundImage";
-import { siteImages } from "@/lib/site-images";
-import { btnGoldOutlineClassName, editorialBleedClassName } from "@/lib/ui";
+import OptimizedFillImage from "@/components/OptimizedFillImage";
+import { IMAGE_QUALITY, siteImages } from "@/lib/site-images";
+import { btnNavyOutlineClassName, editorialPagePaddingClassName } from "@/lib/ui";
+
+const ONBOARDING_STEPS = [
+  { step: "01", title: "Add a Tenancy", description: "Register your first let" },
+  { step: "02", title: "Track Key Dates", description: "Renewals, reviews and deposits" },
+  { step: "03", title: "Generate Notices", description: "Professional correspondence" },
+] as const;
 
 export default function TenancyEmptyState() {
   return (
-    <div className={`tenancy-slate-bg min-h-[calc(100vh-4rem)] ${editorialBleedClassName}`}>
+    <div className="tenancy-slate-bg min-h-[calc(100vh-4rem)] w-full min-w-0 overflow-x-hidden">
       <section
-        className="relative flex min-h-[min(58vh,520px)] w-full flex-col items-center justify-center overflow-hidden"
-        style={{ backgroundColor: siteImages.annieSprattTopiary.placeholderColor }}
+        className="relative h-[200px] w-full overflow-hidden sm:h-[280px] lg:h-[320px]"
+        style={{ backgroundColor: siteImages.jonnyGiosManor.placeholderColor }}
       >
-        <BackgroundImage
-          image={siteImages.annieSprattTopiary}
-          alt=""
+        <OptimizedFillImage
+          image={siteImages.jonnyGiosManor}
+          alt="Georgian manor house viewed through autumn leaves"
           sizes="100vw"
           priority
-          effect="fade"
+          quality={IMAGE_QUALITY}
+          className="object-cover object-center"
         />
-        <div className="absolute inset-0 bg-navy/60" aria-hidden="true" />
+        <div className="absolute inset-0 bg-navy/50" aria-hidden="true" />
 
-        <div className="relative z-10 px-6 py-16 text-center sm:py-20">
-          <h1 className="max-w-xl font-serif text-3xl tracking-wide text-dusty-cream sm:text-4xl lg:text-5xl">
-            Your tenancy portfolio awaits.
+        <div className="absolute inset-x-4 bottom-4 z-10 max-w-md bg-navy px-6 py-5 sm:inset-x-auto sm:bottom-10 sm:left-10 sm:max-w-sm sm:px-8 sm:py-6">
+          <div className="h-px w-10 bg-gold" aria-hidden="true" />
+          <p className="mt-4 caps-label text-gold">Your Tenancy Portfolio</p>
+          <h1 className="mt-4 font-serif text-[1.125rem] font-normal leading-snug tracking-wide text-dusty-cream sm:text-xl">
+            Add your first tenancy to begin tracking.
           </h1>
+        </div>
+      </section>
+
+      <section className="bg-dusty-cream py-12 sm:py-16">
+        <div
+          className={`${editorialPagePaddingClassName} flex flex-col items-center text-center`}
+        >
+          <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-navy">
+            Start Your Portfolio
+          </p>
+          <div className="mt-3 h-px w-10 bg-gold" aria-hidden="true" />
+
+          <div className="mt-10 grid w-full max-w-4xl grid-cols-1 gap-8 sm:grid-cols-3 sm:gap-6">
+            {ONBOARDING_STEPS.map((item) => (
+              <div key={item.step} className="flex flex-col items-center">
+                <p className="font-serif text-2xl tracking-wide text-gold">
+                  {item.step}
+                </p>
+                <p className="mt-3 font-serif text-lg tracking-wide text-tenancy-text">
+                  {item.title}
+                </p>
+                <p className="mt-2 text-sm font-light italic text-steel">
+                  {item.description}
+                </p>
+              </div>
+            ))}
+          </div>
+
           <Link
             href="/tenancy/new"
-            className={`${btnGoldOutlineClassName} mt-10 w-full sm:w-auto`}
+            className={`${btnNavyOutlineClassName} mt-12 px-10`}
           >
-            Add Tenancy
+            Add Your First Tenancy +
           </Link>
         </div>
       </section>

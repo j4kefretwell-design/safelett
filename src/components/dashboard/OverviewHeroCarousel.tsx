@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-export type CarouselPanelStatus = "clear" | "attention" | "overdue" | "promo";
+export type CarouselPanelStatus = "clear" | "attention" | "overdue" | "promo" | "empty";
 
 export type OverviewCarouselPanel = {
   id: string;
@@ -15,6 +15,9 @@ export type OverviewCarouselPanel = {
   count?: number;
   description?: string;
   footer?: string;
+  /** Gold CTA link shown beneath the headline (empty / onboarding panels) */
+  ctaText?: string;
+  ctaHref?: string;
 };
 
 type OverviewHeroCarouselProps = {
@@ -29,7 +32,7 @@ function wrapOffset(index: number, active: number, length: number) {
 }
 
 function StatusIcon({ status }: { status: CarouselPanelStatus }) {
-  if (status === "promo") return null;
+  if (status === "promo" || status === "empty") return null;
 
   if (status === "clear") {
     return (
@@ -70,6 +73,7 @@ const statusTextClass: Record<CarouselPanelStatus, string> = {
   attention: "text-attention",
   overdue: "text-urgent",
   promo: "text-[#3D2B1F]",
+  empty: "text-[#3D2B1F]",
 };
 
 export default function OverviewHeroCarousel({
@@ -151,6 +155,7 @@ export default function OverviewHeroCarousel({
 
               const labelClass =
                 panel.labelColor === "study" ? "text-study" : "text-[#6B503C]";
+              const isEmpty = panel.status === "empty";
               const heroSize = isCenter
                 ? "text-[1.75rem] leading-tight sm:text-3xl md:text-[2.75rem]"
                 : "text-2xl leading-tight sm:text-3xl";
@@ -163,37 +168,62 @@ export default function OverviewHeroCarousel({
                     {panel.label}
                   </p>
 
-                  <div className="mt-4 flex items-start gap-3 sm:mt-5">
-                    <StatusIcon status={panel.status} />
-                    <div className="min-w-0">
+                  {isEmpty ? (
+                    <div className="mt-4 sm:mt-5">
                       <p
-                        className={`font-serif tracking-wide ${heroSize} ${statusTextClass[panel.status]}`}
+                        className={`font-serif tracking-wide text-[#3D2B1F] ${heroSize}`}
                       >
                         {panel.statusText}
                       </p>
-                      {panel.count != null && panel.count > 0 ? (
-                        <p className="mt-2 text-xl font-semibold tabular-nums text-[#6B503C] sm:text-2xl">
-                          {panel.count}
-                          <span className="ml-1.5 text-[11px] font-normal uppercase tracking-[0.18em]">
-                            {panel.count === 1 ? "item" : "items"}
-                          </span>
+                      {panel.description ? (
+                        <p className="mt-3 text-[13px] italic leading-relaxed text-[#6B503C]">
+                          {panel.description}
+                        </p>
+                      ) : null}
+                      {panel.ctaText && panel.ctaHref ? (
+                        <p className="mt-4 text-[13px] text-gold sm:mt-5">
+                          {panel.ctaText}
                         </p>
                       ) : null}
                     </div>
-                  </div>
+                  ) : (
+                    <>
+                      <div className="mt-4 flex items-start gap-3 sm:mt-5">
+                        <StatusIcon status={panel.status} />
+                        <div className="min-w-0">
+                          <p
+                            className={`font-serif tracking-wide ${heroSize} ${statusTextClass[panel.status]}`}
+                          >
+                            {panel.statusText}
+                          </p>
+                          {panel.count != null && panel.count > 0 ? (
+                            <p className="mt-2 text-xl font-semibold tabular-nums text-[#6B503C] sm:text-2xl">
+                              {panel.count}
+                              <span className="ml-1.5 text-[11px] font-normal uppercase tracking-[0.18em]">
+                                {panel.count === 1 ? "item" : "items"}
+                              </span>
+                            </p>
+                          ) : null}
+                        </div>
+                      </div>
 
-                  {panel.description ? (
-                    <p className="mt-4 text-[13px] leading-relaxed text-[#6B503C] sm:mt-5">
-                      {panel.description}
-                    </p>
-                  ) : null}
-                  {panel.footer ? (
-                    <p className="mt-4 text-[13px] text-gold sm:mt-5">
-                      {panel.footer}
-                    </p>
-                  ) : null}
+                      {panel.description ? (
+                        <p className="mt-4 text-[13px] leading-relaxed text-[#6B503C] sm:mt-5">
+                          {panel.description}
+                        </p>
+                      ) : null}
+                      {panel.footer ? (
+                        <p className="mt-4 text-[13px] text-gold sm:mt-5">
+                          {panel.footer}
+                        </p>
+                      ) : null}
+                    </>
+                  )}
                 </div>
               );
+
+              const panelHref =
+                isEmpty && panel.ctaHref ? panel.ctaHref : panel.href;
 
               const cardClass = `absolute top-1/2 flex min-h-[180px] flex-col justify-center overflow-hidden rounded-[20px] border border-[#C4A35A] bg-[rgba(240,236,225,0.95)] p-6 shadow-[0_8px_28px_rgba(61,43,31,0.16),inset_0_1px_0_rgba(255,255,255,0.6)] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] sm:min-h-[210px] sm:p-9 ${slotClass} ${
                 isCenter ? "z-20" : visible ? "z-10" : "z-0"
@@ -203,7 +233,7 @@ export default function OverviewHeroCarousel({
                 return (
                   <Link
                     key={panel.id}
-                    href={panel.href}
+                    href={panelHref}
                     className={`${cardClass} cursor-pointer`}
                     aria-current="true"
                   >

@@ -28,6 +28,9 @@ function buildModulePanel({
   clearText,
   actions,
   module,
+  portfolioEmpty,
+  emptyCtaHref,
+  emptyCtaText,
 }: {
   id: string;
   href: string;
@@ -35,7 +38,22 @@ function buildModulePanel({
   clearText: string;
   actions: OverviewActionItem[];
   module: "compliance" | "tenancy";
+  portfolioEmpty: boolean;
+  emptyCtaHref: string;
+  emptyCtaText: string;
 }): OverviewCarouselPanel {
+  if (portfolioEmpty) {
+    return {
+      id,
+      href: emptyCtaHref,
+      label,
+      status: "empty",
+      statusText: "Get Started",
+      ctaText: emptyCtaText,
+      ctaHref: emptyCtaHref,
+    };
+  }
+
   const moduleActions = actions.filter((item) => item.module === module);
 
   if (moduleActions.length === 0) {
@@ -66,8 +84,20 @@ function buildModulePanel({
 
 function buildActionsPanel(
   actions: OverviewActionItem[],
-  urgentCount: number
+  urgentCount: number,
+  hasProperties: boolean
 ): OverviewCarouselPanel {
+  if (urgentCount === 0 && !hasProperties) {
+    return {
+      id: "actions",
+      href: "#todays-actions",
+      label: "Actions",
+      status: "empty",
+      statusText: "Nothing yet",
+      description: "Add properties to track actions",
+    };
+  }
+
   if (urgentCount === 0) {
     return {
       id: "actions",
@@ -135,6 +165,9 @@ export default async function OverviewDashboardPage() {
       clearText: "Compliant",
       actions,
       module: "compliance",
+      portfolioEmpty: propertyList.length === 0,
+      emptyCtaHref: "/properties/new",
+      emptyCtaText: "Add your first property →",
     }),
     buildModulePanel({
       id: "tenancy",
@@ -143,15 +176,18 @@ export default async function OverviewDashboardPage() {
       clearText: "All Current",
       actions,
       module: "tenancy",
+      portfolioEmpty: tenancyList.length === 0,
+      emptyCtaHref: "/tenancy/new",
+      emptyCtaText: "Add your first tenancy →",
     }),
-    buildActionsPanel(actions, stats.urgentCount),
+    buildActionsPanel(actions, stats.urgentCount, propertyList.length > 0),
     {
       id: "assistant",
       href: "/assistant",
       label: "Assistant",
       labelColor: "study",
       status: "promo",
-      statusText: "Your Assistant",
+      statusText: "Your Personal Assistant",
       description: "Draft any email. Answer any question. Handle any admin.",
       footer: "Open →",
     },
