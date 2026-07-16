@@ -1195,28 +1195,27 @@ export default function AssistantChat({
             <div
               className="absolute inset-0 overflow-hidden"
               style={{
-                backgroundColor:
-                  siteImages.lukeGallowayEstate.placeholderColor,
+                backgroundColor: siteImages.rummanAmin.placeholderColor,
               }}
               aria-hidden
             >
               <Image
-                src={siteImages.lukeGallowayEstate.src}
+                src={siteImages.rummanAmin.src}
                 alt=""
                 fill
                 priority
                 quality={IMAGE_QUALITY}
                 sizes="(max-width: 768px) 100vw, calc(100vw - 180px)"
-                {...(siteImages.lukeGallowayEstate.blurDataURL?.startsWith(
+                {...(siteImages.rummanAmin.blurDataURL?.startsWith(
                   "data:image/"
                 )
                   ? {
                       placeholder: "blur" as const,
-                      blurDataURL: siteImages.lukeGallowayEstate.blurDataURL,
+                      blurDataURL: siteImages.rummanAmin.blurDataURL,
                     }
                   : { placeholder: "empty" as const })}
                 className="object-cover"
-                style={{ objectPosition: "center 30%" }}
+                style={{ objectPosition: "center 40%" }}
               />
             </div>
             <div
