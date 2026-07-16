@@ -25,28 +25,33 @@ function buildModulePanel({
   id,
   href,
   label,
-  clearText,
-  actions,
   module,
+  clearText,
+  attentionText,
+  actions,
   portfolioEmpty,
   emptyCtaHref,
   emptyCtaText,
+  metaText,
 }: {
   id: string;
   href: string;
   label: string;
-  clearText: string;
-  actions: OverviewActionItem[];
   module: "compliance" | "tenancy";
+  clearText: string;
+  attentionText: string;
+  actions: OverviewActionItem[];
   portfolioEmpty: boolean;
   emptyCtaHref: string;
   emptyCtaText: string;
+  metaText?: string;
 }): OverviewCarouselPanel {
   if (portfolioEmpty) {
     return {
       id,
       href: emptyCtaHref,
       label,
+      module,
       status: "empty",
       statusText: "Get Started",
       ctaText: emptyCtaText,
@@ -57,7 +62,15 @@ function buildModulePanel({
   const moduleActions = actions.filter((item) => item.module === module);
 
   if (moduleActions.length === 0) {
-    return { id, href, label, status: "clear", statusText: clearText };
+    return {
+      id,
+      href,
+      label,
+      module,
+      status: "clear",
+      statusText: clearText,
+      metaText,
+    };
   }
 
   const hasOverdue = moduleActions.some((item) => item.daysRemaining < 0);
@@ -66,9 +79,11 @@ function buildModulePanel({
       id,
       href,
       label,
+      module,
       status: "overdue",
-      statusText: "Overdue",
+      statusText: attentionText,
       count: moduleActions.length,
+      metaText,
     };
   }
 
@@ -76,9 +91,11 @@ function buildModulePanel({
     id,
     href,
     label,
+    module,
     status: "attention",
-    statusText: "Action Needed",
+    statusText: attentionText,
     count: moduleActions.length,
+    metaText,
   };
 }
 
@@ -92,6 +109,7 @@ function buildActionsPanel(
       id: "actions",
       href: "#todays-actions",
       label: "Actions",
+      module: "actions",
       status: "empty",
       statusText: "Nothing yet",
       description: "Add properties to track actions",
@@ -103,29 +121,20 @@ function buildActionsPanel(
       id: "actions",
       href: "#todays-actions",
       label: "Actions",
+      module: "actions",
       status: "clear",
-      statusText: "All Clear",
+      statusText: "Nothing Urgent",
     };
   }
 
   const hasOverdue = actions.some((item) => item.daysRemaining < 0);
-  if (hasOverdue) {
-    return {
-      id: "actions",
-      href: "#todays-actions",
-      label: "Actions",
-      status: "overdue",
-      statusText: "Overdue",
-      count: urgentCount,
-    };
-  }
-
   return {
     id: "actions",
     href: "#todays-actions",
     label: "Actions",
-    status: "attention",
-    statusText: "Action Needed",
+    module: "actions",
+    status: hasOverdue ? "overdue" : "attention",
+    statusText: "Items Need Attention",
     count: urgentCount,
   };
 }
@@ -157,39 +166,51 @@ export default async function OverviewDashboardPage() {
     tenancies: tenancyList,
   });
 
+  const propertyCountLabel =
+    propertyList.length === 1
+      ? "1 property"
+      : `${propertyList.length} properties`;
+  const tenancyCountLabel =
+    tenancyList.length === 1
+      ? "1 tenancy"
+      : `${tenancyList.length} tenancies`;
+
   const carouselPanels: OverviewCarouselPanel[] = [
     buildModulePanel({
       id: "compliance",
       href: "/compliance",
       label: "Compliance",
-      clearText: "Compliant",
-      actions,
       module: "compliance",
+      clearText: "All Clear",
+      attentionText: "Needs Attention",
+      actions,
       portfolioEmpty: propertyList.length === 0,
       emptyCtaHref: "/properties/new",
       emptyCtaText: "Add your first property →",
+      metaText: propertyList.length > 0 ? propertyCountLabel : undefined,
     }),
     buildModulePanel({
       id: "tenancy",
       href: "/tenancy/dashboard",
       label: "Tenancy",
-      clearText: "All Current",
-      actions,
       module: "tenancy",
+      clearText: "All Current",
+      attentionText: "Renewals Due",
+      actions,
       portfolioEmpty: tenancyList.length === 0,
       emptyCtaHref: "/tenancy/new",
       emptyCtaText: "Add your first tenancy →",
+      metaText: tenancyList.length > 0 ? tenancyCountLabel : undefined,
     }),
     buildActionsPanel(actions, stats.urgentCount, propertyList.length > 0),
     {
       id: "assistant",
       href: "/assistant",
       label: "Assistant",
-      labelColor: "study",
+      module: "assistant",
       status: "promo",
       statusText: "Your Personal Assistant",
-      description: "Draft any email. Answer any question. Handle any admin.",
-      footer: "Open →",
+      description: "Draft · Ask · Report",
     },
   ];
 

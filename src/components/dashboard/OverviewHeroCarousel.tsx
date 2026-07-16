@@ -5,23 +5,48 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 export type CarouselPanelStatus = "clear" | "attention" | "overdue" | "promo" | "empty";
 
+export type OverviewCarouselModule = "compliance" | "tenancy" | "actions" | "assistant";
+
 export type OverviewCarouselPanel = {
   id: string;
   href: string;
   label: string;
-  labelColor?: "leather" | "study";
+  module: OverviewCarouselModule;
   status: CarouselPanelStatus;
   statusText: string;
   count?: number;
+  /** Small line beneath status — e.g. property / tenancy count */
+  metaText?: string;
   description?: string;
   footer?: string;
-  /** Gold CTA link shown beneath the headline (empty / onboarding panels) */
   ctaText?: string;
   ctaHref?: string;
 };
 
 type OverviewHeroCarouselProps = {
   panels: OverviewCarouselPanel[];
+};
+
+const MODULE_THEME: Record<
+  OverviewCarouselModule,
+  { labelClass: string; borderClass: string }
+> = {
+  compliance: {
+    labelClass: "text-raspberry",
+    borderClass: "border-t-raspberry",
+  },
+  tenancy: {
+    labelClass: "text-navy",
+    borderClass: "border-t-navy",
+  },
+  actions: {
+    labelClass: "text-gold",
+    borderClass: "border-t-gold",
+  },
+  assistant: {
+    labelClass: "text-study",
+    borderClass: "border-t-study",
+  },
 };
 
 function wrapOffset(index: number, active: number, length: number) {
@@ -31,39 +56,49 @@ function wrapOffset(index: number, active: number, length: number) {
   return offset;
 }
 
-function StatusIcon({ status }: { status: CarouselPanelStatus }) {
+function StatusIcon({
+  status,
+  large,
+}: {
+  status: CarouselPanelStatus;
+  large: boolean;
+}) {
   if (status === "promo" || status === "empty") return null;
+
+  const size = large ? "h-14 w-14 sm:h-16 sm:w-16" : "h-10 w-10 sm:h-11 sm:w-11";
 
   if (status === "clear") {
     return (
       <svg
-        viewBox="0 0 24 24"
+        viewBox="0 0 48 48"
         fill="none"
-        stroke="currentColor"
-        strokeWidth="1.25"
-        className="h-5 w-5 shrink-0 text-forest"
+        className={`${size} shrink-0 text-forest`}
         aria-hidden
       >
-        <circle cx="12" cy="12" r="9" />
-        <path d="M8 12.5l2.5 2.5 5.5-5.5" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="24" cy="24" r="20" stroke="currentColor" strokeWidth="1.5" />
+        <path
+          d="M15 24.5l6 6 12-13"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
       </svg>
     );
   }
 
   return (
     <svg
-      viewBox="0 0 24 24"
+      viewBox="0 0 48 48"
       fill="none"
-      stroke="currentColor"
-      strokeWidth="1.25"
-      className={`h-5 w-5 shrink-0 ${
+      className={`${size} shrink-0 ${
         status === "overdue" ? "text-urgent" : "text-attention"
       }`}
       aria-hidden
     >
-      <circle cx="12" cy="12" r="9" />
-      <path d="M12 8v5" strokeLinecap="round" />
-      <circle cx="12" cy="16" r="0.75" fill="currentColor" stroke="none" />
+      <circle cx="24" cy="24" r="20" stroke="currentColor" strokeWidth="1.5" />
+      <path d="M24 14v14" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" />
+      <circle cx="24" cy="33" r="1.75" fill="currentColor" />
     </svg>
   );
 }
@@ -72,8 +107,8 @@ const statusTextClass: Record<CarouselPanelStatus, string> = {
   clear: "text-forest",
   attention: "text-attention",
   overdue: "text-urgent",
-  promo: "text-[#3D2B1F]",
-  empty: "text-[#3D2B1F]",
+  promo: "text-umber",
+  empty: "text-umber",
 };
 
 export default function OverviewHeroCarousel({
@@ -139,6 +174,7 @@ export default function OverviewHeroCarousel({
               const isLeft = offset === -1;
               const isRight = offset === 1;
               const visible = Math.abs(offset) <= 1;
+              const theme = MODULE_THEME[panel.module];
 
               let slotClass =
                 "left-1/2 w-[min(100%,420px)] -translate-x-1/2 -translate-y-1/2 scale-95 opacity-0 md:w-[28%]";
@@ -153,30 +189,38 @@ export default function OverviewHeroCarousel({
                   "left-[calc(75%+6px)] hidden w-[28%] -translate-y-1/2 scale-[0.88] opacity-80 md:block";
               }
 
-              const labelClass =
-                panel.labelColor === "study" ? "text-study" : "text-[#6B503C]";
               const isEmpty = panel.status === "empty";
-              const heroSize = isCenter
-                ? "text-[1.75rem] leading-tight sm:text-3xl md:text-[2.75rem]"
-                : "text-2xl leading-tight sm:text-3xl";
+              const isAssistant = panel.module === "assistant";
+              const isActionsWithItems =
+                panel.module === "actions" &&
+                panel.status !== "clear" &&
+                panel.status !== "empty" &&
+                panel.count != null &&
+                panel.count > 0;
+
+              const statusSize = isCenter
+                ? "text-[1.65rem] leading-tight sm:text-[2rem] md:text-[2.35rem]"
+                : "text-xl leading-tight sm:text-2xl";
+
+              const countSize = isCenter
+                ? "text-[3.25rem] leading-none sm:text-[3.75rem] md:text-[4.25rem]"
+                : "text-[2.25rem] leading-none sm:text-[2.75rem]";
 
               const content = (
-                <div className="relative z-[1] flex h-full flex-col justify-center">
+                <div className="relative z-[1] flex h-full flex-col">
                   <p
-                    className={`text-[10px] font-normal uppercase tracking-[0.28em] ${labelClass}`}
+                    className={`text-[10px] font-normal uppercase tracking-[0.28em] ${theme.labelClass}`}
                   >
                     {panel.label}
                   </p>
 
                   {isEmpty ? (
-                    <div className="mt-4 sm:mt-5">
-                      <p
-                        className={`font-serif tracking-wide text-[#3D2B1F] ${heroSize}`}
-                      >
+                    <div className="mt-5 flex flex-1 flex-col justify-center sm:mt-6">
+                      <p className={`font-serif tracking-wide text-umber ${statusSize}`}>
                         {panel.statusText}
                       </p>
                       {panel.description ? (
-                        <p className="mt-3 text-[13px] italic leading-relaxed text-[#6B503C]">
+                        <p className="mt-3 text-[13px] italic leading-relaxed text-leather">
                           {panel.description}
                         </p>
                       ) : null}
@@ -186,38 +230,55 @@ export default function OverviewHeroCarousel({
                         </p>
                       ) : null}
                     </div>
-                  ) : (
-                    <>
-                      <div className="mt-4 flex items-start gap-3 sm:mt-5">
-                        <StatusIcon status={panel.status} />
-                        <div className="min-w-0">
-                          <p
-                            className={`font-serif tracking-wide ${heroSize} ${statusTextClass[panel.status]}`}
-                          >
-                            {panel.statusText}
-                          </p>
-                          {panel.count != null && panel.count > 0 ? (
-                            <p className="mt-2 text-xl font-semibold tabular-nums text-[#6B503C] sm:text-2xl">
-                              {panel.count}
-                              <span className="ml-1.5 text-[11px] font-normal uppercase tracking-[0.18em]">
-                                {panel.count === 1 ? "item" : "items"}
-                              </span>
-                            </p>
-                          ) : null}
-                        </div>
-                      </div>
-
+                  ) : isAssistant ? (
+                    <div className="mt-5 flex flex-1 flex-col justify-center sm:mt-6">
+                      <p className={`font-serif tracking-wide text-umber ${statusSize}`}>
+                        {panel.statusText}
+                      </p>
                       {panel.description ? (
-                        <p className="mt-4 text-[13px] leading-relaxed text-[#6B503C] sm:mt-5">
+                        <p className="mt-4 text-[11px] font-normal uppercase tracking-[0.22em] text-leather">
+                          {panel.description}
+                        </p>
+                      ) : null}
+                    </div>
+                  ) : (
+                    <div className="mt-4 flex flex-1 flex-col justify-center sm:mt-5">
+                      {isActionsWithItems ? (
+                        <p
+                          className={`font-serif tabular-nums ${countSize} ${
+                            panel.status === "overdue" ? "text-urgent" : "text-attention"
+                          }`}
+                          aria-hidden
+                        >
+                          {panel.count}
+                        </p>
+                      ) : (
+                        <StatusIcon status={panel.status} large={isCenter} />
+                      )}
+
+                      <p
+                        className={`mt-3 font-serif tracking-wide ${statusSize} ${
+                          isActionsWithItems ? "text-umber" : statusTextClass[panel.status]
+                        }`}
+                      >
+                        {panel.statusText}
+                      </p>
+
+                      {panel.metaText ? (
+                        <p className="mt-2.5 text-[12px] leading-relaxed text-leather sm:mt-3">
+                          {panel.metaText}
+                        </p>
+                      ) : null}
+
+                      {panel.description && panel.module !== "assistant" ? (
+                        <p className="mt-3 text-[13px] leading-relaxed text-leather">
                           {panel.description}
                         </p>
                       ) : null}
                       {panel.footer ? (
-                        <p className="mt-4 text-[13px] text-gold sm:mt-5">
-                          {panel.footer}
-                        </p>
+                        <p className="mt-3 text-[13px] text-gold">{panel.footer}</p>
                       ) : null}
-                    </>
+                    </div>
                   )}
                 </div>
               );
@@ -225,7 +286,7 @@ export default function OverviewHeroCarousel({
               const panelHref =
                 isEmpty && panel.ctaHref ? panel.ctaHref : panel.href;
 
-              const cardClass = `absolute top-1/2 flex min-h-[180px] flex-col justify-center overflow-hidden rounded-[20px] border border-[#C4A35A] bg-[rgba(240,236,225,0.95)] p-6 shadow-[0_8px_28px_rgba(61,43,31,0.16),inset_0_1px_0_rgba(255,255,255,0.6)] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] sm:min-h-[210px] sm:p-9 ${slotClass} ${
+              const cardClass = `absolute top-1/2 flex min-h-[200px] flex-col overflow-hidden rounded-[20px] border border-[#C4A35A]/25 border-t-2 bg-[rgba(240,236,225,0.96)] p-6 shadow-[0_8px_28px_rgba(61,43,31,0.16),inset_0_1px_0_rgba(255,255,255,0.6)] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] sm:min-h-[220px] sm:p-9 ${theme.borderClass} ${slotClass} ${
                 isCenter ? "z-20" : visible ? "z-10" : "z-0"
               } ${visible ? "" : "pointer-events-none invisible"}`;
 
@@ -268,7 +329,6 @@ export default function OverviewHeroCarousel({
         </button>
       </div>
 
-      {/* Mobile (and always available) page dots */}
       <div
         className="relative z-20 flex items-center justify-center gap-2 pb-1 pt-3 md:hidden"
         role="tablist"
