@@ -14,15 +14,16 @@ export default function DashboardEmptyState() {
     <div className="dashboard-parchment-bg w-full min-w-0 overflow-x-hidden">
       <section
         className="relative h-[200px] w-full overflow-hidden sm:h-[280px] lg:h-[320px]"
-        style={{ backgroundColor: siteImages.anthonyFomin.placeholderColor }}
+        style={{ backgroundColor: siteImages.eranjanCottage.placeholderColor }}
       >
         <OptimizedFillImage
-          image={siteImages.anthonyFomin}
+          image={siteImages.eranjanCottage}
           alt=""
           sizes="100vw"
           priority
           quality={IMAGE_QUALITY}
-          className="object-cover object-center"
+          className="object-cover"
+          style={{ objectPosition: "center 30%" }}
         />
         <div className="absolute inset-0 bg-[#1A0A0C]/45" aria-hidden="true" />
 

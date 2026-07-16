@@ -14,21 +14,22 @@ export default function TenancyEmptyState() {
     <div className="tenancy-slate-bg min-h-[calc(100vh-4rem)] w-full min-w-0 overflow-x-hidden">
       <section
         className="relative h-[200px] w-full overflow-hidden sm:h-[280px] lg:h-[320px]"
-        style={{ backgroundColor: siteImages.jonnyGiosManor.placeholderColor }}
+        style={{ backgroundColor: siteImages.annieSprattTopiary.placeholderColor }}
       >
         <OptimizedFillImage
-          image={siteImages.jonnyGiosManor}
-          alt="Georgian manor house viewed through autumn leaves"
+          image={siteImages.annieSprattTopiary}
+          alt=""
           sizes="100vw"
           priority
           quality={IMAGE_QUALITY}
-          className="object-cover object-center"
+          className="object-cover"
+          style={{ objectPosition: "center 40%" }}
         />
         <div className="absolute inset-0 bg-navy/50" aria-hidden="true" />
 
         <div className="absolute inset-x-4 bottom-4 z-10 max-w-md bg-navy px-6 py-5 sm:inset-x-auto sm:bottom-10 sm:left-10 sm:max-w-sm sm:px-8 sm:py-6">
           <div className="h-px w-10 bg-gold" aria-hidden="true" />
-          <p className="mt-4 caps-label text-gold">Your Tenancy Portfolio</p>
+          <p className="mt-4 caps-label text-gold">Your Tenancy Portfolio Awaits</p>
           <h1 className="mt-4 font-serif text-[1.125rem] font-normal leading-snug tracking-wide text-dusty-cream sm:text-xl">
             Add your first tenancy to begin tracking.
           </h1>
