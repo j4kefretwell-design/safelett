@@ -11,6 +11,7 @@ import {
   getDateCardStatus,
   getDaysUntilDate,
   getTenancyStatus,
+  hasMissingTenancyOptionalDetails,
   isDepositProtectionOverdue,
   TENANCY_STATUS_LABELS,
   TENANCY_TYPE_LABELS,
@@ -88,6 +89,7 @@ export default async function TenancyDetailPage({ params }: TenancyDetailPagePro
   const record = tenancy as Tenancy;
   const status = getTenancyStatus(record);
   const depositOverdue = isDepositProtectionOverdue(record);
+  const showMissingDetailsBanner = hasMissingTenancyOptionalDetails(record);
 
   const [agreementUrl, depositCertUrl, rightToRentUrl] = await Promise.all([
     record.agreement_path
@@ -126,6 +128,24 @@ export default async function TenancyDetailPage({ params }: TenancyDetailPagePro
           </p>
         </AnimateIn>
       </section>
+
+      {showMissingDetailsBanner ? (
+        <section className="mx-auto max-w-6xl px-5 pt-8 sm:px-12 lg:px-16">
+          <AnimateIn delay={50}>
+            <div className="flex flex-wrap items-center justify-between gap-4 bg-navy px-5 py-4 sm:px-6">
+              <p className="text-sm leading-relaxed text-dusty-cream/90">
+                Some details are missing. Add deposit and right to rent information.
+              </p>
+              <Link
+                href={`/tenancy/${record.id}/edit`}
+                className="shrink-0 text-sm text-gold transition hover:opacity-80"
+              >
+                Add missing details →
+              </Link>
+            </div>
+          </AnimateIn>
+        </section>
+      ) : null}
 
       <div className="mx-auto grid max-w-6xl gap-8 px-5 py-10 sm:px-12 lg:grid-cols-2 lg:px-16 lg:py-14">
         <AnimateIn delay={100}>

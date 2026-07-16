@@ -78,6 +78,21 @@
   animation: assistant-composer-in 0.2s ease forwards;
 }
 
+@keyframes tenancy-wizard-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.tenancy-wizard-step {
+  animation: tenancy-wizard-slide-in 0.35s ease forwards;
+}
+
 @keyframes skeleton-shimmer {
   0% {
     background-position: 100% 0;

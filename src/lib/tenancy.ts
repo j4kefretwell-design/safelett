@@ -56,6 +56,17 @@ export const TENANCY_TYPES: TenancyType[] = [
   "hmo_room",
 ];
 
+/** Simplified options for the add-tenancy wizard */
+export const ADD_TENANCY_TYPE_OPTIONS: {
+  value: TenancyType;
+  label: string;
+}[] = [
+  { value: "assured_shorthold", label: "AST" },
+  { value: "periodic", label: "Periodic" },
+  { value: "student_let", label: "Student" },
+  { value: "hmo_room", label: "HMO Room" },
+];
+
 export const DEPOSIT_SCHEME_LABELS: Record<DepositScheme, string> = {
   dps: "DPS",
   mydeposits: "MyDeposits",
@@ -177,4 +188,26 @@ export function getDateCardStatus(
   if (daysRemaining < 0) return "red";
   if (daysRemaining <= 30) return "amber";
   return "green";
+}
+
+/** True when deposit or right-to-rent optional details were never added */
+export function hasMissingTenancyOptionalDetails(
+  tenancy: Pick<
+    Tenancy,
+    | "deposit_amount"
+    | "deposit_reference"
+    | "deposit_protection_date"
+    | "right_to_rent_checked"
+    | "right_to_rent_expiry"
+  >
+): boolean {
+  const missingDeposit =
+    tenancy.deposit_amount == null &&
+    !tenancy.deposit_reference?.trim() &&
+    !tenancy.deposit_protection_date;
+
+  const missingRightToRent =
+    !tenancy.right_to_rent_checked && !tenancy.right_to_rent_expiry;
+
+  return missingDeposit || missingRightToRent;
 }
