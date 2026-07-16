@@ -1,11 +1,13 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import TenancyCard from "@/components/tenancy/TenancyCard";
 import {
   getTenancyStatus,
   isDepositProtectionOverdue,
   type Tenancy,
+  type TenancyStatus,
 } from "@/lib/tenancy";
 import { searchInputClassName } from "@/lib/ui";
 
@@ -13,19 +15,46 @@ interface TenancyPortfolioProps {
   tenancies: Tenancy[];
 }
 
+type StatusFilter = "all" | "active" | "renewal_due" | "expired" | "urgent";
+
+function parseFilterParam(value: string | null): StatusFilter {
+  if (
+    value === "active" ||
+    value === "renewal_due" ||
+    value === "expired" ||
+    value === "urgent"
+  ) {
+    return value;
+  }
+  return "all";
+}
+
+function matchesStatusFilter(
+  status: TenancyStatus,
+  filter: StatusFilter
+): boolean {
+  if (filter === "all") return true;
+  if (filter === "urgent") return status === "renewal_due" || status === "expired";
+  return status === filter;
+}
+
 export default function TenancyPortfolio({ tenancies }: TenancyPortfolioProps) {
+  const searchParams = useSearchParams();
   const [search, setSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState<
-    "all" | "active" | "renewal_due" | "expired"
-  >("all");
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>(() =>
+    parseFilterParam(searchParams.get("filter"))
+  );
+
+  useEffect(() => {
+    setStatusFilter(parseFilterParam(searchParams.get("filter")));
+  }, [searchParams]);
 
   const filtered = useMemo(() => {
     const query = search.trim().toLowerCase();
 
     return tenancies.filter((tenancy) => {
       const status = getTenancyStatus(tenancy);
-      const matchesStatus =
-        statusFilter === "all" || status === statusFilter;
+      const matchesStatus = matchesStatusFilter(status, statusFilter);
       const matchesSearch =
         !query ||
         tenancy.tenant_names.toLowerCase().includes(query) ||
@@ -54,22 +83,34 @@ export default function TenancyPortfolio({ tenancies }: TenancyPortfolioProps) {
               ["renewal_due", "Renewal Due"],
               ["expired", "Expired"],
             ] as const
-          ).map(([value, label]) => (
-            <button
-              key={value}
-              type="button"
-              onClick={() => setStatusFilter(value)}
-              className={`min-h-10 border px-4 py-2 text-[11px] font-normal uppercase tracking-[0.1em] transition ${
-                statusFilter === value
-                  ? "border-navy bg-navy text-dusty-cream"
-                  : "border-steel/30 bg-white text-steel hover:border-navy"
-              }`}
-            >
-              {label}
-            </button>
-          ))}
+          ).map(([value, label]) => {
+            const isActive =
+              statusFilter === value ||
+              (statusFilter === "urgent" &&
+                (value === "renewal_due" || value === "expired"));
+            return (
+              <button
+                key={value}
+                type="button"
+                onClick={() => setStatusFilter(value)}
+                className={`min-h-10 border px-4 py-2 text-[11px] font-normal uppercase tracking-[0.1em] transition ${
+                  isActive
+                    ? "border-navy bg-navy text-dusty-cream"
+                    : "border-steel/30 bg-white text-steel hover:border-navy"
+                }`}
+              >
+                {label}
+              </button>
+            );
+          })}
         </div>
       </div>
+
+      {statusFilter === "urgent" ? (
+        <p className="mb-6 text-sm font-light text-steel">
+          Showing tenancies with renewals due or expired.
+        </p>
+      ) : null}
 
       {filtered.length === 0 ? (
         <p className="py-12 text-center text-sm font-light text-steel">

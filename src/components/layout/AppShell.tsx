@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { ToastProvider } from "@/components/toast/ToastProvider";
 import { AppModeProvider, useAppMode } from "@/lib/app-mode";
 import AppSidebar from "./AppSidebar";
@@ -19,23 +19,14 @@ function AppShellInner({
   showTrialBanner = false,
 }: AppShellProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [bannerVisible, setBannerVisible] = useState(showTrialBanner);
   const closeSidebar = useCallback(() => setSidebarOpen(false), []);
-  const dismissBanner = useCallback(() => setBannerVisible(false), []);
   const { mode } = useAppMode();
   const isAssistant = mode === "assistant";
   const isOverview = mode === "overview";
   const hideMenu = isAssistant || isOverview;
 
-  useEffect(() => {
-    setBannerVisible(showTrialBanner);
-  }, [showTrialBanner]);
-
   const showBanner =
-    bannerVisible &&
-    showTrialBanner &&
-    trialDaysRemaining != null &&
-    trialDaysRemaining > 0;
+    showTrialBanner && trialDaysRemaining != null && trialDaysRemaining > 0;
 
   const pageBg = isOverview
     ? "bg-greige"
@@ -50,17 +41,15 @@ function AppShellInner({
       className={`app-mode-fade min-h-screen overflow-x-hidden transition-[background-color,opacity] duration-200 ease-out ${pageBg}`}
       style={
         {
-          "--app-top-offset": showBanner ? "6.75rem" : "4rem",
+          /* 36px trial banner + 64px nav */
+          "--app-top-offset": showBanner ? "6.25rem" : "4rem",
         } as React.CSSProperties
       }
     >
       {/* Fixed top chrome — overlays page content; no layout gap below */}
       <div className="fixed inset-x-0 top-0 z-50">
-        {showBanner ? (
-          <TrialBanner
-            daysRemaining={trialDaysRemaining}
-            onDismiss={dismissBanner}
-          />
+        {showBanner && trialDaysRemaining != null ? (
+          <TrialBanner daysRemaining={trialDaysRemaining} />
         ) : null}
         <TopNav
           sidebarOpen={sidebarOpen}

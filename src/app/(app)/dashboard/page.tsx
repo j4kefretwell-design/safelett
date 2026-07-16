@@ -73,25 +73,19 @@ function buildModulePanel({
   }
 
   const hasOverdue = moduleActions.some((item) => item.daysRemaining < 0);
-  if (hasOverdue) {
-    return {
-      id,
-      href,
-      label,
-      module,
-      status: "overdue",
-      statusText: attentionText,
-      count: moduleActions.length,
-      metaText,
-    };
-  }
+  const filterHref =
+    module === "compliance"
+      ? hasOverdue
+        ? `${href}?filter=overdue`
+        : `${href}?filter=attention`
+      : `${href}?filter=urgent`;
 
   return {
     id,
-    href,
+    href: filterHref,
     label,
     module,
-    status: "attention",
+    status: hasOverdue ? "overdue" : "attention",
     statusText: attentionText,
     count: moduleActions.length,
     metaText,
@@ -126,10 +120,45 @@ function buildActionsPanel(
     };
   }
 
+  const complianceActions = actions.filter((item) => item.module === "compliance");
+  const tenancyActions = actions.filter((item) => item.module === "tenancy");
   const hasOverdue = actions.some((item) => item.daysRemaining < 0);
+
+  const complianceHref = complianceActions.some((item) => item.daysRemaining < 0)
+    ? "/compliance?filter=overdue"
+    : "/compliance?filter=attention";
+  const tenancyHref = "/tenancy/dashboard?filter=urgent";
+
+  if (complianceActions.length > 0 && tenancyActions.length > 0) {
+    return {
+      id: "actions",
+      href: "#todays-actions",
+      label: "Actions",
+      module: "actions",
+      status: hasOverdue ? "overdue" : "attention",
+      statusText: "Items Need Attention",
+      count: urgentCount,
+      actionChoices: [
+        {
+          label: `Compliance (${complianceActions.length}) →`,
+          href: complianceHref,
+        },
+        {
+          label: `Tenancy (${tenancyActions.length}) →`,
+          href: tenancyHref,
+        },
+      ],
+    };
+  }
+
   return {
     id: "actions",
-    href: "#todays-actions",
+    href:
+      complianceActions.length > 0
+        ? complianceHref
+        : tenancyActions.length > 0
+          ? tenancyHref
+          : "#todays-actions",
     label: "Actions",
     module: "actions",
     status: hasOverdue ? "overdue" : "attention",

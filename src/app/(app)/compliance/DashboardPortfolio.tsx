@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import PropertyCard from "@/components/PropertyCard";
 import { ScrollRevealGroup } from "@/components/ScrollReveal";
 import {
@@ -21,9 +22,9 @@ interface DashboardPortfolioProps {
   properties: PropertyWithStatus[];
 }
 
-type StatusFilter = "all" | "overdue" | "expiring" | "compliant";
+type StatusFilter = "all" | "overdue" | "expiring" | "attention" | "compliant";
 
-const STATUS_FILTERS: { key: StatusFilter; label: string }[] = [
+const STATUS_FILTERS: { key: Exclude<StatusFilter, "attention">; label: string }[] = [
   { key: "all", label: "All Properties" },
   { key: "overdue", label: "Overdue" },
   { key: "expiring", label: "Expiring Soon" },
@@ -37,13 +38,33 @@ function matchesStatusFilter(
   if (filter === "all") return true;
   if (filter === "overdue") return status === "red";
   if (filter === "expiring") return status === "amber";
+  if (filter === "attention") return status === "red" || status === "amber";
   return status === "green";
 }
 
+function parseFilterParam(value: string | null): StatusFilter {
+  if (
+    value === "overdue" ||
+    value === "expiring" ||
+    value === "attention" ||
+    value === "compliant"
+  ) {
+    return value;
+  }
+  return "all";
+}
+
 export default function DashboardPortfolio({ properties }: DashboardPortfolioProps) {
+  const searchParams = useSearchParams();
   const [search, setSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>(() =>
+    parseFilterParam(searchParams.get("filter"))
+  );
   const [highlightAffected, setHighlightAffected] = useState(false);
+
+  useEffect(() => {
+    setStatusFilter(parseFilterParam(searchParams.get("filter")));
+  }, [searchParams]);
 
   useEffect(() => {
     let timeoutId: number | undefined;
@@ -101,13 +122,16 @@ export default function DashboardPortfolio({ properties }: DashboardPortfolioPro
           aria-label="Filter properties by status"
         >
           {STATUS_FILTERS.map((filter) => {
-            const isActive = statusFilter === filter.key;
+            const isActive =
+              statusFilter === filter.key ||
+              (statusFilter === "attention" &&
+                (filter.key === "overdue" || filter.key === "expiring"));
             return (
               <button
                 key={filter.key}
                 type="button"
                 onClick={() => setStatusFilter(filter.key)}
-                aria-pressed={isActive}
+                aria-pressed={statusFilter === filter.key}
                 className={`min-h-11 px-1 pb-1 ${capsLabelClassName} transition ${
                   isActive
                     ? "border-b border-gold text-leather"
@@ -120,6 +144,12 @@ export default function DashboardPortfolio({ properties }: DashboardPortfolioPro
           })}
         </div>
       </div>
+
+      {statusFilter === "attention" ? (
+        <p className="mt-4 text-sm font-light text-leather">
+          Showing properties that need attention.
+        </p>
+      ) : null}
 
       <div id="property-grid" className="mt-10 scroll-mt-24 sm:mt-12">
         {filteredProperties.length === 0 ? (

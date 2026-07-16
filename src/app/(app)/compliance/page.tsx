@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import DashboardCottageImage from "@/components/dashboard/DashboardCottageImage";
 import DashboardEmptyState from "@/components/DashboardEmptyState";
 import DashboardPortfolioActions from "@/components/DashboardPortfolioActions";
@@ -139,11 +140,13 @@ export default async function ComplianceDashboardPage() {
         <div className="mb-8 flex justify-end">
           <DashboardPortfolioActions />
         </div>
-        <DashboardPortfolio
-          properties={
-            propertiesWithStatus as (Property & { status: ComplianceStatus })[]
-          }
-        />
+        <Suspense fallback={null}>
+          <DashboardPortfolio
+            properties={
+              propertiesWithStatus as (Property & { status: ComplianceStatus })[]
+            }
+          />
+        </Suspense>
       </section>
     </div>
   );

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import OptimizedFillImage from "@/components/OptimizedFillImage";
 import RoutePrefetcher from "@/components/RoutePrefetcher";
 import TenancyEmptyState from "@/components/tenancy/TenancyEmptyState";
@@ -144,7 +145,9 @@ export default async function TenancyDashboardPage() {
       </section>
 
       <section className={`${editorialPagePaddingClassName} pb-16 pt-10 sm:pb-24 lg:pb-28`}>
-        <TenancyPortfolio tenancies={tenancyList} />
+        <Suspense fallback={null}>
+          <TenancyPortfolio tenancies={tenancyList} />
+        </Suspense>
       </section>
     </div>
   );
