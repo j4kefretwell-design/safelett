@@ -72,8 +72,8 @@ export const siteImages = {
     "annieSprattManor"
   ),
   sajeerMoCastle: asset(
-    "/1784064261839_sajeer-mo-w3IfODdl6T8-unsplash.jpg",
-    "#2C3A42",
+    "/favicon_io-4/pexels-sp7photography-18450390.jpg",
+    "#B08E63",
     "sajeerMoCastle"
   ),
   annieSprattTopiary: asset(
@@ -87,8 +87,8 @@ export const siteImages = {
     "hugoKruip"
   ),
   lukeGalloway: asset(
-    "/luke-galloway-zv3D-Vq_SU0-unsplash.jpg",
-    "#3D2B1F",
+    "/favicon_io-4/pexels-sp7photography-17217874.jpg",
+    "#6A7C93",
     "lukeGalloway"
   ),
   rummanAmin: asset(
