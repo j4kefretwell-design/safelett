@@ -124,10 +124,10 @@ export function SettingsSkeleton() {
 
 export function AssistantSkeleton() {
   return (
-    <div className="flex h-[calc(100vh-4rem)] w-full overflow-hidden bg-study">
-      <aside className="hidden w-[200px] shrink-0 bg-study sm:block" />
-      <div className="relative flex flex-1 items-center justify-center bg-study/80 p-6">
-        <div className="skeleton-shimmer h-[88%] w-[92%] rounded-[16px]" />
+    <div className="relative flex h-[100dvh] min-h-screen w-full overflow-hidden bg-study">
+      <div className="absolute inset-0 bg-study/50" />
+      <div className="relative z-[1] flex flex-1 items-center justify-center p-6">
+        <div className="skeleton-shimmer h-[420px] w-[92%] max-w-[580px] rounded-[20px]" />
       </div>
     </div>
   );

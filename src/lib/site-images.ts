@@ -91,6 +91,11 @@ export const siteImages = {
     "#A67C4A",
     "lukeGalloway"
   ),
+  lukeGallowayEstate: asset(
+    "/luke-galloway-zv3D-Vq_SU0-unsplash.jpg",
+    STUDY_IMAGE_PLACEHOLDER,
+    "lukeGalloway"
+  ),
   rummanAmin: asset(
     "/rumman-amin-CU0dmWuIz0c-unsplash.jpg",
     STUDY_IMAGE_PLACEHOLDER,

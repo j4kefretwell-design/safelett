@@ -238,7 +238,7 @@ function Monogram({ size = 50 }: { size?: number }) {
   const textSize = size <= 40 ? "text-xs" : "text-sm";
   return (
     <div
-      className="flex shrink-0 items-center justify-center border border-moss"
+      className="flex shrink-0 items-center justify-center border border-study"
       style={{ width: size, height: size }}
     >
       <span className={`font-serif tracking-tight text-study ${textSize}`}>
@@ -318,6 +318,7 @@ export default function AssistantChat({
   const [toast, setToast] = useState<string | null>(null);
   const [composerMode, setComposerMode] = useState<ComposerMode | null>(null);
   const [composerInput, setComposerInput] = useState("");
+  const [welcomeInput, setWelcomeInput] = useState("");
   const [deleteChatId, setDeleteChatId] = useState<string | null>(null);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [keyboardInset, setKeyboardInset] = useState(0);
@@ -420,7 +421,18 @@ export default function AssistantChat({
     reset();
     setComposerMode(null);
     setComposerInput("");
+    setWelcomeInput("");
     setView({ screen: "menu" });
+  }
+
+  function submitWelcome() {
+    const trimmed = welcomeInput.trim();
+    if (!trimmed || loading) return;
+    setWelcomeInput("");
+    const id = uid();
+    reset("ask");
+    setView({ screen: "ask", sessionId: id });
+    void ask(trimmed, "ask", undefined, []);
   }
 
   function openComposer(mode: ComposerMode) {
@@ -1043,13 +1055,21 @@ export default function AssistantChat({
     "border border-olive/40 px-3 py-1.5 text-[11px] tracking-wide text-cocoa transition hover:border-study hover:text-study disabled:opacity-40";
   const navItem =
     "flex min-h-11 w-full items-center py-3 text-left text-[12px] tracking-[0.14em] text-dusty-cream/80 transition hover:text-dusty-cream";
+  const navItemWelcome =
+    "flex min-h-11 w-full items-center py-3 text-left text-[12px] tracking-[0.14em] text-dusty-cream/85 transition hover:text-dusty-cream";
   const pickRow =
     "flex w-full items-center justify-between gap-4 border-t border-olive/25 py-5 text-left transition hover:text-study";
 
-  function renderAssistantNav(onNavigate?: () => void) {
+  function renderAssistantNav(
+    onNavigate?: () => void,
+    variant: "default" | "welcome" = "default"
+  ) {
+    const isWelcome = variant === "welcome";
+    const itemClass = isWelcome ? navItemWelcome : navItem;
+
     return (
       <>
-        <div className="px-5 pt-8">
+        <div className={`px-4 pt-8 ${isWelcome ? "sm:px-5" : "px-5"}`}>
           <button
             type="button"
             onClick={() => {
@@ -1058,23 +1078,31 @@ export default function AssistantChat({
             }}
             aria-label="New chat"
           >
-            <div className="flex h-10 w-10 items-center justify-center border border-moss">
-              <span className="font-serif text-xs tracking-tight text-dusty-cream">
-                F<span className="mx-px text-moss">&amp;</span>Co
+            <div
+              className={`flex h-10 w-10 items-center justify-center border ${
+                isWelcome ? "border-dusty-cream/50" : "border-moss"
+              }`}
+            >
+              <span
+                className={`font-serif text-xs tracking-tight ${
+                  isWelcome ? "text-dusty-cream" : "text-dusty-cream"
+                }`}
+              >
+                F<span className={`mx-px ${isWelcome ? "text-moss" : "text-moss"}`}>&amp;</span>Co
               </span>
             </div>
           </button>
-          <div className="mt-5 h-px bg-moss/60" />
+          {!isWelcome ? <div className="mt-5 h-px bg-moss/60" /> : null}
         </div>
 
-        <nav className="mt-10 flex flex-col gap-2 px-5">
+        <nav className={`mt-8 flex flex-col gap-1 px-4 sm:mt-10 sm:px-5`}>
           <button
             type="button"
             onClick={() => {
               goToMenu();
               onNavigate?.();
             }}
-            className={navItem}
+            className={itemClass}
           >
             New Chat
           </button>
@@ -1085,7 +1113,7 @@ export default function AssistantChat({
               setView({ screen: "saved" });
               onNavigate?.();
             }}
-            className={navItem}
+            className={itemClass}
           >
             Saved Chats
           </button>
@@ -1095,7 +1123,7 @@ export default function AssistantChat({
               open("compliance");
               onNavigate?.();
             }}
-            className={navItem}
+            className={itemClass}
           >
             Compliance Check
           </button>
@@ -1106,15 +1134,19 @@ export default function AssistantChat({
               setView({ screen: "drafts" });
               onNavigate?.();
             }}
-            className={navItem}
+            className={itemClass}
           >
             Drafts
           </button>
         </nav>
 
-        <p className="mt-auto line-clamp-3 px-5 pb-6 text-[10px] leading-relaxed text-dusty-cream/30">
-          {ASSISTANT_DISCLAIMER}
-        </p>
+        {!isWelcome ? (
+          <p className="mt-auto line-clamp-3 px-5 pb-6 text-[10px] leading-relaxed text-dusty-cream/30">
+            {ASSISTANT_DISCLAIMER}
+          </p>
+        ) : (
+          <div className="mt-auto" />
+        )}
       </>
     );
   }
@@ -1127,8 +1159,14 @@ export default function AssistantChat({
         ? properties.slice(0, 4).map((item) => item.address)
         : (composerConfig?.chips ?? []);
 
+  const isMenu = view.screen === "menu";
+
   return (
-    <div className="flex h-[100dvh] min-h-screen w-full overflow-hidden bg-study">
+    <div
+      className={`relative flex h-[100dvh] min-h-screen w-full overflow-hidden ${
+        isMenu ? "bg-transparent" : "bg-study"
+      }`}
+    >
       <ConfirmDialog
         open={deleteChatId != null}
         title="Delete chat?"
@@ -1142,10 +1180,52 @@ export default function AssistantChat({
         onCancel={() => setDeleteChatId(null)}
       />
 
+      {isMenu ? (
+        <>
+          <div
+            className="absolute inset-0 overflow-hidden"
+            style={{
+              backgroundColor: siteImages.lukeGallowayEstate.placeholderColor,
+            }}
+            aria-hidden
+          >
+            <Image
+              src={siteImages.lukeGallowayEstate.src}
+              alt=""
+              fill
+              priority
+              quality={IMAGE_QUALITY}
+              sizes="100vw"
+              {...(siteImages.lukeGallowayEstate.blurDataURL?.startsWith(
+                "data:image/"
+              )
+                ? {
+                    placeholder: "blur" as const,
+                    blurDataURL: siteImages.lukeGallowayEstate.blurDataURL,
+                  }
+                : { placeholder: "empty" as const })}
+              className="object-cover"
+              style={{ objectPosition: "center 30%" }}
+            />
+          </div>
+          <div
+            className="absolute inset-0"
+            style={{ backgroundColor: "rgba(28, 43, 35, 0.35)" }}
+            aria-hidden
+          />
+        </>
+      ) : null}
+
       {/* Desktop left panel */}
-      <aside className="hidden h-full w-[200px] shrink-0 flex-col bg-study md:flex">
-        {renderAssistantNav()}
-      </aside>
+      {isMenu ? (
+        <aside className="absolute inset-y-0 left-0 z-20 hidden w-[9.5rem] flex-col bg-transparent md:flex lg:w-[10.5rem]">
+          {renderAssistantNav(undefined, "welcome")}
+        </aside>
+      ) : (
+        <aside className="hidden h-full w-[200px] shrink-0 flex-col bg-study md:flex">
+          {renderAssistantNav()}
+        </aside>
+      )}
 
       {/* Mobile left panel drawer */}
       <button
@@ -1157,17 +1237,20 @@ export default function AssistantChat({
         onClick={() => setMobileNavOpen(false)}
       />
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-[min(100vw,17rem)] flex-col bg-study transition-transform duration-300 ease-out md:hidden ${
-          mobileNavOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
+        className={`fixed inset-y-0 left-0 z-50 flex w-[min(100vw,17rem)] flex-col transition-transform duration-300 ease-out md:hidden ${
+          isMenu ? "bg-[#1C2B23]/92 backdrop-blur-sm" : "bg-study"
+        } ${mobileNavOpen ? "translate-x-0" : "-translate-x-full"}`}
         aria-hidden={!mobileNavOpen}
       >
-        {renderAssistantNav(() => setMobileNavOpen(false))}
+        {renderAssistantNav(
+          () => setMobileNavOpen(false),
+          isMenu ? "welcome" : "default"
+        )}
       </aside>
 
       <section
         className={`relative flex min-h-0 min-w-0 flex-1 flex-col ${
-          view.screen === "menu" ? "overflow-hidden" : "bg-parchment-line"
+          isMenu ? "overflow-hidden bg-transparent" : "bg-parchment-line"
         }`}
       >
         {/* Mobile: open left panel */}
@@ -1175,7 +1258,11 @@ export default function AssistantChat({
           type="button"
           aria-label="Open assistant menu"
           onClick={() => setMobileNavOpen(true)}
-          className="absolute left-3 top-3 z-20 flex h-11 w-11 items-center justify-center border border-moss/50 bg-study/80 text-dusty-cream backdrop-blur-sm transition hover:bg-study md:hidden"
+          className={`absolute left-3 top-3 z-20 flex h-11 w-11 items-center justify-center transition md:hidden ${
+            isMenu
+              ? "border border-dusty-cream/40 text-dusty-cream"
+              : "border border-moss/50 bg-study/80 text-dusty-cream backdrop-blur-sm hover:bg-study"
+          }`}
         >
           <svg
             viewBox="0 0 24 24"
@@ -1188,37 +1275,13 @@ export default function AssistantChat({
             <path d="M4 7h16M4 12h16M4 17h16" strokeLinecap="round" />
           </svg>
         </button>
-        {view.screen === "menu" && (
-          <>
-            <div
-              className="absolute inset-0 overflow-hidden"
-              style={{
-                backgroundColor: siteImages.georgeCiobra.placeholderColor,
-              }}
-              aria-hidden
-            >
-              <Image
-                src={siteImages.georgeCiobra.src}
-                alt=""
-                fill
-                priority
-                quality={IMAGE_QUALITY}
-                sizes="100vw"
-                {...(siteImages.georgeCiobra.blurDataURL?.startsWith("data:image/")
-                  ? {
-                      placeholder: "blur" as const,
-                      blurDataURL: siteImages.georgeCiobra.blurDataURL,
-                    }
-                  : { placeholder: "empty" as const })}
-                className="object-cover object-center"
-              />
-            </div>
-            <div className="absolute inset-0 bg-study/40" aria-hidden />
-          </>
-        )}
 
         {toast && (
-          <div className="absolute right-8 top-5 z-10 text-[11px] uppercase tracking-[0.16em] text-moss">
+          <div
+            className={`absolute right-8 top-5 z-10 text-[11px] uppercase tracking-[0.16em] ${
+              isMenu ? "text-dusty-cream/80" : "text-moss"
+            }`}
+          >
             {toast}
           </div>
         )}
@@ -1313,46 +1376,87 @@ export default function AssistantChat({
           </div>
         )}
 
-        {view.screen === "menu" && (
-          <div className="relative z-[1] flex flex-1 items-center justify-center p-4 sm:p-6 lg:p-12">
-            <div className="mx-auto flex h-[88%] max-h-[88%] w-[92%] flex-col items-center justify-center overflow-y-auto rounded-[16px] bg-parchment-line px-8 py-10 shadow-[0_24px_64px_rgba(28,43,35,0.28)] sm:px-14 sm:py-12">
-              <Monogram size={50} />
-              <p className="mt-8 text-[11px] italic text-moss">{greeting()}</p>
-              <h1 className="mt-3 font-serif text-2xl tracking-wide text-study sm:text-[1.75rem]">
-                Property Management Assistant
-              </h1>
-              <p className="mt-4 max-w-xl text-center text-[13px] font-light leading-relaxed text-cocoa">
-                Your complete property management assistant. Ask questions,
-                draft correspondence, review compliance and manage your
-                portfolio.
+        {isMenu && (
+          <div className="relative z-[1] flex flex-1 items-center justify-center px-4 py-6 sm:px-6">
+            <div className="flex w-[92%] max-w-[580px] flex-col rounded-[20px] bg-[#F0ECE1] px-6 py-8 shadow-[0_8px_40px_rgba(0,0,0,0.25)] sm:px-10 sm:py-10">
+              <div className="flex justify-center">
+                <Monogram size={40} />
+              </div>
+              <p className="mt-5 text-center text-[11px] italic text-moss">
+                {greeting()}
               </p>
+              <h1 className="mt-2 text-center font-serif text-xl tracking-wide text-study sm:text-[1.5rem]">
+                How can I help you today?
+              </h1>
+              <div
+                className="mx-auto mt-5 h-px w-16 bg-[#A89F7C]"
+                aria-hidden
+              />
 
-              <div className="mt-10 w-full max-w-2xl space-y-3">
+              <div className="mt-7 w-full space-y-2.5">
                 {MODE_BOXES.map((box) => (
                   <button
                     key={box.label}
                     type="button"
                     onClick={() => openComposer(box.kind)}
-                    className="group flex min-h-[56px] w-full cursor-text items-center gap-4 rounded-xl border border-olive/80 bg-parchment-line px-5 py-3.5 text-left shadow-[inset_0_1px_0_rgba(255,255,255,0.35)] transition hover:border-moss/70 focus-visible:border-moss focus-visible:outline-none focus-visible:shadow-[0_0_0_1px_var(--color-moss),0_0_0_4px_rgba(168,159,124,0.35)]"
+                    className="group flex min-h-[52px] w-full items-center gap-3 rounded-full border border-olive bg-[#F0ECE1] px-4 py-3 text-left transition hover:border-study/50 hover:bg-[#F8F4EE] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-moss/40 sm:gap-4 sm:px-5"
                   >
                     <span className="shrink-0 text-[10px] font-normal uppercase tracking-[0.2em] text-study">
                       {box.label}
                     </span>
-                    <span className="min-w-0 flex-1 truncate text-[13px] text-cocoa/45 transition group-hover:text-cocoa/55">
-                      {box.placeholder}
+                    <span className="min-w-0 flex-1 text-[12px] leading-snug text-cocoa sm:text-[13px]">
+                      {box.description}
                     </span>
-                    <span className="sr-only">{box.description}</span>
+                    <span
+                      className="shrink-0 text-sm font-light text-study/50 transition group-hover:text-study"
+                      aria-hidden
+                    >
+                      →
+                    </span>
                   </button>
                 ))}
               </div>
 
-              <button
-                type="button"
-                onClick={() => open("compliance")}
-                className="mt-10 text-[12px] text-moss transition hover:text-study"
+              <form
+                className="relative mt-7 w-full"
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  submitWelcome();
+                }}
               >
-                or run a Compliance Check →
-              </button>
+                <label htmlFor="assistant-welcome-input" className="sr-only">
+                  Type your question or request
+                </label>
+                <input
+                  id="assistant-welcome-input"
+                  type="text"
+                  value={welcomeInput}
+                  onChange={(event) => setWelcomeInput(event.target.value)}
+                  placeholder="Type your question or request..."
+                  className="h-12 w-full rounded-[10px] border border-olive bg-[#F8F4EE] py-3 pl-4 pr-12 text-[14px] text-study outline-none placeholder:text-[#A89F7C] focus:border-moss"
+                />
+                <button
+                  type="submit"
+                  disabled={!welcomeInput.trim() || loading}
+                  aria-label="Send"
+                  className="absolute right-2 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center text-study transition hover:text-olive disabled:opacity-30"
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    className="h-5 w-5"
+                    aria-hidden
+                  >
+                    <path
+                      d="M5 12h12M13 6l6 6-6 6"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+              </form>
             </div>
           </div>
         )}
