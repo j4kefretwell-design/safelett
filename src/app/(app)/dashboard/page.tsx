@@ -53,8 +53,7 @@ function buildModulePanel({
       label,
       module,
       status: "empty",
-      statusText: "Get Started",
-      ctaText: emptyCtaText,
+      statusText: emptyCtaText,
       ctaHref: emptyCtaHref,
     };
   }
@@ -186,7 +185,7 @@ export default async function OverviewDashboardPage() {
       actions,
       portfolioEmpty: propertyList.length === 0,
       emptyCtaHref: "/properties/new",
-      emptyCtaText: "Add your first property →",
+      emptyCtaText: "Add Property +",
       metaText: propertyList.length > 0 ? propertyCountLabel : undefined,
     }),
     buildModulePanel({
@@ -199,7 +198,7 @@ export default async function OverviewDashboardPage() {
       actions,
       portfolioEmpty: tenancyList.length === 0,
       emptyCtaHref: "/tenancy/new",
-      emptyCtaText: "Add your first tenancy →",
+      emptyCtaText: "Add Tenancy +",
       metaText: tenancyList.length > 0 ? tenancyCountLabel : undefined,
     }),
     buildActionsPanel(actions, stats.urgentCount, propertyList.length > 0),

@@ -75,7 +75,13 @@ function AppShellInner({
           showBanner ? appMainOffsetWithBannerClassName : appMainOffsetClassName
         }`}
       >
-        {children}
+        <div
+          className={`min-h-screen ${pageBg} ${
+            showBanner ? "-mt-[6.75rem] pt-[6.75rem]" : "-mt-16 pt-16"
+          }`}
+        >
+          {children}
+        </div>
       </main>
     </div>
   );
