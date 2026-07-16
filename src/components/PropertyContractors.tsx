@@ -1,8 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { FileText } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import ConfirmDialog from "@/components/ConfirmDialog";
 import { createClient } from "@/lib/supabase/client";
@@ -29,8 +28,7 @@ export default function PropertyContractors({
     useState<PropertyContractorWithDetails[]>(initialAssignments);
   const [showModal, setShowModal] = useState(false);
   const [selectedContractorId, setSelectedContractorId] = useState("");
-  const [selectedCertificateType, setSelectedCertificateType] =
-    useState<CertificateType | "">("");
+  const [selectedTypes, setSelectedTypes] = useState<CertificateType[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [unlinkContractorId, setUnlinkContractorId] = useState<string | null>(
@@ -65,28 +63,28 @@ export default function PropertyContractors({
     (contractor) => contractor.id === selectedContractorId
   );
 
-  const availableCertificateTypes = useMemo(() => {
+  const checklistTypes = useMemo(() => {
     if (!selectedContractor) return [];
     return selectedContractor.certificate_types.filter(
       (type) => !assignedTypes.has(type)
     );
   }, [assignedTypes, selectedContractor]);
 
-  const linkableContractors = useMemo(
-    () =>
-      directoryContractors.filter((contractor) =>
-        contractor.certificate_types.some((type) => !assignedTypes.has(type))
-      ),
-    [assignedTypes, directoryContractors]
-  );
+  useEffect(() => {
+    if (!showModal) return;
+    function onKey(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setShowModal(false);
+        setError(null);
+      }
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [showModal]);
 
   function openModal() {
-    const firstContractor = linkableContractors[0];
-    setSelectedContractorId(firstContractor?.id ?? "");
-    const firstType = firstContractor?.certificate_types.find(
-      (type) => !assignedTypes.has(type)
-    );
-    setSelectedCertificateType(firstType ?? "");
+    setSelectedContractorId("");
+    setSelectedTypes([]);
     setError(null);
     setShowModal(true);
   }
@@ -94,11 +92,25 @@ export default function PropertyContractors({
   function closeModal() {
     setShowModal(false);
     setError(null);
+    setSelectedContractorId("");
+    setSelectedTypes([]);
   }
 
-  async function handleLink() {
-    if (!selectedContractorId || !selectedCertificateType) {
-      setError("Select a contractor and certificate type.");
+  function toggleType(type: CertificateType) {
+    setSelectedTypes((current) =>
+      current.includes(type)
+        ? current.filter((item) => item !== type)
+        : [...current, type]
+    );
+  }
+
+  async function handleAdd() {
+    if (!selectedContractorId) {
+      setError("Select a contractor.");
+      return;
+    }
+    if (selectedTypes.length === 0) {
+      setError("Choose at least one certificate type.");
       return;
     }
 
@@ -106,16 +118,17 @@ export default function PropertyContractors({
     setError(null);
 
     const supabase = createClient();
+    const rows = selectedTypes.map((certificate_type) => ({
+      property_id: propertyId,
+      contractor_id: selectedContractorId,
+      certificate_type,
+      updated_at: new Date().toISOString(),
+    }));
+
     const { data, error: insertError } = await supabase
       .from("property_contractors")
-      .insert({
-        property_id: propertyId,
-        contractor_id: selectedContractorId,
-        certificate_type: selectedCertificateType,
-        updated_at: new Date().toISOString(),
-      })
-      .select("*, contractors(*)")
-      .single();
+      .insert(rows)
+      .select("*, contractors(*)");
 
     if (insertError) {
       setError(insertError.message);
@@ -125,7 +138,7 @@ export default function PropertyContractors({
 
     setAssignments((current) => [
       ...current,
-      data as PropertyContractorWithDetails,
+      ...((data ?? []) as PropertyContractorWithDetails[]),
     ]);
     setLoading(false);
     closeModal();
@@ -172,48 +185,17 @@ export default function PropertyContractors({
         <button
           type="button"
           onClick={openModal}
-          disabled={
-            directoryContractors.length === 0 || linkableContractors.length === 0
-          }
-          className="inline-flex min-h-10 items-center justify-center bg-navy px-5 py-2.5 text-[11px] font-normal uppercase tracking-[0.12em] text-dusty-cream transition hover:bg-navy-dark disabled:cursor-not-allowed disabled:opacity-40"
+          className="inline-flex min-h-10 items-center justify-center bg-raspberry px-5 py-2.5 text-[11px] font-normal uppercase tracking-[0.12em] text-dusty-cream transition hover:bg-raspberry-dark"
         >
           ＋ Add Contractor
         </button>
       </div>
 
-      {directoryContractors.length === 0 ? (
-        <div className="mt-8 border border-leather/15 bg-white px-6 py-10 shadow-[0_2px_8px_rgba(61,43,31,0.06)]">
-          <p className="font-serif text-lg tracking-wide text-text">
-            No contractors in your directory
-          </p>
-          <p className="mt-2 text-sm leading-relaxed text-leather">
-            Add contractors to your directory first, then link them here for email
-            drafting.
-          </p>
-          <Link
-            href="/contractors/new"
-            className="mt-6 inline-flex min-h-10 items-center justify-center bg-navy px-5 py-2.5 text-[11px] font-normal uppercase tracking-[0.12em] text-dusty-cream transition hover:bg-navy-dark"
-          >
-            ＋ Add to Directory
-          </Link>
-        </div>
-      ) : groupedAssignments.size === 0 ? (
-        <div className="mt-8 border border-leather/15 bg-white px-6 py-10 shadow-[0_2px_8px_rgba(61,43,31,0.06)]">
-          <p className="font-serif text-lg tracking-wide text-text">
-            No contractors linked
-          </p>
-          <p className="mt-2 text-sm leading-relaxed text-leather">
-            Link a contractor from your directory to draft renewal emails when
-            certificates are due.
-          </p>
-          <button
-            type="button"
-            onClick={openModal}
-            className="mt-6 inline-flex min-h-10 items-center justify-center bg-navy px-5 py-2.5 text-[11px] font-normal uppercase tracking-[0.12em] text-dusty-cream transition hover:bg-navy-dark"
-          >
-            ＋ Add Contractor
-          </button>
-        </div>
+      {groupedAssignments.size === 0 ? (
+        <p className="mt-8 text-sm leading-relaxed text-leather">
+          No contractors linked yet. Click &ldquo;＋ Add Contractor&rdquo; to get
+          started.
+        </p>
       ) : (
         <ul className="mt-8 space-y-3">
           {Array.from(groupedAssignments.entries()).map(([contractorId, types]) => {
@@ -288,8 +270,8 @@ export default function PropertyContractors({
           <div
             role="dialog"
             aria-modal="true"
-            aria-labelledby="link-contractor-title"
-            className="assistant-composer-modal relative z-[1] w-full max-w-md bg-[#F0ECE1] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.3)] sm:p-8"
+            aria-labelledby="add-contractor-title"
+            className="assistant-composer-modal relative z-[1] max-h-[92vh] w-full max-w-lg overflow-y-auto bg-[#F0ECE1] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.3)] sm:p-8"
           >
             <button
               type="button"
@@ -300,98 +282,142 @@ export default function PropertyContractors({
               ×
             </button>
 
-            <h3
-              id="link-contractor-title"
-              className="pr-8 font-serif text-2xl tracking-wide text-umber"
-            >
-              Link Contractor
-            </h3>
-            <p className="mt-2 text-sm leading-relaxed text-leather">
-              Choose a contractor and the certificate type they&apos;ll handle at
-              this property.
-            </p>
-
-            <div className="mt-6 space-y-5">
-              <div>
-                <label
-                  htmlFor="link-contractor"
-                  className="mb-2 block text-[10px] font-normal uppercase tracking-[0.22em] text-leather"
+            {directoryContractors.length === 0 ? (
+              <>
+                <h3
+                  id="add-contractor-title"
+                  className="pr-8 font-serif text-2xl tracking-wide text-umber"
                 >
-                  Contractor
-                </label>
-                <select
-                  id="link-contractor"
-                  value={selectedContractorId}
-                  onChange={(event) => {
-                    const contractorId = event.target.value;
-                    setSelectedContractorId(contractorId);
-                    const contractor = directoryContractors.find(
-                      (item) => item.id === contractorId
-                    );
-                    const nextType = contractor?.certificate_types.find(
-                      (type) => !assignedTypes.has(type)
-                    );
-                    setSelectedCertificateType(nextType ?? "");
-                  }}
-                  className="w-full border border-leather/30 bg-white px-3 py-3 text-sm text-text outline-none focus:border-gold"
+                  You haven&apos;t added any contractors yet.
+                </h3>
+                <p className="mt-4 text-sm leading-relaxed text-leather">
+                  Go to the Contractors section to add your gas engineer,
+                  electrician or other tradespeople first. Then come back here to
+                  link them to this property.
+                </p>
+                <div className="mt-8 flex flex-col gap-4">
+                  <Link
+                    href="/contractors"
+                    className="flex h-11 w-full items-center justify-center bg-navy text-sm uppercase tracking-[0.12em] text-dusty-cream transition hover:bg-navy-dark"
+                  >
+                    Go to Contractors →
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={closeModal}
+                    className="text-center text-sm font-light text-gold-readable transition hover:text-gold"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <h3
+                  id="add-contractor-title"
+                  className="pr-8 font-serif text-2xl tracking-wide text-umber"
                 >
-                  <option value="">Select a contractor</option>
-                  {linkableContractors.map((contractor) => (
-                    <option key={contractor.id} value={contractor.id}>
-                      {contractor.name} · {contractor.company_name}
-                    </option>
-                  ))}
-                </select>
-              </div>
+                  Add a Contractor to This Property
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-leather">
+                  Select a contractor and choose which certificate types they
+                  handle for this property. When a certificate is due, Fretwell
+                  &amp; Co will use their details to draft a booking email.
+                </p>
 
-              <div>
-                <label
-                  htmlFor="link-certificate-type"
-                  className="mb-2 block text-[10px] font-normal uppercase tracking-[0.22em] text-leather"
-                >
-                  Certificate type
-                </label>
-                <select
-                  id="link-certificate-type"
-                  value={selectedCertificateType}
-                  onChange={(event) =>
-                    setSelectedCertificateType(event.target.value as CertificateType)
-                  }
-                  disabled={!selectedContractorId}
-                  className="w-full border border-leather/30 bg-white px-3 py-3 text-sm text-text outline-none focus:border-gold disabled:opacity-50"
-                >
-                  <option value="">Select certificate type</option>
-                  {availableCertificateTypes.map((type) => (
-                    <option key={type} value={type}>
-                      {CERTIFICATE_LABELS[type]}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
+                <div className="mt-6 space-y-6">
+                  <div>
+                    <label
+                      htmlFor="select-contractor"
+                      className="mb-2 block text-[10px] font-normal uppercase tracking-[0.22em] text-leather"
+                    >
+                      Select Contractor
+                    </label>
+                    <select
+                      id="select-contractor"
+                      value={selectedContractorId}
+                      onChange={(event) => {
+                        setSelectedContractorId(event.target.value);
+                        setSelectedTypes([]);
+                        setError(null);
+                      }}
+                      className="w-full border border-leather/30 bg-white px-3 py-3 text-sm text-text outline-none focus:border-gold"
+                    >
+                      <option value="">Select Contractor</option>
+                      {directoryContractors.map((contractor) => (
+                        <option key={contractor.id} value={contractor.id}>
+                          {contractor.name} · {contractor.company_name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
 
-            {error ? (
-              <p className="mt-4 border border-urgent/30 bg-urgent-light px-4 py-3 text-sm text-urgent">
-                {error}
-              </p>
-            ) : null}
+                  {selectedContractorId ? (
+                    <div>
+                      <p className="mb-3 text-[10px] font-normal uppercase tracking-[0.22em] text-leather">
+                        Which certificates do they handle at this property?
+                      </p>
+                      {checklistTypes.length === 0 ? (
+                        <p className="text-sm leading-relaxed text-leather">
+                          All of this contractor&apos;s certificate types are
+                          already linked on this property.
+                        </p>
+                      ) : (
+                        <ul className="space-y-2">
+                          {checklistTypes.map((type) => {
+                            const checked = selectedTypes.includes(type);
+                            return (
+                              <li key={type}>
+                                <label className="flex min-h-11 cursor-pointer items-center gap-3 border border-leather/15 bg-white/70 px-4 py-3 transition hover:border-leather/30">
+                                  <input
+                                    type="checkbox"
+                                    checked={checked}
+                                    onChange={() => toggleType(type)}
+                                    className="h-4 w-4 accent-raspberry"
+                                  />
+                                  <span className="text-sm text-text">
+                                    {CERTIFICATE_LABELS[type]}
+                                  </span>
+                                </label>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      )}
+                    </div>
+                  ) : null}
+                </div>
 
-            <div className="mt-6 flex flex-col gap-3">
-              <button
-                type="button"
-                onClick={handleLink}
-                disabled={loading}
-                className="flex h-11 w-full items-center justify-center bg-navy text-sm uppercase tracking-[0.12em] text-dusty-cream transition hover:bg-navy-dark disabled:opacity-50"
-              >
-                {loading ? "Linking..." : "Link Contractor"}
-              </button>
-              <Link
-                href="/contractors/new"
-                className="text-center text-sm text-gold-readable transition hover:text-gold"
-              >
-                Add new to directory →
-              </Link>
-            </div>
+                {error ? (
+                  <p className="mt-4 border border-urgent/30 bg-urgent-light px-4 py-3 text-sm text-urgent">
+                    {error}
+                  </p>
+                ) : null}
+
+                <div className="mt-8 flex flex-col gap-4">
+                  <button
+                    type="button"
+                    onClick={() => void handleAdd()}
+                    disabled={
+                      loading ||
+                      !selectedContractorId ||
+                      selectedTypes.length === 0
+                    }
+                    className="flex h-11 w-full items-center justify-center bg-raspberry text-sm uppercase tracking-[0.12em] text-dusty-cream transition hover:bg-raspberry-dark disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    {loading ? "Adding..." : "Add Contractor"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={closeModal}
+                    disabled={loading}
+                    className="text-center text-sm font-light text-gold-readable transition hover:text-gold disabled:opacity-50"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       ) : null}
