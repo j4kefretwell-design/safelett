@@ -474,6 +474,9 @@ export default function LandingPage() {
             <p className="mt-10 text-xs font-light leading-relaxed tracking-wide text-dusty-cream/50">
               © {new Date().getFullYear()} Fretwell &amp; Co. All rights reserved.
             </p>
+            <p className="mt-3 text-[10px] font-light tracking-wide text-dusty-cream/60">
+              ICO Registration No. ZC199325
+            </p>
           </div>
         </ScrollReveal>
       </footer>

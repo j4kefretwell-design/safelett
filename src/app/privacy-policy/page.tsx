@@ -11,7 +11,11 @@ const LAST_UPDATED = "July 06, 2026";
 
 export default function PrivacyPolicyPage() {
   return (
-    <LegalPageShell title="Privacy Policy" lastUpdated={LAST_UPDATED}>
+    <LegalPageShell
+      title="Privacy Policy"
+      lastUpdated={LAST_UPDATED}
+      registrationLine="Data Controller Registration: ICO Registration No. ZC199325"
+    >
       <h2>1. Introduction</h2>
       <p>
         Fretwell &amp; Co (&quot;we&quot;, &quot;us&quot;, or &quot;our&quot;) operates the

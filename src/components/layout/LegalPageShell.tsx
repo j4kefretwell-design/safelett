@@ -4,12 +4,14 @@ import BrandWordmark from "@/components/BrandWordmark";
 interface LegalPageShellProps {
   title: string;
   lastUpdated: string;
+  registrationLine?: string;
   children: React.ReactNode;
 }
 
 export default function LegalPageShell({
   title,
   lastUpdated,
+  registrationLine,
   children,
 }: LegalPageShellProps) {
   return (
@@ -22,6 +24,11 @@ export default function LegalPageShell({
         <p className="mt-3 text-sm italic leading-relaxed text-dusty-cream/90">
           Last updated {lastUpdated}
         </p>
+        {registrationLine ? (
+          <p className="mt-2 text-xs font-light leading-relaxed text-dusty-cream/80">
+            {registrationLine}
+          </p>
+        ) : null}
       </header>
 
       <main className="mx-auto max-w-3xl px-5 py-12 sm:px-8 sm:py-16 lg:px-10">
