@@ -1,11 +1,13 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ToastProvider } from "@/components/toast/ToastProvider";
 import { AppModeProvider, useAppMode } from "@/lib/app-mode";
 import AppSidebar from "./AppSidebar";
 import TopNav from "./TopNav";
 import TrialBanner from "./TrialBanner";
+
+const TRIAL_BANNER_DISMISSED_KEY = "safelett-trial-banner-dismissed";
 
 interface AppShellProps {
   children: React.ReactNode;
@@ -19,14 +21,37 @@ function AppShellInner({
   showTrialBanner = false,
 }: AppShellProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [bannerDismissed, setBannerDismissed] = useState(false);
   const closeSidebar = useCallback(() => setSidebarOpen(false), []);
   const { mode } = useAppMode();
   const isAssistant = mode === "assistant";
   const isOverview = mode === "overview";
   const hideMenu = isAssistant || isOverview;
 
+  useEffect(() => {
+    try {
+      if (sessionStorage.getItem(TRIAL_BANNER_DISMISSED_KEY) === "1") {
+        setBannerDismissed(true);
+      }
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
+  const dismissBanner = useCallback(() => {
+    try {
+      sessionStorage.setItem(TRIAL_BANNER_DISMISSED_KEY, "1");
+    } catch {
+      /* ignore */
+    }
+    setBannerDismissed(true);
+  }, []);
+
   const showBanner =
-    showTrialBanner && trialDaysRemaining != null && trialDaysRemaining > 0;
+    showTrialBanner &&
+    trialDaysRemaining != null &&
+    trialDaysRemaining > 0 &&
+    !bannerDismissed;
 
   const pageBg = isOverview
     ? "bg-greige"
@@ -41,7 +66,7 @@ function AppShellInner({
       className={`app-mode-fade min-h-screen overflow-x-hidden transition-[background-color,opacity] duration-200 ease-out ${pageBg}`}
       style={
         {
-          /* 44px trial banner + 64px nav */
+          /* ~44px trial banner + 64px nav */
           "--app-top-offset": showBanner ? "6.75rem" : "4rem",
         } as React.CSSProperties
       }
@@ -49,7 +74,10 @@ function AppShellInner({
       {/* Fixed top chrome — overlays page content; no layout gap below */}
       <div className="fixed inset-x-0 top-0 z-50">
         {showBanner && trialDaysRemaining != null ? (
-          <TrialBanner daysRemaining={trialDaysRemaining} />
+          <TrialBanner
+            daysRemaining={trialDaysRemaining}
+            onDismiss={dismissBanner}
+          />
         ) : null}
         <TopNav
           sidebarOpen={sidebarOpen}
