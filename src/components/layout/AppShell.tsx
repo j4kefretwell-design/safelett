@@ -3,6 +3,10 @@
 import { useCallback, useEffect, useState } from "react";
 import { ToastProvider } from "@/components/toast/ToastProvider";
 import { AppModeProvider, useAppMode } from "@/lib/app-mode";
+import {
+  appMainOffsetClassName,
+  appMainOffsetWithBannerClassName,
+} from "@/lib/ui";
 import AppSidebar from "./AppSidebar";
 import TopNav from "./TopNav";
 import TrialBanner from "./TrialBanner";
@@ -49,24 +53,26 @@ function AppShellInner({
     <div
       className={`app-mode-fade min-h-screen overflow-x-hidden transition-[background-color,opacity] duration-200 ease-out ${pageBg}`}
     >
-      {showBanner ? (
-        <div className="fixed inset-x-0 top-0 z-40">
+      {/* Fixed top chrome — stays visible while scrolling all modules */}
+      <div className="fixed inset-x-0 top-0 z-50">
+        {showBanner ? (
           <TrialBanner
             daysRemaining={trialDaysRemaining}
             onDismiss={dismissBanner}
           />
-        </div>
-      ) : null}
-      <TopNav
-        sidebarOpen={sidebarOpen}
-        onMenuClick={() => setSidebarOpen((open) => !open)}
-        hideMenu={hideMenu}
-        withTrialBanner={showBanner}
-      />
+        ) : null}
+        <TopNav
+          sidebarOpen={sidebarOpen}
+          onMenuClick={() => setSidebarOpen((open) => !open)}
+          hideMenu={hideMenu}
+        />
+      </div>
+
       {!hideMenu && <AppSidebar open={sidebarOpen} onClose={closeSidebar} />}
+
       <main
         className={`w-full min-w-0 overflow-x-hidden ${
-          showBanner ? "pt-[6.75rem]" : "pt-16"
+          showBanner ? appMainOffsetWithBannerClassName : appMainOffsetClassName
         }`}
       >
         {children}

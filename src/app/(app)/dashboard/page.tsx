@@ -214,7 +214,7 @@ export default async function OverviewDashboardPage() {
             priority
             quality={IMAGE_QUALITY}
             className="object-cover"
-            style={{ objectPosition: "center 40%" }}
+            style={{ objectPosition: "center 50%" }}
           />
           <div
             className="absolute inset-0"

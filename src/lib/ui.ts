@@ -101,6 +101,11 @@ export const sectionBandAlternateClassName =
 export const sectionBandLabelClassName =
   "caps-label text-dusty-cream";
 
+export const APP_TOP_NAV_HEIGHT = "4rem";
+export const APP_TRIAL_BANNER_HEIGHT = "2.75rem";
+export const appMainOffsetClassName = "pt-16";
+export const appMainOffsetWithBannerClassName = "pt-[6.75rem]";
+
 export const editorialContentClassName =
   "mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-12";
 
