@@ -54,7 +54,9 @@ export default function PropertyNotes({
   if (compact) {
     return (
       <div>
-        <h2 className="font-serif text-xl tracking-wide text-text">Notes</h2>
+        <h2 className="text-[10px] font-normal uppercase tracking-[0.28em] text-leather">
+          Notes
+        </h2>
         <div className="mt-3 h-px w-16 bg-gold/80" aria-hidden />
 
         <textarea
@@ -65,7 +67,7 @@ export default function PropertyNotes({
           }}
           rows={4}
           placeholder='e.g. "Boiler located in kitchen cupboard"'
-          className={`${textareaClassName} mt-6`}
+          className={`${textareaClassName} mt-6 border-leather/20 bg-white/60`}
         />
 
         {error && (
@@ -79,7 +81,7 @@ export default function PropertyNotes({
             type="button"
             onClick={handleSave}
             disabled={loading}
-            className="text-sm text-gold-readable transition hover:text-gold disabled:opacity-50"
+            className="inline-flex min-h-10 items-center justify-center border border-leather/30 bg-transparent px-5 text-[11px] font-normal uppercase tracking-[0.1em] text-leather transition hover:border-leather hover:text-text disabled:opacity-50"
           >
             {loading ? "Saving..." : "Save Notes"}
           </button>

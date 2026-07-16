@@ -1,10 +1,11 @@
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import PropertyDetailView from "@/components/property/PropertyDetailView";
 import { getCertificateDocumentUrl } from "@/lib/certificate-documents";
 import {
   buildContractorEmailDraft,
   resolveUserDisplayName,
 } from "@/lib/contractor-email";
+import type { Tenancy } from "@/lib/tenancy";
 import { createClient } from "@/lib/supabase/server";
 import { getUserProfile } from "@/lib/user-profile";
 import type {
@@ -44,26 +45,42 @@ export default async function PropertyDetailPage({
 
   const typedProperty = property as Property;
 
-  const { data: certificates } = await supabase
-    .from("certificates")
-    .select("*")
-    .eq("property_id", id)
-    .order("expiry_date", { ascending: true });
+  const [{ data: certificates }, { data: assignments }, { data: directoryContractors }] =
+    await Promise.all([
+      supabase
+        .from("certificates")
+        .select("*")
+        .eq("property_id", id)
+        .order("expiry_date", { ascending: true }),
+      supabase
+        .from("property_contractors")
+        .select("*, contractors(*)")
+        .eq("property_id", id)
+        .order("certificate_type", { ascending: true }),
+      supabase.from("contractors").select("*").order("name", { ascending: true }),
+    ]);
 
   const certificateList = (certificates ?? []) as Certificate[];
-
-  const { data: assignments } = await supabase
-    .from("property_contractors")
-    .select("*, contractors(*)")
-    .eq("property_id", id)
-    .order("certificate_type", { ascending: true });
-
   const assignmentList = (assignments ?? []) as PropertyContractorWithDetails[];
 
-  const { data: directoryContractors } = await supabase
-    .from("contractors")
+  const { data: linkedById } = await supabase
+    .from("tenancies")
     .select("*")
-    .order("name", { ascending: true });
+    .eq("property_id", id)
+    .order("end_date", { ascending: false });
+
+  const { data: linkedByAddress } = await supabase
+    .from("tenancies")
+    .select("*")
+    .is("property_id", null)
+    .ilike("property_address", typedProperty.address)
+    .order("end_date", { ascending: false });
+
+  const tenancyMap = new Map<string, Tenancy>();
+  for (const row of [...(linkedById ?? []), ...(linkedByAddress ?? [])]) {
+    tenancyMap.set(row.id as string, row as Tenancy);
+  }
+  const propertyTenancies = Array.from(tenancyMap.values());
 
   const contractorsByType = new Map<string, Contractor>();
   for (const assignment of assignmentList) {
@@ -119,6 +136,7 @@ export default async function PropertyDetailPage({
       directoryContractors={directoryContractors ?? []}
       emailDraftsByCertId={emailDraftsByCertId}
       documentPaths={documentPaths}
+      tenancies={propertyTenancies}
     />
   );
 }
