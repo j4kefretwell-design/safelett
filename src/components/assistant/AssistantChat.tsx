@@ -1350,8 +1350,8 @@ export default function AssistantChat({
         )}
 
         {isMenu && (
-          <div className="relative z-[1] flex min-h-0 flex-1 items-center justify-center overflow-y-auto px-4 py-20 sm:px-6">
-            <div className="my-auto flex w-[92%] max-w-[580px] flex-col rounded-[20px] bg-dune px-6 py-8 shadow-[0_8px_40px_rgba(0,0,0,0.25)] sm:px-10 sm:py-10">
+          <div className="relative z-[1] flex min-h-0 flex-1 items-center justify-center overflow-y-auto px-4 py-6 sm:px-6 sm:py-8">
+            <div className="my-auto flex min-h-[75vh] w-[95%] max-w-none flex-col rounded-[20px] bg-dune px-6 py-8 shadow-[0_8px_40px_rgba(0,0,0,0.25)] sm:px-10 sm:py-10">
               <div className="flex justify-center">
                 <Monogram size={40} />
               </div>
@@ -1366,13 +1366,13 @@ export default function AssistantChat({
                 aria-hidden
               />
 
-              <div className="mt-7 w-full space-y-2.5">
+              <div className="mt-8 w-full space-y-3">
                 {MODE_BOXES.map((box) => (
                   <button
                     key={box.label}
                     type="button"
                     onClick={() => openComposer(box.kind)}
-                    className="group flex min-h-[52px] w-full items-center gap-3 rounded-full border border-taupe bg-vanilla px-4 py-3 text-left transition hover:border-study/50 hover:bg-dune focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-moss/40 sm:gap-4 sm:px-5"
+                    className="group flex min-h-[64px] w-full items-center gap-3 rounded-full border border-taupe bg-vanilla px-5 py-4 text-left transition hover:border-study/50 hover:bg-dune focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-moss/40 sm:gap-4 sm:px-7 sm:py-5"
                   >
                     <span className="shrink-0 text-[10px] font-normal uppercase tracking-[0.2em] text-study">
                       {box.label}
@@ -1391,7 +1391,7 @@ export default function AssistantChat({
               </div>
 
               <form
-                className="relative mt-7 w-full"
+                className="mt-auto w-full pt-8"
                 onSubmit={(event) => {
                   event.preventDefault();
                   submitWelcome();
@@ -1400,35 +1400,37 @@ export default function AssistantChat({
                 <label htmlFor="assistant-welcome-input" className="sr-only">
                   Type your question or request
                 </label>
-                <input
-                  id="assistant-welcome-input"
-                  type="text"
-                  value={welcomeInput}
-                  onChange={(event) => setWelcomeInput(event.target.value)}
-                  placeholder="Type your question or request..."
-                  className="h-12 w-full rounded-[10px] border border-taupe bg-vanilla py-3 pl-4 pr-12 text-[14px] text-study outline-none placeholder:text-taupe focus:border-moss"
-                />
-                <button
-                  type="submit"
-                  disabled={!welcomeInput.trim() || loading}
-                  aria-label="Send"
-                  className="absolute right-2 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center text-study transition hover:text-olive disabled:opacity-30"
-                >
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    className="h-5 w-5"
-                    aria-hidden
+                <div className="relative w-full">
+                  <input
+                    id="assistant-welcome-input"
+                    type="text"
+                    value={welcomeInput}
+                    onChange={(event) => setWelcomeInput(event.target.value)}
+                    placeholder="Type your question or request..."
+                    className="h-12 w-full rounded-[10px] border border-taupe bg-vanilla py-3 pl-4 pr-12 text-[14px] text-study outline-none placeholder:text-taupe focus:border-moss"
+                  />
+                  <button
+                    type="submit"
+                    disabled={!welcomeInput.trim() || loading}
+                    aria-label="Send"
+                    className="absolute right-2 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center text-study transition hover:text-olive disabled:opacity-30"
                   >
-                    <path
-                      d="M5 12h12M13 6l6 6-6 6"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </button>
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      className="h-5 w-5"
+                      aria-hidden
+                    >
+                      <path
+                        d="M5 12h12M13 6l6 6-6 6"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </button>
+                </div>
               </form>
             </div>
           </div>

@@ -36,10 +36,6 @@ export default async function TenancyDashboardPage() {
     );
   }
 
-  const activeCount = tenancyList.filter(
-    (tenancy) => getTenancyStatus(tenancy) === "active"
-  ).length;
-
   const renewalsDue = tenancyList.filter((tenancy) => {
     const status = getTenancyStatus(tenancy);
     return status === "renewal_due" || status === "expired";
@@ -53,54 +49,15 @@ export default async function TenancyDashboardPage() {
 
   const depositsUnprotected = tenancyList.filter(isDepositProtectionOverdue).length;
 
-  const statItems = [
-    {
-      label: "Total Tenancies",
-      value: tenancyList.length,
-      description: "Across your portfolio",
-    },
-    {
-      label: "Renewals Due",
-      value: renewalsDue,
-      description: "Ending or expired",
-    },
-    {
-      label: "Rent Reviews Due",
-      value: rentReviewsDue,
-      description: "Within 60 days",
-    },
-    {
-      label: "Deposits Unprotected",
-      value: depositsUnprotected,
-      description: "Requires attention",
-    },
-  ];
-
   return (
     <div className="tenancy-slate-bg w-full min-w-0 overflow-x-hidden">
       <RoutePrefetcher paths={["/tenancy/new", "/reminders"]} />
       <TenancyStatusBand
-        activeCount={activeCount}
+        total={tenancyList.length}
         renewalsDue={renewalsDue}
+        rentReviewsDue={rentReviewsDue}
+        depositsUnprotected={depositsUnprotected}
       />
-
-      <section className={`${editorialPagePaddingClassName} py-12`}>
-        <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4 lg:gap-5">
-          {statItems.map((item) => (
-            <div key={item.label} className="tenancy-card flex h-full flex-col px-5 py-10 text-center">
-              <p className="font-serif text-4xl tracking-wide text-tenancy-text sm:text-5xl lg:text-6xl">
-                {item.value}
-              </p>
-              <p className="mt-4 text-[10px] font-normal uppercase tracking-[0.18em] text-steel">
-                {item.label}
-              </p>
-              <p className="mt-2 text-sm italic leading-relaxed text-steel/80">
-                {item.description}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
 
       <section className={editorialPagePaddingClassName}>
         <div className="grid min-w-0 overflow-hidden lg:grid-cols-[45%_55%]">

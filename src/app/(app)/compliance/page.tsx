@@ -54,57 +54,15 @@ export default async function ComplianceDashboardPage() {
     );
   }
 
-  const needsAttention = stats.attention + stats.overdue;
-  const isCompliant = needsAttention === 0;
-
-  const statItems = [
-    {
-      label: "Total Properties",
-      value: stats.total,
-      description: "Across your portfolio",
-    },
-    {
-      label: "Compliant",
-      value: stats.compliant,
-      description: "Certificates up to date",
-    },
-    {
-      label: "Needs Attention",
-      value: stats.attention,
-      description: "Approaching expiry",
-    },
-    {
-      label: "Overdue",
-      value: stats.overdue,
-      description: "Past due date",
-    },
-  ];
-
   return (
     <div className="dashboard-parchment-bg w-full min-w-0 overflow-x-hidden">
       <RoutePrefetcher paths={["/properties/new", "/reminders"]} />
       <DashboardStatusBand
-        isCompliant={isCompliant}
-        needsAttention={needsAttention}
+        total={stats.total}
+        compliant={stats.compliant}
+        attention={stats.attention}
+        overdue={stats.overdue}
       />
-
-      <section className={`dashboard-stats-band ${editorialPagePaddingClassName} py-12`}>
-        <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4 lg:gap-5">
-          {statItems.map((item) => (
-            <div key={item.label} className="dashboard-warm-card flex h-full flex-col px-5 py-10 text-center">
-              <div className="dashboard-warm-card-content">
-                <p className="font-serif text-4xl tracking-wide text-text sm:text-5xl lg:text-6xl">
-                  {item.value}
-                </p>
-                <p className="mt-4 caps-label text-leather">
-                  {item.label}
-                </p>
-                <p className="mt-2 text-sm italic leading-relaxed text-tan">{item.description}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
 
       <section className={`dashboard-parchment-bg ${editorialPagePaddingClassName}`}>
         <div className="grid min-w-0 overflow-hidden lg:grid-cols-[45%_55%]">
