@@ -59,7 +59,7 @@ export default async function ComplianceDashboardPage() {
   return (
     <div className="dashboard-parchment-bg w-full min-w-0 overflow-x-hidden">
       <RoutePrefetcher paths={["/properties/new", "/reminders"]} />
-      <section className="relative h-[calc(100vh-64px)] min-h-[calc(100vh-64px)] w-full overflow-hidden bg-[#33181C]">
+      <section className="relative h-[85vh] min-h-[85vh] w-full overflow-hidden bg-[#33181C]">
         <OptimizedFillImage
           image={siteImages.anthonyFomin}
           alt=""

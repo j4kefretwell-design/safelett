@@ -56,11 +56,11 @@ export default function DashboardStatusBand({
 
   return (
     <div className={`relative z-10 flex h-full items-center py-6 sm:py-10 ${editorialPagePaddingClassName}`}>
-        <div className="grid h-full w-full grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
+        <div className="grid h-[85%] w-full grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
           {cards.map((card) => (
             <div
               key={card.status}
-              className="flex min-h-0 flex-col bg-vanilla p-6 text-center shadow-[inset_0_0_0_1px_rgba(196,164,90,0.3)] sm:p-10"
+              className="flex min-h-0 flex-col rounded-[16px] border border-[#C4A35A] bg-[rgba(240,236,225,0.94)] p-6 text-center shadow-[0_0_0_1px_rgba(196,164,90,0.4),0_8px_32px_rgba(0,0,0,0.2)] sm:p-10"
             >
               <p className="text-[10px] font-normal uppercase tracking-[0.28em] text-raspberry">
                 Compliance

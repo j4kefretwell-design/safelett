@@ -52,7 +52,7 @@ export default async function TenancyDashboardPage() {
   return (
     <div className="tenancy-slate-bg w-full min-w-0 overflow-x-hidden">
       <RoutePrefetcher paths={["/tenancy/new", "/reminders"]} />
-      <section className="relative h-[calc(100vh-64px)] min-h-[calc(100vh-64px)] w-full overflow-hidden bg-[#1B2339]">
+      <section className="relative h-[85vh] min-h-[85vh] w-full overflow-hidden bg-[#1B2339]">
         <OptimizedFillImage
           image={siteImages.tenancyDashboardHero}
           alt=""
