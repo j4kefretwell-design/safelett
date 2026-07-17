@@ -11,7 +11,9 @@ import { btnGoldClassName, editorialPagePaddingClassName } from "@/lib/ui";
 import { createClient } from "@/lib/supabase/server";
 import type { Certificate, ComplianceStatus, Property } from "@/lib/types";
 import DashboardPortfolio from "./DashboardPortfolio";
-import DashboardStatusBand from "./DashboardStatusBand";
+import DashboardStatusBand, {
+  DashboardStatsRow,
+} from "./DashboardStatusBand";
 
 export const revalidate = 30;
 
@@ -70,8 +72,8 @@ export default async function ComplianceDashboardPage() {
           priority
           quality={IMAGE_QUALITY}
           className="object-cover"
-          style={{ opacity: 0.15 }}
         />
+        <div className="absolute inset-0 bg-[#33181C]/50" aria-hidden="true" />
         <DashboardStatusBand
           total={stats.total}
           compliant={stats.compliant}
@@ -79,6 +81,12 @@ export default async function ComplianceDashboardPage() {
           overdue={stats.overdue}
         />
       </section>
+      <DashboardStatsRow
+        total={stats.total}
+        compliant={stats.compliant}
+        attention={stats.attention}
+        overdue={stats.overdue}
+      />
 
       <section className={`dashboard-parchment-bg ${editorialPagePaddingClassName}`}>
         <div className="grid min-w-0 overflow-hidden lg:grid-cols-[45%_55%]">

@@ -4,7 +4,9 @@ import OptimizedFillImage from "@/components/OptimizedFillImage";
 import RoutePrefetcher from "@/components/RoutePrefetcher";
 import TenancyEmptyState from "@/components/tenancy/TenancyEmptyState";
 import TenancyPortfolio from "@/components/tenancy/TenancyPortfolio";
-import TenancyStatusBand from "@/components/tenancy/TenancyStatusBand";
+import TenancyStatusBand, {
+  TenancyStatsRow,
+} from "@/components/tenancy/TenancyStatusBand";
 import { CONTENT_IMAGE_QUALITY, IMAGE_QUALITY, siteImages } from "@/lib/site-images";
 import {
   getDaysUntilDate,
@@ -63,8 +65,9 @@ export default async function TenancyDashboardPage() {
           priority
           quality={IMAGE_QUALITY}
           className="object-cover"
-          style={{ objectPosition: "center 35%", opacity: 0.15 }}
+          style={{ objectPosition: "center 35%" }}
         />
+        <div className="absolute inset-0 bg-[#1B2339]/50" aria-hidden="true" />
         <TenancyStatusBand
           total={tenancyList.length}
           renewalsDue={renewalsDue}
@@ -72,6 +75,12 @@ export default async function TenancyDashboardPage() {
           depositsUnprotected={depositsUnprotected}
         />
       </section>
+      <TenancyStatsRow
+        total={tenancyList.length}
+        renewalsDue={renewalsDue}
+        rentReviewsDue={rentReviewsDue}
+        depositsUnprotected={depositsUnprotected}
+      />
 
       <section className={editorialPagePaddingClassName}>
         <div className="grid min-w-0 overflow-hidden lg:grid-cols-[45%_55%]">

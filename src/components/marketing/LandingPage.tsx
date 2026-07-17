@@ -9,8 +9,10 @@ import ScrollReveal, { ScrollRevealGroup } from "@/components/ScrollReveal";
 import { siteImages } from "@/lib/site-images";
 import {
   btnLandingOutlineClassName,
-  btnLandingPrimaryClassName,
 } from "@/lib/ui";
+
+const landingTrialOutlineClassName =
+  "inline-flex min-h-12 items-center justify-center border border-[#443A35] bg-transparent px-8 py-3 text-[0.9375rem] font-normal uppercase leading-normal tracking-[0.1em] text-[#443A35] transition duration-200 hover:bg-[#443A35] hover:text-white";
 
 const pricingPlans = [
   {
@@ -28,7 +30,7 @@ const pricingPlans = [
       "Compliance news feed",
       "14 day free trial",
     ],
-    ctaClass: btnLandingPrimaryClassName,
+    ctaClass: landingTrialOutlineClassName,
     highlighted: false,
   },
   {
@@ -46,7 +48,7 @@ const pricingPlans = [
       "Bulk tenancy import",
       "14 day free trial",
     ],
-    ctaClass: btnLandingPrimaryClassName,
+    ctaClass: landingTrialOutlineClassName,
     highlighted: false,
   },
   {
@@ -64,7 +66,7 @@ const pricingPlans = [
       "Save £76/month vs buying separately",
       "14 day free trial",
     ],
-    ctaClass: btnLandingPrimaryClassName,
+    ctaClass: landingTrialOutlineClassName,
     highlighted: true,
   },
 ];
@@ -249,12 +251,6 @@ export default function LandingPage({
               Compliance and tenancy management for property professionals
               across the United Kingdom.
             </p>
-            <Link
-              href="/signup"
-              className={`${btnLandingPrimaryClassName} mt-3 w-full px-10 py-4 text-base shadow-[0_0_20px_rgba(196,164,90,0.3)] sm:w-fit`}
-            >
-              Begin Your Trial
-            </Link>
           </ScrollRevealGroup>
         </div>
       </section>
@@ -332,7 +328,7 @@ export default function LandingPage({
             <div className="mt-16 text-center">
               <Link
                 href="/signup"
-                className={`${btnLandingPrimaryClassName} w-full px-10 py-4 text-base shadow-[0_0_20px_rgba(196,164,90,0.3)] sm:w-auto`}
+                className={`${landingTrialOutlineClassName} w-full px-10 py-4 text-base sm:w-auto`}
               >
                 Begin Your Trial
               </Link>

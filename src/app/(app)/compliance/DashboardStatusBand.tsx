@@ -1,7 +1,5 @@
 "use client";
 
-import { editorialPagePaddingClassName } from "@/lib/ui";
-
 export const DASHBOARD_HIGHLIGHT_AFFECTED_EVENT = "dashboard-highlight-affected";
 
 interface DashboardStatusBandProps {
@@ -12,6 +10,34 @@ interface DashboardStatusBandProps {
 }
 
 export default function DashboardStatusBand({
+  compliant,
+  attention,
+  overdue,
+}: DashboardStatusBandProps) {
+  const needsAttention = attention + overdue;
+  const isCompliant = needsAttention === 0;
+
+  return (
+    <div className="absolute inset-x-4 bottom-4 z-10 max-w-md bg-[#33181C] px-6 py-5 sm:inset-x-auto sm:bottom-10 sm:left-10 sm:max-w-sm sm:px-8 sm:py-6">
+      <div className="h-px w-10 bg-gold" aria-hidden="true" />
+      <p className="mt-4 text-[10px] font-normal uppercase tracking-[0.28em] text-gold">
+        Compliance Portfolio
+      </p>
+      <h1 className="mt-4 font-display text-2xl font-normal leading-snug tracking-wide text-dusty-cream sm:text-3xl">
+        {isCompliant
+          ? "All Properties Compliant"
+          : `${needsAttention} ${needsAttention === 1 ? "Property" : "Properties"} Need Attention`}
+      </h1>
+      <p className="mt-3 text-sm italic leading-relaxed text-dusty-cream/80">
+        {isCompliant
+          ? `${compliant} current and protected`
+          : "Review the affected properties below."}
+      </p>
+    </div>
+  );
+}
+
+export function DashboardStatsRow({
   total,
   compliant,
   attention,
@@ -30,77 +56,58 @@ export default function DashboardStatusBand({
       status: "Portfolio Overview",
       value: `${total} ${total === 1 ? "property" : "properties"}`,
       description: "Across your portfolio",
-      statusClass: "text-heading",
     },
     {
       status: compliant === total ? "All Compliant" : "Compliant",
       value: `${compliant} current`,
       description: "Certificates up to date",
-      statusClass: "text-compliant",
     },
     {
       status: "Needs Attention",
       value: `${attention} approaching expiry`,
       description: "Review upcoming deadlines",
-      statusClass: "text-attention",
       actionable: attention > 0,
     },
     {
       status: "Overdue",
       value: `${overdue} past due`,
       description: "Immediate action required",
-      statusClass: "text-urgent",
       actionable: overdue > 0,
     },
   ];
 
   return (
-    <div
-      className={`relative z-10 flex w-full flex-1 items-center py-8 sm:py-12 ${editorialPagePaddingClassName}`}
-    >
+    <div className="grid w-full grid-cols-2 bg-[#33181C] lg:grid-cols-4">
+      {cards.map((card, index) => (
         <div
-          className="grid w-full grid-cols-2 lg:grid-cols-4"
-          style={{ gap: "1.25rem", minHeight: "60vh" }}
+          key={card.status}
+          className={`flex min-h-[190px] flex-col justify-center px-6 py-8 text-center ${
+            index % 2 === 1 ? "border-l border-gold" : ""
+          } ${index > 0 ? "lg:border-l lg:border-gold" : ""}`}
         >
-          {cards.map((card) => (
-            <div
-              key={card.status}
-              className="flex min-h-0 flex-col p-6 text-center sm:p-10"
-              style={{
-                borderRadius: "16px",
-                border: "1px solid #C4A35A",
-                backgroundColor: "rgba(240,236,225,0.94)",
-                boxShadow:
-                  "0 0 0 1px rgba(196,164,90,0.4), 0 8px 32px rgba(0,0,0,0.2)",
-              }}
+          <p className="text-[10px] font-normal uppercase tracking-[0.28em] text-dusty-cream/70">
+            Compliance
+          </p>
+          <p className="mt-4 font-display text-2xl leading-tight tracking-wide text-dusty-cream">
+            {card.status}
+          </p>
+          <p className="mt-3 font-serif text-base tracking-wide text-dusty-cream">
+            {card.value}
+          </p>
+          <p className="mt-2 text-xs italic leading-relaxed text-dusty-cream/65">
+            {card.description}
+          </p>
+          {card.actionable ? (
+            <button
+              type="button"
+              onClick={handleViewAffected}
+              className="mx-auto mt-3 min-h-8 text-[10px] font-normal uppercase tracking-[0.16em] text-gold transition hover:text-dusty-cream"
             >
-              <p className="text-[10px] font-normal uppercase tracking-[0.28em] text-raspberry">
-                Compliance
-              </p>
-              <div className="mx-auto mt-5 h-px w-10 bg-gold/70" aria-hidden="true" />
-              <p className={`mt-auto font-display text-[clamp(1.3rem,2.5vw,1.8rem)] leading-tight tracking-wide ${card.statusClass}`}>
-                {card.status}
-              </p>
-              <p className="mt-5 font-serif text-lg tracking-wide text-heading sm:text-xl">
-                {card.value}
-              </p>
-              <p className="mt-2 text-xs italic leading-relaxed text-leather sm:text-sm">
-                {card.description}
-              </p>
-              {card.actionable ? (
-                <button
-                  type="button"
-                  onClick={handleViewAffected}
-                  className="mt-auto min-h-11 pt-4 text-[10px] font-normal uppercase tracking-[0.18em] text-gold-readable transition hover:text-gold"
-                >
-                  View properties →
-                </button>
-              ) : (
-                <div className="mt-auto min-h-11" aria-hidden="true" />
-              )}
-            </div>
-          ))}
+              View properties →
+            </button>
+          ) : null}
         </div>
+      ))}
     </div>
   );
 }
