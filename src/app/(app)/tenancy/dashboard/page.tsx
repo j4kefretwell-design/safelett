@@ -52,15 +52,18 @@ export default async function TenancyDashboardPage() {
   return (
     <div className="tenancy-slate-bg w-full min-w-0 overflow-x-hidden">
       <RoutePrefetcher paths={["/tenancy/new", "/reminders"]} />
-      <section className="relative h-[85vh] min-h-[85vh] w-full overflow-hidden bg-[#1B2339]">
+      <section
+        className="relative flex w-full flex-col overflow-hidden"
+        style={{ minHeight: "85vh", backgroundColor: "#1B2339" }}
+      >
         <OptimizedFillImage
           image={siteImages.tenancyDashboardHero}
           alt=""
           sizes="100vw"
           priority
           quality={IMAGE_QUALITY}
-          className="object-cover opacity-[0.15]"
-          style={{ objectPosition: "center 35%" }}
+          className="object-cover"
+          style={{ objectPosition: "center 35%", opacity: 0.15 }}
         />
         <TenancyStatusBand
           total={tenancyList.length}
