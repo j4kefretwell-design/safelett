@@ -16,21 +16,21 @@ export default function TrialBanner({
   const dayLabel = daysRemaining === 1 ? "1 day" : `${daysRemaining} days`;
 
   return (
-    <div className="relative z-20 flex min-h-11 w-full items-center gap-3 bg-umber px-4 py-2.5 sm:gap-4 sm:px-6 lg:px-12">
-      <p className="min-w-0 flex-1 text-[14px] font-medium leading-snug text-vanilla">
+    <div className="relative z-20 flex min-h-11 w-full items-center gap-3 bg-white px-4 py-2.5 sm:gap-4 sm:px-6 lg:px-12">
+      <p className="min-w-0 flex-1 text-[14px] font-medium leading-snug text-[#60544D]">
         Your free trial ends in {dayLabel}. Subscribe to unlock full access.
       </p>
       <Link
         href="/subscription"
-        className="shrink-0 rounded-[6px] border border-gold bg-gold px-4 py-[6px] text-[12px] font-medium text-umber transition hover:bg-gold/90"
+        className="shrink-0 rounded-[6px] border border-[#443A35] bg-[#443A35] px-4 py-[6px] text-[12px] font-medium text-white transition hover:bg-[#252525]"
       >
-        Subscribe
+        Subscribe Now
       </Link>
       <button
         type="button"
         onClick={onDismiss}
         aria-label="Dismiss trial reminder"
-        className="flex h-8 w-8 shrink-0 items-center justify-center text-vanilla/70 transition hover:text-vanilla"
+        className="flex h-8 w-8 shrink-0 items-center justify-center text-[#60544D]/70 transition hover:text-[#60544D]"
       >
         <svg
           viewBox="0 0 24 24"

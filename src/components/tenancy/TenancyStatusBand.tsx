@@ -1,7 +1,5 @@
 "use client";
 
-import OptimizedFillImage from "@/components/OptimizedFillImage";
-import { IMAGE_QUALITY, siteImages } from "@/lib/site-images";
 import { editorialPagePaddingClassName } from "@/lib/ui";
 
 interface TenancyStatusBandProps {
@@ -53,20 +51,8 @@ export default function TenancyStatusBand({
   ];
 
   return (
-    <section className="relative h-[calc(100dvh-4rem)] w-full overflow-hidden bg-navy">
-      <OptimizedFillImage
-        image={siteImages.tenancyDashboardHero}
-        alt="Chandelier and staircase seen through a Georgian window"
-        sizes="100vw"
-        priority
-        quality={IMAGE_QUALITY}
-        className="object-cover opacity-40"
-        style={{ objectPosition: "center 35%" }}
-      />
-      <div className="absolute inset-0 bg-navy/50" aria-hidden="true" />
-
-      <div className={`relative z-10 flex h-full items-center py-6 sm:py-10 ${editorialPagePaddingClassName}`}>
-        <div className="grid h-full max-h-[640px] w-full grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
+    <div className={`relative z-10 flex h-full items-center py-6 sm:py-10 ${editorialPagePaddingClassName}`}>
+        <div className="grid h-full w-full grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
           {cards.map((card) => (
             <div
               key={card.status}
@@ -99,7 +85,6 @@ export default function TenancyStatusBand({
             </div>
           ))}
         </div>
-      </div>
-    </section>
+    </div>
   );
 }

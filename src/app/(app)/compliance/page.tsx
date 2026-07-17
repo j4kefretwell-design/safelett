@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { Suspense } from "react";
+import OptimizedFillImage from "@/components/OptimizedFillImage";
 import DashboardCottageImage from "@/components/dashboard/DashboardCottageImage";
 import DashboardEmptyState from "@/components/DashboardEmptyState";
 import DashboardPortfolioActions from "@/components/DashboardPortfolioActions";
 import RoutePrefetcher from "@/components/RoutePrefetcher";
 import { getPropertyStatus } from "@/lib/compliance";
+import { IMAGE_QUALITY, siteImages } from "@/lib/site-images";
 import { btnGoldClassName, editorialPagePaddingClassName } from "@/lib/ui";
 import { createClient } from "@/lib/supabase/server";
 import type { Certificate, ComplianceStatus, Property } from "@/lib/types";
@@ -57,12 +59,22 @@ export default async function ComplianceDashboardPage() {
   return (
     <div className="dashboard-parchment-bg w-full min-w-0 overflow-x-hidden">
       <RoutePrefetcher paths={["/properties/new", "/reminders"]} />
-      <DashboardStatusBand
-        total={stats.total}
-        compliant={stats.compliant}
-        attention={stats.attention}
-        overdue={stats.overdue}
-      />
+      <section className="relative h-[calc(100vh-64px)] min-h-[calc(100vh-64px)] w-full overflow-hidden bg-[#33181C]">
+        <OptimizedFillImage
+          image={siteImages.anthonyFomin}
+          alt=""
+          sizes="100vw"
+          priority
+          quality={IMAGE_QUALITY}
+          className="object-cover opacity-[0.15]"
+        />
+        <DashboardStatusBand
+          total={stats.total}
+          compliant={stats.compliant}
+          attention={stats.attention}
+          overdue={stats.overdue}
+        />
+      </section>
 
       <section className={`dashboard-parchment-bg ${editorialPagePaddingClassName}`}>
         <div className="grid min-w-0 overflow-hidden lg:grid-cols-[45%_55%]">

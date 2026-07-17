@@ -1351,7 +1351,10 @@ export default function AssistantChat({
 
         {isMenu && (
           <div className="relative z-[1] flex min-h-0 flex-1 items-center justify-center overflow-y-auto px-4 py-6 sm:px-6 sm:py-8">
-            <div className="my-auto flex min-h-[75vh] w-[95%] max-w-none flex-col rounded-[20px] bg-dune px-6 py-8 shadow-[0_8px_40px_rgba(0,0,0,0.25)] sm:px-10 sm:py-10">
+            <div
+              className="mx-auto my-auto flex max-w-none flex-col rounded-[20px] bg-dune px-6 py-8 shadow-[0_8px_40px_rgba(0,0,0,0.25)] sm:px-10 sm:py-10"
+              style={{ width: "95%", minHeight: "75vh" }}
+            >
               <div className="flex justify-center">
                 <Monogram size={40} />
               </div>

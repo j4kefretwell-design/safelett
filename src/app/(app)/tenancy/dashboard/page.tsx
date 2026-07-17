@@ -5,7 +5,7 @@ import RoutePrefetcher from "@/components/RoutePrefetcher";
 import TenancyEmptyState from "@/components/tenancy/TenancyEmptyState";
 import TenancyPortfolio from "@/components/tenancy/TenancyPortfolio";
 import TenancyStatusBand from "@/components/tenancy/TenancyStatusBand";
-import { CONTENT_IMAGE_QUALITY, siteImages } from "@/lib/site-images";
+import { CONTENT_IMAGE_QUALITY, IMAGE_QUALITY, siteImages } from "@/lib/site-images";
 import {
   getDaysUntilDate,
   getTenancyStatus,
@@ -52,12 +52,23 @@ export default async function TenancyDashboardPage() {
   return (
     <div className="tenancy-slate-bg w-full min-w-0 overflow-x-hidden">
       <RoutePrefetcher paths={["/tenancy/new", "/reminders"]} />
-      <TenancyStatusBand
-        total={tenancyList.length}
-        renewalsDue={renewalsDue}
-        rentReviewsDue={rentReviewsDue}
-        depositsUnprotected={depositsUnprotected}
-      />
+      <section className="relative h-[calc(100vh-64px)] min-h-[calc(100vh-64px)] w-full overflow-hidden bg-[#1B2339]">
+        <OptimizedFillImage
+          image={siteImages.tenancyDashboardHero}
+          alt=""
+          sizes="100vw"
+          priority
+          quality={IMAGE_QUALITY}
+          className="object-cover opacity-[0.15]"
+          style={{ objectPosition: "center 35%" }}
+        />
+        <TenancyStatusBand
+          total={tenancyList.length}
+          renewalsDue={renewalsDue}
+          rentReviewsDue={rentReviewsDue}
+          depositsUnprotected={depositsUnprotected}
+        />
+      </section>
 
       <section className={editorialPagePaddingClassName}>
         <div className="grid min-w-0 overflow-hidden lg:grid-cols-[45%_55%]">

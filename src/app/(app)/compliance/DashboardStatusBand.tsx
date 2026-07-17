@@ -1,7 +1,5 @@
 "use client";
 
-import OptimizedFillImage from "@/components/OptimizedFillImage";
-import { IMAGE_QUALITY, siteImages } from "@/lib/site-images";
 import { editorialPagePaddingClassName } from "@/lib/ui";
 
 export const DASHBOARD_HIGHLIGHT_AFFECTED_EVENT = "dashboard-highlight-affected";
@@ -57,19 +55,8 @@ export default function DashboardStatusBand({
   ];
 
   return (
-    <section className="relative h-[calc(100dvh-4rem)] w-full overflow-hidden bg-raspberry">
-      <OptimizedFillImage
-        image={siteImages.anthonyFomin}
-        alt="Georgian building"
-        sizes="100vw"
-        priority
-        quality={IMAGE_QUALITY}
-        className="object-cover opacity-40"
-      />
-      <div className="absolute inset-0 bg-raspberry/50" aria-hidden="true" />
-
-      <div className={`relative z-10 flex h-full items-center py-6 sm:py-10 ${editorialPagePaddingClassName}`}>
-        <div className="grid h-full max-h-[640px] w-full grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
+    <div className={`relative z-10 flex h-full items-center py-6 sm:py-10 ${editorialPagePaddingClassName}`}>
+        <div className="grid h-full w-full grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
           {cards.map((card) => (
             <div
               key={card.status}
@@ -102,7 +89,6 @@ export default function DashboardStatusBand({
             </div>
           ))}
         </div>
-      </div>
-    </section>
+    </div>
   );
 }
