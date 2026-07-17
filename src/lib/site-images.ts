@@ -58,10 +58,10 @@ export const siteImages = {
     COMPLIANCE_IMAGE_PLACEHOLDER,
     "georgeCiobra"
   ),
-  jonnyGiosManor: asset(
-    "/jonny-gios-g5ctwViRHy8-unsplash.jpg",
+  tenancyDashboardHero: asset(
+    "/favicon_io-4/pexels-lorna-pauli-1320744316-29518376.jpg",
     NAVY_IMAGE_PLACEHOLDER,
-    "jonnyGiosManor"
+    "lornaPauliChandelier"
   ),
   eranjanCottage: asset(
     "/eranjan-Zh7nJn_Z4EE-unsplash.jpg",
@@ -73,10 +73,10 @@ export const siteImages = {
     NAVY_IMAGE_PLACEHOLDER,
     "annieSprattManor"
   ),
-  sajeerMoCastle: asset(
-    "/favicon_io-4/pexels-sp7photography-18450390.jpg",
-    "#B08E63",
-    "sajeerMoCastle"
+  overviewPlanManor: asset(
+    "/favicon_io-4/annie-spratt-Jnn4nFTkl2o-unsplash.jpg",
+    OVERVIEW_IMAGE_PLACEHOLDER,
+    "annieSprattGatedManor"
   ),
   annieSprattTopiary: asset(
     "/annie-spratt-4jT7kYTY5Ow-unsplash.jpg",
@@ -103,10 +103,10 @@ export const siteImages = {
     COMPLIANCE_IMAGE_PLACEHOLDER,
     "rummanAmin"
   ),
-  rummanAminAssistant: asset(
-    "/rumman-amin-CU0dmWuIz0c-unsplash.jpg",
+  assistantStudy: asset(
+    "/favicon_io-4/pexels-evgeni-adutskevich-363025374-14620937.jpg",
     ASSISTANT_IMAGE_PLACEHOLDER,
-    "rummanAmin"
+    "evgeniAdutskevichStudy"
   ),
   vojtech: asset(
     "/vojtech-bartonicek-wgG7jLQ7M0U-unsplash.jpg",

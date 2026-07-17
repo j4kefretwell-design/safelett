@@ -372,15 +372,15 @@ export default async function OverviewDashboardPage() {
         <div className="grid w-full grid-cols-1 md:grid-cols-[40%_60%] md:items-stretch">
           <div
             className="relative h-[200px] w-full md:h-auto md:min-h-0"
-            style={{ backgroundColor: siteImages.sajeerMoCastle.placeholderColor }}
+            style={{ backgroundColor: siteImages.overviewPlanManor.placeholderColor }}
           >
             <OptimizedFillImage
-              image={siteImages.sajeerMoCastle}
+              image={siteImages.overviewPlanManor}
               alt=""
               sizes="(max-width: 768px) 100vw, 50vw"
               quality={CONTENT_IMAGE_QUALITY}
               className="object-cover"
-              style={{ objectPosition: "center 30%" }}
+              style={{ objectPosition: "center 50%" }}
             />
           </div>
 

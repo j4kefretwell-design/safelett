@@ -22,17 +22,18 @@ export default function TenancyStatusBand({
   return (
     <section
       className="relative h-[200px] w-full overflow-hidden sm:h-[280px] lg:h-[320px]"
-      style={{ backgroundColor: siteImages.jonnyGiosManor.placeholderColor }}
+      style={{ backgroundColor: siteImages.tenancyDashboardHero.placeholderColor }}
     >
       <OptimizedFillImage
-        image={siteImages.jonnyGiosManor}
-        alt="Georgian manor house viewed through autumn leaves"
+        image={siteImages.tenancyDashboardHero}
+        alt="Chandelier and staircase seen through a Georgian window"
         sizes="100vw"
         priority
         quality={IMAGE_QUALITY}
-        className="object-cover object-center"
+        className="object-cover"
+        style={{ objectPosition: "center 50%" }}
       />
-      <div className="absolute inset-0 bg-navy/50" aria-hidden="true" />
+      <div className="absolute inset-0 bg-navy/45" aria-hidden="true" />
 
       <div className="absolute inset-x-4 bottom-4 z-10 max-w-md bg-navy px-6 py-5 sm:inset-x-auto sm:bottom-10 sm:left-10 sm:max-w-sm sm:px-8 sm:py-6">
         <div className="h-px w-10 bg-gold" aria-hidden="true" />

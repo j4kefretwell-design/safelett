@@ -1195,23 +1195,23 @@ export default function AssistantChat({
             <div
               className="absolute inset-0 overflow-hidden"
               style={{
-                backgroundColor: siteImages.rummanAminAssistant.placeholderColor,
+                backgroundColor: siteImages.assistantStudy.placeholderColor,
               }}
               aria-hidden
             >
               <Image
-                src={siteImages.rummanAminAssistant.src}
+                src={siteImages.assistantStudy.src}
                 alt=""
                 fill
                 priority
                 quality={IMAGE_QUALITY}
                 sizes="(max-width: 768px) 100vw, calc(100vw - 180px)"
-                {...(siteImages.rummanAminAssistant.blurDataURL?.startsWith(
+                {...(siteImages.assistantStudy.blurDataURL?.startsWith(
                   "data:image/"
                 )
                   ? {
                       placeholder: "blur" as const,
-                      blurDataURL: siteImages.rummanAminAssistant.blurDataURL,
+                      blurDataURL: siteImages.assistantStudy.blurDataURL,
                     }
                   : { placeholder: "empty" as const })}
                 className="object-cover"
@@ -1220,7 +1220,7 @@ export default function AssistantChat({
             </div>
             <div
               className="absolute inset-0"
-              style={{ backgroundColor: "rgba(28, 43, 35, 0.35)" }}
+              style={{ backgroundColor: "rgba(28, 43, 35, 0.3)" }}
               aria-hidden
             />
           </>
