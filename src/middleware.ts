@@ -6,6 +6,9 @@ function isTrialExemptPath(pathname: string): boolean {
   if (pathname === "/subscription" || pathname.startsWith("/subscription/")) {
     return true;
   }
+  if (pathname === "/settings" || pathname === "/api/account") {
+    return true;
+  }
   if (pathname.startsWith("/api/stripe/")) {
     return true;
   }

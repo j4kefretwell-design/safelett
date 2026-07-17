@@ -142,7 +142,11 @@ function SectionRule() {
   );
 }
 
-export default function LandingPage() {
+export default function LandingPage({
+  accountDeleted = false,
+}: {
+  accountDeleted?: boolean;
+}) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   function closeMenu() {
@@ -210,6 +214,15 @@ export default function LandingPage() {
           </div>
         )}
       </nav>
+
+      {accountDeleted ? (
+        <div
+          role="status"
+          className="fixed inset-x-0 top-[4.25rem] z-40 border-b border-gold/40 bg-[#F5F0E8] px-4 py-3 text-center text-sm font-medium text-umber sm:top-[4.75rem]"
+        >
+          Your account has been deleted.
+        </div>
+      ) : null}
 
       <section
         className="relative flex min-h-[85vh] flex-col overflow-hidden pt-16 sm:min-h-screen"

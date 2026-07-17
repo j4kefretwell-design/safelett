@@ -138,6 +138,13 @@ export default function TopNav({
           {/* Desktop links */}
           <div className="hidden items-center gap-4 md:flex md:gap-5">
             <Link
+              href="/settings"
+              prefetch
+              className="touch-target flex h-11 items-center text-xs font-normal uppercase tracking-[0.22em] text-[#C4A35A] transition hover:opacity-80"
+            >
+              Settings
+            </Link>
+            <Link
               href="/subscription"
               prefetch
               className="touch-target flex h-11 items-center text-xs font-normal uppercase tracking-[0.22em] text-[#C4A35A] transition hover:opacity-80"
@@ -181,6 +188,14 @@ export default function TopNav({
                 role="menu"
                 className={`absolute right-0 top-full z-50 mt-2 min-w-[12rem] border py-1 shadow-[0_12px_32px_rgba(0,0,0,0.18)] ${accountMenuClass}`}
               >
+                <Link
+                  href="/settings"
+                  role="menuitem"
+                  onClick={() => setAccountOpen(false)}
+                  className="flex min-h-11 items-center px-4 text-[11px] font-normal uppercase tracking-[0.16em] text-[#C4A35A] transition hover:bg-white/5"
+                >
+                  Settings
+                </Link>
                 <Link
                   href="/subscription"
                   role="menuitem"

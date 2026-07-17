@@ -2,6 +2,7 @@
 
 import { AnimateIn } from "@/components/AnimateIn";
 import PageBackButton from "@/components/PageBackButton";
+import DeleteAccountSection from "@/components/settings/DeleteAccountSection";
 import SettingsAccount from "@/components/settings/SettingsAccount";
 import SettingsNotifications from "@/components/settings/SettingsNotifications";
 import SettingsPassword from "@/components/settings/SettingsPassword";
@@ -56,6 +57,7 @@ export default function SettingsClient({ profile, email }: SettingsClientProps) 
         <SettingsNotifications profile={profile} />
         <SettingsSubscription />
         <SettingsPassword />
+        <DeleteAccountSection />
       </div>
     </div>
   );
