@@ -178,9 +178,17 @@ export default function AuthForm({ mode }: AuthFormProps) {
               <p className={subtitleClassName}>
                 If an account exists for <strong className="font-normal">{email}</strong>, you will receive an email shortly.
               </p>
-              <Link href="/login" className={submitBtnClassName}>
+              <button
+                type="button"
+                onClick={() => {
+                  setShowForgotPassword(false);
+                  setResetSent(false);
+                  setError(null);
+                }}
+                className={submitBtnClassName}
+              >
                 Back to sign in
-              </Link>
+              </button>
             </div>
           ) : (
             <form onSubmit={handleForgotPassword} className="mt-10 space-y-8">

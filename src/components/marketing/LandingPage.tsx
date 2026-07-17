@@ -17,13 +17,52 @@ const pricingPlans = [
     name: "Compliance",
     price: 30,
     description: "Certificate tracking for property managers",
+    features: [
+      "Certificate tracking for all property types",
+      "Gas Safety, EICR, EPC, Fire Risk Assessment and all certificate types",
+      "Automated email alerts at 60, 30 and 7 days",
+      "Contractor directory and email drafting",
+      "Annual compliance report PDF",
+      "Landlord portal sharing",
+      "Bulk property import",
+      "Compliance news feed",
+      "14 day free trial",
+    ],
     ctaClass: btnLandingPrimaryClassName,
+    highlighted: false,
+  },
+  {
+    name: "Tenancy",
+    price: 35,
+    description: "Full tenancy lifecycle management",
+    features: [
+      "Full tenancy lifecycle tracking",
+      "Deposit protection monitoring",
+      "Tenancy renewal and rent review alerts",
+      "Right to rent expiry tracking",
+      "Professional notice drafting",
+      "Tenant directory",
+      "Document storage",
+      "Bulk tenancy import",
+      "14 day free trial",
+    ],
+    ctaClass: btnLandingPrimaryClassName,
+    highlighted: false,
   },
   {
     name: "Professional",
-    price: 49,
+    price: 89,
     description:
       "Compliance, Tenancy and AI Assistant — the complete platform",
+    features: [
+      "Everything in Compliance",
+      "Everything in Tenancy",
+      "AI Property Management Assistant",
+      "Draft any letter, answer any question, handle any admin",
+      "Priority support",
+      "Save £76/month vs buying separately",
+      "14 day free trial",
+    ],
     ctaClass: `${btnLandingPrimaryClassName} bg-ink hover:bg-ink/90`,
     highlighted: true,
   },
@@ -407,24 +446,29 @@ export default function LandingPage() {
                 Simple Pricing
               </p>
               <h2 className="font-serif text-2xl tracking-[0.02em] text-umber sm:text-4xl">
-                Two Plans. Built for Property Professionals.
+                Three Plans. Built for Property Professionals.
               </h2>
 
-              <div className="mt-12 grid gap-6 text-left md:grid-cols-2">
+              <div className="mt-12 grid gap-6 text-left md:grid-cols-3">
                 {pricingPlans.map((plan) => (
                   <div
                     key={plan.name}
-                    className={`border px-6 py-10 sm:px-10 sm:py-12 ${
+                    className={`relative flex flex-col border px-6 py-10 sm:px-8 sm:py-12 ${
                       plan.highlighted
                         ? "border-ink/20 bg-white shadow-[0_20px_60px_rgba(26,10,12,0.08)]"
                         : "border-umber/15 bg-greige"
                     }`}
                   >
+                    {plan.highlighted && (
+                      <span className="absolute right-0 top-0 bg-[#C4A35A] px-3 py-1.5 text-[10px] font-normal uppercase tracking-[0.18em] text-ink">
+                        Best Value
+                      </span>
+                    )}
                     <p className="text-[10px] font-normal uppercase tracking-[0.24em] text-umber/70">
                       {plan.name}
                     </p>
                     <div className="mt-6 flex items-baseline gap-1">
-                      <span className="font-serif text-5xl tracking-wide text-umber sm:text-6xl">
+                      <span className="font-serif text-5xl tracking-wide text-umber">
                         £{plan.price}
                       </span>
                       <span className="text-base font-light text-umber/70">/month</span>
@@ -433,11 +477,39 @@ export default function LandingPage() {
                       {plan.description}
                     </p>
 
+                    <ul className="mt-8 space-y-3">
+                      {plan.features.map((feature) => (
+                        <li
+                          key={feature}
+                          className="flex items-start gap-2.5 text-[13px] font-light leading-relaxed text-umber/80"
+                        >
+                          <span className="mt-0.5 shrink-0 text-[#C4A35A]" aria-hidden>
+                            ✓
+                          </span>
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+
                     <Link href="/signup" className={`${plan.ctaClass} mt-10 w-full`}>
                       Begin Your Trial
                     </Link>
                   </div>
                 ))}
+              </div>
+
+              <div className="mx-auto mt-10 max-w-xl border border-umber/15 bg-greige px-6 py-6 text-center">
+                <p className="text-[10px] font-normal uppercase tracking-[0.24em] text-umber/70">
+                  Bundle Savings
+                </p>
+                <p className="mt-3 text-sm font-light leading-relaxed text-umber/80">
+                  Compliance + Tenancy: <strong className="font-normal">£55/month</strong>{" "}
+                  (save £10)
+                </p>
+                <p className="mt-1.5 text-sm font-light leading-relaxed text-umber/80">
+                  Professional: <strong className="font-normal">£89/month</strong>{" "}
+                  (save £76 vs buying separately)
+                </p>
               </div>
             </ScrollRevealGroup>
           </div>

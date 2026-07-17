@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import BackgroundImage from "@/components/BackgroundImage";
 import BrandWordmark from "@/components/BrandWordmark";
 import PasswordInput from "@/components/PasswordInput";
@@ -15,6 +15,7 @@ import {
 } from "@/lib/ui";
 
 export default function ResetPasswordForm() {
+  const router = useRouter();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -73,6 +74,15 @@ export default function ResetPasswordForm() {
     };
   }, []);
 
+  // The recovery link signs the user into a temporary session; middleware
+  // redirects authenticated users away from /login, so sign out first.
+  async function goToSignIn() {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    router.push("/login");
+    router.refresh();
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
@@ -126,9 +136,13 @@ export default function ResetPasswordForm() {
             <p className="text-sm font-light leading-relaxed text-cocoa">
               Your password has been updated. You can now sign in.
             </p>
-            <Link href="/login" className={`${btnPrimaryClassName} w-full`}>
+            <button
+              type="button"
+              onClick={() => void goToSignIn()}
+              className={`${btnPrimaryClassName} w-full`}
+            >
               Sign in
-            </Link>
+            </button>
           </div>
         ) : checkingSession ? (
           <p className="text-sm font-light text-cocoa">Verifying reset link...</p>
@@ -140,15 +154,23 @@ export default function ResetPasswordForm() {
             <p className="text-sm font-light leading-relaxed text-cocoa">
               This password reset link is invalid or has expired. Please request a new one.
             </p>
-            <Link href="/login" className={`${btnPrimaryClassName} w-full`}>
+            <button
+              type="button"
+              onClick={() => void goToSignIn()}
+              className={`${btnPrimaryClassName} w-full`}
+            >
               Back to sign in
-            </Link>
+            </button>
           </div>
         ) : (
           <>
-            <Link href="/login" className={pageBackLinkClassName}>
+            <button
+              type="button"
+              onClick={() => void goToSignIn()}
+              className={pageBackLinkClassName}
+            >
               ← Back to Sign In
-            </Link>
+            </button>
             <h1 className="mt-8 font-serif text-2xl tracking-wide text-text sm:text-3xl">
               Set new password
             </h1>
@@ -189,9 +211,13 @@ export default function ResetPasswordForm() {
                 >
                   {loading ? "Please wait..." : "Update password"}
                 </button>
-                <Link href="/login" className={editorialFormCancelClassName}>
+                <button
+                  type="button"
+                  onClick={() => void goToSignIn()}
+                  className={editorialFormCancelClassName}
+                >
                   Cancel
-                </Link>
+                </button>
               </div>
             </form>
           </>
