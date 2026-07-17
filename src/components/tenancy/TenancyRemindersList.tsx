@@ -76,7 +76,7 @@ export default function TenancyRemindersList({
         </div>
       </section>
 
-      <div className="sticky top-[var(--app-top-offset,4rem)] z-20 border-b border-steel/15 bg-white/95 backdrop-blur-sm">
+      <div className="sticky top-[var(--app-top-offset,4rem)] z-20 border-b border-taupe bg-vanilla/95 backdrop-blur-sm">
         <div className="mx-auto flex max-w-6xl flex-wrap gap-6 px-5 py-4 text-sm sm:px-12 lg:px-16">
           <span className="text-urgent">
             {visibleReminders.filter((r) => r.daysRemaining < 0).length} overdue
@@ -117,7 +117,7 @@ export default function TenancyRemindersList({
                 <p className="caps-label text-dusty-cream">{group.label}</p>
               </div>
 
-              <ul className="divide-y divide-steel/10 border border-steel/10 bg-white">
+              <ul className="divide-y divide-taupe border border-taupe bg-dune">
                 {group.items.map((reminder) => {
                   const isExpanded = expandedId === reminder.id;
 

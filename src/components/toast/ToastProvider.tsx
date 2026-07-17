@@ -114,7 +114,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
           return (
             <div
               key={item.id}
-              className={`toast-slide-in pointer-events-auto flex items-start gap-3 border border-[#C5AC91]/50 border-l-[3px] ${border} bg-[#F2EDE8] px-4 py-3.5 shadow-[0_12px_32px_rgba(61,43,31,0.16)]`}
+              className={`toast-slide-in pointer-events-auto flex items-start gap-3 border border-taupe border-l-[3px] ${border} bg-vanilla px-4 py-3.5 shadow-[0_12px_32px_rgba(68,58,53,0.16)]`}
               role="status"
             >
               {item.variant === "success" ? (
@@ -141,7 +141,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
                 type="button"
                 aria-label="Dismiss"
                 onClick={() => dismiss(item.id)}
-                className="text-base leading-none text-[#6B503C]/70 transition hover:text-umber"
+                className="text-base leading-none text-taupe transition hover:text-umber"
               >
                 ×
               </button>

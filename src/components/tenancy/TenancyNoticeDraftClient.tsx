@@ -93,7 +93,7 @@ export default function TenancyNoticeDraftClient({
         </select>
       </div>
 
-      <div className="email-composition mt-10 max-w-3xl border border-steel/15 bg-white">
+      <div className="email-composition mt-10 max-w-3xl border border-taupe bg-vanilla">
         <div className="border-b border-steel/15 px-5 py-4 sm:px-6">
           <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
             <span className="shrink-0 text-sm text-steel">Subject:</span>

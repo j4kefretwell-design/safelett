@@ -67,7 +67,7 @@ export default function PropertyNotes({
           }}
           rows={4}
           placeholder='e.g. "Boiler located in kitchen cupboard"'
-          className={`${textareaClassName} mt-6 border-leather/20 bg-white/60`}
+          className={`${textareaClassName} mt-6 border-taupe bg-vanilla`}
         />
 
         {error && (

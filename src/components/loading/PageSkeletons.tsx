@@ -1,6 +1,6 @@
 export function OverviewSkeleton() {
   return (
-    <div className="min-h-[calc(100vh-4rem)] w-full bg-[#F2EDE8]">
+    <div className="min-h-[calc(100vh-4rem)] w-full bg-vanilla">
       <div className="relative h-[60vh] min-h-[360px] w-full overflow-hidden bg-forest/20 md:h-[calc((100vh-4rem)*0.85)] md:min-h-[440px]">
         <div className="absolute inset-x-0 top-1/2 flex h-[60%] -translate-y-1/2 items-center justify-center gap-3 px-4 sm:px-16">
           <div className="skeleton-shimmer hidden h-[200px] w-[22%] rounded-[20px] md:block" />
@@ -15,7 +15,7 @@ export function OverviewSkeleton() {
           {Array.from({ length: 3 }).map((_, index) => (
             <div
               key={index}
-              className="skeleton-shimmer h-14 border-b border-[#C5AC91]/40"
+              className="skeleton-shimmer h-14 border-b border-taupe"
             />
           ))}
         </div>
@@ -25,7 +25,7 @@ export function OverviewSkeleton() {
         <div className="skeleton-shimmer mt-5 h-6 w-full max-w-xl bg-white/10" />
         <div className="skeleton-shimmer mt-6 h-4 w-32 bg-white/10" />
       </div>
-      <div className="grid grid-cols-1 bg-[#EDE6DF] md:grid-cols-[40%_60%]">
+      <div className="grid grid-cols-1 bg-dune md:grid-cols-[40%_60%]">
         <div className="skeleton-shimmer h-[200px] md:min-h-[420px]" />
         <div className="px-8 py-14 sm:px-12 lg:px-16">
           <div className="skeleton-shimmer h-3 w-24" />
@@ -72,7 +72,7 @@ export function DashboardSkeleton() {
 
 export function RemindersSkeleton() {
   return (
-    <div className="min-h-[calc(100vh-4rem)] w-full bg-[#F2EDE8]">
+    <div className="min-h-[calc(100vh-4rem)] w-full bg-vanilla">
       <div className="skeleton-shimmer h-56 w-full sm:h-64" />
       <div className="mx-auto max-w-4xl space-y-4 px-5 py-10 sm:px-10">
         {Array.from({ length: 5 }).map((_, index) => (

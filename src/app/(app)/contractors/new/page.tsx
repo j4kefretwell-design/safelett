@@ -29,7 +29,7 @@ export default function NewContractorPage() {
           </div>
         </div>
 
-        <div className="flex w-full flex-col bg-white px-5 py-12 sm:px-12 lg:px-16 lg:py-20 xl:px-20">
+        <div className="flex w-full flex-col bg-vanilla px-5 py-12 sm:px-12 lg:px-16 lg:py-20 xl:px-20">
           <Link
             href="/contractors"
             className="text-base font-light leading-relaxed text-leather transition hover:text-text"

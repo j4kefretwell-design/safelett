@@ -205,7 +205,7 @@ export default function PropertyContractors({
             return (
               <li
                 key={contractorId}
-                className="flex flex-col gap-4 border border-leather/15 bg-white px-5 py-5 shadow-[0_2px_8px_rgba(61,43,31,0.06)] sm:flex-row sm:items-center sm:justify-between sm:px-6"
+                className="flex flex-col gap-4 border border-taupe bg-dune px-5 py-5 shadow-[0_2px_8px_rgba(68,58,53,0.06)] sm:flex-row sm:items-center sm:justify-between sm:px-6"
               >
                 <div className="min-w-0 sm:flex-1">
                   <p className="font-serif text-lg tracking-wide text-text">
@@ -271,7 +271,7 @@ export default function PropertyContractors({
             role="dialog"
             aria-modal="true"
             aria-labelledby="add-contractor-title"
-            className="assistant-composer-modal relative z-[1] max-h-[92dvh] w-full max-w-lg overflow-y-auto bg-[#F0ECE1] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.3)] sm:p-8"
+            className="assistant-composer-modal relative z-[1] max-h-[92dvh] w-full max-w-lg overflow-y-auto bg-dune p-6 shadow-[0_20px_60px_rgba(0,0,0,0.3)] sm:p-8"
           >
             <button
               type="button"
@@ -341,7 +341,7 @@ export default function PropertyContractors({
                         setSelectedTypes([]);
                         setError(null);
                       }}
-                      className="w-full border border-leather/30 bg-white px-3 py-3 text-sm text-text outline-none focus:border-gold"
+                      className="w-full border border-taupe bg-vanilla px-3 py-3 text-sm text-text outline-none focus:border-gold"
                     >
                       <option value="">Select Contractor</option>
                       {directoryContractors.map((contractor) => (
@@ -368,7 +368,7 @@ export default function PropertyContractors({
                             const checked = selectedTypes.includes(type);
                             return (
                               <li key={type}>
-                                <label className="flex min-h-11 cursor-pointer items-center gap-3 border border-leather/15 bg-white/70 px-4 py-3 transition hover:border-leather/30">
+                                <label className="flex min-h-11 cursor-pointer items-center gap-3 border border-taupe bg-vanilla px-4 py-3 transition hover:border-umber/40">
                                   <input
                                     type="checkbox"
                                     checked={checked}

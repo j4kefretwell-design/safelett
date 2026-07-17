@@ -228,7 +228,7 @@ export default function PropertyDetailView({
   }
 
   return (
-    <div className="min-h-screen w-full min-w-0 overflow-x-hidden bg-greige-alt">
+    <div className="min-h-screen w-full min-w-0 overflow-x-hidden bg-vanilla">
       {/* Burgundy header band — flush under fixed nav (same raspberry as TopNav) */}
       <header
         className={`${appUnderNavClassName} bg-raspberry px-5 pb-8 sm:px-12 lg:px-16`}
@@ -289,7 +289,7 @@ export default function PropertyDetailView({
       <div className="mx-auto max-w-6xl px-5 py-10 sm:px-12 lg:px-16">
         {/* Overall status card */}
         <section
-          className={`flex flex-col gap-6 border border-leather/10 border-l-4 bg-greige px-6 py-6 shadow-[0_2px_8px_rgba(61,43,31,0.06)] sm:flex-row sm:items-center sm:justify-between sm:px-8 ${statusBorderClass}`}
+          className={`flex flex-col gap-6 border border-taupe border-l-4 bg-dune px-6 py-6 shadow-[0_2px_8px_rgba(68,58,53,0.06)] sm:flex-row sm:items-center sm:justify-between sm:px-8 ${statusBorderClass}`}
         >
           <p className={`font-serif text-2xl tracking-wide sm:text-3xl ${statusTextClass}`}>
             {statusHeadline}
@@ -345,7 +345,7 @@ export default function PropertyDetailView({
           />
 
           {certificates.length === 0 ? (
-            <div className="mt-8 border border-leather/15 bg-white px-6 py-12 text-center shadow-[0_2px_8px_rgba(61,43,31,0.06)]">
+            <div className="mt-8 border border-taupe bg-dune px-6 py-12 text-center shadow-[0_2px_8px_rgba(68,58,53,0.06)]">
               <p className="font-serif text-xl tracking-wide text-umber">
                 No certificates added yet
               </p>
@@ -366,7 +366,7 @@ export default function PropertyDetailView({
                 return (
                   <li
                     key={cert.id}
-                    className="grid gap-5 border border-leather/15 bg-white px-5 py-5 shadow-[0_2px_8px_rgba(61,43,31,0.06)] sm:grid-cols-[1fr_auto_auto] sm:items-center sm:gap-6 sm:px-6"
+                    className="grid gap-5 border border-taupe bg-dune px-5 py-5 shadow-[0_2px_8px_rgba(68,58,53,0.06)] sm:grid-cols-[1fr_auto_auto] sm:items-center sm:gap-6 sm:px-6"
                   >
                     <div className="min-w-0">
                       <p className="font-serif text-lg tracking-wide text-text">
@@ -441,7 +441,7 @@ export default function PropertyDetailView({
               {documentsWithCerts.map((cert) => (
                 <li
                   key={cert.id}
-                  className="flex flex-wrap items-center justify-between gap-4 border border-leather/15 bg-white px-5 py-4 shadow-[0_2px_8px_rgba(61,43,31,0.06)] sm:px-6"
+                  className="flex flex-wrap items-center justify-between gap-4 border border-taupe bg-dune px-5 py-4 shadow-[0_2px_8px_rgba(68,58,53,0.06)] sm:px-6"
                 >
                   <div className="flex min-w-0 items-center gap-4">
                     <FileText
@@ -496,7 +496,7 @@ export default function PropertyDetailView({
               </Link>
             </p>
           ) : (
-            <div className="mt-8 border border-l-4 border-l-navy border-leather/15 bg-white px-6 py-6 shadow-[0_2px_8px_rgba(61,43,31,0.06)] sm:px-8">
+            <div className="mt-8 border border-l-4 border-taupe border-l-navy bg-dune px-6 py-6 shadow-[0_2px_8px_rgba(68,58,53,0.06)] sm:px-8">
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div>
                   <p className="font-serif text-xl tracking-wide text-text">

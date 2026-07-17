@@ -37,7 +37,7 @@ export default function DashboardHeroBanner({ stats }: DashboardHeroBannerProps)
         />
       </div>
       <div className="absolute inset-0 bg-raspberry/55" />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#1A0A0C]/85 via-transparent to-raspberry/20" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#252525]/85 via-transparent to-raspberry/20" />
 
       <div className="relative z-10 flex flex-col items-center justify-center px-8 py-24 text-center sm:px-12 sm:py-28 lg:px-16 lg:py-32">
         <p className="font-serif text-sm italic tracking-wide text-gold">

@@ -246,7 +246,7 @@ export default async function OverviewDashboardPage() {
   const isHighestPlan = false;
 
   return (
-    <div className="min-h-screen w-full overflow-x-hidden bg-[#F2EDE8] text-umber">
+    <div className="min-h-screen w-full overflow-x-hidden bg-vanilla text-text">
       <RoutePrefetcher
         paths={[MODE_HOME.overview, MODE_HOME.tenancy, MODE_HOME.assistant]}
       />
@@ -267,7 +267,7 @@ export default async function OverviewDashboardPage() {
           />
           <div
             className="absolute inset-0"
-            style={{ backgroundColor: "rgba(61, 43, 31, 0.45)" }}
+            style={{ backgroundColor: "rgba(68, 58, 53, 0.45)" }}
             aria-hidden
           />
         </div>
@@ -277,9 +277,9 @@ export default async function OverviewDashboardPage() {
 
       <section
         id="todays-actions"
-        className={`scroll-mt-20 bg-[#F2EDE8] ${editorialPagePaddingClassName} py-14`}
+        className={`scroll-mt-20 bg-vanilla ${editorialPagePaddingClassName} py-14`}
       >
-        <p className="text-[10px] font-normal uppercase tracking-[0.28em] text-[#6B503C]">
+        <p className="text-[10px] font-normal uppercase tracking-[0.28em] text-leather">
           Action Required
         </p>
         <div className="mt-3 h-px w-16 bg-[#C4A35A]/80" aria-hidden />
@@ -292,7 +292,7 @@ export default async function OverviewDashboardPage() {
             >
               ✓
             </span>
-            <p className="mt-5 font-serif text-xl italic tracking-wide text-[#3D2B1F]">
+            <p className="mt-5 font-serif text-xl italic tracking-wide text-umber">
               Your portfolio is in order.
             </p>
           </div>
@@ -305,15 +305,15 @@ export default async function OverviewDashboardPage() {
                 ? "text-urgent"
                 : soon
                   ? "text-attention"
-                  : "text-[#6B503C]";
+                  : "text-leather";
               const dotColour =
-                item.module === "compliance" ? "bg-[#4A1520]" : "bg-[#1A3358]";
+                item.module === "compliance" ? "bg-[#33181C]" : "bg-[#1B2339]";
 
               return (
                 <li key={item.id}>
                   <Link
                     href={item.href}
-                    className="grid min-h-14 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-x-4 gap-y-2 border-b border-[#C5AC91]/70 py-5 transition hover:bg-[#EDE6DF]/70 sm:grid-cols-[auto_minmax(0,1.2fr)_minmax(0,1fr)_auto] sm:gap-6"
+                    className="grid min-h-14 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-x-4 gap-y-2 border-b border-taupe py-5 transition hover:bg-dune sm:grid-cols-[auto_minmax(0,1.2fr)_minmax(0,1fr)_auto] sm:gap-6"
                   >
                     <span
                       className={`h-2.5 w-2.5 shrink-0 ${dotColour}`}
@@ -321,10 +321,10 @@ export default async function OverviewDashboardPage() {
                     />
                     <div className="min-w-0 sm:contents">
                       <div className="min-w-0">
-                        <p className="truncate font-serif text-[17px] tracking-wide text-[#3D2B1F]">
+                        <p className="truncate font-serif text-[17px] tracking-wide text-umber">
                           {item.address}
                         </p>
-                        <p className="mt-1 truncate text-[12px] text-[#6B503C]">
+                        <p className="mt-1 truncate text-[12px] text-leather">
                           {item.typeLabel}
                         </p>
                       </div>
@@ -366,7 +366,7 @@ export default async function OverviewDashboardPage() {
         </Link>
       </section>
 
-      <section className="w-full bg-greige-alt">
+      <section className="w-full bg-dune">
         <div className="h-px w-full bg-[#C4A35A]" aria-hidden />
 
         <div className="grid w-full grid-cols-1 md:grid-cols-[40%_60%] md:items-stretch">
@@ -385,12 +385,12 @@ export default async function OverviewDashboardPage() {
           </div>
 
           <div className="flex w-full flex-col justify-center px-8 py-14 sm:px-12 lg:px-16 xl:px-20">
-            <p className="text-[10px] font-normal uppercase tracking-[0.28em] text-[#6B503C]">
+            <p className="text-[10px] font-normal uppercase tracking-[0.28em] text-leather">
               Your Plan
             </p>
             <div className="mt-3 h-px w-16 bg-[#C4A35A]/80" aria-hidden />
 
-            <p className="mt-8 font-serif text-3xl tracking-wide text-[#3D2B1F] sm:text-4xl">
+            <p className="mt-8 font-serif text-3xl tracking-wide text-umber sm:text-4xl">
               {currentPlan}
             </p>
 
@@ -398,7 +398,7 @@ export default async function OverviewDashboardPage() {
               {STARTER_PLAN_FEATURES.map((feature) => (
                 <li
                   key={feature}
-                  className="flex items-start gap-3 text-[13px] leading-relaxed text-[#6B503C]"
+                  className="flex items-start gap-3 text-[13px] leading-relaxed text-taupe"
                 >
                   <span className="mt-0.5 shrink-0 text-[#C4A35A]" aria-hidden>
                     ✓
@@ -411,7 +411,7 @@ export default async function OverviewDashboardPage() {
             <div className="mt-10 h-px w-16 bg-[#C4A35A]/80" aria-hidden />
 
             {isHighestPlan ? (
-              <p className="mt-8 text-sm italic text-[#6B503C]">
+              <p className="mt-8 text-sm italic text-taupe">
                 Your portfolio is fully supported.
               </p>
             ) : (

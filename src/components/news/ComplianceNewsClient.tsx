@@ -107,7 +107,7 @@ export default function ComplianceNewsClient() {
         {loading && items.length === 0 ? (
           <NewsLoadingPlaceholder />
         ) : error ? (
-          <div className="border border-leather/20 bg-white px-8 py-14 text-center">
+          <div className="border border-taupe bg-dune px-8 py-14 text-center">
             <p className="text-base leading-relaxed text-leather">{error}</p>
             <button
               type="button"

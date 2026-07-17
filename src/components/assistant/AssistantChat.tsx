@@ -275,7 +275,7 @@ function DocumentCard({
       <p className="mt-1 text-[10px] uppercase tracking-[0.14em] text-moss">
         {document.subject}
       </p>
-      <p className="mt-4 max-h-72 overflow-y-auto whitespace-pre-wrap text-[14px] leading-[1.75] text-[#1A0A0C]">
+      <p className="mt-4 max-h-72 overflow-y-auto whitespace-pre-wrap text-[14px] leading-[1.75] text-text">
         {document.body}
       </p>
       <div className="mt-4 flex flex-wrap items-center gap-3">
@@ -1220,7 +1220,7 @@ export default function AssistantChat({
             </div>
             <div
               className="absolute inset-0"
-              style={{ backgroundColor: "rgba(26, 46, 26, 0.35)" }}
+              style={{ backgroundColor: "rgba(28, 43, 35, 0.35)" }}
               aria-hidden
             />
           </>
@@ -1279,7 +1279,7 @@ export default function AssistantChat({
               role="dialog"
               aria-modal="true"
               aria-label={composerConfig.title}
-              className="assistant-composer-modal relative z-[1] max-h-[min(90dvh,640px)] w-[95%] max-w-[640px] overflow-y-auto rounded-[20px] bg-[#F0ECE1] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.3)] sm:p-10"
+              className="assistant-composer-modal relative z-[1] max-h-[min(90dvh,640px)] w-[95%] max-w-[640px] overflow-y-auto rounded-[20px] bg-dune p-6 shadow-[0_20px_60px_rgba(0,0,0,0.3)] sm:p-10"
             >
               <button
                 type="button"
@@ -1310,7 +1310,7 @@ export default function AssistantChat({
                 }}
                 placeholder={composerConfig.placeholder}
                 rows={6}
-                className="mt-6 h-[min(180px,28vh)] w-full resize-none border-0 bg-transparent font-serif text-base leading-relaxed text-study placeholder:text-[#A89F7C] focus:outline-none focus:ring-0 sm:text-[1.35rem]"
+                className="mt-6 h-[min(180px,28vh)] w-full resize-none border-0 bg-transparent font-serif text-base leading-relaxed text-study placeholder:text-taupe focus:outline-none focus:ring-0 sm:text-[1.35rem]"
               />
 
               {composerChips.length > 0 && (
@@ -1320,7 +1320,7 @@ export default function AssistantChat({
                       key={chip}
                       type="button"
                       onClick={() => setComposerInput(chip)}
-                      className="min-h-11 rounded-full border border-olive/35 bg-[#F0ECE1] px-3 py-1.5 text-[11px] tracking-wide text-cocoa/80 transition hover:border-moss hover:text-study"
+                      className="min-h-11 rounded-full border border-taupe bg-vanilla px-3 py-1.5 text-[11px] tracking-wide text-cocoa/80 transition hover:border-moss hover:text-study"
                     >
                       {chip}
                     </button>
@@ -1351,7 +1351,7 @@ export default function AssistantChat({
 
         {isMenu && (
           <div className="relative z-[1] flex min-h-0 flex-1 items-center justify-center overflow-y-auto px-4 py-20 sm:px-6">
-            <div className="my-auto flex w-[92%] max-w-[580px] flex-col rounded-[20px] bg-[#F0ECE1] px-6 py-8 shadow-[0_8px_40px_rgba(0,0,0,0.25)] sm:px-10 sm:py-10">
+            <div className="my-auto flex w-[92%] max-w-[580px] flex-col rounded-[20px] bg-dune px-6 py-8 shadow-[0_8px_40px_rgba(0,0,0,0.25)] sm:px-10 sm:py-10">
               <div className="flex justify-center">
                 <Monogram size={40} />
               </div>
@@ -1362,7 +1362,7 @@ export default function AssistantChat({
                 How can I help you today?
               </h1>
               <div
-                className="mx-auto mt-5 h-px w-16 bg-[#A89F7C]"
+                className="mx-auto mt-5 h-px w-16 bg-taupe"
                 aria-hidden
               />
 
@@ -1372,7 +1372,7 @@ export default function AssistantChat({
                     key={box.label}
                     type="button"
                     onClick={() => openComposer(box.kind)}
-                    className="group flex min-h-[52px] w-full items-center gap-3 rounded-full border border-olive bg-[#F0ECE1] px-4 py-3 text-left transition hover:border-study/50 hover:bg-[#F8F4EE] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-moss/40 sm:gap-4 sm:px-5"
+                    className="group flex min-h-[52px] w-full items-center gap-3 rounded-full border border-taupe bg-vanilla px-4 py-3 text-left transition hover:border-study/50 hover:bg-dune focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-moss/40 sm:gap-4 sm:px-5"
                   >
                     <span className="shrink-0 text-[10px] font-normal uppercase tracking-[0.2em] text-study">
                       {box.label}
@@ -1406,7 +1406,7 @@ export default function AssistantChat({
                   value={welcomeInput}
                   onChange={(event) => setWelcomeInput(event.target.value)}
                   placeholder="Type your question or request..."
-                  className="h-12 w-full rounded-[10px] border border-olive bg-[#F8F4EE] py-3 pl-4 pr-12 text-[14px] text-study outline-none placeholder:text-[#A89F7C] focus:border-moss"
+                  className="h-12 w-full rounded-[10px] border border-taupe bg-vanilla py-3 pl-4 pr-12 text-[14px] text-study outline-none placeholder:text-taupe focus:border-moss"
                 />
                 <button
                   type="submit"
@@ -1626,7 +1626,7 @@ export default function AssistantChat({
               <div className="mx-auto mt-10 max-w-2xl space-y-7 pb-36">
                 {view.screen === "ask" && !messages.length && !loading && (
                   <div>
-                    <p className="border-l-2 border-study pl-4 text-[14px] leading-relaxed text-[#1A0A0C]/90">
+                    <p className="border-l-2 border-study pl-4 text-[14px] leading-relaxed text-text/90">
                       Ask anything about your properties, tenancies or
                       certificates.
                     </p>
@@ -1655,7 +1655,7 @@ export default function AssistantChat({
                   ) : (
                     <div key={message.id} className="flex justify-start">
                       <div className="max-w-[92%] border-l-2 border-study pl-4">
-                        <p className="whitespace-pre-wrap text-[14px] leading-relaxed text-[#1A0A0C]">
+                        <p className="whitespace-pre-wrap text-[14px] leading-relaxed text-text">
                           {message.content}
                         </p>
                         {message.chips && message.chipKind && (
@@ -1690,7 +1690,7 @@ export default function AssistantChat({
                                 type="button"
                                 disabled={loading}
                                 onClick={() => submitSuggestion(suggestion)}
-                                className="rounded-[8px] border border-olive bg-[#F0ECE1] px-3 py-1.5 text-[12px] text-study transition hover:border-study disabled:opacity-40"
+                                className="rounded-[8px] border border-taupe bg-vanilla px-3 py-1.5 text-[12px] text-study transition hover:border-study disabled:opacity-40"
                               >
                                 {suggestion}
                               </button>
@@ -1735,7 +1735,7 @@ export default function AssistantChat({
                     disabled={loading}
                     rows={3}
                     placeholder="Ask a follow-up question..."
-                    className="min-h-[80px] w-full resize-none rounded-[12px] border border-olive bg-[#F0ECE1] px-4 py-3.5 pr-14 text-base leading-relaxed text-study placeholder:text-moss focus:outline-none focus:ring-1 focus:ring-olive/60 disabled:opacity-60 [font-size:16px]"
+                    className="min-h-[80px] w-full resize-none rounded-[12px] border border-taupe bg-vanilla px-4 py-3.5 pr-14 text-base leading-relaxed text-study placeholder:text-moss focus:outline-none focus:ring-1 focus:ring-olive/60 disabled:opacity-60 [font-size:16px]"
                   />
                   <button
                     type="submit"

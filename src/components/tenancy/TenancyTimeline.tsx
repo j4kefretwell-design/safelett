@@ -54,7 +54,7 @@ function buildTimelinePoints(tenancy: Tenancy): TimelinePoint[] {
 /** Past = cocoa, upcoming = navy, overdue obligations = red */
 function pointColor(point: TimelinePoint): string {
   if (point.daysRemaining >= 0) return "bg-navy";
-  if (point.id === "start") return "bg-[#6B503C]";
+  if (point.id === "start") return "bg-taupe";
   return "bg-urgent";
 }
 

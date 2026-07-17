@@ -96,7 +96,7 @@ export default function TenancyPortfolio({ tenancies }: TenancyPortfolioProps) {
                 className={`min-h-10 border px-4 py-2 text-[11px] font-normal uppercase tracking-[0.1em] transition ${
                   isActive
                     ? "border-navy bg-navy text-dusty-cream"
-                    : "border-steel/30 bg-white text-steel hover:border-navy"
+                    : "border-taupe bg-dune text-steel hover:border-navy"
                 }`}
               >
                 {label}

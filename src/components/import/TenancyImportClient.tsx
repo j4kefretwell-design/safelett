@@ -116,7 +116,7 @@ export default function TenancyImportClient() {
   }
 
   return (
-    <div className="app-under-nav grid min-h-screen w-full min-w-0 overflow-x-hidden bg-[#f0f2f5] lg:grid-cols-[14rem_1fr] xl:grid-cols-[16rem_1fr]">
+    <div className="app-under-nav grid min-h-screen w-full min-w-0 overflow-x-hidden bg-vanilla lg:grid-cols-[14rem_1fr] xl:grid-cols-[16rem_1fr]">
       <aside className="border-b border-navy/20 bg-navy px-5 py-10 text-dusty-cream sm:px-8 sm:py-12 lg:border-b-0 lg:border-r lg:border-navy-dark lg:py-16">
         <ol className="space-y-8 sm:space-y-10">
           {steps.map((step) => (
@@ -137,12 +137,12 @@ export default function TenancyImportClient() {
 
       <form
         onSubmit={handleSubmit}
-        className="flex min-w-0 flex-col bg-white px-5 py-10 sm:px-8 sm:py-12 lg:px-16 lg:py-16"
+        className="flex min-w-0 flex-col bg-vanilla px-5 py-10 sm:px-8 sm:py-12 lg:px-16 lg:py-16"
       >
         <PageBackButton />
 
         {!file && !result ? (
-          <div className="mt-8 border border-steel/15 bg-[#f0f2f5]/40 px-6 py-8 sm:px-8">
+          <div className="mt-8 border border-taupe bg-dune px-6 py-8 sm:px-8">
             <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-navy">
               Before you upload
             </p>
@@ -160,7 +160,7 @@ export default function TenancyImportClient() {
 
         <label
           htmlFor="tenancy-csv-upload"
-          className="mt-8 flex flex-1 cursor-pointer flex-col items-center justify-center border border-dashed border-steel/30 bg-[#f0f2f5]/60 px-8 py-24 text-center transition hover:border-navy/40"
+          className="mt-8 flex flex-1 cursor-pointer flex-col items-center justify-center border border-dashed border-taupe bg-dune px-8 py-24 text-center transition hover:border-navy/40"
         >
           <Upload className="h-8 w-8 text-steel/40" strokeWidth={1.25} />
           <p className="mt-6 font-serif text-xl tracking-wide text-tenancy-text">

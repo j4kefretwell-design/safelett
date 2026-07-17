@@ -110,7 +110,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
       : "Begin tracking compliance with confidence.";
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center bg-[#1A0A0C] px-6 py-16">
+    <div className="relative flex min-h-screen items-center justify-center bg-[#252525] px-6 py-16">
       <BackgroundImage
         image={siteImages.vojtechAuth}
         alt=""
@@ -118,13 +118,13 @@ export default function AuthForm({ mode }: AuthFormProps) {
         priority
         effect="fade"
       />
-      <div className="absolute inset-0 bg-[#1A0A0C]/70" />
+      <div className="absolute inset-0 bg-[#252525]/70" />
 
       <div className={`relative z-10 ${cardClassName}`}>
         <Link
           href="/"
           aria-label="Back to home"
-          className="absolute right-4 top-4 z-10 flex h-8 w-8 items-center justify-center text-xl font-light leading-none text-[#6B503C] transition hover:text-[#C4A35A]"
+          className="absolute right-4 top-4 z-10 flex h-8 w-8 items-center justify-center text-xl font-light leading-none text-taupe transition hover:text-gold"
         >
           ×
         </Link>

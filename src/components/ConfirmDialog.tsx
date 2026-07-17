@@ -45,7 +45,7 @@ export default function ConfirmDialog({
         role="dialog"
         aria-modal="true"
         aria-labelledby="confirm-dialog-title"
-        className="assistant-composer-modal relative z-[1] w-[90%] max-w-md rounded-[20px] bg-[#F0ECE1] p-8 shadow-[0_20px_60px_rgba(0,0,0,0.3)] sm:p-10"
+        className="assistant-composer-modal relative z-[1] w-[90%] max-w-md rounded-[20px] bg-dune p-8 shadow-[0_20px_60px_rgba(0,0,0,0.3)] sm:p-10"
       >
         <button
           type="button"

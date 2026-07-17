@@ -118,7 +118,7 @@ export default async function TenancyDashboardPage() {
             />
           </div>
 
-          <div className="flex flex-col justify-center border-t border-gold/40 bg-[#F0F2F5] px-6 py-10 sm:px-10 lg:border-t-0 lg:border-l lg:border-gold/40 lg:px-14 lg:py-12">
+          <div className="flex flex-col justify-center border-t border-gold/40 bg-vanilla px-6 py-10 sm:px-10 lg:border-t-0 lg:border-l lg:border-gold/40 lg:px-14 lg:py-12">
             <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-navy">
               Your Tenancies
             </p>

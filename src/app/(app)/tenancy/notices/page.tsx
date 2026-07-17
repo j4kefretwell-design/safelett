@@ -35,7 +35,7 @@ export default async function TenancyNoticesPage() {
       </p>
 
       {tenancyList.length === 0 ? (
-        <div className="mt-16 flex flex-col items-center border border-steel/15 bg-white px-8 py-16 text-center">
+        <div className="mt-16 flex flex-col items-center border border-taupe bg-dune px-8 py-16 text-center">
           <p className="font-serif text-2xl italic tracking-wide text-tenancy-text">
             No notices drafted yet.
           </p>
@@ -56,7 +56,7 @@ export default async function TenancyNoticesPage() {
           </Link>
         </div>
       ) : (
-        <ul className="mt-12 divide-y divide-steel/10 border border-steel/15 bg-white">
+        <ul className="mt-12 divide-y divide-taupe border border-taupe bg-dune">
           {tenancyList.map((tenancy) => (
             <li
               key={tenancy.id}

@@ -100,7 +100,7 @@ export default async function TenantDetailPage({ params }: TenantDetailPageProps
 
       <div className="mx-auto grid max-w-6xl gap-8 px-5 py-10 sm:px-12 lg:grid-cols-2 lg:px-16 lg:py-14">
         <AnimateIn delay={100}>
-          <div className="border border-steel/15 bg-white p-6 sm:p-8">
+          <div className="border border-taupe bg-dune p-6 sm:p-8">
             <h2 className="font-serif text-xl tracking-wide text-tenancy-text">
               Tenant Details
             </h2>
@@ -155,7 +155,7 @@ export default async function TenantDetailPage({ params }: TenantDetailPageProps
         </AnimateIn>
 
         <AnimateIn delay={180}>
-          <div className="border border-steel/15 bg-white p-6 sm:p-8">
+          <div className="border border-taupe bg-dune p-6 sm:p-8">
             <h2 className="font-serif text-xl tracking-wide text-tenancy-text">
               Linked Tenancy
             </h2>

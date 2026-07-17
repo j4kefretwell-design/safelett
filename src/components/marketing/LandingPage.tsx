@@ -63,7 +63,7 @@ const pricingPlans = [
       "Save £76/month vs buying separately",
       "14 day free trial",
     ],
-    ctaClass: `${btnLandingPrimaryClassName} bg-ink hover:bg-ink/90`,
+    ctaClass: btnLandingPrimaryClassName,
     highlighted: true,
   },
 ];
@@ -74,8 +74,8 @@ const moduleCards = [
     subtitle:
       "Certificate tracking, automated alerts, contractor management",
     price: "£30/month",
-    borderColor: "#4A1520",
-    tintBg: "rgba(74, 21, 32, 0.10)",
+    borderColor: "#33181C",
+    tintBg: "#E4DDCC",
     headingClass: "text-raspberry",
     watermarkClass: "text-raspberry",
     href: "/signup",
@@ -85,8 +85,8 @@ const moduleCards = [
     title: "Tenancy",
     subtitle: "Deposit tracking, renewal dates, tenancy notices",
     price: "£35/month",
-    borderColor: "#1A3358",
-    tintBg: "rgba(26, 51, 88, 0.10)",
+    borderColor: "#1B2339",
+    tintBg: "#E4DDCC",
     headingClass: "text-navy",
     watermarkClass: "text-navy",
     href: "/signup",
@@ -97,10 +97,10 @@ const moduleCards = [
     subtitle:
       "Property Management Assistant — drafting, compliance review and portfolio Q&A",
     price: "Included in Professional",
-    borderColor: "#1A2E1A",
-    tintBg: "rgba(26, 46, 26, 0.10)",
-    headingClass: "text-forest",
-    watermarkClass: "text-forest",
+    borderColor: "#1C2B23",
+    tintBg: "#E4DDCC",
+    headingClass: "text-study",
+    watermarkClass: "text-study",
     href: "/signup",
     comingSoon: false,
   },
@@ -111,19 +111,19 @@ const features = [
     number: "01",
     module: "Compliance",
     body: "Certificate tracking, automated alerts and contractor email drafting across your entire property portfolio.",
-    accentColor: "#4A1520",
+    accentColor: "#33181C",
   },
   {
     number: "02",
     module: "Tenancy",
     body: "Deposit protection monitoring, tenancy renewal alerts and professional notice drafting for every tenancy.",
-    accentColor: "#1A3358",
+    accentColor: "#1B2339",
   },
   {
     number: "03",
     module: "AI Assistant",
     body: "Your Property Management Assistant for drafting correspondence, reviewing compliance and managing your portfolio.",
-    accentColor: "#1A2E1A",
+    accentColor: "#1C2B23",
   },
 ];
 
@@ -154,14 +154,14 @@ export default function LandingPage({
   }
 
   return (
-    <div className="overflow-x-hidden bg-greige text-umber">
-      <nav className="fixed inset-x-0 top-0 z-50 border-b border-gold/50 bg-greige">
+    <div className="overflow-x-hidden bg-vanilla text-text">
+      <nav className="fixed inset-x-0 top-0 z-50 border-b border-gold/50 bg-umber">
         <div className="relative mx-auto flex h-[4.25rem] max-w-7xl items-center justify-between px-4 sm:h-[4.75rem] sm:px-10">
           <button
             type="button"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             onClick={() => setMenuOpen((open) => !open)}
-            className="touch-target shrink-0 text-umber"
+            className="touch-target shrink-0 text-vanilla"
           >
             {menuOpen ? (
               <X className="h-6 w-6" strokeWidth={1.25} />
@@ -176,14 +176,14 @@ export default function LandingPage({
 
           <Link
             href="/login"
-            className="shrink-0 text-[11px] font-light uppercase tracking-[0.18em] text-umber/70 transition hover:text-umber"
+            className="shrink-0 text-[11px] font-light uppercase tracking-[0.18em] text-vanilla/75 transition hover:text-vanilla"
           >
             Sign In
           </Link>
         </div>
 
         {menuOpen && (
-          <div className="border-t border-gold/30 bg-greige px-4 py-4">
+          <div className="border-t border-gold/30 bg-umber px-4 py-4">
             <ul className="space-y-1">
               {mobileNavLinks.map((link) => (
                 <li key={link.href}>
@@ -191,7 +191,7 @@ export default function LandingPage({
                     <a
                       href={link.href}
                       onClick={closeMenu}
-                      className="flex min-h-11 items-center text-sm font-light uppercase tracking-[0.12em] text-umber"
+                      className="flex min-h-11 items-center text-sm font-light uppercase tracking-[0.12em] text-vanilla"
                     >
                       {link.label}
                     </a>
@@ -201,8 +201,8 @@ export default function LandingPage({
                       onClick={closeMenu}
                       className={`flex min-h-11 items-center text-sm font-light uppercase tracking-[0.12em] ${
                         link.href === "/login"
-                          ? "font-normal text-umber"
-                          : "text-umber"
+                          ? "font-normal text-vanilla"
+                          : "text-vanilla"
                       }`}
                     >
                       {link.label}
@@ -218,7 +218,7 @@ export default function LandingPage({
       {accountDeleted ? (
         <div
           role="status"
-          className="fixed inset-x-0 top-[4.25rem] z-40 border-b border-gold/40 bg-[#F5F0E8] px-4 py-3 text-center text-sm font-medium text-umber sm:top-[4.75rem]"
+          className="fixed inset-x-0 top-[4.25rem] z-40 border-b border-gold/40 bg-vanilla px-4 py-3 text-center text-sm font-medium text-umber sm:top-[4.75rem]"
         >
           Your account has been deleted.
         </div>
@@ -234,11 +234,11 @@ export default function LandingPage({
           sizes="100vw"
           priority
         />
-        <div className="absolute inset-0 bg-[#1A0A0C]/15" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(68,58,53,0.6)_0%,transparent_70%)]" />
 
         <div className="absolute inset-x-6 bottom-6 z-10 md:inset-x-auto md:bottom-10 md:left-10 md:max-w-[420px] lg:bottom-12 lg:left-12 lg:max-w-[480px]">
           <ScrollRevealGroup
-            className="space-y-4 bg-[rgba(61,43,31,0.65)] px-10 py-8"
+            className="space-y-4 bg-[rgba(68,58,53,0.65)] px-10 py-8"
             staggerMs={100}
           >
             <h1 className="font-serif text-3xl leading-tight tracking-[0.02em] text-dusty-cream sm:text-5xl sm:leading-[1.08]">
@@ -255,7 +255,7 @@ export default function LandingPage({
       <SectionRule />
 
       <ScrollReveal>
-        <section id="modules" className="bg-greige px-5 py-20 sm:px-10 sm:py-28 lg:py-36">
+        <section id="modules" className="bg-vanilla px-5 py-20 sm:px-10 sm:py-28 lg:py-36">
           <div className="mx-auto max-w-6xl">
             <ScrollRevealGroup className="mx-auto max-w-3xl text-center" staggerMs={100}>
               <p className="text-[10px] font-normal uppercase tracking-[0.32em] text-umber/70">
@@ -266,7 +266,7 @@ export default function LandingPage({
               </h2>
             </ScrollRevealGroup>
 
-            <div className="mt-16 grid gap-10 lg:grid-cols-3 lg:gap-0 lg:divide-x lg:divide-umber/15">
+            <div className="mt-16 grid gap-10 lg:grid-cols-3 lg:gap-0 lg:divide-x lg:divide-taupe">
               {moduleCards.map((card, index) => {
                 const WatermarkIcon =
                   card.title === "Compliance"
@@ -337,7 +337,7 @@ export default function LandingPage({
       <SectionRule />
 
       <ScrollReveal>
-        <section id="why" className="grid min-h-0 bg-greige lg:min-h-[560px] lg:grid-cols-2">
+        <section id="why" className="grid min-h-0 bg-vanilla lg:min-h-[560px] lg:grid-cols-2">
           <div
             className="relative min-h-[240px] overflow-hidden sm:min-h-[320px] lg:min-h-full"
             style={{ backgroundColor: siteImages.bradStarkey.placeholderColor }}
@@ -348,10 +348,10 @@ export default function LandingPage({
               sizes="(max-width: 768px) 100vw, 50vw"
               priority
             />
-            <div className="absolute inset-0 bg-[#1A0A0C]/25" />
+            <div className="absolute inset-0 bg-[#252525]/25" />
           </div>
 
-          <div className="flex flex-col justify-center bg-greige-alt px-5 py-14 sm:px-14 sm:py-20 lg:px-16 lg:py-28">
+          <div className="flex flex-col justify-center bg-dune px-5 py-14 sm:px-14 sm:py-20 lg:px-16 lg:py-28">
             <ScrollRevealGroup className="max-w-md space-y-6" staggerMs={100}>
               <p className="text-[10px] font-normal uppercase tracking-[0.24em] text-umber/70">
                 Why Fretwell &amp; Co
@@ -385,7 +385,7 @@ export default function LandingPage({
       <ScrollReveal>
         <section
           id="features"
-          className="bg-greige px-5 py-16 sm:px-10 sm:py-32 lg:py-40"
+          className="bg-vanilla px-5 py-16 sm:px-10 sm:py-32 lg:py-40"
         >
           <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-3 lg:gap-0">
             {features.map((feature, index) => (
@@ -393,7 +393,7 @@ export default function LandingPage({
                 <div
                   className={`border-l-[3px] px-2 py-4 sm:px-6 lg:px-10 lg:py-6 ${
                     index < features.length - 1
-                      ? "lg:border-r lg:border-umber/10"
+                      ? "lg:border-r lg:border-taupe"
                       : ""
                   }`}
                   style={{ borderLeftColor: feature.accentColor }}
@@ -418,8 +418,8 @@ export default function LandingPage({
       <SectionRule />
 
       <ScrollReveal>
-        <section className="grid min-h-0 bg-[#1A0A0C] lg:min-h-[480px] lg:grid-cols-2">
-          <div className="flex flex-col justify-center bg-[#1A0A0C] px-5 py-14 sm:px-14 sm:py-20 lg:px-16 lg:py-28">
+        <section className="grid min-h-0 bg-ink lg:min-h-[480px] lg:grid-cols-2">
+          <div className="flex flex-col justify-center bg-ink px-5 py-14 sm:px-14 sm:py-20 lg:px-16 lg:py-28">
             <ScrollRevealGroup className="max-w-lg space-y-8" staggerMs={100}>
               <blockquote>
                 <p className="font-serif text-2xl italic leading-snug tracking-[0.01em] text-dusty-cream sm:text-4xl lg:text-[2.5rem] lg:leading-snug">
@@ -452,7 +452,7 @@ export default function LandingPage({
       <SectionRule />
 
       <ScrollReveal>
-        <section id="pricing" className="bg-greige-alt px-5 py-16 sm:py-32">
+        <section id="pricing" className="bg-dune px-5 py-16 sm:py-32">
           <div className="mx-auto max-w-5xl text-center">
             <ScrollRevealGroup className="space-y-6" staggerMs={100}>
               <p className="text-[10px] font-normal uppercase tracking-[0.24em] text-umber/70">
@@ -468,8 +468,8 @@ export default function LandingPage({
                     key={plan.name}
                     className={`relative flex flex-col border px-6 py-10 sm:px-8 sm:py-12 ${
                       plan.highlighted
-                        ? "border-ink/20 bg-white shadow-[0_20px_60px_rgba(26,10,12,0.08)]"
-                        : "border-umber/15 bg-greige"
+                        ? "border-taupe bg-vanilla shadow-[0_20px_60px_rgba(37,37,37,0.08)]"
+                        : "border-taupe bg-dune"
                     }`}
                   >
                     {plan.highlighted && (
@@ -511,7 +511,7 @@ export default function LandingPage({
                 ))}
               </div>
 
-              <div className="mx-auto mt-10 max-w-xl border border-umber/15 bg-greige px-6 py-6 text-center">
+              <div className="mx-auto mt-10 max-w-xl border border-taupe bg-vanilla px-6 py-6 text-center">
                 <p className="text-[10px] font-normal uppercase tracking-[0.24em] text-umber/70">
                   Bundle Savings
                 </p>

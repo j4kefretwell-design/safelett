@@ -39,8 +39,13 @@ export default function BrandWordmark({
           ? "text-2xl"
           : "text-xl";
 
-  const nameClass =
-    isGreige || isAuth || isLandingNav ? "text-umber" : isLight || isCard ? "text-text" : "text-dusty-cream";
+  const nameClass = isLandingNav
+    ? "text-vanilla"
+    : isGreige || isAuth
+      ? "text-umber"
+      : isLight || isCard
+        ? "text-text"
+        : "text-dusty-cream";
 
   const content = (
     <span className={`brand-wordmark inline-block ${className}`}>

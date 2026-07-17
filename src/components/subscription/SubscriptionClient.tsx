@@ -190,7 +190,7 @@ export default function SubscriptionClient({
       <div
         className={`grid gap-3 sm:grid-cols-2 ${trialEnded ? "mt-12" : "mt-10"}`}
       >
-        <div className="border border-umber/10 bg-white/70 px-5 py-4">
+        <div className="border border-taupe bg-dune px-5 py-4">
           <p className="text-[10px] font-normal uppercase tracking-[0.2em] text-gold">
             Bundle
           </p>
@@ -201,7 +201,7 @@ export default function SubscriptionClient({
             £55/month <span className="text-gold">(save £10)</span>
           </p>
         </div>
-        <div className="border border-study/20 bg-white/70 px-5 py-4">
+        <div className="border border-taupe bg-dune px-5 py-4">
           <p className="text-[10px] font-normal uppercase tracking-[0.2em] text-gold">
             Best value
           </p>
@@ -214,7 +214,7 @@ export default function SubscriptionClient({
         </div>
       </div>
 
-      <div className="mt-6 border border-umber/10 bg-white/70 px-5 py-5">
+      <div className="mt-6 border border-taupe bg-dune px-5 py-5">
         <label
           htmlFor="subscription-promo-code"
           className="text-[10px] font-normal uppercase tracking-[0.2em] text-gold"
@@ -232,7 +232,7 @@ export default function SubscriptionClient({
             }}
             placeholder="Enter promo code"
             autoComplete="off"
-            className="min-h-11 min-w-0 flex-1 rounded-[6px] border border-umber/20 bg-white px-4 text-sm font-normal uppercase tracking-[0.08em] text-umber outline-none placeholder:normal-case placeholder:tracking-normal placeholder:text-leather/60 focus:border-gold"
+            className="min-h-11 min-w-0 flex-1 rounded-[6px] border border-taupe bg-vanilla px-4 text-sm font-normal uppercase tracking-[0.08em] text-umber outline-none placeholder:normal-case placeholder:tracking-normal placeholder:text-leather/60 focus:border-gold"
           />
           {promoCode.trim() === "PRODUCTHUNT20" ? (
             <span className="shrink-0 text-xs font-normal text-study">
@@ -260,11 +260,11 @@ export default function SubscriptionClient({
           return (
             <div
               key={module.id}
-              className={`relative flex flex-col border ${module.borderClass} ${module.accentClass} border-t-[3px] p-6 shadow-[0_8px_24px_rgba(61,43,31,0.06)] transition sm:p-8 ${
+              className={`relative flex flex-col border ${module.borderClass} ${module.accentClass} border-t-[3px] p-6 shadow-[0_8px_24px_rgba(68,58,53,0.06)] transition sm:p-8 ${
                 isSelected ? "ring-1 ring-gold/50" : ""
               } ${
                 isProfessional
-                  ? "lg:-mt-3 lg:mb-[-0.75rem] lg:shadow-[0_16px_40px_rgba(26,46,26,0.12)]"
+                  ? "lg:-mt-3 lg:mb-[-0.75rem] lg:shadow-[0_16px_40px_rgba(28,43,35,0.12)]"
                   : ""
               }`}
             >
@@ -359,7 +359,7 @@ export default function SubscriptionClient({
               type="button"
               disabled={loadingPlan !== null}
               onClick={() => void continueToPayment()}
-              className="inline-flex min-h-12 shrink-0 items-center justify-center bg-dusty-cream px-8 py-3 text-sm font-normal uppercase tracking-[0.1em] text-umber transition hover:bg-white disabled:opacity-50"
+              className="inline-flex min-h-12 shrink-0 items-center justify-center bg-vanilla px-8 py-3 text-sm font-normal uppercase tracking-[0.1em] text-umber transition hover:bg-dune disabled:opacity-50"
             >
               {loadingPlan ? "Redirecting…" : "Continue to Payment"}
             </button>

@@ -16,14 +16,7 @@ export default function SubscriptionSuccessClient() {
           ? "bg-greige"
           : "dashboard-parchment-bg";
 
-  const panelClass =
-    mode === "tenancy"
-      ? "border-navy/20 bg-white"
-      : mode === "assistant"
-        ? "border-olive/30 bg-white"
-        : mode === "overview"
-          ? "border-umber/15 bg-white"
-          : "border-raspberry/20 bg-white";
+  const panelClass = "border-taupe bg-dune";
 
   const accentRule =
     mode === "tenancy"

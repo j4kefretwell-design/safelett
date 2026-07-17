@@ -34,7 +34,7 @@ export default async function EditTenancyPage({ params }: EditTenancyPageProps) 
         <h1 className="mt-5 font-serif text-3xl tracking-wide text-tenancy-text sm:text-4xl">
           Update Tenancy Record
         </h1>
-        <div className="mt-12 max-w-3xl border border-steel/15 bg-white p-6 sm:p-10">
+        <div className="mt-12 max-w-3xl border border-taupe bg-vanilla p-6 sm:p-10">
           <TenancyForm
             tenancy={tenancy as Tenancy}
             properties={(properties ?? []) as Property[]}

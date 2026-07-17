@@ -52,7 +52,7 @@ export default async function EditTenantPage({ params }: EditTenantPageProps) {
           </div>
         </div>
 
-        <div className="flex w-full flex-col bg-white px-8 py-14 sm:px-12 lg:px-16 lg:py-20 xl:px-20">
+        <div className="flex w-full flex-col bg-vanilla px-8 py-14 sm:px-12 lg:px-16 lg:py-20 xl:px-20">
           <PageBackLink href={`/tenancy/tenants/${id}`}>
             ← Back to Tenant
           </PageBackLink>

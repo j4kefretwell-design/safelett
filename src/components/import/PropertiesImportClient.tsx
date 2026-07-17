@@ -127,7 +127,7 @@ export default function PropertiesImportClient() {
 
       <form
         onSubmit={handleSubmit}
-        className="flex min-w-0 flex-col bg-white px-5 py-10 sm:px-8 sm:py-12 lg:px-16 lg:py-16"
+        className="flex min-w-0 flex-col bg-vanilla px-5 py-10 sm:px-8 sm:py-12 lg:px-16 lg:py-16"
       >
         <PageBackButton />
 

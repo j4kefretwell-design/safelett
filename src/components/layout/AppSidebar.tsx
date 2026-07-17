@@ -231,7 +231,7 @@ export default function AppSidebar({ open, onClose }: AppSidebarProps) {
       <button
         type="button"
         aria-label="Close menu"
-        className={`fixed inset-0 z-40 bg-[#1A0A0C]/60 transition-opacity duration-300 ease-out ${
+        className={`fixed inset-0 z-40 bg-[#252525]/60 transition-opacity duration-300 ease-out ${
           open ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
         onClick={onClose}

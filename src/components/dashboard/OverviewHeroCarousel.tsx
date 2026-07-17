@@ -290,7 +290,7 @@ export default function OverviewHeroCarousel({
     "absolute top-[42%] z-30 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-cream/55 bg-transparent text-lg font-light leading-none text-cream/90 transition hover:border-cream hover:bg-cream/10 hover:text-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 md:top-1/2";
 
   const cardBaseClass =
-    "group absolute top-1/2 flex min-h-[200px] flex-col overflow-hidden rounded-[20px] border border-[#C4A35A]/25 border-t-2 bg-[rgba(240,236,225,0.96)] p-6 shadow-[0_8px_28px_rgba(61,43,31,0.16),inset_0_1px_0_rgba(255,255,255,0.6)] transition-[box-shadow,filter] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:shadow-[0_18px_44px_rgba(61,43,31,0.26)] sm:min-h-[220px] sm:p-9";
+    "group absolute top-1/2 flex min-h-[200px] flex-col overflow-hidden rounded-[20px] border border-taupe border-t-2 bg-dune p-6 shadow-[0_8px_28px_rgba(68,58,53,0.16),inset_0_1px_0_rgba(255,255,255,0.6)] transition-[box-shadow,filter] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:shadow-[0_18px_44px_rgba(68,58,53,0.26)] sm:min-h-[220px] sm:p-9";
 
   return (
     <div
@@ -373,7 +373,7 @@ export default function OverviewHeroCarousel({
                     {actionsMenuOpen ? (
                       <div
                         role="menu"
-                        className="absolute bottom-4 left-4 right-4 z-30 border border-leather/20 bg-[#F0ECE1] py-1 shadow-[0_12px_32px_rgba(61,43,31,0.18)] sm:left-auto sm:right-6 sm:w-56"
+                        className="absolute bottom-4 left-4 right-4 z-30 border border-taupe bg-vanilla py-1 shadow-[0_12px_32px_rgba(68,58,53,0.18)] sm:left-auto sm:right-6 sm:w-56"
                       >
                         {panel.actionChoices!.map((choice) => (
                           <Link
@@ -381,7 +381,7 @@ export default function OverviewHeroCarousel({
                             href={choice.href}
                             role="menuitem"
                             onClick={() => setActionsMenuOpen(false)}
-                            className="flex min-h-11 items-center px-4 text-[12px] font-light text-umber transition hover:bg-white/60"
+                            className="flex min-h-11 items-center px-4 text-[12px] font-light text-umber transition hover:bg-dune"
                           >
                             {choice.label}
                           </Link>

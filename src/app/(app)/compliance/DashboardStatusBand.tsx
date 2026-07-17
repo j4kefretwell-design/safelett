@@ -35,7 +35,7 @@ export default function DashboardStatusBand({
         quality={IMAGE_QUALITY}
         className="object-cover object-center"
       />
-      <div className="absolute inset-0 bg-[#1A0A0C]/45" aria-hidden="true" />
+      <div className="absolute inset-0 bg-[#252525]/45" aria-hidden="true" />
 
       <div className="absolute inset-x-4 bottom-4 z-10 max-w-md bg-raspberry px-6 py-5 sm:inset-x-auto sm:bottom-10 sm:left-10 sm:max-w-sm sm:px-8 sm:py-6">
         <div className="h-px w-10 bg-gold" aria-hidden="true" />

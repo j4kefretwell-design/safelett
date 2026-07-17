@@ -108,7 +108,7 @@ export default function NewsFeedClient() {
       </section>
 
       <section className="px-5 py-10 sm:px-12 sm:py-12 lg:px-16">
-        <div className="flex flex-wrap gap-6 border-b border-[#C5AC91]/50 pb-4">
+        <div className="flex flex-wrap gap-6 border-b border-taupe pb-4">
           {(
             [
               ["compliance", "Compliance"],
@@ -126,7 +126,7 @@ export default function NewsFeedClient() {
                     ? key === "tenancy"
                       ? "text-navy"
                       : "text-raspberry"
-                    : "text-[#6B503C]/70 hover:text-umber"
+                    : "text-taupe hover:text-umber"
                 }`}
               >
                 {label}
@@ -169,7 +169,7 @@ export default function NewsFeedClient() {
           {loading && items.length === 0 ? (
             <NewsLoadingPlaceholder accent={accent} />
           ) : error ? (
-            <div className="border border-leather/20 bg-white px-8 py-14 text-center">
+            <div className="border border-taupe bg-dune px-8 py-14 text-center">
               <p className="text-base leading-relaxed text-leather">{error}</p>
               <button
                 type="button"

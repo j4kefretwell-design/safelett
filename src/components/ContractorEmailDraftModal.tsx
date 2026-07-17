@@ -77,7 +77,7 @@ export default function ContractorEmailDraftModal({
         role="dialog"
         aria-modal="true"
         aria-labelledby="draft-email-title"
-        className="assistant-composer-modal relative z-[1] flex max-h-[92dvh] w-full max-w-2xl flex-col overflow-hidden rounded-t-[20px] bg-[#F0ECE1] shadow-[0_20px_60px_rgba(0,0,0,0.3)] sm:rounded-[20px]"
+        className="assistant-composer-modal relative z-[1] flex max-h-[92dvh] w-full max-w-2xl flex-col overflow-hidden rounded-t-[20px] bg-dune shadow-[0_20px_60px_rgba(0,0,0,0.3)] sm:rounded-[20px]"
       >
         <button
           type="button"
@@ -100,7 +100,7 @@ export default function ContractorEmailDraftModal({
           </h2>
           <p className="mt-1 text-sm text-leather">{propertyAddress}</p>
 
-          <div className="email-composition mt-6 overflow-hidden border border-leather/20 bg-white/40">
+          <div className="email-composition mt-6 overflow-hidden border border-taupe bg-vanilla">
             <div className="border-b border-leather/20 px-4 py-3 sm:px-5">
               <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 text-sm">
                 <span className="text-leather">To:</span>

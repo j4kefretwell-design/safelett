@@ -35,7 +35,7 @@ export default function SettingsSubscription() {
       title="Membership"
       description="Your Fretwell & Co subscription."
     >
-      <div className="border border-leather/30 bg-white p-10">
+      <div className="border border-taupe bg-dune p-10">
         <p className="text-[9px] font-normal uppercase tracking-[0.32em] text-gold">
           Current Plan
         </p>

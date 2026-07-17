@@ -36,7 +36,7 @@ function DateCard({
 }) {
   if (!date) {
     return (
-      <div className="border border-steel/15 bg-white px-5 py-4">
+      <div className="border border-taupe bg-dune px-5 py-4">
         <p className="text-[10px] font-normal uppercase tracking-[0.16em] text-steel">
           {label}
         </p>
@@ -54,7 +54,7 @@ function DateCard({
         : "text-compliant";
 
   return (
-    <div className="border border-steel/15 bg-white px-5 py-4">
+    <div className="border border-taupe bg-dune px-5 py-4">
       <p className="text-[10px] font-normal uppercase tracking-[0.16em] text-steel">
         {label}
       </p>
@@ -149,7 +149,7 @@ export default async function TenancyDetailPage({ params }: TenancyDetailPagePro
 
       <div className="mx-auto grid max-w-6xl gap-8 px-5 py-10 sm:px-12 lg:grid-cols-2 lg:px-16 lg:py-14">
         <AnimateIn delay={100}>
-          <div className="border border-steel/15 bg-white p-6 sm:p-8">
+          <div className="border border-taupe bg-dune p-6 sm:p-8">
             <h2 className="font-serif text-xl tracking-wide text-tenancy-text">
               Tenancy Details
             </h2>
@@ -199,7 +199,7 @@ export default async function TenancyDetailPage({ params }: TenancyDetailPagePro
         </AnimateIn>
 
         <AnimateIn delay={150}>
-          <div className="border border-steel/15 bg-white p-6 sm:p-8">
+          <div className="border border-taupe bg-dune p-6 sm:p-8">
             <h2 className="font-serif text-xl tracking-wide text-tenancy-text">
               Documents
             </h2>
@@ -274,7 +274,7 @@ export default async function TenancyDetailPage({ params }: TenancyDetailPagePro
       {record.notes && (
         <section className="mx-auto max-w-6xl px-5 pb-10 sm:px-12 lg:px-16">
           <AnimateIn delay={250}>
-            <div className="border border-steel/15 bg-white p-6 sm:p-8">
+            <div className="border border-taupe bg-dune p-6 sm:p-8">
               <h2 className="font-serif text-xl tracking-wide text-tenancy-text">
                 Notes
               </h2>

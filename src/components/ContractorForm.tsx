@@ -188,7 +188,7 @@ export default function ContractorForm({ contractor }: ContractorFormProps) {
                 className={`flex min-h-11 cursor-pointer items-center gap-3 border px-4 py-3 transition ${
                   checked
                     ? "border-gold bg-parchment-warm/80"
-                    : "border-leather/20 bg-white hover:border-leather/35"
+                    : "border-taupe bg-dune hover:border-umber/40"
                 }`}
               >
                 <input

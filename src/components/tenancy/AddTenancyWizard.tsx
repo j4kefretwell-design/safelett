@@ -24,7 +24,7 @@ const fieldLabelClassName =
   "mb-2 block text-[10px] font-normal uppercase tracking-[0.22em] text-leather";
 const helperClassName = "mt-1.5 text-xs font-light leading-relaxed text-leather/75";
 const inputClassName =
-  "w-full border border-leather/25 bg-white/80 px-4 py-3.5 text-base text-text outline-none transition focus:border-navy";
+  "w-full border border-taupe bg-vanilla px-4 py-3.5 text-base text-text outline-none transition focus:border-navy";
 const selectClassName = `${inputClassName} cursor-pointer appearance-none`;
 
 export default function AddTenancyWizard({
@@ -441,7 +441,7 @@ export default function AddTenancyWizard({
                 className={`min-h-11 flex-1 border px-4 py-2.5 text-sm transition ${
                   rightToRentChecked
                     ? "border-navy bg-navy text-dusty-cream"
-                    : "border-leather/25 bg-white/80 text-leather hover:border-navy/40"
+                    : "border-taupe bg-vanilla text-leather hover:border-navy/40"
                 }`}
               >
                 Yes
@@ -455,7 +455,7 @@ export default function AddTenancyWizard({
                 className={`min-h-11 flex-1 border px-4 py-2.5 text-sm transition ${
                   !rightToRentChecked
                     ? "border-navy bg-navy text-dusty-cream"
-                    : "border-leather/25 bg-white/80 text-leather hover:border-navy/40"
+                    : "border-taupe bg-vanilla text-leather hover:border-navy/40"
                 }`}
               >
                 No

@@ -7,11 +7,11 @@ export const IMAGE_QUALITY = 55;
 /** Content / card / split-panel imagery */
 export const CONTENT_IMAGE_QUALITY = 70;
 
-export const LIGHT_IMAGE_PLACEHOLDER = "#F0ECE1";
-export const OVERVIEW_IMAGE_PLACEHOLDER = "#1A1A1A";
-export const COMPLIANCE_IMAGE_PLACEHOLDER = "#4A1520";
-export const ASSISTANT_IMAGE_PLACEHOLDER = "#1A2E1A";
-export const NAVY_IMAGE_PLACEHOLDER = "#1A3358";
+export const LIGHT_IMAGE_PLACEHOLDER = "#F8F4EE";
+export const OVERVIEW_IMAGE_PLACEHOLDER = "#443A35";
+export const COMPLIANCE_IMAGE_PLACEHOLDER = "#33181C";
+export const ASSISTANT_IMAGE_PLACEHOLDER = "#1C2B23";
+export const NAVY_IMAGE_PLACEHOLDER = "#1B2339";
 export const AUTH_IMAGE_PLACEHOLDER = "#2C1A10";
 
 export interface SiteImageAsset {
@@ -85,7 +85,7 @@ export const siteImages = {
   ),
   hugoKruip: asset(
     "/hugo-kruip-i3Sx427bVXc-unsplash.jpg",
-    "#3D2B1F",
+    "#443A35",
     "hugoKruip"
   ),
   lukeGalloway: asset(

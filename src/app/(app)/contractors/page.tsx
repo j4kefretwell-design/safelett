@@ -44,7 +44,7 @@ export default async function ContractorsPage() {
         </div>
 
         {contractorList.length === 0 ? (
-          <div className="mt-12 border border-leather/20 bg-white px-8 py-16 text-center">
+          <div className="mt-12 border border-taupe bg-dune px-8 py-16 text-center">
             <p className="font-serif text-2xl tracking-wide text-text">
               No contractors yet
             </p>

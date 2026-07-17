@@ -80,7 +80,7 @@ export default function ResetPasswordForm() {
   }
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center bg-[#1A0A0C] px-6 py-16">
+    <div className="relative flex min-h-screen items-center justify-center bg-[#252525] px-6 py-16">
       <BackgroundImage
         image={siteImages.vojtechAuth}
         alt=""
@@ -88,7 +88,7 @@ export default function ResetPasswordForm() {
         priority
         effect="fade"
       />
-      <div className="absolute inset-0 bg-[#1A0A0C]/70" />
+      <div className="absolute inset-0 bg-[#252525]/70" />
 
       <div className={`relative z-10 ${authCardClassName}`}>
         <div className="mb-10 text-center">

@@ -15,10 +15,10 @@ interface TopNavProps {
 }
 
 function headerBgClass(mode: AppMode) {
-  if (mode === "overview") return "bg-forest";
-  if (mode === "tenancy") return "bg-navy";
-  if (mode === "assistant") return "bg-study";
-  return "bg-raspberry";
+  if (mode === "overview") return "module-topbar--overview";
+  if (mode === "tenancy") return "module-topbar--tenancy";
+  if (mode === "assistant") return "module-topbar--assistant";
+  return "module-topbar--compliance";
 }
 
 export default function TopNav({
@@ -70,7 +70,7 @@ export default function TopNav({
 
   return (
     <header
-      className={`sticky top-0 z-50 h-16 w-full shrink-0 transition-colors duration-[400ms] ease-[ease] ${headerBgClass(mode)}`}
+      className={`module-topbar sticky top-0 z-50 h-16 w-full shrink-0 ${headerBgClass(mode)}`}
     >
       <div
         className="relative grid h-16 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center border-b border-gold px-3 sm:px-6 lg:px-12"

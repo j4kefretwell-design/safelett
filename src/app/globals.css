@@ -3,34 +3,37 @@
 @source "../**/*.{js,ts,jsx,tsx,mdx}";
 
 @theme {
-  --color-raspberry: #4a1520;
-  --color-raspberry-dark: #240b0e;
+  --color-raspberry: #33181c;
+  --color-raspberry-dark: #281218;
   --color-espresso: #39281d;
-  --color-leather: #6b503c;
-  --color-tan: #97795d;
-  --color-sand: #c5ac91;
-  --color-cocoa: #6b503c;
-  --color-dusty-cream: #eaece4;
-  --color-beige: #ddd9c9;
-  --color-text: #1a1008;
+  --color-leather: #c5b49d;
+  --color-tan: #c5b49d;
+  --color-sand: #e4ddcc;
+  --color-cocoa: #c5b49d;
+  --color-dusty-cream: #f8f4ee;
+  --color-beige: #e4ddcc;
+  --color-text: #252525;
   --color-gold: #c4a35a;
   --color-gold-readable: #a8892e;
   --color-parchment: #f8f4ee;
-  --color-parchment-warm: #f5f0e8;
-  --color-parchment-deep: #ede8dc;
+  --color-parchment-warm: #f8f4ee;
+  --color-parchment-deep: #e4ddcc;
+  --color-vanilla: #f8f4ee;
+  --color-dune: #e4ddcc;
+  --color-taupe: #c5b49d;
 
   /* Semantic aliases used across the app */
-  --color-burgundy: #4a1520;
-  --color-burgundy-dark: #240b0e;
-  --color-ivory: #eaece4;
-  --color-cream: #eaece4;
-  --color-cream-muted: #97795d;
-  --color-charcoal: #1a1008;
-  --color-charcoal-muted: #97795d;
+  --color-burgundy: #33181c;
+  --color-burgundy-dark: #281218;
+  --color-ivory: #f8f4ee;
+  --color-cream: #f8f4ee;
+  --color-cream-muted: #c5b49d;
+  --color-charcoal: #252525;
+  --color-charcoal-muted: #c5b49d;
   --color-gold-light: #97795d;
-  --color-gold-muted: #c5ac91;
-  --color-border: #6b503c;
-  --color-panel: #c5ac91;
+  --color-gold-muted: #c5b49d;
+  --color-border: #c5b49d;
+  --color-panel: #e4ddcc;
   --color-compliant: #4a6b55;
   --color-compliant-light: #e3ebe5;
   --color-attention: #8b7355;
@@ -39,28 +42,71 @@
   --color-urgent-light: #ede3e4;
 
   /* Tenancy mode palette */
-  --color-navy: #1a3358;
-  --color-navy-dark: #081426;
+  --color-navy: #1b2339;
+  --color-navy-dark: #121827;
   --color-steel: #2e4a7a;
-  --color-tenancy-bg: #f0f2f5;
-  --color-tenancy-card: #e8ecf2;
+  --color-tenancy-bg: #f8f4ee;
+  --color-tenancy-card: #e4ddcc;
   --color-tenancy-text: #0f1923;
 
-  /* Landing page greige palette */
-  --color-greige: #f2ede8;
-  --color-greige-alt: #ede6df;
-  --color-umber: #3d2b1f;
-  --color-forest: #1a1a1a;
-  --color-forest-dark: #111111;
+  /* Warm neutral overview and global palette */
+  --color-greige: #f8f4ee;
+  --color-greige-alt: #e4ddcc;
+  --color-umber: #443a35;
+  --color-forest: #443a35;
+  --color-forest-dark: #252525;
   /* Assistant study palette — single-token names (avoid ink-green / line-cream clashes) */
-  --color-study: #1a2e1a;
+  --color-study: #1c2b23;
   --color-olive: #3f4a3c;
-  --color-parchment-line: #f0ece1;
-  --color-moss: #a89f7c;
-  --color-ink: #1a0a0c;
+  --color-parchment-line: #f8f4ee;
+  --color-moss: #c5b49d;
+  --color-ink: #252525;
 
   --font-serif: var(--font-playfair), "Georgia", "Times New Roman", serif;
   --font-sans: var(--font-dm-sans), "Helvetica Neue", Arial, sans-serif;
+}
+
+@property --topbar-start {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: #443a35;
+}
+
+@property --topbar-end {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: #252525;
+}
+
+.module-topbar {
+  background: linear-gradient(
+    to right,
+    var(--topbar-start),
+    var(--topbar-end)
+  );
+  transition:
+    --topbar-start 0.4s ease,
+    --topbar-end 0.4s ease;
+}
+
+.module-topbar--overview {
+  --topbar-start: #443a35;
+  --topbar-end: #252525;
+}
+
+.module-topbar--compliance {
+  --topbar-start: #33181c;
+  --topbar-end: #33181c;
+}
+
+.module-topbar--tenancy {
+  --topbar-start: #1b2339;
+  --topbar-end: #1b2339;
+}
+
+.module-topbar--assistant {
+  --topbar-start: #1c2b23;
+  --topbar-end: #1c2b23;
 }
 
 .app-under-nav {
@@ -107,26 +153,26 @@
 }
 
 .skeleton-shimmer {
-  background-color: #e8e2da;
+  background-color: #e4ddcc;
   background-image: linear-gradient(
     90deg,
-    #e8e2da 0%,
-    #f7f3ee 45%,
-    #ebe5dc 55%,
-    #e8e2da 100%
+    #e4ddcc 0%,
+    #f8f4ee 45%,
+    #ede7db 55%,
+    #e4ddcc 100%
   );
   background-size: 200% 100%;
   animation: skeleton-shimmer 1.6s ease-in-out infinite;
 }
 
 .skeleton-shimmer-navy {
-  background-color: #d8dee8;
+  background-color: #e4ddcc;
   background-image: linear-gradient(
     90deg,
-    #d8dee8 0%,
-    #eef1f6 45%,
-    #dce2ec 55%,
-    #d8dee8 100%
+    #e4ddcc 0%,
+    #f8f4ee 45%,
+    #ede7db 55%,
+    #e4ddcc 100%
   );
   background-size: 200% 100%;
   animation: skeleton-shimmer 1.6s ease-in-out infinite;
@@ -155,7 +201,7 @@
 
   .heritage-plaque {
     position: relative;
-    border: 1px solid color-mix(in oklab, var(--color-leather) 25%, transparent);
+    border: 1px solid var(--color-taupe);
     background: var(--color-sand);
     box-shadow: 0 2px 12px rgba(26, 16, 8, 0.04);
   }
@@ -193,10 +239,10 @@
   .dashboard-warm-card {
     position: relative;
     overflow: hidden;
-    border: 1px solid var(--color-leather);
+    border: 1px solid var(--color-taupe);
     border-top-width: 2px;
     border-top-color: var(--color-gold);
-    background: linear-gradient(180deg, #f8f4ee 0%, #f0ede6 100%);
+    background: linear-gradient(180deg, var(--color-vanilla) 0%, var(--color-dune) 100%);
   }
 
   .dashboard-parchment-bg {
@@ -209,7 +255,7 @@
       var(--color-parchment-warm) 0%,
       var(--color-parchment-deep) 100%
     );
-    border-bottom: 1px solid var(--color-leather);
+    border-bottom: 1px solid var(--color-taupe);
   }
 
   .dashboard-stats-band {
@@ -348,7 +394,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid color-mix(in oklab, var(--color-leather) 45%, transparent);
+    border: 1px solid var(--color-taupe);
     padding: 0.875rem 2rem;
     font-size: 0.875rem;
     font-weight: 400;
@@ -361,7 +407,7 @@
 
   .btn-outline-dark:hover {
     background-color: rgba(26, 16, 8, 0.04);
-    border-color: var(--color-leather);
+    border-color: var(--color-taupe);
   }
 
   .text-on-image {
@@ -385,8 +431,8 @@
   }
 
   .email-composition {
-    background-color: #fdfbf7;
-    border: 1px solid var(--color-leather);
+    background-color: var(--color-vanilla);
+    border: 1px solid var(--color-taupe);
     box-shadow: 0 2px 16px rgba(57, 40, 29, 0.08), 0 1px 3px rgba(57, 40, 29, 0.04);
   }
 
@@ -460,10 +506,10 @@
   .tenancy-card {
     position: relative;
     overflow: hidden;
-    border: 1px solid color-mix(in oklab, var(--color-steel) 25%, transparent);
+    border: 1px solid var(--color-taupe);
     border-top-width: 2px;
     border-top-color: var(--color-gold);
-    background: linear-gradient(180deg, #eef1f6 0%, var(--color-tenancy-card) 100%);
+    background: linear-gradient(180deg, var(--color-vanilla) 0%, var(--color-tenancy-card) 100%);
   }
 
   .tenancy-portfolio-divider {
@@ -514,7 +560,7 @@ html {
 }
 
 body {
-  @apply overflow-x-hidden bg-dusty-cream font-sans text-base font-light leading-relaxed text-text antialiased;
+  @apply overflow-x-hidden bg-vanilla font-sans text-base font-light leading-relaxed text-text antialiased;
 }
 
 h1,

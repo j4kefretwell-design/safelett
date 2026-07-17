@@ -87,7 +87,7 @@ export default function DeleteAccountSection() {
             role="dialog"
             aria-modal="true"
             aria-labelledby="delete-account-title"
-            className="relative z-[1] max-h-[92dvh] w-full max-w-lg overflow-y-auto rounded-t-[20px] bg-[#F5F0E8] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.3)] sm:rounded-[20px] sm:p-10"
+            className="relative z-[1] max-h-[92dvh] w-full max-w-lg overflow-y-auto rounded-t-[20px] bg-vanilla p-6 shadow-[0_20px_60px_rgba(0,0,0,0.3)] sm:rounded-[20px] sm:p-10"
           >
             <button
               type="button"

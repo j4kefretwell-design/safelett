@@ -129,7 +129,7 @@ function RemindersHeroHeader({ totalCount }: { totalCount: number }) {
         quality={IMAGE_QUALITY}
         className="object-cover object-center"
       />
-      <div className="absolute inset-0 bg-[#1A0A0C]/60" />
+      <div className="absolute inset-0 bg-[#252525]/60" />
       <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center sm:px-8">
         <p className="text-on-image caps-label text-dusty-cream">
           Compliance Reminders
@@ -155,7 +155,7 @@ function RemindersStickyBar({
 }) {
   return (
     <div
-      className={`sticky top-[var(--app-top-offset,4rem)] z-10 border-b border-leather/15 bg-white ${editorialPagePaddingClassName} py-3`}
+      className={`sticky top-[var(--app-top-offset,4rem)] z-10 border-b border-taupe bg-vanilla ${editorialPagePaddingClassName} py-3`}
     >
       <p className={`${capsLabelClassName} leading-relaxed text-leather`}>
         {overdueCount} Overdue · {weekCount} This Week · {monthCount} This Month ·{" "}
@@ -192,7 +192,7 @@ function ReminderCard({
       }`}
       style={{ transitionDelay: `${animateIndex * 60}ms` }}
     >
-      <div className="flex border border-leather/30 bg-white">
+      <div className="flex border border-taupe bg-dune">
         <div
           className={`w-1 shrink-0 ${statusStripeClasses[status]}`}
           aria-hidden="true"
@@ -233,7 +233,7 @@ function ReminderCard({
       >
         <div className="overflow-hidden">
           <div
-            className={`border border-t-0 border-leather/30 bg-white px-6 py-8 sm:px-8`}
+            className="border border-t-0 border-taupe bg-dune px-6 py-8 sm:px-8"
           >
             <div className="grid gap-6 sm:grid-cols-2">
               <div>
