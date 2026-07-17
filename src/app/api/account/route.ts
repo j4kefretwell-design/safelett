@@ -12,6 +12,19 @@ function uniquePaths(paths: Array<string | null | undefined>): string[] {
   return [...new Set(paths.filter((path): path is string => Boolean(path)))];
 }
 
+function isMissingBucket(message: string): boolean {
+  return /bucket not found/i.test(message);
+}
+
+/** True when a table/relation was never created in this Supabase project. */
+function isMissingTable(message: string): boolean {
+  return (
+    /does not exist/i.test(message) ||
+    /could not find the table/i.test(message) ||
+    /schema cache/i.test(message)
+  );
+}
+
 async function removeStorageFiles(
   admin: ReturnType<typeof createAdminClient>,
   bucket: (typeof STORAGE_BUCKETS)[number],
@@ -21,7 +34,10 @@ async function removeStorageFiles(
     const { error } = await admin.storage
       .from(bucket)
       .remove(paths.slice(index, index + 100));
-    if (error) throw new Error(`Could not delete ${bucket}: ${error.message}`);
+    if (error) {
+      if (isMissingBucket(error.message)) return;
+      throw new Error(`Could not delete ${bucket}: ${error.message}`);
+    }
   }
 }
 
@@ -37,7 +53,10 @@ async function listStorageFiles(
       limit: 1000,
       offset,
     });
-    if (error) throw new Error(`Could not list ${bucket}: ${error.message}`);
+    if (error) {
+      if (isMissingBucket(error.message)) return files;
+      throw new Error(`Could not list ${bucket}: ${error.message}`);
+    }
 
     for (const item of data ?? []) {
       const path = `${prefix}/${item.name}`;
@@ -139,6 +158,8 @@ export async function DELETE(request: Request) {
     ]);
 
     if (subscription?.stripe_customer_id?.startsWith("cus_")) {
+      // A Stripe failure should not leave the user unable to erase their data;
+      // log it so support can clean the customer up manually.
       try {
         await getStripe().customers.del(subscription.stripe_customer_id);
       } catch (error) {
@@ -146,13 +167,21 @@ export async function DELETE(request: Request) {
           error && typeof error === "object" && "code" in error
             ? (error as { code?: string }).code
             : undefined;
-        if (code !== "resource_missing") throw error;
+        if (code !== "resource_missing") {
+          console.error(
+            "[account/delete] Stripe customer cleanup failed:",
+            subscription.stripe_customer_id,
+            error
+          );
+        }
       }
     }
 
     async function deleteByUserId(table: string) {
       const { error } = await admin.from(table).delete().eq("user_id", userId);
-      if (error) throw new Error(`Could not delete ${table}: ${error.message}`);
+      if (error && !isMissingTable(error.message)) {
+        throw new Error(`Could not delete ${table}: ${error.message}`);
+      }
     }
 
     async function deleteByIds(
@@ -162,7 +191,9 @@ export async function DELETE(request: Request) {
     ) {
       if (ids.length === 0) return;
       const { error } = await admin.from(table).delete().in(column, ids);
-      if (error) throw new Error(`Could not delete ${table}: ${error.message}`);
+      if (error && !isMissingTable(error.message)) {
+        throw new Error(`Could not delete ${table}: ${error.message}`);
+      }
     }
 
     // Assistant history is also user-owned but is not part of the relational
@@ -194,10 +225,13 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ deleted: true });
   } catch (error) {
     console.error("[account/delete] Failed:", error);
+    const detail =
+      error instanceof Error && error.message
+        ? ` (${error.message})`
+        : "";
     return NextResponse.json(
       {
-        error:
-          "Account deletion could not be completed. Please contact support for assistance.",
+        error: `Account deletion could not be completed. Please contact support for assistance.${detail}`,
       },
       { status: 500 }
     );
