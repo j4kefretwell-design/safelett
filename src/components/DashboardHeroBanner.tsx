@@ -43,7 +43,7 @@ export default function DashboardHeroBanner({ stats }: DashboardHeroBannerProps)
         <p className="font-serif text-sm italic tracking-wide text-gold">
           Portfolio Status —
         </p>
-        <h1 className="mt-5 max-w-4xl font-serif text-3xl italic leading-tight tracking-wide text-dusty-cream sm:text-4xl lg:text-5xl xl:text-6xl">
+        <h1 className="mt-5 max-w-4xl font-display text-3xl italic leading-tight tracking-wide text-dusty-cream sm:text-4xl lg:text-5xl xl:text-6xl">
           {isCompliant
             ? "All Properties Compliant"
             : `${needsAttention} ${needsAttention === 1 ? "Property" : "Properties"} Need Attention`}

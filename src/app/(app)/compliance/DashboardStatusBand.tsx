@@ -42,7 +42,7 @@ export default function DashboardStatusBand({
         <p className="mt-4 caps-label text-gold">
           Portfolio Status
         </p>
-        <h1 className="mt-4 font-serif text-[1.125rem] font-normal leading-snug tracking-wide text-dusty-cream">
+        <h1 className="mt-4 font-display text-[1.125rem] font-normal leading-snug tracking-wide text-dusty-cream">
           {isCompliant
             ? "All Properties Compliant"
             : `${needsAttention} ${needsAttention === 1 ? "Property" : "Properties"} Need Attention`}

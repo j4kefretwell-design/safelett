@@ -166,7 +166,7 @@ function PanelBody({
 
       {isEmpty ? (
         <div className="mt-5 flex flex-1 flex-col justify-center sm:mt-6">
-          <p className={`font-serif tracking-wide text-umber ${statusSize}`}>
+          <p className={`font-display tracking-wide text-umber ${statusSize}`}>
             {panel.statusText}
           </p>
           {panel.description ? (
@@ -180,7 +180,7 @@ function PanelBody({
         </div>
       ) : isAssistant ? (
         <div className="mt-5 flex flex-1 flex-col justify-center sm:mt-6">
-          <p className={`font-serif tracking-wide text-umber ${statusSize}`}>
+          <p className={`font-display tracking-wide text-umber ${statusSize}`}>
             {panel.statusText}
           </p>
           {panel.description ? (
@@ -205,7 +205,7 @@ function PanelBody({
           )}
 
           <p
-            className={`mt-3 font-serif tracking-wide ${statusSize} ${
+            className={`mt-3 font-display tracking-wide ${statusSize} ${
               isActionsWithItems ? "text-umber" : statusTextClass[panel.status]
             }`}
           >

@@ -241,7 +241,7 @@ export default function LandingPage({
             className="space-y-4 bg-[rgba(68,58,53,0.65)] px-10 py-8"
             staggerMs={100}
           >
-            <h1 className="font-serif text-3xl leading-tight tracking-[0.02em] text-dusty-cream sm:text-5xl sm:leading-[1.08]">
+            <h1 className="font-display text-3xl leading-tight tracking-[0.02em] text-dusty-cream sm:text-5xl sm:leading-[1.08]">
               Protecting What Matters Most.
             </h1>
             <p className="text-base font-light leading-relaxed text-dusty-cream/90 sm:text-lg">

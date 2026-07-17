@@ -101,7 +101,7 @@ export default function TopNav({
           className="flex min-w-0 items-center justify-center px-1 transition hover:opacity-80"
         >
           {isOverview ? (
-            <p className="whitespace-nowrap font-serif text-[0.8125rem] uppercase tracking-[0.16em] text-dusty-cream sm:text-base sm:tracking-[0.28em] md:text-lg md:tracking-[0.32em]">
+            <p className="whitespace-nowrap font-display text-[0.8125rem] uppercase tracking-[0.16em] text-dusty-cream sm:text-base sm:tracking-[0.28em] md:text-lg md:tracking-[0.32em]">
               <span className="sm:hidden">
                 F<span className="italic text-gold">&amp;</span>Co
               </span>
@@ -110,7 +110,7 @@ export default function TopNav({
               </span>
             </p>
           ) : isAssistant ? (
-            <p className="whitespace-nowrap font-serif text-[0.8125rem] uppercase tracking-[0.16em] text-dusty-cream sm:text-base sm:tracking-[0.28em] md:text-lg md:tracking-[0.32em]">
+            <p className="whitespace-nowrap font-display text-[0.8125rem] uppercase tracking-[0.16em] text-dusty-cream sm:text-base sm:tracking-[0.28em] md:text-lg md:tracking-[0.32em]">
               <span className="sm:hidden">
                 F<span className="italic text-moss">&amp;</span>Co
               </span>
@@ -119,7 +119,7 @@ export default function TopNav({
               </span>
             </p>
           ) : (
-            <p className="whitespace-nowrap font-serif text-[0.8125rem] uppercase tracking-[0.16em] text-gold sm:text-base sm:tracking-[0.28em] md:text-lg md:tracking-[0.32em]">
+            <p className="whitespace-nowrap font-display text-[0.8125rem] uppercase tracking-[0.16em] text-gold sm:text-base sm:tracking-[0.28em] md:text-lg md:tracking-[0.32em]">
               <span className="sm:hidden">
                 F<span className="italic">&amp;</span>Co
               </span>

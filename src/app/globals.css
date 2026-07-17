@@ -63,6 +63,7 @@
   --color-ink: #252525;
 
   --font-serif: var(--font-playfair), "Georgia", "Times New Roman", serif;
+  --font-display: var(--font-bodoni), "Didot", "Times New Roman", serif;
   --font-sans: var(--font-dm-sans), "Helvetica Neue", Arial, sans-serif;
 }
 

@@ -241,7 +241,7 @@ function Monogram({ size = 50 }: { size?: number }) {
       className="flex shrink-0 items-center justify-center border border-study"
       style={{ width: size, height: size }}
     >
-      <span className={`font-serif tracking-tight text-study ${textSize}`}>
+      <span className={`font-display tracking-tight text-study ${textSize}`}>
         F<span className="mx-px text-moss">&amp;</span>Co
       </span>
     </div>

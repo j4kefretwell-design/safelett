@@ -390,7 +390,7 @@ export default async function OverviewDashboardPage() {
             </p>
             <div className="mt-3 h-px w-16 bg-[#C4A35A]/80" aria-hidden />
 
-            <p className="mt-8 font-serif text-3xl tracking-wide text-umber sm:text-4xl">
+            <p className="mt-8 font-display text-3xl tracking-wide text-umber sm:text-4xl">
               {currentPlan}
             </p>
 

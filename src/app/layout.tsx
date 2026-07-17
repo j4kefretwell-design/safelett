@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DM_Sans, Playfair_Display } from "next/font/google";
+import { Bodoni_Moda, DM_Sans, Playfair_Display } from "next/font/google";
 import CookieNotice from "@/components/CookieNotice";
 import { BRAND_NAME } from "@/lib/brand";
 import "./globals.css";
@@ -19,6 +19,14 @@ const playfair = Playfair_Display({
   display: "swap",
   preload: true,
   adjustFontFallback: true,
+});
+
+const bodoni = Bodoni_Moda({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  variable: "--font-bodoni",
+  display: "swap",
 });
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -52,7 +60,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${dmSans.variable} ${playfair.variable}`}>
+    <html
+      lang="en"
+      className={`${dmSans.variable} ${playfair.variable} ${bodoni.variable}`}
+    >
       <head>
         {supabaseOrigin && (
           <>
