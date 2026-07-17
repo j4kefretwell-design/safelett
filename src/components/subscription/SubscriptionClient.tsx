@@ -264,7 +264,7 @@ export default function SubscriptionClient({
                 isSelected ? "ring-1 ring-gold/50" : ""
               } ${
                 isProfessional
-                  ? "lg:-mt-3 lg:mb-[-0.75rem] lg:shadow-[0_16px_40px_rgba(15,31,18,0.12)]"
+                  ? "lg:-mt-3 lg:mb-[-0.75rem] lg:shadow-[0_16px_40px_rgba(26,46,26,0.12)]"
                   : ""
               }`}
             >

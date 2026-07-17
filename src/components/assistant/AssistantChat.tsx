@@ -1163,7 +1163,7 @@ export default function AssistantChat({
       />
 
       {/* Desktop left panel */}
-      <aside className="hidden h-full w-[180px] max-w-[180px] shrink-0 flex-col bg-study md:flex">
+      <aside className="hidden h-full w-[180px] max-w-[180px] shrink-0 flex-col bg-study transition-colors duration-[400ms] ease-[ease] md:flex">
         {renderAssistantNav()}
       </aside>
 
@@ -1177,7 +1177,7 @@ export default function AssistantChat({
         onClick={() => setMobileNavOpen(false)}
       />
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-[min(100vw,180px)] flex-col bg-study transition-transform duration-300 ease-out md:hidden ${
+        className={`fixed inset-y-0 left-0 z-50 flex w-[min(100vw,180px)] flex-col bg-study transition-[background-color,transform] duration-[400ms] ease-[ease] md:hidden ${
           mobileNavOpen ? "translate-x-0" : "-translate-x-full"
         }`}
         aria-hidden={!mobileNavOpen}
@@ -1220,7 +1220,7 @@ export default function AssistantChat({
             </div>
             <div
               className="absolute inset-0"
-              style={{ backgroundColor: "rgba(15, 31, 18, 0.35)" }}
+              style={{ backgroundColor: "rgba(26, 46, 26, 0.35)" }}
               aria-hidden
             />
           </>

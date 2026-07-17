@@ -307,7 +307,7 @@ export default async function OverviewDashboardPage() {
                   ? "text-attention"
                   : "text-[#6B503C]";
               const dotColour =
-                item.module === "compliance" ? "bg-[#2D0F12]" : "bg-[#0D1E35]";
+                item.module === "compliance" ? "bg-[#4A1520]" : "bg-[#1A3358]";
 
               return (
                 <li key={item.id}>

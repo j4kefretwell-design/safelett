@@ -70,7 +70,7 @@ export default function TopNav({
 
   return (
     <header
-      className={`sticky top-0 z-50 h-16 w-full shrink-0 transition-colors duration-200 ease-out ${headerBgClass(mode)}`}
+      className={`sticky top-0 z-50 h-16 w-full shrink-0 transition-colors duration-[400ms] ease-[ease] ${headerBgClass(mode)}`}
     >
       <div
         className="relative grid h-16 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center border-b border-gold px-3 sm:px-6 lg:px-12"

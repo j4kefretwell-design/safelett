@@ -3,7 +3,7 @@
 @source "../**/*.{js,ts,jsx,tsx,mdx}";
 
 @theme {
-  --color-raspberry: #2d0f12;
+  --color-raspberry: #4a1520;
   --color-raspberry-dark: #240b0e;
   --color-espresso: #39281d;
   --color-leather: #6b503c;
@@ -20,7 +20,7 @@
   --color-parchment-deep: #ede8dc;
 
   /* Semantic aliases used across the app */
-  --color-burgundy: #2d0f12;
+  --color-burgundy: #4a1520;
   --color-burgundy-dark: #240b0e;
   --color-ivory: #eaece4;
   --color-cream: #eaece4;
@@ -39,7 +39,7 @@
   --color-urgent-light: #ede3e4;
 
   /* Tenancy mode palette */
-  --color-navy: #0d1e35;
+  --color-navy: #1a3358;
   --color-navy-dark: #081426;
   --color-steel: #2e4a7a;
   --color-tenancy-bg: #f0f2f5;
@@ -53,7 +53,7 @@
   --color-forest: #1a1a1a;
   --color-forest-dark: #111111;
   /* Assistant study palette — single-token names (avoid ink-green / line-cream clashes) */
-  --color-study: #0f1f12;
+  --color-study: #1a2e1a;
   --color-olive: #3f4a3c;
   --color-parchment-line: #f0ece1;
   --color-moss: #a89f7c;
