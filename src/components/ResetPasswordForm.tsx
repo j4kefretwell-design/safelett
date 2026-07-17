@@ -97,7 +97,7 @@ export default function ResetPasswordForm() {
 
         {success ? (
           <div className="space-y-6">
-            <h1 className="font-serif text-2xl tracking-wide text-text sm:text-3xl">
+            <h1 className="font-serif text-2xl tracking-wide text-heading sm:text-3xl">
               Password updated
             </h1>
             <p className="text-sm font-light leading-relaxed text-cocoa">
@@ -115,7 +115,7 @@ export default function ResetPasswordForm() {
           <p className="text-sm font-light text-cocoa">Verifying reset link...</p>
         ) : !sessionReady ? (
           <div className="space-y-6">
-            <h1 className="font-serif text-2xl tracking-wide text-text sm:text-3xl">
+            <h1 className="font-serif text-2xl tracking-wide text-heading sm:text-3xl">
               Reset link expired
             </h1>
             <p className="text-sm font-light leading-relaxed text-cocoa">
@@ -138,7 +138,7 @@ export default function ResetPasswordForm() {
             >
               ← Back to Sign In
             </button>
-            <h1 className="mt-8 font-serif text-2xl tracking-wide text-text sm:text-3xl">
+            <h1 className="mt-8 font-serif text-2xl tracking-wide text-heading sm:text-3xl">
               Set new password
             </h1>
             <p className="mt-4 text-sm font-light leading-relaxed text-cocoa">

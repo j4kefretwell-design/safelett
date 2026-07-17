@@ -150,7 +150,7 @@ export default async function TenancyDetailPage({ params }: TenancyDetailPagePro
       <div className="mx-auto grid max-w-6xl gap-8 px-5 py-10 sm:px-12 lg:grid-cols-2 lg:px-16 lg:py-14">
         <AnimateIn delay={100}>
           <div className="border border-taupe bg-dune p-6 sm:p-8">
-            <h2 className="font-serif text-xl tracking-wide text-tenancy-text">
+            <h2 className="font-serif text-xl tracking-wide text-heading">
               Tenancy Details
             </h2>
             <dl className="mt-8 space-y-4 text-sm">
@@ -200,7 +200,7 @@ export default async function TenancyDetailPage({ params }: TenancyDetailPagePro
 
         <AnimateIn delay={150}>
           <div className="border border-taupe bg-dune p-6 sm:p-8">
-            <h2 className="font-serif text-xl tracking-wide text-tenancy-text">
+            <h2 className="font-serif text-xl tracking-wide text-heading">
               Documents
             </h2>
             <ul className="mt-8 space-y-4">
@@ -231,7 +231,7 @@ export default async function TenancyDetailPage({ params }: TenancyDetailPagePro
 
       <section className="mx-auto max-w-6xl px-5 pb-10 sm:px-12 lg:px-16">
         <AnimateIn delay={200}>
-          <h2 className="font-serif text-xl tracking-wide text-tenancy-text">
+          <h2 className="font-serif text-xl tracking-wide text-heading">
             Key Dates
           </h2>
           <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -275,7 +275,7 @@ export default async function TenancyDetailPage({ params }: TenancyDetailPagePro
         <section className="mx-auto max-w-6xl px-5 pb-10 sm:px-12 lg:px-16">
           <AnimateIn delay={250}>
             <div className="border border-taupe bg-dune p-6 sm:p-8">
-              <h2 className="font-serif text-xl tracking-wide text-tenancy-text">
+              <h2 className="font-serif text-xl tracking-wide text-heading">
                 Notes
               </h2>
               <p className="mt-4 whitespace-pre-wrap text-sm leading-relaxed text-steel">

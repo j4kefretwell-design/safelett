@@ -115,7 +115,7 @@ export default function DashboardClient({
             <p className="text-[10px] font-normal uppercase tracking-[0.32em] text-leather">
               Portfolio
             </p>
-            <h2 className="mt-4 font-serif text-4xl tracking-wide text-text sm:text-5xl">
+            <h2 className="mt-4 font-serif text-4xl tracking-wide text-heading sm:text-5xl">
               Your Portfolio
             </h2>
             <div className="mt-5 h-px w-12 bg-gold/70" aria-hidden="true" />

@@ -52,8 +52,7 @@ export default function NewsFeedClient() {
 
   const endpoint = tab === "compliance" ? "/api/news" : "/api/tenancy-news";
   const accent = tab === "compliance" ? "burgundy" : "navy";
-  const headlineClass =
-    tab === "compliance" ? "text-raspberry" : "text-navy";
+  const headlineClass = "text-heading";
 
   const fetchNews = useCallback(async () => {
     setLoading(true);

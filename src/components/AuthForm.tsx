@@ -42,9 +42,8 @@ export default function AuthForm({ mode }: AuthFormProps) {
   const subtitleClassName = isLoginStyled
     ? "mt-4 text-sm font-light leading-relaxed text-umber/80"
     : "mt-4 text-sm font-light leading-relaxed text-cocoa";
-  const titleClassName = isLoginStyled
-    ? "font-serif text-2xl tracking-wide text-umber sm:text-3xl"
-    : "font-serif text-2xl tracking-wide text-text sm:text-3xl";
+  const titleClassName =
+    "font-serif text-2xl tracking-wide text-heading sm:text-3xl";
   const footerBorderClassName = isLoginStyled
     ? "mt-10 border-t border-umber/15 pt-8 text-center text-sm font-light text-umber/80"
     : "mt-10 border-t border-cocoa/15 pt-8 text-center text-sm font-light text-cocoa";

@@ -60,7 +60,7 @@ function SectionHeading({
   return (
     <div className="flex flex-wrap items-end justify-between gap-4">
       <div>
-        <h2 className="text-[10px] font-normal uppercase tracking-[0.28em] text-leather">
+        <h2 className="text-[10px] font-normal uppercase tracking-[0.28em] text-heading">
           {title}
         </h2>
         <div className="mt-3 h-px w-16 bg-gold/80" aria-hidden />

@@ -118,10 +118,10 @@ export const editorialBleedClassName = "w-full min-w-0";
 export const editorialPagePaddingClassName = "px-4 sm:px-6 lg:px-12";
 
 export const sectionTitleClassName =
-  "font-serif text-xl tracking-wide text-text";
+  "font-serif text-xl tracking-wide text-heading";
 
 export const formSectionTitleClassName =
-  "font-serif text-xl tracking-wide text-text";
+  "font-serif text-xl tracking-wide text-heading";
 
 export const formSectionRuleClassName = "mt-4 h-px w-16 bg-gold/60";
 
@@ -144,7 +144,7 @@ export const linkClassName =
   "text-base font-light leading-relaxed tracking-wide text-raspberry transition hover:text-leather";
 
 export const pageTitleClassName =
-  "font-serif text-3xl tracking-[0.02em] text-text sm:text-4xl lg:text-5xl";
+  "font-serif text-3xl tracking-[0.02em] text-heading sm:text-4xl lg:text-5xl";
 
 export const pageTitleRuleClassName = "mt-5 h-px w-20 bg-gold/60";
 

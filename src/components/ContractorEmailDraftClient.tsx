@@ -63,7 +63,7 @@ export default function ContractorEmailDraftClient({
 
       <header className="mt-8 max-w-3xl">
         <p className={capsLabelClassName}>Contractor Email Draft</p>
-        <h1 className="mt-3 font-serif text-2xl tracking-wide text-raspberry sm:text-3xl">
+        <h1 className="mt-3 font-serif text-2xl tracking-wide text-heading sm:text-3xl">
           {certificateLabel}
         </h1>
         <p className="mt-2 text-base leading-relaxed text-leather">{propertyAddress}</p>

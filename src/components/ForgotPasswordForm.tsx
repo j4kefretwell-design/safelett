@@ -70,7 +70,7 @@ export default function ForgotPasswordForm() {
           <BrandWordmark href="/" variant="auth" />
         </div>
 
-        <h1 className="font-serif text-2xl tracking-wide text-umber sm:text-3xl">
+        <h1 className="font-serif text-2xl tracking-wide text-heading sm:text-3xl">
           Reset password
         </h1>
 

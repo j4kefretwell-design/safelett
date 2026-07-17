@@ -51,7 +51,7 @@ export default function ContractorCard({ contractor }: ContractorCardProps) {
   return (
     <article className={`${dashboardWarmCardClassName} flex flex-col p-6 sm:p-8`}>
       <div className="dashboard-warm-card-content">
-        <h2 className="font-serif text-xl tracking-wide text-text">{contractor.name}</h2>
+        <h2 className="font-serif text-xl tracking-wide text-heading">{contractor.name}</h2>
         <p className="mt-2 text-base leading-relaxed text-leather">
           {contractor.company_name}
         </p>

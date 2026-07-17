@@ -292,7 +292,7 @@ export default async function OverviewDashboardPage() {
             >
               ✓
             </span>
-            <p className="mt-5 font-serif text-xl italic tracking-wide text-umber">
+            <p className="mt-5 font-serif text-xl italic tracking-wide text-heading">
               Your portfolio is in order.
             </p>
           </div>
@@ -321,7 +321,7 @@ export default async function OverviewDashboardPage() {
                     />
                     <div className="min-w-0 sm:contents">
                       <div className="min-w-0">
-                        <p className="truncate font-serif text-[17px] tracking-wide text-umber">
+                        <p className="truncate font-serif text-[17px] tracking-wide text-heading">
                           {item.address}
                         </p>
                         <p className="mt-1 truncate text-[12px] text-leather">
@@ -390,7 +390,7 @@ export default async function OverviewDashboardPage() {
             </p>
             <div className="mt-3 h-px w-16 bg-[#C4A35A]/80" aria-hidden />
 
-            <p className="mt-8 font-display text-3xl tracking-wide text-umber sm:text-4xl">
+            <p className="mt-8 font-display text-3xl tracking-wide text-heading sm:text-4xl">
               {currentPlan}
             </p>
 

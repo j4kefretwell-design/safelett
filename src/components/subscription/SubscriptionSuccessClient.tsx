@@ -27,12 +27,7 @@ export default function SubscriptionSuccessClient() {
           ? "bg-forest"
           : "bg-raspberry";
 
-  const headingClass =
-    mode === "tenancy"
-      ? "text-tenancy-text"
-      : mode === "overview"
-        ? "text-umber"
-        : "text-text";
+  const headingClass = "text-heading";
 
   const mutedClass = mode === "tenancy" ? "text-steel" : "text-leather";
 

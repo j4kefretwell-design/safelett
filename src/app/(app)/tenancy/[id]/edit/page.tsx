@@ -31,7 +31,7 @@ export default async function EditTenancyPage({ params }: EditTenancyPageProps) 
         <p className="mt-8 text-[10px] font-normal uppercase tracking-[0.32em] text-gold">
           Edit Tenancy
         </p>
-        <h1 className="mt-5 font-serif text-3xl tracking-wide text-tenancy-text sm:text-4xl">
+        <h1 className="mt-5 font-serif text-3xl tracking-wide text-heading sm:text-4xl">
           Update Tenancy Record
         </h1>
         <div className="mt-12 max-w-3xl border border-taupe bg-vanilla p-6 sm:p-10">

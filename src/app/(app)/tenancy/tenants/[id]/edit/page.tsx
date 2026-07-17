@@ -59,7 +59,7 @@ export default async function EditTenantPage({ params }: EditTenantPageProps) {
           <p className="mt-8 text-[10px] font-normal uppercase tracking-[0.32em] text-gold">
             Edit Tenant
           </p>
-          <h1 className="mt-5 max-w-xl font-serif text-3xl tracking-wide text-tenancy-text sm:text-4xl">
+          <h1 className="mt-5 max-w-xl font-serif text-3xl tracking-wide text-heading sm:text-4xl">
             Update Tenant Details
           </h1>
 

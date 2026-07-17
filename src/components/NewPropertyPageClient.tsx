@@ -37,7 +37,7 @@ export default function NewPropertyPageClient() {
           <p className="text-[10px] font-normal uppercase tracking-[0.32em] text-gold">
             Add a Property
           </p>
-          <h1 className="mt-5 max-w-xl font-serif text-3xl tracking-wide text-text sm:text-4xl lg:text-[2.75rem] lg:leading-tight">
+          <h1 className="mt-5 max-w-xl font-serif text-3xl tracking-wide text-heading sm:text-4xl lg:text-[2.75rem] lg:leading-tight">
             Add a New Property to Your Portfolio.
           </h1>
           <p className="mt-5 max-w-lg text-sm font-light leading-relaxed text-leather">

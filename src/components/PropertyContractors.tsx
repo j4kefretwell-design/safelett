@@ -173,7 +173,7 @@ export default function PropertyContractors({
     <>
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h2 className="text-[10px] font-normal uppercase tracking-[0.28em] text-leather">
+          <h2 className="text-[10px] font-normal uppercase tracking-[0.28em] text-heading">
             Contractors
           </h2>
           <div className="mt-3 h-px w-16 bg-gold/80" aria-hidden />
@@ -286,7 +286,7 @@ export default function PropertyContractors({
               <>
                 <h3
                   id="add-contractor-title"
-                  className="pr-8 font-serif text-2xl tracking-wide text-umber"
+                  className="pr-8 font-serif text-2xl tracking-wide text-heading"
                 >
                   You haven&apos;t added any contractors yet.
                 </h3>
@@ -315,7 +315,7 @@ export default function PropertyContractors({
               <>
                 <h3
                   id="add-contractor-title"
-                  className="pr-8 font-serif text-2xl tracking-wide text-umber"
+                  className="pr-8 font-serif text-2xl tracking-wide text-heading"
                 >
                   Add a Contractor to This Property
                 </h3>

@@ -100,7 +100,7 @@ export default function DeleteAccountSection() {
             </button>
             <h2
               id="delete-account-title"
-              className="pr-8 font-serif text-2xl tracking-wide text-umber"
+              className="pr-8 font-serif text-2xl tracking-wide text-heading"
             >
               Delete Your Account
             </h2>

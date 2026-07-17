@@ -209,7 +209,7 @@ export default function PropertyForm({
       <section>
         {!hideSectionHeader && (
           <>
-            <h2 className="text-xs font-normal uppercase tracking-[0.22em] text-cocoa">
+            <h2 className="text-xs font-normal uppercase tracking-[0.22em] text-heading">
               Property Details
             </h2>
             <div className={formSectionRuleClassName} aria-hidden="true" />

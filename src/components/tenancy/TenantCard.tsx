@@ -34,7 +34,7 @@ export default function TenantCard({
       className="group tenancy-card flex h-full min-h-[200px] flex-col justify-between border-l-[3px] border-l-steel p-6 transition duration-200 hover:border-navy sm:min-h-[220px] sm:p-8"
     >
       <div>
-        <h3 className="font-serif text-lg leading-snug tracking-wide text-tenancy-text transition group-hover:text-navy sm:text-xl">
+        <h3 className="font-serif text-lg leading-snug tracking-wide text-heading transition group-hover:text-heading sm:text-xl">
           {tenant.full_name}
         </h3>
         <p className="mt-3 text-sm font-light leading-relaxed text-steel">

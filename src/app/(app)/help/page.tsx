@@ -30,7 +30,7 @@ export default function HelpPage() {
       <section className="mx-auto max-w-3xl px-5 py-10 sm:px-8 sm:py-14 lg:px-12">
         <PageBackButton className="mb-8" />
         <div>
-          <h2 className="caps-label text-leather">Getting Started</h2>
+          <h2 className="caps-label text-heading">Getting Started</h2>
           <div className="mt-8 space-y-0">
             {GETTING_STARTED_STEPS.map((step, index) => (
               <div key={step.number}>
@@ -44,7 +44,7 @@ export default function HelpPage() {
                   <p className="text-sm font-normal tracking-[0.2em] text-gold-readable">
                     {step.number}
                   </p>
-                  <h3 className="mt-3 font-serif text-xl tracking-wide text-raspberry">
+                  <h3 className="mt-3 font-serif text-xl tracking-wide text-heading">
                     {step.title}
                   </h3>
                   <p className="mt-3 text-base leading-relaxed text-leather">
@@ -59,7 +59,7 @@ export default function HelpPage() {
         <div className={editorialFormSectionRuleClassName} aria-hidden="true" />
 
         <div>
-          <h2 className="caps-label text-leather">Frequently Asked Questions</h2>
+          <h2 className="caps-label text-heading">Frequently Asked Questions</h2>
           <div className="mt-8">
             <HelpFaqAccordion />
           </div>
@@ -68,7 +68,7 @@ export default function HelpPage() {
         <div className={editorialFormSectionRuleClassName} aria-hidden="true" />
 
         <div>
-          <h2 className="caps-label text-leather">Contact Support</h2>
+          <h2 className="caps-label text-heading">Contact Support</h2>
           <p className="mt-6 text-base leading-relaxed text-leather">
             Need further assistance? We&apos;re here to help.
           </p>

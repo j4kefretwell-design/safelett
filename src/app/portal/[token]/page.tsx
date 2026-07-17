@@ -117,7 +117,7 @@ export default async function PortalPage({ params }: PortalPageProps) {
         </div>
 
         <section className="mt-10">
-          <h2 className="font-serif text-xl font-medium text-charcoal">
+          <h2 className="font-serif text-xl font-medium text-heading">
             Certificates
           </h2>
 

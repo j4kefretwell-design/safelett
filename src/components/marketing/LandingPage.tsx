@@ -76,7 +76,7 @@ const moduleCards = [
     price: "£30/month",
     borderColor: "#33181C",
     tintBg: "#E4DDCC",
-    headingClass: "text-raspberry",
+    headingClass: "text-heading",
     watermarkClass: "text-raspberry",
     href: "/signup",
     comingSoon: false,
@@ -87,7 +87,7 @@ const moduleCards = [
     price: "£35/month",
     borderColor: "#1B2339",
     tintBg: "#E4DDCC",
-    headingClass: "text-navy",
+    headingClass: "text-heading",
     watermarkClass: "text-navy",
     href: "/signup",
     comingSoon: false,
@@ -99,7 +99,7 @@ const moduleCards = [
     price: "Included in Professional",
     borderColor: "#1C2B23",
     tintBg: "#E4DDCC",
-    headingClass: "text-study",
+    headingClass: "text-heading",
     watermarkClass: "text-study",
     href: "/signup",
     comingSoon: false,
@@ -261,7 +261,7 @@ export default function LandingPage({
               <p className="text-[10px] font-normal uppercase tracking-[0.32em] text-umber/70">
                 One Platform. Three Modules.
               </p>
-              <h2 className="mt-6 font-serif text-3xl tracking-[0.02em] text-umber sm:text-4xl lg:text-[2.75rem] lg:leading-tight">
+              <h2 className="mt-6 font-serif text-3xl tracking-[0.02em] text-heading sm:text-4xl lg:text-[2.75rem] lg:leading-tight">
                 Built for the Modern Property Manager.
               </h2>
             </ScrollRevealGroup>
@@ -356,7 +356,7 @@ export default function LandingPage({
               <p className="text-[10px] font-normal uppercase tracking-[0.24em] text-umber/70">
                 Why Fretwell &amp; Co
               </p>
-              <h2 className="font-serif text-2xl leading-snug tracking-[0.02em] text-umber sm:text-4xl lg:text-[2.75rem]">
+              <h2 className="font-serif text-2xl leading-snug tracking-[0.02em] text-heading sm:text-4xl lg:text-[2.75rem]">
                 The Standard of Care Your Portfolio Deserves.
               </h2>
               <p className="text-base font-light leading-relaxed text-umber/80 sm:text-lg">
@@ -402,7 +402,7 @@ export default function LandingPage({
                     {feature.number}
                   </p>
                   <div className="mt-6 h-px w-12 bg-gold/50" />
-                  <h3 className="mt-8 font-serif text-xl tracking-[0.02em] text-umber sm:text-2xl">
+                  <h3 className="mt-8 font-serif text-xl tracking-[0.02em] text-heading sm:text-2xl">
                     {feature.module}
                   </h3>
                   <p className="mt-5 text-base font-light leading-relaxed text-leather sm:text-lg">
@@ -458,7 +458,7 @@ export default function LandingPage({
               <p className="text-[10px] font-normal uppercase tracking-[0.24em] text-umber/70">
                 Simple Pricing
               </p>
-              <h2 className="font-serif text-2xl tracking-[0.02em] text-umber sm:text-4xl">
+              <h2 className="font-serif text-2xl tracking-[0.02em] text-heading sm:text-4xl">
                 Three Plans. Built for Property Professionals.
               </h2>
 

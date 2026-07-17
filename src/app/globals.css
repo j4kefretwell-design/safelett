@@ -13,6 +13,7 @@
   --color-dusty-cream: #f8f4ee;
   --color-beige: #e4ddcc;
   --color-text: #252525;
+  --color-heading: #60544d;
   --color-gold: #c4a35a;
   --color-gold-readable: #a8892e;
   --color-parchment: #f8f4ee;
@@ -447,7 +448,7 @@
   }
 
   .legal-prose h2 {
-    color: var(--color-raspberry);
+    color: var(--color-heading);
     font-family: var(--font-playfair), Georgia, serif;
     font-size: 1.25rem;
     font-weight: 400;

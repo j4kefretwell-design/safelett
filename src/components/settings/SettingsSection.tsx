@@ -25,7 +25,7 @@ export default function SettingsSection({
       <p className="text-[10px] font-normal uppercase tracking-[0.32em] text-leather">
         {label}
       </p>
-      <h2 className="mt-3 font-serif text-2xl tracking-wide text-text sm:text-3xl">
+      <h2 className="mt-3 font-serif text-2xl tracking-wide text-heading sm:text-3xl">
         {title}
       </h2>
       {description && (

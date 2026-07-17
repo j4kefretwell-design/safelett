@@ -67,7 +67,7 @@ export default function TenancyNoticeDraftClient({
 
       <header className="mt-8 max-w-3xl">
         <p className={capsLabelClassName}>Tenancy Notice Draft</p>
-        <h1 className="mt-3 font-serif text-2xl tracking-wide text-navy sm:text-3xl">
+        <h1 className="mt-3 font-serif text-2xl tracking-wide text-heading sm:text-3xl">
           {tenantNames}
         </h1>
         <p className="mt-2 text-base leading-relaxed text-steel">{propertyAddress}</p>

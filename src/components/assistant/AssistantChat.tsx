@@ -1358,7 +1358,7 @@ export default function AssistantChat({
               <p className="mt-5 text-center text-[11px] italic text-moss">
                 {greeting()}
               </p>
-              <h1 className="mt-2 text-center font-serif text-xl tracking-wide text-study sm:text-[1.5rem]">
+              <h1 className="mt-2 text-center font-serif text-xl tracking-wide text-heading sm:text-[1.5rem]">
                 How can I help you today?
               </h1>
               <div

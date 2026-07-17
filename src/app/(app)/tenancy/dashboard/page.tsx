@@ -122,7 +122,7 @@ export default async function TenancyDashboardPage() {
             <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-navy">
               Your Tenancies
             </p>
-            <h2 className="mt-4 max-w-md font-serif text-2xl leading-snug tracking-wide text-tenancy-text sm:text-[1.75rem]">
+            <h2 className="mt-4 max-w-md font-serif text-2xl leading-snug tracking-wide text-heading sm:text-[1.75rem]">
               Every deadline. Every tenant. Protected.
             </h2>
             <p className="mt-4 max-w-sm text-sm font-light leading-relaxed text-steel">

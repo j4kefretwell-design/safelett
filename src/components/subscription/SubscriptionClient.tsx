@@ -156,7 +156,7 @@ export default function SubscriptionClient({
           <p className="mt-3 text-base font-light text-leather">
             Your 14-day free trial has ended.
           </p>
-          <h1 className="mt-6 font-serif text-3xl tracking-wide text-umber sm:text-4xl md:text-5xl">
+          <h1 className="mt-6 font-serif text-3xl tracking-wide text-heading sm:text-4xl md:text-5xl">
             Subscribe to continue using Fretwell &amp; Co.
           </h1>
           <div className="mx-auto mt-6 h-px w-16 bg-gold" aria-hidden />
@@ -167,7 +167,7 @@ export default function SubscriptionClient({
             <p className="text-[10px] font-normal uppercase tracking-[0.32em] text-gold">
               Subscription
             </p>
-            <h1 className="mt-5 font-serif text-3xl tracking-wide text-umber sm:text-4xl">
+            <h1 className="mt-5 font-serif text-3xl tracking-wide text-heading sm:text-4xl">
               Choose Your Plan
             </h1>
             <p className="mt-4 max-w-2xl text-sm font-light leading-relaxed text-leather">
@@ -276,7 +276,7 @@ export default function SubscriptionClient({
 
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <h2 className="font-serif text-2xl tracking-wide text-umber">
+                  <h2 className="font-serif text-2xl tracking-wide text-heading">
                     {module.name}
                   </h2>
                   <p className="mt-3 flex items-baseline gap-1.5">

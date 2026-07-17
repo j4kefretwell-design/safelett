@@ -32,7 +32,7 @@ export default function SettingsClient({ profile, email }: SettingsClientProps) 
       <PageBackButton className="mb-8" />
       <AnimateIn>
         <header className="pb-12 lg:pb-16">
-          <h1 className="font-serif text-4xl tracking-wide text-text sm:text-5xl">
+          <h1 className="font-serif text-4xl tracking-wide text-heading sm:text-5xl">
             Settings
           </h1>
           <div className="mt-5 h-px w-12 bg-gold/70" aria-hidden="true" />

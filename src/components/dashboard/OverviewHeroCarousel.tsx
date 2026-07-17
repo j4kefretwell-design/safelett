@@ -124,11 +124,11 @@ function StatusIcon({
 }
 
 const statusTextClass: Record<CarouselPanelStatus, string> = {
-  clear: "text-forest",
-  attention: "text-attention",
-  overdue: "text-urgent",
-  promo: "text-umber",
-  empty: "text-umber",
+  clear: "text-heading",
+  attention: "text-heading",
+  overdue: "text-heading",
+  promo: "text-heading",
+  empty: "text-heading",
 };
 
 function PanelBody({
@@ -166,7 +166,7 @@ function PanelBody({
 
       {isEmpty ? (
         <div className="mt-5 flex flex-1 flex-col justify-center sm:mt-6">
-          <p className={`font-display tracking-wide text-umber ${statusSize}`}>
+          <p className={`font-display tracking-wide text-heading ${statusSize}`}>
             {panel.statusText}
           </p>
           {panel.description ? (
@@ -180,7 +180,7 @@ function PanelBody({
         </div>
       ) : isAssistant ? (
         <div className="mt-5 flex flex-1 flex-col justify-center sm:mt-6">
-          <p className={`font-display tracking-wide text-umber ${statusSize}`}>
+          <p className={`font-display tracking-wide text-heading ${statusSize}`}>
             {panel.statusText}
           </p>
           {panel.description ? (
@@ -206,7 +206,7 @@ function PanelBody({
 
           <p
             className={`mt-3 font-display tracking-wide ${statusSize} ${
-              isActionsWithItems ? "text-umber" : statusTextClass[panel.status]
+              isActionsWithItems ? "text-heading" : statusTextClass[panel.status]
             }`}
           >
             {panel.statusText}

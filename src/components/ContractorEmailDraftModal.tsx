@@ -94,7 +94,7 @@ export default function ContractorEmailDraftModal({
           </p>
           <h2
             id="draft-email-title"
-            className="mt-2 pr-8 font-serif text-2xl tracking-wide text-umber"
+            className="mt-2 pr-8 font-serif text-2xl tracking-wide text-heading"
           >
             {certificateLabel}
           </h2>

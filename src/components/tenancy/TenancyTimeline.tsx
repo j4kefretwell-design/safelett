@@ -73,7 +73,7 @@ export default function TenancyTimeline({ tenancy }: { tenancy: Tenancy }) {
 
   return (
     <section className="mx-auto max-w-6xl px-5 pb-10 sm:px-12 lg:px-16">
-      <h2 className="font-serif text-xl tracking-wide text-tenancy-text">
+      <h2 className="font-serif text-xl tracking-wide text-heading">
         Timeline
       </h2>
 

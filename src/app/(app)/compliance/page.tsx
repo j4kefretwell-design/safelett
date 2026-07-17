@@ -113,7 +113,7 @@ export default async function ComplianceDashboardPage() {
           </div>
 
           <div className="dashboard-cottage-panel flex flex-col justify-center border-t border-gold px-6 py-10 sm:px-10 lg:border-t-0 lg:border-l lg:px-14 lg:py-10">
-            <p className="max-w-md font-serif text-xl leading-snug tracking-wide text-raspberry sm:text-2xl lg:text-[1.65rem]">
+            <p className="max-w-md font-serif text-xl leading-snug tracking-wide text-heading sm:text-2xl lg:text-[1.65rem]">
               Every property. Every deadline. Every time.
             </p>
             <p className="mt-4 max-w-sm text-base leading-relaxed text-leather">

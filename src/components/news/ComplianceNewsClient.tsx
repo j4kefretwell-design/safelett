@@ -127,7 +127,7 @@ export default function ComplianceNewsClient() {
                 }`}
               >
                 <p className="caps-label text-gold-readable">{item.date}</p>
-                <h2 className="mt-4 font-serif text-2xl tracking-wide text-raspberry">
+                <h2 className="mt-4 font-serif text-2xl tracking-wide text-heading">
                   {item.headline}
                 </h2>
                 <p className="mt-4 text-base leading-relaxed text-text">

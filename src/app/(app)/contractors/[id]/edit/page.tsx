@@ -53,7 +53,7 @@ export default async function EditContractorPage({ params }: EditContractorPageP
           <p className="mt-8 text-[10px] font-normal uppercase tracking-[0.32em] text-gold-readable">
             Contractors Directory
           </p>
-          <h1 className="mt-5 max-w-xl font-serif text-3xl tracking-wide text-text sm:text-4xl">
+          <h1 className="mt-5 max-w-xl font-serif text-3xl tracking-wide text-heading sm:text-4xl">
             Edit Contractor
           </h1>
           <p className="mt-5 max-w-lg text-base font-light leading-relaxed text-leather">

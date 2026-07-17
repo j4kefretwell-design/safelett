@@ -132,7 +132,7 @@ export default function ShareWithLandlordButton({
 
             <h2
               id="share-link-title"
-              className="pr-8 font-serif text-2xl tracking-wide text-study"
+              className="pr-8 font-serif text-2xl tracking-wide text-heading"
             >
               Landlord portal link
             </h2>

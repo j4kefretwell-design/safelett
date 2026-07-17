@@ -36,7 +36,7 @@ export default function NewTenantPage() {
           <p className="mt-8 text-[10px] font-normal uppercase tracking-[0.32em] text-gold">
             Add a Tenant
           </p>
-          <h1 className="mt-5 max-w-xl font-serif text-3xl tracking-wide text-tenancy-text sm:text-4xl">
+          <h1 className="mt-5 max-w-xl font-serif text-3xl tracking-wide text-heading sm:text-4xl">
             Record a New Tenant
           </h1>
           <p className="mt-5 max-w-lg text-sm font-light leading-relaxed text-steel">

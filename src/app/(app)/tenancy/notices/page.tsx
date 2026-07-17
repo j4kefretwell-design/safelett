@@ -26,7 +26,7 @@ export default async function TenancyNoticesPage() {
       <p className="text-[10px] font-normal uppercase tracking-[0.32em] text-gold">
         Tenancy Notices
       </p>
-      <h1 className="mt-5 font-serif text-3xl tracking-wide text-tenancy-text sm:text-4xl">
+      <h1 className="mt-5 font-serif text-3xl tracking-wide text-heading sm:text-4xl">
         Generate Tenancy Notices
       </h1>
       <p className="mt-4 max-w-2xl text-sm font-light leading-relaxed text-steel">

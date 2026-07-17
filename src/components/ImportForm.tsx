@@ -177,7 +177,7 @@ export default function ImportForm({ templateUrl }: ImportFormProps) {
         <p className="text-[10px] font-normal uppercase tracking-[0.32em] text-leather">
           Upload
         </p>
-        <h2 className="mt-4 font-serif text-2xl tracking-wide text-text">
+        <h2 className="mt-4 font-serif text-2xl tracking-wide text-heading">
           Drop Your CSV File
         </h2>
         <div className="mt-5 h-px w-12 bg-gold/70" aria-hidden="true" />
@@ -234,7 +234,7 @@ export default function ImportForm({ templateUrl }: ImportFormProps) {
         <p className="text-[10px] font-normal uppercase tracking-[0.32em] text-leather">
           Format Reference
         </p>
-        <h2 className="mt-4 font-serif text-xl tracking-wide text-text">
+        <h2 className="mt-4 font-serif text-xl tracking-wide text-heading">
           Valid CSV Structure
         </h2>
         <div className="mt-5 h-px w-12 bg-gold/70" aria-hidden="true" />

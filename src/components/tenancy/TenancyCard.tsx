@@ -30,7 +30,7 @@ export default function TenancyCard({ tenancy, status }: TenancyCardProps) {
       className="group tenancy-card flex h-full min-h-[220px] flex-col justify-between border-l-[3px] border-l-steel p-6 transition duration-200 hover:border-navy sm:min-h-[260px] sm:p-8"
     >
       <div>
-        <h3 className="font-serif text-lg leading-snug tracking-wide text-tenancy-text transition group-hover:text-navy sm:text-xl lg:text-2xl">
+        <h3 className="font-serif text-lg leading-snug tracking-wide text-heading transition group-hover:text-heading sm:text-xl lg:text-2xl">
           {tenancy.tenant_names}
         </h3>
         <p className="mt-3 text-sm font-light leading-relaxed text-steel">

@@ -1,8 +1,5 @@
 "use client";
 
-import OptimizedFillImage from "@/components/OptimizedFillImage";
-import { IMAGE_QUALITY, siteImages } from "@/lib/site-images";
-
 export const DASHBOARD_HIGHLIGHT_AFFECTED_EVENT = "dashboard-highlight-affected";
 
 interface DashboardStatusBandProps {
@@ -23,20 +20,7 @@ export default function DashboardStatusBand({
   }
 
   return (
-    <section
-      className="relative h-[200px] w-full overflow-hidden sm:h-[280px] lg:h-[320px]"
-      style={{ backgroundColor: siteImages.anthonyFomin.placeholderColor }}
-    >
-      <OptimizedFillImage
-        image={siteImages.anthonyFomin}
-        alt=""
-        sizes="100vw"
-        priority
-        quality={IMAGE_QUALITY}
-        className="object-cover object-center"
-      />
-      <div className="absolute inset-0 bg-[#252525]/45" aria-hidden="true" />
-
+    <section className="relative h-[200px] w-full overflow-hidden bg-vanilla sm:h-[280px] lg:h-[320px]">
       <div className="absolute inset-x-4 bottom-4 z-10 max-w-md bg-raspberry px-6 py-5 sm:inset-x-auto sm:bottom-10 sm:left-10 sm:max-w-sm sm:px-8 sm:py-6">
         <div className="h-px w-10 bg-gold" aria-hidden="true" />
         <p className="mt-4 caps-label text-gold">
