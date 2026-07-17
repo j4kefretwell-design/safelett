@@ -15,7 +15,7 @@ interface TopNavProps {
 }
 
 function headerBgClass(mode: AppMode) {
-  if (mode === "overview") return "bg-greige";
+  if (mode === "overview") return "bg-forest";
   if (mode === "tenancy") return "bg-navy";
   if (mode === "assistant") return "bg-study";
   return "bg-raspberry";
@@ -61,7 +61,7 @@ export default function TopNav({
   }, []);
 
   const accountMenuClass = isOverview
-    ? "border-sand bg-greige text-umber"
+    ? "border-gold/40 bg-forest text-dusty-cream"
     : mode === "assistant"
       ? "border-moss bg-study text-dusty-cream"
       : mode === "tenancy"
@@ -82,11 +82,7 @@ export default function TopNav({
                 type="button"
                 aria-label={sidebarOpen ? "Close menu" : "Open menu"}
                 onClick={onMenuClick}
-                className={`touch-target flex h-11 w-11 shrink-0 items-center justify-center transition ${
-                  isOverview
-                    ? "text-umber hover:text-umber/70"
-                    : "text-dusty-cream hover:text-white"
-                }`}
+                className="touch-target flex h-11 w-11 shrink-0 items-center justify-center text-dusty-cream transition hover:text-white"
               >
                 {sidebarOpen ? (
                   <X className="h-6 w-6" strokeWidth={1.25} />
@@ -105,7 +101,7 @@ export default function TopNav({
           className="flex min-w-0 items-center justify-center px-1 transition hover:opacity-80"
         >
           {isOverview ? (
-            <p className="whitespace-nowrap font-serif text-[0.8125rem] uppercase tracking-[0.16em] text-umber sm:text-base sm:tracking-[0.28em] md:text-lg md:tracking-[0.32em]">
+            <p className="whitespace-nowrap font-serif text-[0.8125rem] uppercase tracking-[0.16em] text-dusty-cream sm:text-base sm:tracking-[0.28em] md:text-lg md:tracking-[0.32em]">
               <span className="sm:hidden">
                 F<span className="italic text-gold">&amp;</span>Co
               </span>
@@ -156,7 +152,7 @@ export default function TopNav({
               onClick={() => void handleSignOut()}
               className={`touch-target flex h-11 items-center text-xs font-normal uppercase tracking-[0.22em] transition ${
                 isOverview
-                  ? "text-umber hover:text-gold"
+                  ? "text-dusty-cream hover:text-gold"
                   : isAssistant
                     ? "text-dusty-cream hover:text-moss"
                     : "text-dusty-cream hover:text-gold"
@@ -174,11 +170,7 @@ export default function TopNav({
               aria-haspopup="menu"
               aria-label="Account menu"
               onClick={() => setAccountOpen((value) => !value)}
-              className={`touch-target flex h-11 w-11 items-center justify-center transition ${
-                isOverview
-                  ? "text-umber hover:text-umber/70"
-                  : "text-dusty-cream hover:text-white"
-              }`}
+              className="touch-target flex h-11 w-11 items-center justify-center text-dusty-cream transition hover:text-white"
             >
               <MoreVertical className="h-5 w-5" strokeWidth={1.5} />
             </button>
@@ -208,9 +200,7 @@ export default function TopNav({
                   type="button"
                   role="menuitem"
                   onClick={() => void handleSignOut()}
-                  className={`flex min-h-11 w-full items-center px-4 text-left text-[11px] font-normal uppercase tracking-[0.16em] transition hover:bg-white/5 ${
-                    isOverview ? "text-umber" : "text-dusty-cream"
-                  }`}
+                  className="flex min-h-11 w-full items-center px-4 text-left text-[11px] font-normal uppercase tracking-[0.16em] text-dusty-cream transition hover:bg-white/5"
                 >
                   Sign Out
                 </button>

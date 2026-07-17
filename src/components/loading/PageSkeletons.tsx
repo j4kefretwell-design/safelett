@@ -1,7 +1,7 @@
 export function OverviewSkeleton() {
   return (
     <div className="min-h-[calc(100vh-4rem)] w-full bg-[#F2EDE8]">
-      <div className="relative h-[60vh] min-h-[360px] w-full overflow-hidden bg-[#3D2B1F]/20 md:h-[calc((100vh-4rem)*0.85)] md:min-h-[440px]">
+      <div className="relative h-[60vh] min-h-[360px] w-full overflow-hidden bg-forest/20 md:h-[calc((100vh-4rem)*0.85)] md:min-h-[440px]">
         <div className="absolute inset-x-0 top-1/2 flex h-[60%] -translate-y-1/2 items-center justify-center gap-3 px-4 sm:px-16">
           <div className="skeleton-shimmer hidden h-[200px] w-[22%] rounded-[20px] md:block" />
           <div className="skeleton-shimmer h-[200px] w-full max-w-[520px] rounded-[20px] md:h-[220px] md:w-[50%]" />
@@ -20,7 +20,7 @@ export function OverviewSkeleton() {
           ))}
         </div>
       </div>
-      <div className="flex min-h-[160px] flex-col items-center justify-center bg-[#1C2B23] px-6 py-12">
+      <div className="flex min-h-[160px] flex-col items-center justify-center bg-forest px-6 py-12">
         <div className="skeleton-shimmer h-3 w-48 bg-white/10" />
         <div className="skeleton-shimmer mt-5 h-6 w-full max-w-xl bg-white/10" />
         <div className="skeleton-shimmer mt-6 h-4 w-32 bg-white/10" />
@@ -131,7 +131,7 @@ export function AssistantSkeleton() {
         marginTop: "var(--app-top-offset, 4rem)",
       }}
     >
-      <aside className="hidden h-full w-[180px] shrink-0 bg-[#1C2B23] md:block" />
+      <aside className="hidden h-full w-[180px] shrink-0 bg-study md:block" />
       <div className="relative flex flex-1 items-center justify-center p-6 py-20">
         <div className="skeleton-shimmer h-[420px] w-[92%] max-w-[580px] rounded-[20px]" />
       </div>

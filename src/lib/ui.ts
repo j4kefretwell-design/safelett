@@ -28,7 +28,7 @@ export const btnHeroTrialClassName =
   `${btnBaseClassName} bg-dusty-cream text-raspberry hover:bg-[#FAFAF8] hover:text-raspberry-dark`;
 
 export const btnLandingPrimaryClassName =
-  `${btnBaseClassName} bg-umber text-dusty-cream hover:bg-umber/90`;
+  `${btnBaseClassName} bg-forest text-dusty-cream hover:bg-forest-dark`;
 
 export const btnLandingOutlineClassName =
   `${btnBaseClassName} border border-umber/35 bg-transparent text-umber hover:border-umber hover:bg-umber/5`;
@@ -67,7 +67,7 @@ export const authInputLoginClassName =
   "w-full border-0 border-b border-[#6B503C] bg-transparent px-0 py-3 text-base font-light leading-relaxed text-umber outline-none transition placeholder:italic placeholder:text-umber/45 focus:border-b-2 focus:border-[#6B503C] focus:pb-[calc(0.75rem-1px)] [font-size:16px]";
 
 export const authBtnLoginClassName =
-  `${btnBaseClassName} w-full bg-umber text-dusty-cream hover:bg-umber/90`;
+  `${btnBaseClassName} w-full bg-forest text-dusty-cream hover:bg-forest-dark`;
 
 export const authLinkLoginClassName =
   "font-light text-umber underline-offset-4 transition hover:text-umber/80 hover:underline";

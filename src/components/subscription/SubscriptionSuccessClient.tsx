@@ -31,7 +31,7 @@ export default function SubscriptionSuccessClient() {
       : mode === "assistant"
         ? "bg-study"
         : mode === "overview"
-          ? "bg-umber"
+          ? "bg-forest"
           : "bg-raspberry";
 
   const headingClass =
@@ -49,7 +49,7 @@ export default function SubscriptionSuccessClient() {
       : mode === "assistant"
         ? "bg-study text-dusty-cream hover:bg-olive"
         : mode === "overview"
-          ? "bg-umber text-dusty-cream hover:bg-umber/90"
+          ? "bg-forest text-dusty-cream hover:bg-forest-dark"
           : "bg-raspberry text-dusty-cream hover:bg-raspberry-dark";
 
   const dashboardHref =

@@ -1163,7 +1163,7 @@ export default function AssistantChat({
       />
 
       {/* Desktop left panel */}
-      <aside className="hidden h-full w-[180px] max-w-[180px] shrink-0 flex-col bg-[#1C2B23] md:flex">
+      <aside className="hidden h-full w-[180px] max-w-[180px] shrink-0 flex-col bg-study md:flex">
         {renderAssistantNav()}
       </aside>
 
@@ -1177,7 +1177,7 @@ export default function AssistantChat({
         onClick={() => setMobileNavOpen(false)}
       />
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-[min(100vw,180px)] flex-col bg-[#1C2B23] transition-transform duration-300 ease-out md:hidden ${
+        className={`fixed inset-y-0 left-0 z-50 flex w-[min(100vw,180px)] flex-col bg-study transition-transform duration-300 ease-out md:hidden ${
           mobileNavOpen ? "translate-x-0" : "-translate-x-full"
         }`}
         aria-hidden={!mobileNavOpen}
@@ -1195,23 +1195,23 @@ export default function AssistantChat({
             <div
               className="absolute inset-0 overflow-hidden"
               style={{
-                backgroundColor: siteImages.rummanAmin.placeholderColor,
+                backgroundColor: siteImages.rummanAminAssistant.placeholderColor,
               }}
               aria-hidden
             >
               <Image
-                src={siteImages.rummanAmin.src}
+                src={siteImages.rummanAminAssistant.src}
                 alt=""
                 fill
                 priority
                 quality={IMAGE_QUALITY}
                 sizes="(max-width: 768px) 100vw, calc(100vw - 180px)"
-                {...(siteImages.rummanAmin.blurDataURL?.startsWith(
+                {...(siteImages.rummanAminAssistant.blurDataURL?.startsWith(
                   "data:image/"
                 )
                   ? {
                       placeholder: "blur" as const,
-                      blurDataURL: siteImages.rummanAmin.blurDataURL,
+                      blurDataURL: siteImages.rummanAminAssistant.blurDataURL,
                     }
                   : { placeholder: "empty" as const })}
                 className="object-cover"
@@ -1220,7 +1220,7 @@ export default function AssistantChat({
             </div>
             <div
               className="absolute inset-0"
-              style={{ backgroundColor: "rgba(28, 43, 35, 0.35)" }}
+              style={{ backgroundColor: "rgba(15, 31, 18, 0.35)" }}
               aria-hidden
             />
           </>

@@ -307,7 +307,7 @@ export default async function OverviewDashboardPage() {
                   ? "text-attention"
                   : "text-[#6B503C]";
               const dotColour =
-                item.module === "compliance" ? "bg-[#33181C]" : "bg-[#1B2A4A]";
+                item.module === "compliance" ? "bg-[#2D0F12]" : "bg-[#0D1E35]";
 
               return (
                 <li key={item.id}>
@@ -350,7 +350,7 @@ export default async function OverviewDashboardPage() {
         )}
       </section>
 
-      <section className="w-full bg-[#1C2B23] px-6 py-12 text-center sm:py-14">
+      <section className="w-full bg-forest px-6 py-12 text-center sm:py-14">
         <p className="text-[10px] font-normal uppercase tracking-[0.28em] text-parchment-line/75">
           Fretwell &amp; Co Assistant
         </p>

@@ -78,9 +78,7 @@ export default function ModeSwitcher() {
           aria-haspopup="listbox"
           aria-label="Switch application mode"
           onClick={() => setOpen((value) => !value)}
-          className={`touch-target flex min-h-11 max-w-[9.5rem] items-center gap-1.5 text-[11px] font-normal uppercase tracking-[0.14em] ${
-            isOverview ? "text-umber" : "text-dusty-cream"
-          }`}
+          className="touch-target flex min-h-11 max-w-[9.5rem] items-center gap-1.5 text-[11px] font-normal uppercase tracking-[0.14em] text-dusty-cream"
         >
           <span className="truncate">{activeTab.label}</span>
           <ChevronDown
@@ -96,7 +94,7 @@ export default function ModeSwitcher() {
             aria-label="Application modes"
             className={`absolute left-0 top-full z-50 mt-2 min-w-[11rem] border py-1 shadow-[0_12px_32px_rgba(0,0,0,0.18)] ${
               isOverview
-                ? "border-sand bg-greige"
+                ? "border-gold/40 bg-forest"
                 : mode === "assistant"
                   ? "border-moss bg-study"
                   : mode === "tenancy"
@@ -121,8 +119,8 @@ export default function ModeSwitcher() {
                   className={`flex min-h-11 items-center px-4 text-[11px] font-normal uppercase tracking-[0.14em] transition ${
                     isOverview
                       ? isActive
-                        ? "bg-umber/10 text-umber"
-                        : "text-umber/70 hover:bg-umber/5 hover:text-umber"
+                        ? "bg-white/10 text-dusty-cream"
+                        : "text-dusty-cream/70 hover:bg-white/5 hover:text-dusty-cream"
                       : isActive
                         ? "bg-white/10 text-dusty-cream"
                         : "text-dusty-cream/70 hover:bg-white/5 hover:text-dusty-cream"
@@ -159,8 +157,8 @@ export default function ModeSwitcher() {
               className={`relative pb-1.5 text-[12px] font-normal uppercase tracking-[0.16em] transition-opacity duration-200 ease-out ${
                 isOverview
                   ? isActive
-                    ? "text-umber"
-                    : "text-umber/50 hover:text-umber/80"
+                    ? "text-dusty-cream"
+                    : "text-dusty-cream/55 hover:text-dusty-cream/85"
                   : isActive
                     ? "text-dusty-cream"
                     : "text-dusty-cream/55 hover:text-dusty-cream/85"

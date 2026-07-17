@@ -8,8 +8,10 @@ export const IMAGE_QUALITY = 55;
 export const CONTENT_IMAGE_QUALITY = 70;
 
 export const LIGHT_IMAGE_PLACEHOLDER = "#F0ECE1";
-export const STUDY_IMAGE_PLACEHOLDER = "#1C2B23";
-export const NAVY_IMAGE_PLACEHOLDER = "#1B2A4A";
+export const OVERVIEW_IMAGE_PLACEHOLDER = "#1A1A1A";
+export const COMPLIANCE_IMAGE_PLACEHOLDER = "#2D0F12";
+export const ASSISTANT_IMAGE_PLACEHOLDER = "#0F1F12";
+export const NAVY_IMAGE_PLACEHOLDER = "#0D1E35";
 export const AUTH_IMAGE_PLACEHOLDER = "#2C1A10";
 
 export interface SiteImageAsset {
@@ -38,12 +40,12 @@ export const siteImages = {
   ),
   benElliottHero: asset(
     "/ben-elliott-8WJtlR3nlQY-unsplash.jpg",
-    STUDY_IMAGE_PLACEHOLDER,
+    OVERVIEW_IMAGE_PLACEHOLDER,
     "benElliottHero"
   ),
   benElliottProperty: asset(
     "/ben-elliott-unPC3it1yDA-unsplash.jpg",
-    STUDY_IMAGE_PLACEHOLDER,
+    COMPLIANCE_IMAGE_PLACEHOLDER,
     "benElliottProperty"
   ),
   bradStarkey: asset(
@@ -53,7 +55,7 @@ export const siteImages = {
   ),
   georgeCiobra: asset(
     "/george-ciobra-LX1k7rOj7Sg-unsplash.jpg",
-    STUDY_IMAGE_PLACEHOLDER,
+    COMPLIANCE_IMAGE_PLACEHOLDER,
     "georgeCiobra"
   ),
   jonnyGiosManor: asset(
@@ -93,12 +95,17 @@ export const siteImages = {
   ),
   lukeGallowayEstate: asset(
     "/luke-galloway-zv3D-Vq_SU0-unsplash.jpg",
-    STUDY_IMAGE_PLACEHOLDER,
+    COMPLIANCE_IMAGE_PLACEHOLDER,
     "lukeGalloway"
   ),
   rummanAmin: asset(
     "/rumman-amin-CU0dmWuIz0c-unsplash.jpg",
-    STUDY_IMAGE_PLACEHOLDER,
+    COMPLIANCE_IMAGE_PLACEHOLDER,
+    "rummanAmin"
+  ),
+  rummanAminAssistant: asset(
+    "/rumman-amin-CU0dmWuIz0c-unsplash.jpg",
+    ASSISTANT_IMAGE_PLACEHOLDER,
     "rummanAmin"
   ),
   vojtech: asset(

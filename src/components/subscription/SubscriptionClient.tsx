@@ -264,7 +264,7 @@ export default function SubscriptionClient({
                 isSelected ? "ring-1 ring-gold/50" : ""
               } ${
                 isProfessional
-                  ? "lg:-mt-3 lg:mb-[-0.75rem] lg:shadow-[0_16px_40px_rgba(28,43,35,0.12)]"
+                  ? "lg:-mt-3 lg:mb-[-0.75rem] lg:shadow-[0_16px_40px_rgba(15,31,18,0.12)]"
                   : ""
               }`}
             >
@@ -330,7 +330,7 @@ export default function SubscriptionClient({
       </div>
 
       {summary && !trialEnded ? (
-        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-gold/30 bg-umber px-5 py-5 sm:px-12">
+        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-gold/30 bg-forest px-5 py-5 sm:px-12">
           <div className="mx-auto flex max-w-6xl flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="text-dusty-cream">
               <p className="text-[10px] font-normal uppercase tracking-[0.2em] text-gold">
