@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Upload } from "lucide-react";
+import UpgradeOverlay from "@/components/subscription/UpgradeOverlay";
 import {
   btnOutlineClassName,
   btnPrimaryClassName,
@@ -75,6 +76,10 @@ export default function ImportForm({ templateUrl }: ImportFormProps) {
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [upgradePrompt, setUpgradePrompt] = useState<{
+    title: string;
+    message: string;
+  } | null>(null);
   const [result, setResult] = useState<{
     propertiesCreated: number;
     certificatesCreated: number;
@@ -104,11 +109,24 @@ export default function ImportForm({ templateUrl }: ImportFormProps) {
       const data = (await response.json()) as {
         error?: string;
         errors?: string[];
+        code?: string;
+        title?: string;
+        message?: string;
         propertiesCreated?: number;
         certificatesCreated?: number;
       };
 
       if (!response.ok) {
+        if (data.code === "UPGRADE_REQUIRED") {
+          setUpgradePrompt({
+            title: data.title || "You've reached the 15 property limit",
+            message:
+              data.message ||
+              "Upgrade to Professional for unlimited properties.",
+          });
+          setLoading(false);
+          return;
+        }
         if (data.errors?.length) {
           setError(data.errors.slice(0, 5).join(" "));
         } else {
@@ -135,6 +153,13 @@ export default function ImportForm({ templateUrl }: ImportFormProps) {
     <div
       className={`grid min-h-[calc(100vh-8rem)] lg:grid-cols-[16rem_1fr_18rem] xl:grid-cols-[18rem_1fr_20rem] ${editorialBleedClassName}`}
     >
+      {upgradePrompt ? (
+        <UpgradeOverlay
+          title={upgradePrompt.title}
+          message={upgradePrompt.message}
+          onDismiss={() => setUpgradePrompt(null)}
+        />
+      ) : null}
       <aside className="border-b border-leather/15 bg-espresso px-8 py-12 text-dusty-cream lg:border-b-0 lg:border-r lg:py-16">
         <p className="text-[10px] font-normal uppercase tracking-[0.32em] text-dusty-cream/50">
           Bulk Import

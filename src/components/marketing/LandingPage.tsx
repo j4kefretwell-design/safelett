@@ -18,11 +18,11 @@ const pricingPlans = [
     price: 30,
     description: "Certificate tracking for property managers",
     features: [
-      "Certificate tracking for all property types",
+      "Certificate tracking for up to 15 properties",
       "Gas Safety, EICR, EPC, Fire Risk Assessment and all certificate types",
       "Automated email alerts at 60, 30 and 7 days",
       "Contractor directory and email drafting",
-      "Annual compliance report PDF",
+      "One annual compliance report PDF per month",
       "Landlord portal sharing",
       "Bulk property import",
       "Compliance news feed",
@@ -59,6 +59,7 @@ const pricingPlans = [
       "Everything in Tenancy",
       "AI Property Management Assistant",
       "Draft any letter, answer any question, handle any admin",
+      "Unlimited properties, AI requests, document drafts and reports",
       "Priority support",
       "Save £76/month vs buying separately",
       "14 day free trial",
@@ -248,6 +249,12 @@ export default function LandingPage({
               Compliance and tenancy management for property professionals
               across the United Kingdom.
             </p>
+            <Link
+              href="/signup"
+              className={`${btnLandingPrimaryClassName} mt-3 w-full px-10 py-4 text-base shadow-[0_0_20px_rgba(196,164,90,0.3)] sm:w-fit`}
+            >
+              Begin Your Trial
+            </Link>
           </ScrollRevealGroup>
         </div>
       </section>
@@ -325,7 +332,7 @@ export default function LandingPage({
             <div className="mt-16 text-center">
               <Link
                 href="/signup"
-                className={`${btnLandingPrimaryClassName} w-full sm:w-auto`}
+                className={`${btnLandingPrimaryClassName} w-full px-10 py-4 text-base shadow-[0_0_20px_rgba(196,164,90,0.3)] sm:w-auto`}
               >
                 Begin Your Trial
               </Link>
@@ -462,14 +469,14 @@ export default function LandingPage({
                 Three Plans. Built for Property Professionals.
               </h2>
 
-              <div className="mt-12 grid gap-6 text-left md:grid-cols-3">
+              <div className="mt-12 grid items-stretch gap-6 text-left md:grid-cols-3">
                 {pricingPlans.map((plan) => (
                   <div
                     key={plan.name}
-                    className={`relative flex flex-col border px-6 py-10 sm:px-8 sm:py-12 ${
+                    className={`relative flex h-full flex-col border border-taupe bg-vanilla px-6 py-10 sm:px-8 sm:py-12 ${
                       plan.highlighted
-                        ? "border-taupe bg-vanilla shadow-[0_20px_60px_rgba(37,37,37,0.08)]"
-                        : "border-taupe bg-dune"
+                        ? "shadow-[0_20px_60px_rgba(37,37,37,0.08)]"
+                        : ""
                     }`}
                   >
                     {plan.highlighted && (
@@ -490,7 +497,7 @@ export default function LandingPage({
                       {plan.description}
                     </p>
 
-                    <ul className="mt-8 space-y-3">
+                    <ul className="mt-8 flex-1 space-y-3">
                       {plan.features.map((feature) => (
                         <li
                           key={feature}
@@ -511,18 +518,31 @@ export default function LandingPage({
                 ))}
               </div>
 
-              <div className="mx-auto mt-10 max-w-xl border border-taupe bg-vanilla px-6 py-6 text-center">
+              <div className="mx-auto mt-10 w-full max-w-3xl border border-taupe bg-vanilla px-6 py-6 text-center">
                 <p className="text-[10px] font-normal uppercase tracking-[0.24em] text-umber/70">
                   Bundle Savings
                 </p>
-                <p className="mt-3 text-sm font-light leading-relaxed text-umber/80">
-                  Compliance + Tenancy: <strong className="font-normal">£55/month</strong>{" "}
-                  (save £10)
-                </p>
-                <p className="mt-1.5 text-sm font-light leading-relaxed text-umber/80">
-                  Professional: <strong className="font-normal">£89/month</strong>{" "}
-                  (save £76 vs buying separately)
-                </p>
+                <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                  <Link
+                    href="/subscription"
+                    className="border border-taupe bg-dune px-5 py-4 text-sm font-light leading-relaxed text-umber/80 transition hover:border-gold hover:bg-vanilla"
+                  >
+                    Compliance + Tenancy:{" "}
+                    <strong className="font-normal">£55/month</strong>
+                    <span className="mt-1 block text-xs text-gold-readable">
+                      Save £10 →
+                    </span>
+                  </Link>
+                  <Link
+                    href="/subscription"
+                    className="border border-taupe bg-dune px-5 py-4 text-sm font-light leading-relaxed text-umber/80 transition hover:border-gold hover:bg-vanilla"
+                  >
+                    Professional: <strong className="font-normal">£89/month</strong>
+                    <span className="mt-1 block text-xs text-gold-readable">
+                      Save £76 vs buying separately →
+                    </span>
+                  </Link>
+                </div>
               </div>
             </ScrollRevealGroup>
           </div>

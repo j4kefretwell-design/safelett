@@ -102,28 +102,28 @@ export default function TopNav({
         >
           {isOverview ? (
             <p className="whitespace-nowrap font-display text-[0.8125rem] uppercase tracking-[0.16em] text-dusty-cream sm:text-base sm:tracking-[0.28em] md:text-lg md:tracking-[0.32em]">
-              <span className="sm:hidden">
+              <span className="xl:hidden">
                 F<span className="italic text-gold">&amp;</span>Co
               </span>
-              <span className="hidden sm:inline">
+              <span className="hidden xl:inline">
                 Fretwell <span className="italic text-gold">&amp;</span> Co
               </span>
             </p>
           ) : isAssistant ? (
             <p className="whitespace-nowrap font-display text-[0.8125rem] uppercase tracking-[0.16em] text-dusty-cream sm:text-base sm:tracking-[0.28em] md:text-lg md:tracking-[0.32em]">
-              <span className="sm:hidden">
+              <span className="xl:hidden">
                 F<span className="italic text-moss">&amp;</span>Co
               </span>
-              <span className="hidden sm:inline">
+              <span className="hidden xl:inline">
                 Fretwell <span className="italic text-moss">&amp;</span> Co
               </span>
             </p>
           ) : (
             <p className="whitespace-nowrap font-display text-[0.8125rem] uppercase tracking-[0.16em] text-gold sm:text-base sm:tracking-[0.28em] md:text-lg md:tracking-[0.32em]">
-              <span className="sm:hidden">
+              <span className="xl:hidden">
                 F<span className="italic">&amp;</span>Co
               </span>
-              <span className="hidden sm:inline">
+              <span className="hidden xl:inline">
                 Fretwell <span className="italic">&amp;</span> Co
               </span>
             </p>

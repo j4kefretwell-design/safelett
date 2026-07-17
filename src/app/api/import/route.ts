@@ -1,4 +1,8 @@
 import { NextResponse } from "next/server";
+import {
+  compliancePropertyLimitReached,
+  PROPERTY_LIMIT_PROMPT,
+} from "@/lib/entitlements";
 import { parseImportCsv } from "@/lib/import";
 import { createClient } from "@/lib/supabase/server";
 
@@ -31,6 +35,20 @@ export async function POST(request: Request) {
       { error: "No valid rows found in the file." },
       { status: 400 }
     );
+  }
+
+  const uniquePropertyCount = new Set(
+    rows.map((row) => row.address.trim().toLowerCase())
+  ).size;
+
+  if (
+    await compliancePropertyLimitReached(
+      supabase,
+      user.id,
+      uniquePropertyCount
+    )
+  ) {
+    return NextResponse.json(PROPERTY_LIMIT_PROMPT, { status: 403 });
   }
 
   const propertyIdsByAddress = new Map<string, string>();

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import UpgradeOverlay from "@/components/subscription/UpgradeOverlay";
 import { useToast } from "@/components/toast/ToastProvider";
 import { createClient } from "@/lib/supabase/client";
 import {
@@ -52,6 +53,10 @@ export default function PropertyForm({
   const [notes, setNotes] = useState(property?.notes ?? "");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [upgradePrompt, setUpgradePrompt] = useState<{
+    title: string;
+    message: string;
+  } | null>(null);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -94,19 +99,31 @@ export default function PropertyForm({
       return;
     }
 
-    const { data, error: insertError } = await supabase
-      .from("properties")
-      .insert({
-        user_id: user.id,
-        address: address.trim(),
-        property_type: propertyType,
+    const response = await fetch("/api/properties", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        address,
+        propertyType,
         bedrooms,
-      })
-      .select("id")
-      .single();
+        notes,
+      }),
+    });
+    const data = await response.json();
 
-    if (insertError) {
-      setError(insertError.message);
+    if (!response.ok && data.code === "UPGRADE_REQUIRED") {
+      setUpgradePrompt({
+        title: data.title || "You've reached the 15 property limit",
+        message:
+          data.message ||
+          "Upgrade to Professional for unlimited properties.",
+      });
+      setLoading(false);
+      return;
+    }
+
+    if (!response.ok) {
+      setError(data.error || "Unable to create property.");
       toastError();
       setLoading(false);
       return;
@@ -206,6 +223,13 @@ export default function PropertyForm({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-12">
+      {upgradePrompt ? (
+        <UpgradeOverlay
+          title={upgradePrompt.title}
+          message={upgradePrompt.message}
+          onDismiss={() => setUpgradePrompt(null)}
+        />
+      ) : null}
       <section>
         {!hideSectionHeader && (
           <>

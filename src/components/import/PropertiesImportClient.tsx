@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Upload } from "lucide-react";
 import PageBackButton from "@/components/PageBackButton";
+import UpgradeOverlay from "@/components/subscription/UpgradeOverlay";
 import { useToast } from "@/components/toast/ToastProvider";
 import {
   btnOutlineClassName,
@@ -46,6 +47,10 @@ export default function PropertiesImportClient() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showGuide, setShowGuide] = useState(false);
+  const [upgradePrompt, setUpgradePrompt] = useState<{
+    title: string;
+    message: string;
+  } | null>(null);
   const [result, setResult] = useState<{
     propertiesCreated: number;
     certificatesCreated: number;
@@ -75,11 +80,24 @@ export default function PropertiesImportClient() {
       const data = (await response.json()) as {
         error?: string;
         errors?: string[];
+        code?: string;
+        title?: string;
+        message?: string;
         propertiesCreated?: number;
         certificatesCreated?: number;
       };
 
       if (!response.ok) {
+        if (data.code === "UPGRADE_REQUIRED") {
+          setUpgradePrompt({
+            title: data.title || "You've reached the 15 property limit",
+            message:
+              data.message ||
+              "Upgrade to Professional for unlimited properties.",
+          });
+          setLoading(false);
+          return;
+        }
         if (data.errors?.length) {
           setError(data.errors.slice(0, 5).join(" "));
         } else {
@@ -107,6 +125,13 @@ export default function PropertiesImportClient() {
 
   return (
     <div className="app-under-nav grid min-h-screen w-full min-w-0 overflow-x-hidden bg-dusty-cream lg:grid-cols-[14rem_1fr] xl:grid-cols-[16rem_1fr]">
+      {upgradePrompt ? (
+        <UpgradeOverlay
+          title={upgradePrompt.title}
+          message={upgradePrompt.message}
+          onDismiss={() => setUpgradePrompt(null)}
+        />
+      ) : null}
       <aside className="border-b border-leather/15 bg-espresso px-5 py-10 text-dusty-cream sm:px-8 sm:py-12 lg:border-b-0 lg:border-r lg:py-16">
         <ol className="space-y-8 sm:space-y-10">
           {steps.map((step) => (

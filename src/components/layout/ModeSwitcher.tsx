@@ -70,8 +70,8 @@ export default function ModeSwitcher() {
 
   return (
     <div ref={rootRef} className="relative min-w-0">
-      {/* Mobile: active mode + chevron dropdown */}
-      <div className="md:hidden">
+      {/* Compact screens: active mode + chevron dropdown */}
+      <div className="lg:hidden">
         <button
           type="button"
           aria-expanded={open}
@@ -134,9 +134,9 @@ export default function ModeSwitcher() {
         ) : null}
       </div>
 
-      {/* Desktop: full tab row */}
+      {/* Wide screens: full tab row */}
       <div
-        className="hidden items-center gap-4 md:flex"
+        className="hidden min-w-max items-center gap-5 lg:flex xl:gap-8"
         role="tablist"
         aria-label="Application mode"
       >
@@ -154,7 +154,7 @@ export default function ModeSwitcher() {
               onMouseEnter={() => router.prefetch(href)}
               onFocus={() => router.prefetch(href)}
               onClick={() => setMode(tab.id)}
-              className={`relative pb-1.5 text-[12px] font-normal uppercase tracking-[0.16em] transition-opacity duration-200 ease-out ${
+              className={`relative whitespace-nowrap px-1 pb-1.5 text-[11px] font-normal uppercase tracking-[0.2em] transition-opacity duration-200 ease-out xl:px-1.5 xl:text-[12px] ${
                 isOverview
                   ? isActive
                     ? "text-dusty-cream"

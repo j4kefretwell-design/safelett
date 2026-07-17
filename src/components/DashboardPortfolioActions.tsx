@@ -1,12 +1,17 @@
 "use client";
 
 import { useState } from "react";
+import UpgradeOverlay from "@/components/subscription/UpgradeOverlay";
 import { btnOutlineClassName, btnReportOutlineClassName } from "@/lib/ui";
 import type { AnnualReportData } from "@/lib/annual-report";
 
 export default function DashboardPortfolioActions() {
   const [exportingCsv, setExportingCsv] = useState(false);
   const [generatingReport, setGeneratingReport] = useState(false);
+  const [upgradePrompt, setUpgradePrompt] = useState<{
+    title: string;
+    message: string;
+  } | null>(null);
 
   async function handleExportCsv() {
     setExportingCsv(true);
@@ -37,6 +42,16 @@ export default function DashboardPortfolioActions() {
     try {
       const response = await fetch("/api/annual-report");
       if (!response.ok) {
+        const error = await response.json().catch(() => null);
+        if (error?.code === "UPGRADE_REQUIRED") {
+          setUpgradePrompt({
+            title: error.title || "Monthly report limit reached",
+            message:
+              error.message ||
+              "Upgrade to Professional for unlimited annual compliance reports.",
+          });
+          return;
+        }
         throw new Error("Report generation failed");
       }
 
@@ -52,6 +67,13 @@ export default function DashboardPortfolioActions() {
 
   return (
     <div className="flex flex-wrap items-center justify-end gap-3">
+      {upgradePrompt ? (
+        <UpgradeOverlay
+          title={upgradePrompt.title}
+          message={upgradePrompt.message}
+          onDismiss={() => setUpgradePrompt(null)}
+        />
+      ) : null}
       <button
         type="button"
         onClick={handleExportCsv}

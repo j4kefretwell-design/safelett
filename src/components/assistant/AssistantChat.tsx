@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import ConfirmDialog from "@/components/ConfirmDialog";
+import UpgradeOverlay from "@/components/subscription/UpgradeOverlay";
 import {
   ASSISTANT_DISCLAIMER,
   ASSISTANT_DOCUMENTS,
@@ -41,6 +42,11 @@ interface AssistantChatProps {
     | "tenancy"
     | "property"
     | null;
+}
+
+interface UpgradePromptState {
+  title: string;
+  message: string;
 }
 
 type View =
@@ -322,6 +328,8 @@ export default function AssistantChat({
   const [deleteChatId, setDeleteChatId] = useState<string | null>(null);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [keyboardInset, setKeyboardInset] = useState(0);
+  const [upgradePrompt, setUpgradePrompt] =
+    useState<UpgradePromptState | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const followUpRef = useRef<HTMLTextAreaElement>(null);
   const composerTextareaRef = useRef<HTMLTextAreaElement>(null);
@@ -569,6 +577,15 @@ export default function AssistantChat({
         }),
       });
       const data = await response.json();
+      if (!response.ok && data.code === "UPGRADE_REQUIRED") {
+        setUpgradePrompt({
+          title: data.title || "You've reached your daily limit",
+          message:
+            data.message ||
+            "Upgrade to Professional for unlimited AI assistant access.",
+        });
+        return;
+      }
       if (!response.ok) throw new Error(data.error || "Unable to get a response.");
       const parsed = parseAssistantReply((data.reply as string) ?? "");
       setMessages((current) => [
@@ -605,6 +622,15 @@ export default function AssistantChat({
         method: "POST",
       });
       const data = await response.json();
+      if (!response.ok && data.code === "UPGRADE_REQUIRED") {
+        setUpgradePrompt({
+          title: data.title || "You've reached your daily limit",
+          message:
+            data.message ||
+            "Upgrade to Professional for unlimited AI assistant access.",
+        });
+        return;
+      }
       if (!response.ok)
         throw new Error(data.error || "Unable to run compliance check.");
       const parsed = parseAssistantReply((data.summary as string).trim());
@@ -748,6 +774,15 @@ export default function AssistantChat({
         }),
       });
       const data = await response.json();
+      if (!response.ok && data.code === "UPGRADE_REQUIRED") {
+        setUpgradePrompt({
+          title: data.title || "You've reached your daily limit",
+          message:
+            data.message ||
+            "Upgrade to Professional for unlimited AI assistant access.",
+        });
+        return;
+      }
       if (!response.ok) throw new Error(data.error || "Unable to draft document.");
       const entry = addAssistantHistoryEntry({
         title: data.subject || data.documentName,
@@ -1149,6 +1184,13 @@ export default function AssistantChat({
         marginTop: "var(--app-top-offset, 4rem)",
       }}
     >
+      {upgradePrompt ? (
+        <UpgradeOverlay
+          title={upgradePrompt.title}
+          message={upgradePrompt.message}
+          onDismiss={() => setUpgradePrompt(null)}
+        />
+      ) : null}
       <ConfirmDialog
         open={deleteChatId != null}
         title="Delete chat?"

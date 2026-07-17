@@ -7,6 +7,10 @@ import {
   formatInsightsForCompliancePrompt,
 } from "@/lib/assistant-insights";
 import { createClient } from "@/lib/supabase/server";
+import {
+  consumeFeatureUsage,
+  usageLimitResponse,
+} from "@/lib/usage-limits";
 import type { Certificate, Property } from "@/lib/types";
 import type { Tenancy } from "@/lib/tenancy";
 
@@ -56,6 +60,11 @@ export async function POST() {
     const system = `${buildAssistantSystemPrompt(portfolioFacts)}
 
 Session focus: Portfolio compliance check. Using only the factual portfolio data provided, produce a clean compliance status summary. Identify overdue certificates, items expiring soon, and missing core certificates. Be accurate and concise. Do not give legal advice or compliance judgements beyond stating what the data shows. Present the summary as clean labelled sections with blank lines between them. End with a one-line reminder that this is an information summary only, not legal advice.`;
+
+    const usage = await consumeFeatureUsage(supabase, "assistant_question");
+    if (!usage.allowed && usage.code) {
+      return NextResponse.json(usageLimitResponse(usage.code), { status: 429 });
+    }
 
     const anthropic = await createAnthropicClient();
 

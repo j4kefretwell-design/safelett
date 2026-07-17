@@ -3,6 +3,10 @@ import { buildAnnualReportData } from "@/lib/annual-report";
 import { resolveUserDisplayName } from "@/lib/contractor-email";
 import { createClient } from "@/lib/supabase/server";
 import { getUserProfile } from "@/lib/user-profile";
+import {
+  consumeFeatureUsage,
+  usageLimitResponse,
+} from "@/lib/usage-limits";
 import type {
   Certificate,
   Property,
@@ -17,6 +21,18 @@ export async function GET() {
 
   if (!user) {
     return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
+  }
+
+  try {
+    const usage = await consumeFeatureUsage(supabase, "annual_report");
+    if (!usage.allowed && usage.code) {
+      return NextResponse.json(usageLimitResponse(usage.code), { status: 429 });
+    }
+  } catch {
+    return NextResponse.json(
+      { error: "Usage limits are not configured." },
+      { status: 500 }
+    );
   }
 
   const { data: properties } = await supabase

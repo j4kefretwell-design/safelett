@@ -11,6 +11,10 @@ import {
 } from "@/lib/assistant-entity-context";
 import { buildPortfolioContext } from "@/lib/assistant-portfolio";
 import { createClient } from "@/lib/supabase/server";
+import {
+  consumeFeatureUsage,
+  usageLimitResponse,
+} from "@/lib/usage-limits";
 import type { Certificate, Property } from "@/lib/types";
 import type { Tenancy } from "@/lib/tenancy";
 
@@ -175,6 +179,11 @@ Session focus: Property report. Prioritise a clear compliance and tenancy summar
     } else {
       const portfolioData = await buildPortfolioContext(supabase, user.id);
       system = buildAssistantSystemPrompt(portfolioData);
+    }
+
+    const usage = await consumeFeatureUsage(supabase, "assistant_question");
+    if (!usage.allowed && usage.code) {
+      return NextResponse.json(usageLimitResponse(usage.code), { status: 429 });
     }
 
     const anthropic = await createAnthropicClient();
