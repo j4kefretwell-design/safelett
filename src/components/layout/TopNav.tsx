@@ -100,7 +100,7 @@ export default function TopNav({
         </div>
 
         <Link
-          href="/dashboard/overview"
+          href="/dashboard"
           aria-label="Go to overview dashboard"
           className="flex min-w-0 items-center justify-center px-1 transition hover:opacity-80"
         >
