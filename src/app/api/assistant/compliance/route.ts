@@ -93,6 +93,10 @@ Session focus: Portfolio compliance check. Using only the factual portfolio data
 
     return NextResponse.json({
       summary,
+      usage: {
+        used: usage.daily_used ?? null,
+        remaining: usage.daily_remaining ?? null,
+      },
       counts: {
         overdue: insights.overdueCertificates.length,
         expiringThisMonth: insights.expiringThisMonth.length,

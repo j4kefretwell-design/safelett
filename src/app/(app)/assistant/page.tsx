@@ -12,8 +12,15 @@ export default async function AssistantHomePage({
 }) {
   const params = await searchParams;
   const supabase = await createClient();
+  const utcDayStart = new Date();
+  utcDayStart.setUTCHours(0, 0, 0, 0);
 
-  const [{ data: properties }, { data: tenancies }] = await Promise.all([
+  const [
+    { data: properties },
+    { data: tenancies },
+    { data: subscription },
+    { count: dailyUsageCount },
+  ] = await Promise.all([
     supabase
       .from("properties")
       .select("*")
@@ -22,7 +29,20 @@ export default async function AssistantHomePage({
       .from("tenancies")
       .select("*")
       .order("end_date", { ascending: true }),
+    supabase
+      .from("subscriptions")
+      .select("plan_name, status")
+      .maybeSingle(),
+    supabase
+      .from("feature_usage")
+      .select("id", { count: "exact", head: true })
+      .in("feature", ["assistant_question", "document_draft"])
+      .gte("created_at", utcDayStart.toISOString()),
   ]);
+
+  const isProfessional =
+    subscription?.plan_name === "professional" &&
+    (subscription.status === "active" || subscription.status === "trialing");
 
   const action =
     params.action === "draft" ||
@@ -39,6 +59,7 @@ export default async function AssistantHomePage({
       properties={(properties ?? []) as Property[]}
       tenancies={(tenancies ?? []) as Tenancy[]}
       initialAction={action}
+      initialDailyUsage={isProfessional ? null : Math.min(dailyUsageCount ?? 0, 6)}
     />
   );
 }

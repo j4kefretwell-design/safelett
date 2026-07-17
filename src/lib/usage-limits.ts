@@ -14,6 +14,8 @@ interface UsageResult {
   allowed: boolean;
   code?: UsageLimitCode;
   remaining?: number | null;
+  daily_used?: number | null;
+  daily_remaining?: number | null;
   professional?: boolean;
 }
 

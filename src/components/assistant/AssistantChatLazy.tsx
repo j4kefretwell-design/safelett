@@ -19,6 +19,7 @@ const AssistantChat = dynamic(
 interface AssistantChatLazyProps {
   properties: Property[];
   tenancies: Tenancy[];
+  initialDailyUsage?: number | null;
   initialAction?:
     | "draft"
     | "compliance"

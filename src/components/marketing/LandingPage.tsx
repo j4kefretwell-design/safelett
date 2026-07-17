@@ -469,11 +469,11 @@ export default function LandingPage({
                 Three Plans. Built for Property Professionals.
               </h2>
 
-              <div className="mt-12 grid items-stretch gap-6 text-left md:grid-cols-3">
+              <div className="mt-12 grid auto-rows-fr items-stretch gap-6 text-left md:grid-cols-3">
                 {pricingPlans.map((plan) => (
                   <div
                     key={plan.name}
-                    className={`relative flex h-full flex-col border border-taupe bg-vanilla px-6 py-10 sm:px-8 sm:py-12 ${
+                    className={`relative flex h-full flex-col justify-between border border-taupe bg-vanilla px-6 py-10 sm:px-8 sm:py-12 ${
                       plan.highlighted
                         ? "shadow-[0_20px_60px_rgba(37,37,37,0.08)]"
                         : ""

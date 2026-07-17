@@ -124,6 +124,16 @@ BEGIN
   RETURN jsonb_build_object(
     'allowed', TRUE,
     'professional', v_is_professional,
+    'daily_used',
+      CASE
+        WHEN v_is_professional OR p_feature = 'annual_report' THEN NULL
+        ELSE v_daily_ai_count + 1
+      END,
+    'daily_remaining',
+      CASE
+        WHEN v_is_professional OR p_feature = 'annual_report' THEN NULL
+        ELSE GREATEST(0, 5 - v_daily_ai_count)
+      END,
     'remaining',
       CASE
         WHEN v_is_professional THEN NULL

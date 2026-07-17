@@ -211,7 +211,13 @@ Session focus: Property report. Prioritise a clear compliance and tenancy summar
       throw new Error("Anthropic returned an empty response.");
     }
 
-    return NextResponse.json({ reply });
+    return NextResponse.json({
+      reply,
+      usage: {
+        used: usage.daily_used ?? null,
+        remaining: usage.daily_remaining ?? null,
+      },
+    });
   } catch (error) {
     console.error("[api/assistant/ask] Ask failed:", error);
     const { message: errorMessage, status } = getAssistantApiErrorMessage(error);

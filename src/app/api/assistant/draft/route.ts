@@ -240,6 +240,10 @@ export async function POST(request: Request) {
       toEmail: null,
       propertyAddress: (property as Property).address,
       tenantNames: tenancy?.tenant_names ?? null,
+      usage: {
+        used: usage.daily_used ?? null,
+        remaining: usage.daily_remaining ?? null,
+      },
     });
   } catch (error) {
     console.error("[api/assistant/draft] Draft failed:", error);

@@ -16,13 +16,20 @@ export default function TrialBanner({
   const dayLabel = daysRemaining === 1 ? "1 day" : `${daysRemaining} days`;
 
   return (
-    <div className="relative z-20 flex min-h-11 w-full items-center gap-3 bg-white px-4 py-2.5 sm:gap-4 sm:px-6 lg:px-12">
-      <p className="min-w-0 flex-1 text-[14px] font-medium leading-snug text-[#60544D]">
+    <div
+      className="relative z-20 flex min-h-11 w-full items-center gap-3 px-4 py-2.5 sm:gap-4 sm:px-6 lg:px-12"
+      style={{ backgroundColor: "#FFFFFF" }}
+    >
+      <p
+        className="min-w-0 flex-1 text-[14px] font-medium leading-snug"
+        style={{ color: "#60544D" }}
+      >
         Your free trial ends in {dayLabel}. Subscribe to unlock full access.
       </p>
       <Link
         href="/subscription"
-        className="shrink-0 rounded-[6px] border border-[#443A35] bg-[#443A35] px-4 py-[6px] text-[12px] font-medium text-white transition hover:bg-[#252525]"
+        className="shrink-0 rounded-[6px] border px-4 py-[6px] text-[12px] font-medium text-white transition hover:opacity-90"
+        style={{ borderColor: "#443A35", backgroundColor: "#443A35" }}
       >
         Subscribe Now
       </Link>

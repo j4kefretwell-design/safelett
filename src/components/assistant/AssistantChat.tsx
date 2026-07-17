@@ -34,6 +34,7 @@ import type { Tenancy } from "@/lib/tenancy";
 interface AssistantChatProps {
   properties: Property[];
   tenancies: Tenancy[];
+  initialDailyUsage?: number | null;
   initialAction?:
     | "draft"
     | "compliance"
@@ -307,6 +308,7 @@ function DocumentCard({
 export default function AssistantChat({
   properties,
   tenancies,
+  initialDailyUsage = 0,
   initialAction = null,
 }: AssistantChatProps) {
   const [view, setView] = useState<View>({ screen: "menu" });
@@ -330,6 +332,9 @@ export default function AssistantChat({
   const [keyboardInset, setKeyboardInset] = useState(0);
   const [upgradePrompt, setUpgradePrompt] =
     useState<UpgradePromptState | null>(null);
+  const [dailyUsage, setDailyUsage] = useState<number | null>(
+    initialDailyUsage
+  );
   const bottomRef = useRef<HTMLDivElement>(null);
   const followUpRef = useRef<HTMLTextAreaElement>(null);
   const composerTextareaRef = useRef<HTMLTextAreaElement>(null);
@@ -578,6 +583,7 @@ export default function AssistantChat({
       });
       const data = await response.json();
       if (!response.ok && data.code === "UPGRADE_REQUIRED") {
+        setDailyUsage(6);
         setUpgradePrompt({
           title: data.title || "You've reached your daily limit",
           message:
@@ -587,6 +593,9 @@ export default function AssistantChat({
         return;
       }
       if (!response.ok) throw new Error(data.error || "Unable to get a response.");
+      if (typeof data.usage?.used === "number") {
+        setDailyUsage(data.usage.used);
+      }
       const parsed = parseAssistantReply((data.reply as string) ?? "");
       setMessages((current) => [
         ...current,
@@ -623,6 +632,7 @@ export default function AssistantChat({
       });
       const data = await response.json();
       if (!response.ok && data.code === "UPGRADE_REQUIRED") {
+        setDailyUsage(6);
         setUpgradePrompt({
           title: data.title || "You've reached your daily limit",
           message:
@@ -633,6 +643,9 @@ export default function AssistantChat({
       }
       if (!response.ok)
         throw new Error(data.error || "Unable to run compliance check.");
+      if (typeof data.usage?.used === "number") {
+        setDailyUsage(data.usage.used);
+      }
       const parsed = parseAssistantReply((data.summary as string).trim());
       append({
         role: "assistant",
@@ -775,6 +788,7 @@ export default function AssistantChat({
       });
       const data = await response.json();
       if (!response.ok && data.code === "UPGRADE_REQUIRED") {
+        setDailyUsage(6);
         setUpgradePrompt({
           title: data.title || "You've reached your daily limit",
           message:
@@ -784,6 +798,9 @@ export default function AssistantChat({
         return;
       }
       if (!response.ok) throw new Error(data.error || "Unable to draft document.");
+      if (typeof data.usage?.used === "number") {
+        setDailyUsage(data.usage.used);
+      }
       const entry = addAssistantHistoryEntry({
         title: data.subject || data.documentName,
         documentType,
@@ -1406,6 +1423,11 @@ export default function AssistantChat({
               <h1 className="mt-2 text-center font-serif text-xl tracking-wide text-heading sm:text-[1.5rem]">
                 How can I help you today?
               </h1>
+              {dailyUsage !== null ? (
+                <p className="mt-3 text-center text-[10px] font-normal uppercase tracking-[0.18em] text-cocoa/75">
+                  {Math.max(0, 6 - dailyUsage)} of 6 AI requests remaining today
+                </p>
+              ) : null}
               <div
                 className="mx-auto mt-5 h-px w-16 bg-taupe"
                 aria-hidden
