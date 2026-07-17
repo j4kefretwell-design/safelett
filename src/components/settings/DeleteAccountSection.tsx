@@ -5,7 +5,6 @@ import { createClient } from "@/lib/supabase/client";
 
 export default function DeleteAccountSection() {
   const [open, setOpen] = useState(false);
-  const [confirmation, setConfirmation] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -21,12 +20,11 @@ export default function DeleteAccountSection() {
   function closeModal() {
     if (loading) return;
     setOpen(false);
-    setConfirmation("");
     setError(null);
   }
 
   async function deleteAccount() {
-    if (confirmation !== "DELETE" || loading) return;
+    if (loading) return;
     setLoading(true);
     setError(null);
 
@@ -100,35 +98,16 @@ export default function DeleteAccountSection() {
             >
               ×
             </button>
-            <p className="text-[10px] font-medium uppercase tracking-[0.24em] text-urgent">
-              Permanent deletion
-            </p>
             <h2
               id="delete-account-title"
-              className="mt-3 pr-8 font-serif text-2xl tracking-wide text-umber"
+              className="pr-8 font-serif text-2xl tracking-wide text-umber"
             >
-              Are you sure?
+              Delete Your Account
             </h2>
             <p className="mt-4 text-sm font-light leading-relaxed text-leather">
               This will permanently delete all your properties, certificates,
-              tenancies and account data. Type DELETE to confirm.
+              tenancies, contractors and account data. This cannot be undone.
             </p>
-
-            <label
-              htmlFor="delete-account-confirmation"
-              className="mt-8 block text-[10px] font-medium uppercase tracking-[0.18em] text-umber"
-            >
-              Type DELETE
-            </label>
-            <input
-              id="delete-account-confirmation"
-              type="text"
-              value={confirmation}
-              onChange={(event) => setConfirmation(event.target.value)}
-              disabled={loading}
-              autoComplete="off"
-              className="mt-2 h-12 w-full rounded-[6px] border border-urgent/40 bg-white px-4 text-base font-medium tracking-[0.12em] text-umber outline-none focus:border-urgent disabled:opacity-50"
-            />
 
             {error ? (
               <p
@@ -139,22 +118,22 @@ export default function DeleteAccountSection() {
               </p>
             ) : null}
 
-            <div className="mt-8 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+            <div className="mt-8 grid grid-cols-2 gap-3">
               <button
                 type="button"
                 onClick={closeModal}
                 disabled={loading}
-                className="min-h-11 px-5 text-sm font-light text-leather transition hover:text-umber disabled:opacity-40"
+                className="min-h-11 rounded-[6px] border border-leather/40 px-4 py-2.5 text-[11px] font-medium uppercase tracking-[0.12em] text-leather transition hover:border-umber hover:text-umber disabled:opacity-40"
               >
                 Cancel
               </button>
               <button
                 type="button"
                 onClick={() => void deleteAccount()}
-                disabled={confirmation !== "DELETE" || loading}
-                className="min-h-11 rounded-[6px] bg-urgent px-5 py-2.5 text-[11px] font-medium uppercase tracking-[0.12em] text-white transition hover:bg-urgent/90 disabled:cursor-not-allowed disabled:opacity-35"
+                disabled={loading}
+                className="min-h-11 rounded-[6px] bg-urgent px-4 py-2.5 text-[11px] font-medium uppercase tracking-[0.12em] text-white transition hover:bg-urgent/90 disabled:cursor-not-allowed disabled:opacity-40"
               >
-                {loading ? "Deleting…" : "Permanently Delete Account"}
+                {loading ? "Deleting…" : "Delete Account"}
               </button>
             </div>
           </div>

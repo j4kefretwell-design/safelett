@@ -68,6 +68,7 @@ export async function DELETE(request: Request) {
   if (!user) {
     return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
   }
+  const userId = user.id;
 
   try {
     const admin = createAdminClient();
@@ -79,7 +80,7 @@ export async function DELETE(request: Request) {
       admin.from("properties").select("id").eq("user_id", user.id),
       admin
         .from("tenancies")
-        .select("agreement_path, deposit_cert_path, right_to_rent_path")
+        .select("id, agreement_path, deposit_cert_path, right_to_rent_path")
         .eq("user_id", user.id),
       admin
         .from("subscriptions")
@@ -93,14 +94,19 @@ export async function DELETE(request: Request) {
     if (subscriptionError) throw subscriptionError;
 
     const propertyIds = (properties ?? []).map((property) => property.id);
+    const tenancyIds = (tenancies ?? []).map((tenancy) => tenancy.id);
+    let certificateIds: string[] = [];
     let certificatePaths: string[] = [];
 
     if (propertyIds.length > 0) {
       const { data: certificates, error } = await admin
         .from("certificates")
-        .select("document_path")
+        .select("id, document_path")
         .in("property_id", propertyIds);
       if (error) throw error;
+      certificateIds = (certificates ?? []).map(
+        (certificate) => certificate.id
+      );
       certificatePaths = uniquePaths(
         (certificates ?? []).map((certificate) => certificate.document_path)
       );
@@ -144,26 +150,43 @@ export async function DELETE(request: Request) {
       }
     }
 
-    // Delete direct user-owned rows first. Child records such as certificates,
-    // alerts and property contractors are removed by their ON DELETE CASCADE
-    // constraints.
-    for (const table of [
-      "assistant_chats",
-      "tenants",
-      "tenancies",
-      "contractors",
-      "properties",
-      "subscriptions",
-    ]) {
-      const { error } = await admin.from(table).delete().eq("user_id", user.id);
+    async function deleteByUserId(table: string) {
+      const { error } = await admin.from(table).delete().eq("user_id", userId);
       if (error) throw new Error(`Could not delete ${table}: ${error.message}`);
     }
+
+    async function deleteByIds(
+      table: string,
+      column: string,
+      ids: string[]
+    ) {
+      if (ids.length === 0) return;
+      const { error } = await admin.from(table).delete().in(column, ids);
+      if (error) throw new Error(`Could not delete ${table}: ${error.message}`);
+    }
+
+    // Assistant history is also user-owned but is not part of the relational
+    // portfolio dependency chain below.
+    await deleteByUserId("assistant_chats");
+
+    // Keep this dependency order explicit rather than relying on cascades.
+    await deleteByIds("certificate_alerts", "certificate_id", certificateIds);
+    await deleteByIds("certificates", "property_id", propertyIds);
+    await deleteByUserId("contractors");
+    await deleteByIds("property_contractors", "property_id", propertyIds);
+    await deleteByIds("tenancy_alerts", "tenancy_id", tenancyIds);
+    await deleteByUserId("tenancies");
+    await deleteByUserId("tenants");
+    await deleteByUserId("properties");
+    await deleteByUserId("subscriptions");
 
     const { error: profileError } = await admin
       .from("user_profiles")
       .delete()
       .eq("id", user.id);
-    if (profileError) throw profileError;
+    if (profileError) {
+      throw new Error(`Could not delete user_profiles: ${profileError.message}`);
+    }
 
     const { error: authError } = await admin.auth.admin.deleteUser(user.id);
     if (authError) throw authError;
