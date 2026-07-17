@@ -68,47 +68,24 @@
   --font-sans: var(--font-dm-sans), "Helvetica Neue", Arial, sans-serif;
 }
 
-@property --topbar-start {
-  syntax: "<color>";
-  inherits: false;
-  initial-value: #443a35;
-}
-
-@property --topbar-end {
-  syntax: "<color>";
-  inherits: false;
-  initial-value: #252525;
-}
-
 .module-topbar {
-  background: linear-gradient(
-    to right,
-    var(--topbar-start),
-    var(--topbar-end)
-  );
-  transition:
-    --topbar-start 0.4s ease,
-    --topbar-end 0.4s ease;
+  transition: background-color 0.4s ease;
 }
 
 .module-topbar--overview {
-  --topbar-start: #443a35;
-  --topbar-end: #252525;
+  background-color: #443a35;
 }
 
 .module-topbar--compliance {
-  --topbar-start: #33181c;
-  --topbar-end: #33181c;
+  background-color: #33181c;
 }
 
 .module-topbar--tenancy {
-  --topbar-start: #1b2339;
-  --topbar-end: #1b2339;
+  background-color: #1b2339;
 }
 
 .module-topbar--assistant {
-  --topbar-start: #1c2b23;
-  --topbar-end: #1c2b23;
+  background-color: #1c2b23;
 }
 
 .app-under-nav {
