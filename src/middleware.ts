@@ -55,7 +55,9 @@ export async function middleware(request: NextRequest) {
   }
 
   const isAuthPage =
-    pathname.startsWith("/login") || pathname.startsWith("/signup");
+    pathname.startsWith("/login") ||
+    pathname.startsWith("/signup") ||
+    pathname.startsWith("/forgot-password");
 
   const isPublicPage =
     pathname === "/" ||

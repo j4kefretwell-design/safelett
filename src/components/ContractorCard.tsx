@@ -56,14 +56,17 @@ export default function ContractorCard({ contractor }: ContractorCardProps) {
           {contractor.company_name}
         </p>
 
-        <div className="mt-5 space-y-1 text-base leading-relaxed">
+        <div className="mt-5 min-w-0 space-y-1 text-base leading-relaxed">
           <a
             href={`tel:${contractor.phone.replace(/\s/g, "")}`}
-            className={`${linkClassName} block`}
+            className={`${linkClassName} block break-words`}
           >
             {contractor.phone}
           </a>
-          <a href={`mailto:${contractor.email}`} className={`${linkClassName} block`}>
+          <a
+            href={`mailto:${contractor.email}`}
+            className={`${linkClassName} block break-all`}
+          >
             {contractor.email}
           </a>
         </div>

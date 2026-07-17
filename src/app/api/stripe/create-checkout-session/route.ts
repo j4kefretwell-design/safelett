@@ -10,6 +10,77 @@ import {
 
 const SUCCESS_URL = "https://fretwellcompliance.uk/subscription/success";
 const CANCEL_URL = "https://fretwellcompliance.uk/subscription";
+const PRODUCT_HUNT_PROMO_CODE = "PRODUCTHUNT20";
+const PRODUCT_HUNT_COUPON_ID = "producthunt20-first-3-months";
+
+function isMissingStripeResource(error: unknown): boolean {
+  return Boolean(
+    error &&
+      typeof error === "object" &&
+      "code" in error &&
+      (error as { code?: string }).code === "resource_missing"
+  );
+}
+
+async function getProductHuntPromotionCodeId(
+  stripe: ReturnType<typeof getStripe>
+): Promise<string> {
+  const existingCodes = await stripe.promotionCodes.list({
+    code: PRODUCT_HUNT_PROMO_CODE,
+    active: true,
+    limit: 1,
+  });
+  const existingCode = existingCodes.data[0];
+  if (existingCode) return existingCode.id;
+
+  let coupon: Stripe.Coupon | null = null;
+  try {
+    const existingCoupon = await stripe.coupons.retrieve(
+      PRODUCT_HUNT_COUPON_ID
+    );
+    if (!existingCoupon.deleted) coupon = existingCoupon;
+  } catch (error) {
+    if (!isMissingStripeResource(error)) throw error;
+  }
+
+  if (coupon) {
+    if (
+      coupon.percent_off !== 20 ||
+      coupon.duration !== "repeating" ||
+      coupon.duration_in_months !== 3
+    ) {
+      throw new Error(
+        "The Stripe PRODUCTHUNT20 coupon exists with incorrect discount settings."
+      );
+    }
+  } else {
+    coupon = await stripe.coupons.create(
+      {
+        id: PRODUCT_HUNT_COUPON_ID,
+        name: "Product Hunt — 20% off first 3 months",
+        percent_off: 20,
+        duration: "repeating",
+        duration_in_months: 3,
+        metadata: { campaign: "PRODUCTHUNT20" },
+      },
+      { idempotencyKey: "create-producthunt20-coupon-v1" }
+    );
+  }
+
+  const promotionCode = await stripe.promotionCodes.create(
+    {
+      code: PRODUCT_HUNT_PROMO_CODE,
+      promotion: {
+        type: "coupon",
+        coupon: coupon.id,
+      },
+      metadata: { campaign: "PRODUCTHUNT20" },
+    },
+    { idempotencyKey: "create-producthunt20-promotion-code-v1" }
+  );
+
+  return promotionCode.id;
+}
 
 function stripeErrorMessage(error: unknown): string {
   if (
@@ -60,9 +131,13 @@ export async function POST(request: Request) {
 
     console.log("[stripe/checkout] user", user.id, user.email);
 
-    let body: { plan?: string; plan_name?: string } = {};
+    let body: { plan?: string; plan_name?: string; promoCode?: string } = {};
     try {
-      body = (await request.json()) as { plan?: string; plan_name?: string };
+      body = (await request.json()) as {
+        plan?: string;
+        plan_name?: string;
+        promoCode?: string;
+      };
     } catch {
       console.error("[stripe/checkout] Invalid JSON body");
       return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
@@ -117,6 +192,19 @@ export async function POST(request: Request) {
     }
 
     const stripe = getStripe();
+    const promoCode = body.promoCode?.trim().toUpperCase() ?? "";
+    let promotionCodeId: string | undefined;
+
+    if (promoCode) {
+      if (promoCode !== PRODUCT_HUNT_PROMO_CODE) {
+        return NextResponse.json(
+          { error: "This promo code is not valid." },
+          { status: 400 }
+        );
+      }
+
+      promotionCodeId = await getProductHuntPromotionCodeId(stripe);
+    }
 
     const sessionParams: Stripe.Checkout.SessionCreateParams = {
       mode: "subscription",
@@ -134,6 +222,9 @@ export async function POST(request: Request) {
           plan_name: plan,
         },
       },
+      ...(promotionCodeId
+        ? { discounts: [{ promotion_code: promotionCodeId }] }
+        : {}),
     };
 
     if (customerId) {

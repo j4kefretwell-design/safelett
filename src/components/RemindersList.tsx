@@ -155,7 +155,7 @@ function RemindersStickyBar({
 }) {
   return (
     <div
-      className={`sticky top-16 z-10 border-b border-leather/15 bg-white ${editorialPagePaddingClassName} py-3`}
+      className={`sticky top-[var(--app-top-offset,4rem)] z-10 border-b border-leather/15 bg-white ${editorialPagePaddingClassName} py-3`}
     >
       <p className={`${capsLabelClassName} leading-relaxed text-leather`}>
         {overdueCount} Overdue · {weekCount} This Week · {monthCount} This Month ·{" "}
@@ -267,7 +267,7 @@ function ReminderCard({
                   {" · "}
                   <a
                     href={`mailto:${contractor.email}`}
-                    className="transition hover:text-text"
+                    className="break-all transition hover:text-text"
                   >
                     {contractor.email}
                   </a>

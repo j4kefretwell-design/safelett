@@ -2,6 +2,7 @@ import type { ExpiryAlertDay } from "@/lib/compliance";
 import { getFromEmail, getResendClient } from "./resend";
 import {
   buildExpiryAlertEmail,
+  buildPasswordResetEmail,
   buildTenancyAlertEmail,
   buildWelcomeEmail,
 } from "./templates";
@@ -97,6 +98,24 @@ export async function sendWelcomeEmail({ to }: { to: string }) {
     dashboardUrl: `${getAppUrl()}/dashboard`,
   });
 
+  const resend = getResendClient();
+
+  return resend.emails.send({
+    from: getFromEmail(),
+    to,
+    subject,
+    html,
+  });
+}
+
+export async function sendPasswordResetEmail({
+  to,
+  resetUrl,
+}: {
+  to: string;
+  resetUrl: string;
+}) {
+  const { subject, html } = buildPasswordResetEmail({ resetUrl });
   const resend = getResendClient();
 
   return resend.emails.send({

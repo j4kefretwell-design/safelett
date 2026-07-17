@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimateIn } from "@/components/AnimateIn";
+import PageBackButton from "@/components/PageBackButton";
 import SettingsAccount from "@/components/settings/SettingsAccount";
 import SettingsNotifications from "@/components/settings/SettingsNotifications";
 import SettingsPassword from "@/components/settings/SettingsPassword";
@@ -26,7 +27,8 @@ function scrollToSection(id: string) {
 
 export default function SettingsClient({ profile, email }: SettingsClientProps) {
   return (
-    <div className={`bg-dusty-cream py-12 lg:py-16 ${editorialPagePaddingClassName}`}>
+    <div className={`min-h-screen bg-dusty-cream pb-12 pt-[calc(var(--app-top-offset,4rem)+3rem)] lg:pb-16 lg:pt-[calc(var(--app-top-offset,4rem)+4rem)] ${editorialPagePaddingClassName}`}>
+      <PageBackButton className="mb-8" />
       <AnimateIn>
         <header className="pb-12 lg:pb-16">
           <h1 className="font-serif text-4xl tracking-wide text-text sm:text-5xl">

@@ -155,7 +155,7 @@ export default function DashboardClient({
               </div>
             </AnimateIn>
           ) : (
-            <ScrollRevealGroup className="grid grid-cols-2 gap-1 lg:grid-cols-3">
+            <ScrollRevealGroup className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-3 lg:grid-cols-3 lg:gap-1">
               {filteredProperties.map((property) => (
                 <PropertyCard
                   key={property.id}

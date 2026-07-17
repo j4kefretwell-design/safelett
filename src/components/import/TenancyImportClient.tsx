@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Upload } from "lucide-react";
-import PageBackLink from "@/components/PageBackLink";
+import PageBackButton from "@/components/PageBackButton";
 import { useToast } from "@/components/toast/ToastProvider";
 import {
   btnOutlineClassName,
@@ -116,7 +116,7 @@ export default function TenancyImportClient() {
   }
 
   return (
-    <div className="grid min-h-[calc(100vh-4rem)] w-full min-w-0 overflow-x-hidden bg-[#f0f2f5] lg:grid-cols-[14rem_1fr] xl:grid-cols-[16rem_1fr]">
+    <div className="app-under-nav grid min-h-screen w-full min-w-0 overflow-x-hidden bg-[#f0f2f5] lg:grid-cols-[14rem_1fr] xl:grid-cols-[16rem_1fr]">
       <aside className="border-b border-navy/20 bg-navy px-5 py-10 text-dusty-cream sm:px-8 sm:py-12 lg:border-b-0 lg:border-r lg:border-navy-dark lg:py-16">
         <ol className="space-y-8 sm:space-y-10">
           {steps.map((step) => (
@@ -139,7 +139,7 @@ export default function TenancyImportClient() {
         onSubmit={handleSubmit}
         className="flex min-w-0 flex-col bg-white px-5 py-10 sm:px-8 sm:py-12 lg:px-16 lg:py-16"
       >
-        <PageBackLink href="/tenancy/dashboard">← Back to Tenancy</PageBackLink>
+        <PageBackButton />
 
         {!file && !result ? (
           <div className="mt-8 border border-steel/15 bg-[#f0f2f5]/40 px-6 py-8 sm:px-8">

@@ -99,21 +99,40 @@ export default function TopNav({
           <ModeSwitcher />
         </div>
 
-        <div className="flex min-w-0 items-center justify-center px-1">
+        <Link
+          href="/dashboard/overview"
+          aria-label="Go to overview dashboard"
+          className="flex min-w-0 items-center justify-center px-1 transition hover:opacity-80"
+        >
           {isOverview ? (
             <p className="whitespace-nowrap font-serif text-[0.8125rem] uppercase tracking-[0.16em] text-umber sm:text-base sm:tracking-[0.28em] md:text-lg md:tracking-[0.32em]">
-              Fretwell <span className="italic text-gold">&amp;</span> Co
+              <span className="sm:hidden">
+                F<span className="italic text-gold">&amp;</span>Co
+              </span>
+              <span className="hidden sm:inline">
+                Fretwell <span className="italic text-gold">&amp;</span> Co
+              </span>
             </p>
           ) : isAssistant ? (
             <p className="whitespace-nowrap font-serif text-[0.8125rem] uppercase tracking-[0.16em] text-dusty-cream sm:text-base sm:tracking-[0.28em] md:text-lg md:tracking-[0.32em]">
-              Fretwell <span className="italic text-moss">&amp;</span> Co
+              <span className="sm:hidden">
+                F<span className="italic text-moss">&amp;</span>Co
+              </span>
+              <span className="hidden sm:inline">
+                Fretwell <span className="italic text-moss">&amp;</span> Co
+              </span>
             </p>
           ) : (
             <p className="whitespace-nowrap font-serif text-[0.8125rem] uppercase tracking-[0.16em] text-gold sm:text-base sm:tracking-[0.28em] md:text-lg md:tracking-[0.32em]">
-              Fretwell <span className="italic">&amp;</span> Co
+              <span className="sm:hidden">
+                F<span className="italic">&amp;</span>Co
+              </span>
+              <span className="hidden sm:inline">
+                Fretwell <span className="italic">&amp;</span> Co
+              </span>
             </p>
           )}
-        </div>
+        </Link>
 
         <div className="flex items-center justify-end">
           {/* Desktop links */}

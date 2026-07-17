@@ -27,26 +27,7 @@ export default function ResetPasswordForm() {
   useEffect(() => {
     const supabase = createClient();
 
-    async function establishRecoverySession() {
-      const params = new URLSearchParams(window.location.search);
-      const code = params.get("code");
-
-      if (code) {
-        const { error: exchangeError } =
-          await supabase.auth.exchangeCodeForSession(code);
-
-        if (exchangeError) {
-          setError(exchangeError.message);
-          setCheckingSession(false);
-          return;
-        }
-
-        window.history.replaceState({}, "", "/reset-password");
-        setSessionReady(true);
-        setCheckingSession(false);
-        return;
-      }
-
+    async function checkRecoverySession() {
       const {
         data: { session },
       } = await supabase.auth.getSession();
@@ -57,21 +38,7 @@ export default function ResetPasswordForm() {
 
       setCheckingSession(false);
     }
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((event) => {
-      if (event === "PASSWORD_RECOVERY") {
-        setSessionReady(true);
-        setCheckingSession(false);
-      }
-    });
-
-    void establishRecoverySession();
-
-    return () => {
-      subscription.unsubscribe();
-    };
+    void checkRecoverySession();
   }, []);
 
   // The recovery link signs the user into a temporary session; middleware
@@ -141,7 +108,7 @@ export default function ResetPasswordForm() {
               onClick={() => void goToSignIn()}
               className={`${btnPrimaryClassName} w-full`}
             >
-              Sign in
+              Return to Sign In →
             </button>
           </div>
         ) : checkingSession ? (

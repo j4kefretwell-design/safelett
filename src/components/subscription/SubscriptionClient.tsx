@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { Check } from "lucide-react";
+import PageBackButton from "@/components/PageBackButton";
 import {
   calculateSubscriptionSummary,
   SUBSCRIPTION_MODULES,
@@ -37,6 +38,7 @@ export default function SubscriptionClient({
   );
   const [managing, setManaging] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [promoCode, setPromoCode] = useState("");
 
   const summary = useMemo(
     () => calculateSubscriptionSummary(selection),
@@ -67,7 +69,7 @@ export default function SubscriptionClient({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "same-origin",
-        body: JSON.stringify({ plan }),
+        body: JSON.stringify({ plan, promoCode: promoCode.trim() || undefined }),
       });
 
       const rawText = await response.text();
@@ -141,7 +143,8 @@ export default function SubscriptionClient({
   }
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-greige px-5 py-12 pb-44 text-umber sm:px-12 lg:px-16">
+    <div className="min-h-screen bg-greige px-5 pb-56 pt-[calc(var(--app-top-offset,4rem)+3rem)] text-umber sm:px-12 sm:pb-44 lg:px-16">
+      <PageBackButton className="mb-8" />
       {trialEnded ? (
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-[10px] font-normal uppercase tracking-[0.32em] text-gold">
@@ -208,6 +211,34 @@ export default function SubscriptionClient({
           <p className="mt-1 text-sm font-light text-leather">
             £89/month <span className="text-gold">(save £76)</span>
           </p>
+        </div>
+      </div>
+
+      <div className="mt-6 border border-umber/10 bg-white/70 px-5 py-5">
+        <label
+          htmlFor="subscription-promo-code"
+          className="text-[10px] font-normal uppercase tracking-[0.2em] text-gold"
+        >
+          Promo code
+        </label>
+        <div className="mt-3 flex max-w-md items-center gap-3">
+          <input
+            id="subscription-promo-code"
+            type="text"
+            value={promoCode}
+            onChange={(event) => {
+              setPromoCode(event.target.value.toUpperCase());
+              setError(null);
+            }}
+            placeholder="Enter promo code"
+            autoComplete="off"
+            className="min-h-11 min-w-0 flex-1 rounded-[6px] border border-umber/20 bg-white px-4 text-sm font-normal uppercase tracking-[0.08em] text-umber outline-none placeholder:normal-case placeholder:tracking-normal placeholder:text-leather/60 focus:border-gold"
+          />
+          {promoCode.trim() === "PRODUCTHUNT20" ? (
+            <span className="shrink-0 text-xs font-normal text-study">
+              20% off first 3 months
+            </span>
+          ) : null}
         </div>
       </div>
 

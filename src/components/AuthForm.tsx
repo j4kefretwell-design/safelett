@@ -32,8 +32,6 @@ export default function AuthForm({ mode }: AuthFormProps) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [showForgotPassword, setShowForgotPassword] = useState(false);
-  const [resetSent, setResetSent] = useState(false);
 
   const isLoginStyled = mode === "login";
   const cardClassName = isLoginStyled ? authCardLoginClassName : authCardClassName;
@@ -105,40 +103,9 @@ export default function AuthForm({ mode }: AuthFormProps) {
     router.refresh();
   }
 
-  async function handleForgotPassword(e: React.FormEvent) {
-    e.preventDefault();
-    setError(null);
-    setLoading(true);
-
-    const supabase = createClient();
-    const redirectTo = `${window.location.origin}/reset-password`;
-
-    const { error: resetError } = await supabase.auth.resetPasswordForEmail(
-      email,
-      { redirectTo }
-    );
-
-    if (resetError) {
-      setError(resetError.message);
-      setLoading(false);
-      return;
-    }
-
-    setResetSent(true);
-    setLoading(false);
-  }
-
-  const title = showForgotPassword
-    ? "Reset password"
-    : mode === "login"
-      ? "Sign in"
-      : "Create account";
-
-  const subtitle = showForgotPassword
-    ? resetSent
-      ? "Check your email for a link to reset your password."
-      : "Enter your email address and we will send you a reset link."
-    : mode === "login"
+  const title = mode === "login" ? "Sign in" : "Create account";
+  const subtitle =
+    mode === "login"
       ? "Welcome back to your portfolio."
       : "Begin tracking compliance with confidence.";
 
@@ -172,73 +139,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
         <h1 className={titleClassName}>{title}</h1>
         <p className={subtitleClassName}>{subtitle}</p>
 
-        {showForgotPassword ? (
-          resetSent ? (
-            <div className="mt-10 space-y-6">
-              <p className={subtitleClassName}>
-                If an account exists for <strong className="font-normal">{email}</strong>, you will receive an email shortly.
-              </p>
-              <button
-                type="button"
-                onClick={() => {
-                  setShowForgotPassword(false);
-                  setResetSent(false);
-                  setError(null);
-                }}
-                className={submitBtnClassName}
-              >
-                Back to sign in
-              </button>
-            </div>
-          ) : (
-            <form onSubmit={handleForgotPassword} className="mt-10 space-y-8">
-              <div>
-                <label htmlFor="email" className={fieldLabelClassName}>
-                  Email address
-                </label>
-                <input
-                  id="email"
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className={fieldInputClassName}
-                  placeholder="you@company.com"
-                />
-              </div>
-
-              {error && (
-                <p className="border border-urgent/20 bg-urgent-light/50 px-4 py-3 text-sm text-urgent">
-                  {error}
-                </p>
-              )}
-
-              <button
-                type="submit"
-                disabled={loading}
-                className={submitBtnClassName}
-              >
-                {loading ? "Please wait..." : "Send reset link"}
-              </button>
-
-              <button
-                type="button"
-                onClick={() => {
-                  setShowForgotPassword(false);
-                  setError(null);
-                }}
-                className={
-                  isLoginStyled
-                    ? `block w-full text-center ${authForgotLinkClassName}`
-                    : "block w-full text-center text-sm font-light text-gold-readable transition hover:text-gold"
-                }
-              >
-                Back to sign in
-              </button>
-            </form>
-          )
-        ) : (
-          <form onSubmit={handleSubmit} className="mt-10 space-y-8">
+        <form onSubmit={handleSubmit} className="mt-10 space-y-8">
             <div>
               <label htmlFor="email" className={fieldLabelClassName}>
                 Email address
@@ -270,16 +171,12 @@ export default function AuthForm({ mode }: AuthFormProps) {
                 }
               />
               {mode === "login" && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setShowForgotPassword(true);
-                    setError(null);
-                  }}
+                <Link
+                  href="/forgot-password"
                   className={`mt-2 ${authForgotLinkClassName}`}
                 >
                   Forgot your password?
-                </button>
+                </Link>
               )}
             </div>
 
@@ -300,11 +197,9 @@ export default function AuthForm({ mode }: AuthFormProps) {
                   ? "Sign In"
                   : "Create Account"}
             </button>
-          </form>
-        )}
+        </form>
 
-        {!showForgotPassword && (
-          <p className={footerBorderClassName}>
+        <p className={footerBorderClassName}>
             {mode === "login" ? (
               <>
                 Don&apos;t have an account?{" "}
@@ -320,8 +215,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
                 </Link>
               </>
             )}
-          </p>
-        )}
+        </p>
       </div>
     </div>
   );

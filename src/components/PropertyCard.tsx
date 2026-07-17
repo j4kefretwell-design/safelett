@@ -29,7 +29,7 @@ export default function PropertyCard({
   return (
     <Link
       href={`/properties/${property.id}`}
-      className={`group ${dashboardWarmCardClassName} flex h-full min-h-[200px] flex-col justify-between border-l-[3px] border-l-espresso p-6 transition duration-200 hover:border-leather sm:min-h-[240px] sm:p-8 ${highlightPulse ? "property-card-highlight-pulse" : ""}`}
+      className={`group ${dashboardWarmCardClassName} flex h-full min-h-[200px] flex-col justify-between border-l-[3px] border-l-espresso p-4 transition duration-200 hover:border-leather sm:min-h-[240px] sm:p-8 ${highlightPulse ? "property-card-highlight-pulse" : ""}`}
     >
       <div className="dashboard-warm-card-content">
         <h3 className="font-serif text-lg leading-snug tracking-wide text-text transition group-hover:text-raspberry sm:text-xl lg:text-2xl">

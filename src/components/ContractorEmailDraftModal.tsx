@@ -77,7 +77,7 @@ export default function ContractorEmailDraftModal({
         role="dialog"
         aria-modal="true"
         aria-labelledby="draft-email-title"
-        className="assistant-composer-modal relative z-[1] flex max-h-[92vh] w-full max-w-2xl flex-col overflow-hidden rounded-t-[20px] bg-[#F0ECE1] shadow-[0_20px_60px_rgba(0,0,0,0.3)] sm:rounded-[20px]"
+        className="assistant-composer-modal relative z-[1] flex max-h-[92dvh] w-full max-w-2xl flex-col overflow-hidden rounded-t-[20px] bg-[#F0ECE1] shadow-[0_20px_60px_rgba(0,0,0,0.3)] sm:rounded-[20px]"
       >
         <button
           type="button"

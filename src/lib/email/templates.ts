@@ -22,14 +22,14 @@ function brandWelcomeEmailLayout(content: string): string {
         <td align="center">
           <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:560px;background-color:#F5F0E8;border:1px solid rgba(51,24,28,0.12);">
             <tr>
-              <td style="background-color:#33181C;padding:28px 32px;text-align:center;">
+              <td style="background-color:#33181C;padding:28px 32px;text-align:center;border-bottom:2px solid #C4A35A;">
                 <p style="margin:0;font-family:Georgia,'Times New Roman',Times,serif;font-size:17px;font-weight:400;color:#EAECE4;letter-spacing:0.22em;text-transform:uppercase;">
                   FRETWELL <span style="font-style:italic;color:#C4A35A;">&amp;</span> CO
                 </p>
               </td>
             </tr>
             <tr>
-              <td style="padding:36px 32px;background-color:#EAECE4;">
+              <td style="padding:36px 32px;background-color:#F5F0E8;">
                 ${content}
               </td>
             </tr>
@@ -58,26 +58,28 @@ function emailLayout(content: string): string {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>${BRAND_NAME}</title>
   </head>
-  <body style="margin:0;padding:0;background-color:#f8fafc;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#0f172a;">
-    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color:#f8fafc;padding:32px 16px;">
+  <body style="margin:0;padding:0;background-color:#F5F0E8;font-family:Georgia,'Times New Roman',Times,serif;color:#33181C;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color:#F5F0E8;padding:32px 16px;">
       <tr>
         <td align="center">
-          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:560px;background-color:#ffffff;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;">
+          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:560px;background-color:#F5F0E8;border:1px solid rgba(51,24,28,0.12);">
             <tr>
-              <td style="background-color:#0f172a;padding:24px 32px;">
-                <p style="margin:0;font-size:22px;font-weight:700;color:#ffffff;letter-spacing:-0.02em;">${BRAND_NAME}</p>
-                <p style="margin:6px 0 0;font-size:13px;color:#cbd5e1;">Property compliance tracking for UK property managers</p>
+              <td style="background-color:#33181C;padding:28px 32px;text-align:center;border-bottom:2px solid #C4A35A;">
+                <p style="margin:0;font-family:Georgia,'Times New Roman',Times,serif;font-size:17px;font-weight:400;color:#EAECE4;letter-spacing:0.22em;text-transform:uppercase;">
+                  FRETWELL <span style="font-style:italic;color:#C4A35A;">&amp;</span> CO
+                </p>
               </td>
             </tr>
             <tr>
-              <td style="padding:32px;">
+              <td style="padding:36px 32px;background-color:#F5F0E8;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
                 ${content}
               </td>
             </tr>
             <tr>
-              <td style="padding:20px 32px;border-top:1px solid #e2e8f0;background-color:#f8fafc;">
-                <p style="margin:0;font-size:12px;color:#64748b;text-align:center;">
-                  You are receiving this email from ${BRAND_NAME}.
+              <td style="padding:24px 32px;border-top:1px solid #C4A35A;background-color:#F5F0E8;text-align:center;">
+                <p style="margin:0 0 5px;font-family:Georgia,'Times New Roman',Times,serif;font-size:13px;color:#33181C;">Fretwell &amp; Co</p>
+                <p style="margin:0;font-size:12px;">
+                  <a href="https://fretwellcompliance.uk" style="color:#5C4A3A;text-decoration:none;">fretwellcompliance.uk</a>
                 </p>
               </td>
             </tr>
@@ -362,6 +364,26 @@ export function buildWelcomeEmail({ dashboardUrl }: WelcomeEmailParams) {
     <a href="${dashboardUrl}" style="display:inline-block;background-color:#33181C;color:#EAECE4;text-decoration:none;font-size:13px;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;padding:14px 24px;">
       Go to your dashboard
     </a>
+  `);
+
+  return { subject, html };
+}
+
+export function buildPasswordResetEmail({ resetUrl }: { resetUrl: string }) {
+  const subject = `Reset your ${BRAND_NAME} password`;
+  const safeResetUrl = escapeHtml(resetUrl);
+  const html = emailLayout(`
+    <p style="margin:0 0 16px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.14em;color:#33181C;">ACCOUNT SECURITY</p>
+    <h1 style="margin:0 0 16px;font-family:Georgia,'Times New Roman',Times,serif;font-size:24px;font-weight:400;color:#33181C;">Reset your password</h1>
+    <p style="margin:0 0 24px;font-size:15px;line-height:1.7;color:#5C4A3A;">
+      We received a request to reset your Fretwell &amp; Co password. Use the button below to choose a new password.
+    </p>
+    <a href="${safeResetUrl}" style="display:inline-block;background-color:#33181C;color:#EAECE4;text-decoration:none;font-size:13px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;padding:14px 24px;border-radius:4px;">
+      Reset password
+    </a>
+    <p style="margin:24px 0 0;font-size:13px;line-height:1.7;color:#5C4A3A;">
+      If you did not request this change, you can safely ignore this email.
+    </p>
   `);
 
   return { subject, html };

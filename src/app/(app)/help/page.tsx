@@ -1,4 +1,5 @@
 import HelpFaqAccordion from "@/components/help/HelpFaqAccordion";
+import PageBackButton from "@/components/PageBackButton";
 import { editorialFormSectionRuleClassName } from "@/lib/ui";
 
 const GETTING_STARTED_STEPS = [
@@ -22,11 +23,12 @@ const GETTING_STARTED_STEPS = [
 export default function HelpPage() {
   return (
     <div className="dashboard-parchment-bg min-h-[calc(100vh-4rem)] w-full min-w-0 overflow-x-hidden">
-      <section className="dashboard-portfolio-divider flex flex-col items-center justify-center px-5 py-10 text-center">
+      <section className="app-under-nav dashboard-portfolio-divider flex flex-col items-center justify-center px-5 pb-10 text-center">
         <p className="caps-label text-dusty-cream">Help &amp; Support</p>
       </section>
 
       <section className="mx-auto max-w-3xl px-5 py-10 sm:px-8 sm:py-14 lg:px-12">
+        <PageBackButton className="mb-8" />
         <div>
           <h2 className="caps-label text-leather">Getting Started</h2>
           <div className="mt-8 space-y-0">

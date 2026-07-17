@@ -271,7 +271,7 @@ export default function PropertyContractors({
             role="dialog"
             aria-modal="true"
             aria-labelledby="add-contractor-title"
-            className="assistant-composer-modal relative z-[1] max-h-[92vh] w-full max-w-lg overflow-y-auto bg-[#F0ECE1] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.3)] sm:p-8"
+            className="assistant-composer-modal relative z-[1] max-h-[92dvh] w-full max-w-lg overflow-y-auto bg-[#F0ECE1] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.3)] sm:p-8"
           >
             <button
               type="button"
