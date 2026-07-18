@@ -77,7 +77,15 @@ export function DashboardStatsRow({
   ];
 
   return (
-    <div className="grid w-full grid-cols-2 bg-[#33181C] lg:grid-cols-4">
+    <div
+      className="grid w-full grid-cols-2 bg-[#33181C] lg:grid-cols-4"
+      style={{
+        marginTop: "2px",
+        borderTop: "2px solid #C4A35A",
+        borderLeft: "1px solid #C4A35A",
+        borderRight: "1px solid #C4A35A",
+      }}
+    >
       {cards.map((card, index) => (
         <div
           key={card.status}

@@ -68,7 +68,15 @@ export function TenancyStatsRow({
   ];
 
   return (
-    <div className="grid w-full grid-cols-2 bg-[#1B2339] lg:grid-cols-4">
+    <div
+      className="grid w-full grid-cols-2 bg-[#1B2339] lg:grid-cols-4"
+      style={{
+        marginTop: "2px",
+        borderTop: "2px solid #C4A35A",
+        borderLeft: "1px solid #C4A35A",
+        borderRight: "1px solid #C4A35A",
+      }}
+    >
       {cards.map((card, index) => (
         <div
           key={card.status}
