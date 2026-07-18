@@ -59,9 +59,9 @@ export const siteImages = {
     "georgeCiobra"
   ),
   tenancyDashboardHero: asset(
-    "/favicon_io-4/pexels-lorna-pauli-1320744316-29518376.jpg",
+    "/jonny-gios-g5ctwViRHy8-unsplash.jpg",
     NAVY_IMAGE_PLACEHOLDER,
-    "lornaPauliChandelier"
+    "jonnyGiosManor"
   ),
   eranjanCottage: asset(
     "/eranjan-Zh7nJn_Z4EE-unsplash.jpg",

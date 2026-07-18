@@ -19,27 +19,26 @@ export default function DashboardStatusBand({
 
   return (
     <div
-      className="absolute inset-x-4 bottom-4 z-10 max-w-md px-6 py-5 sm:inset-x-auto sm:bottom-10 sm:left-10 sm:max-w-sm sm:px-8 sm:py-6"
-      style={{ backgroundColor: "rgba(51,24,28,0.85)" }}
+      className="absolute bottom-8 left-4 z-10 max-w-md px-6 py-5 sm:bottom-12 sm:left-10 sm:px-7 sm:py-6"
+      style={{ backgroundColor: "rgba(51,24,28,0.6)" }}
     >
-      <div className="h-px w-10 bg-gold" aria-hidden="true" />
       <p
-        className="mt-4 text-[10px] font-normal uppercase tracking-[0.28em]"
-        style={{ color: "#F8F4EE" }}
+        className="text-[9px] font-normal uppercase tracking-[0.32em]"
+        style={{ color: "#C4A35A" }}
       >
-        Compliance Portfolio
+        Compliance
       </p>
       <h1
-        className="mt-4 font-display text-2xl font-normal leading-snug tracking-wide sm:text-3xl"
+        className="mt-3 font-serif text-xl font-normal leading-snug tracking-wide sm:text-2xl"
         style={{ color: "#F8F4EE" }}
       >
         {isCompliant
           ? "All Properties Compliant"
-          : `${needsAttention} ${needsAttention === 1 ? "Property" : "Properties"} Need Attention`}
+          : `${needsAttention} ${needsAttention === 1 ? "Property" : "Properties"} Need${needsAttention === 1 ? "s" : ""} Attention`}
       </h1>
       <p
-        className="mt-3 text-sm italic leading-relaxed"
-        style={{ color: "#F8F4EE" }}
+        className="mt-2 text-xs italic leading-relaxed"
+        style={{ color: "rgba(248,244,238,0.75)" }}
       >
         {isCompliant
           ? `${compliant} current and protected`
@@ -55,77 +54,52 @@ export function DashboardStatsRow({
   attention,
   overdue,
 }: DashboardStatusBandProps) {
-  function handleViewAffected() {
-    document.getElementById("property-grid")?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-    window.dispatchEvent(new CustomEvent(DASHBOARD_HIGHLIGHT_AFFECTED_EVENT));
-  }
-
   const cards = [
-    {
-      status: "Portfolio Overview",
-      value: `${total} ${total === 1 ? "property" : "properties"}`,
-      description: "Across your portfolio",
-    },
-    {
-      status: compliant === total ? "All Compliant" : "Compliant",
-      value: `${compliant} current`,
-      description: "Certificates up to date",
-    },
-    {
-      status: "Needs Attention",
-      value: `${attention} approaching expiry`,
-      description: "Review upcoming deadlines",
-      actionable: attention > 0,
-    },
-    {
-      status: "Overdue",
-      value: `${overdue} past due`,
-      description: "Immediate action required",
-      actionable: overdue > 0,
-    },
+    { value: total, line: total === 1 ? "Property" : "Properties" },
+    { value: compliant, line: "Compliant" },
+    { value: attention, line: "Needs Attention" },
+    { value: overdue, line: "Overdue" },
   ];
 
   return (
     <div
-      className="grid w-full grid-cols-2 bg-[#33181C] lg:grid-cols-4"
+      className="grid w-full grid-cols-2 lg:grid-cols-4"
       style={{
         marginTop: "32px",
-        borderTop: "2px solid #C4A35A",
+        backgroundColor: "#33181C",
+        borderTop: "1px solid #C4A35A",
         borderLeft: "1px solid #C4A35A",
         borderRight: "1px solid #C4A35A",
       }}
     >
       {cards.map((card, index) => (
         <div
-          key={card.status}
-          className={`flex min-h-[190px] flex-col justify-center px-6 py-8 text-center ${
-            index % 2 === 1 ? "border-l border-gold" : ""
-          } ${index > 0 ? "lg:border-l lg:border-gold" : ""}`}
+          key={card.line}
+          className="flex flex-col items-center justify-center px-6 py-12 text-center sm:py-14"
+          style={
+            index > 0
+              ? { borderLeft: "1px solid rgba(196,163,90,0.55)" }
+              : undefined
+          }
         >
-          <p className="text-[10px] font-normal uppercase tracking-[0.28em] text-dusty-cream/70">
+          <p
+            className="text-[9px] font-normal uppercase tracking-[0.32em]"
+            style={{ color: "#C4A35A" }}
+          >
             Compliance
           </p>
-          <p className="mt-4 font-display text-2xl leading-tight tracking-wide text-dusty-cream">
-            {card.status}
-          </p>
-          <p className="mt-3 font-serif text-base tracking-wide text-dusty-cream">
+          <p
+            className="mt-5 font-display text-5xl font-normal tracking-wide sm:text-6xl"
+            style={{ color: "#F8F4EE" }}
+          >
             {card.value}
           </p>
-          <p className="mt-2 text-xs italic leading-relaxed text-dusty-cream/65">
-            {card.description}
+          <p
+            className="mt-4 text-[11px] font-normal uppercase tracking-[0.18em]"
+            style={{ color: "rgba(248,244,238,0.75)" }}
+          >
+            {card.line}
           </p>
-          {card.actionable ? (
-            <button
-              type="button"
-              onClick={handleViewAffected}
-              className="mx-auto mt-3 min-h-8 text-[10px] font-normal uppercase tracking-[0.16em] text-gold transition hover:text-dusty-cream"
-            >
-              View properties →
-            </button>
-          ) : null}
         </div>
       ))}
     </div>
