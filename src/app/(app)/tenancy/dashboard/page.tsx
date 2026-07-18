@@ -56,7 +56,7 @@ export default async function TenancyDashboardPage() {
       <RoutePrefetcher paths={["/tenancy/new", "/reminders"]} />
       <section
         className="relative flex w-full flex-col overflow-hidden"
-        style={{ minHeight: "85vh", backgroundColor: "#1B2339" }}
+        style={{ minHeight: "55vh", backgroundColor: "#1B2339" }}
       >
         <OptimizedFillImage
           image={siteImages.tenancyDashboardHero}
@@ -67,7 +67,7 @@ export default async function TenancyDashboardPage() {
           className="object-cover"
           style={{ objectPosition: "center 35%" }}
         />
-        <div className="absolute inset-0 bg-[#1B2339]/50" aria-hidden="true" />
+        <div className="absolute inset-0 bg-[#1B2339]/40" aria-hidden="true" />
         <TenancyStatusBand
           total={tenancyList.length}
           renewalsDue={renewalsDue}
@@ -117,14 +117,22 @@ export default async function TenancyDashboardPage() {
       </section>
 
       <section
-        className="tenancy-portfolio-divider mt-12 flex h-20 flex-col items-center justify-center"
+        className={`${editorialPagePaddingClassName} pb-16 pt-20 sm:pb-24 sm:pt-24 lg:pb-28`}
         aria-label="Your tenancies"
       >
-        <p className="caps-label text-dusty-cream">Your Tenancies</p>
-        <div className="mt-2 h-px w-10 bg-gold" aria-hidden="true" />
-      </section>
-
-      <section className={`${editorialPagePaddingClassName} pb-16 pt-10 sm:pb-24 lg:pb-28`}>
+        <div className="mb-10">
+          <p
+            className="text-[10px] font-normal uppercase tracking-[0.28em]"
+            style={{ color: "#60544D" }}
+          >
+            Your Tenancies
+          </p>
+          <div
+            className="mt-3 h-px w-12"
+            style={{ backgroundColor: "#C4A35A" }}
+            aria-hidden="true"
+          />
+        </div>
         <Suspense fallback={null}>
           <TenancyPortfolio tenancies={tenancyList} />
         </Suspense>

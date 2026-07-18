@@ -3,18 +3,32 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import PropertyCard from "@/components/PropertyCard";
-import { ScrollRevealGroup } from "@/components/ScrollReveal";
+import { getStatusLabel } from "@/lib/compliance";
+import { btnGoldClassName, searchInputClassName } from "@/lib/ui";
 import {
-  btnGoldClassName,
-  dashboardWarmCardClassName,
-  searchInputClassName,
-} from "@/lib/ui";
-import type { ComplianceStatus, Property } from "@/lib/types";
+  PROPERTY_TYPE_LABELS,
+  type ComplianceStatus,
+  type Property,
+} from "@/lib/types";
 import { DASHBOARD_HIGHLIGHT_AFFECTED_EVENT } from "./DashboardStatusBand";
 
 interface PropertyWithStatus extends Property {
   status: ComplianceStatus;
+  nextExpiry: string | null;
+}
+
+const STATUS_DOT_COLORS: Record<ComplianceStatus, string> = {
+  green: "#4A6B55",
+  amber: "#8B7355",
+  red: "#7A4048",
+};
+
+function formatExpiryDate(date: string): string {
+  return new Date(date).toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
 }
 
 interface DashboardPortfolioProps {
@@ -162,25 +176,63 @@ export default function DashboardPortfolio({ properties }: DashboardPortfolioPro
 
       <div id="property-grid" className="mt-10 scroll-mt-24 sm:mt-12">
         {filteredProperties.length === 0 ? (
-          <div className={`${dashboardWarmCardClassName} px-6 py-14 text-center sm:px-8`}>
-            <p className="dashboard-warm-card-content text-base font-light italic leading-relaxed text-leather">
-              {emptyMessage}
-            </p>
-          </div>
+          <p
+            className="py-14 text-center text-base font-light italic leading-relaxed"
+            style={{ color: "#60544D" }}
+          >
+            {emptyMessage}
+          </p>
         ) : (
-          <ScrollRevealGroup className="grid grid-cols-1 items-stretch gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {filteredProperties.map((property) => (
-              <PropertyCard
-                key={property.id}
-                property={property}
-                status={property.status}
-                highlightPulse={
-                  highlightAffected &&
-                  (property.status === "amber" || property.status === "red")
-                }
-              />
-            ))}
-          </ScrollRevealGroup>
+          <div style={{ borderTop: "1px solid rgba(196,163,90,0.35)" }}>
+            {filteredProperties.map((property) => {
+              const pulse =
+                highlightAffected &&
+                (property.status === "amber" || property.status === "red");
+              return (
+                <Link
+                  key={property.id}
+                  href={`/properties/${property.id}`}
+                  className={`group flex flex-col gap-3 py-6 transition sm:flex-row sm:items-center sm:justify-between sm:gap-8 ${pulse ? "property-card-highlight-pulse" : ""}`}
+                  style={{ borderBottom: "1px solid rgba(196,163,90,0.35)" }}
+                >
+                  <div className="min-w-0">
+                    <h3
+                      className="truncate font-serif text-lg font-normal tracking-wide transition group-hover:opacity-70 sm:text-xl"
+                      style={{ color: "#60544D" }}
+                    >
+                      {property.address}
+                    </h3>
+                    <p
+                      className="mt-1 text-xs font-light"
+                      style={{ color: "rgba(96,84,77,0.65)" }}
+                    >
+                      {PROPERTY_TYPE_LABELS[property.property_type]} ·{" "}
+                      {property.bedrooms}{" "}
+                      {property.bedrooms === 1 ? "bedroom" : "bedrooms"}
+                    </p>
+                  </div>
+                  <div className="flex shrink-0 items-center gap-3">
+                    <span
+                      className="h-2 w-2 rounded-full"
+                      style={{
+                        backgroundColor: STATUS_DOT_COLORS[property.status],
+                      }}
+                      aria-hidden="true"
+                    />
+                    <p
+                      className="text-[11px] font-normal uppercase tracking-[0.14em]"
+                      style={{ color: "#60544D" }}
+                    >
+                      {getStatusLabel(property.status)}
+                      {property.nextExpiry
+                        ? ` · Next expiry ${formatExpiryDate(property.nextExpiry)}`
+                        : ""}
+                    </p>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
         )}
       </div>
     </div>

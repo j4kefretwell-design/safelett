@@ -34,11 +34,18 @@ export default async function ComplianceDashboardPage() {
         .select("expiry_date")
         .eq("property_id", property.id);
 
-      const status = getPropertyStatus(
-        (certificates ?? []) as Pick<Certificate, "expiry_date">[]
-      );
+      const certificateList = (certificates ?? []) as Pick<
+        Certificate,
+        "expiry_date"
+      >[];
+      const status = getPropertyStatus(certificateList);
+      const nextExpiry =
+        certificateList
+          .map((certificate) => certificate.expiry_date)
+          .filter((date): date is string => Boolean(date))
+          .sort()[0] ?? null;
 
-      return { ...property, status };
+      return { ...property, status, nextExpiry };
     })
   );
 
@@ -63,7 +70,7 @@ export default async function ComplianceDashboardPage() {
       <RoutePrefetcher paths={["/properties/new", "/reminders"]} />
       <section
         className="relative flex w-full flex-col overflow-hidden"
-        style={{ minHeight: "85vh", backgroundColor: "#33181C" }}
+        style={{ minHeight: "55vh", backgroundColor: "#33181C" }}
       >
         <OptimizedFillImage
           image={siteImages.anthonyFomin}
@@ -73,7 +80,7 @@ export default async function ComplianceDashboardPage() {
           quality={IMAGE_QUALITY}
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-[#33181C]/50" aria-hidden="true" />
+        <div className="absolute inset-0 bg-[#33181C]/40" aria-hidden="true" />
         <DashboardStatusBand
           total={stats.total}
           compliant={stats.compliant}
@@ -109,23 +116,32 @@ export default async function ComplianceDashboardPage() {
       </section>
 
       <section
-        className="dashboard-portfolio-divider mt-12 flex h-20 flex-col items-center justify-center"
+        className={`dashboard-parchment-bg ${editorialPagePaddingClassName} pb-16 pt-20 sm:pb-24 sm:pt-24 lg:pb-28`}
         aria-label="Property portfolio"
       >
-        <p className="caps-label text-dusty-cream">
-          Your Property Portfolio
-        </p>
-        <div className="mt-2 h-px w-10 bg-gold" aria-hidden="true" />
-      </section>
-
-      <section className={`dashboard-parchment-bg ${editorialPagePaddingClassName} pb-16 pt-10 sm:pb-24 lg:pb-28`}>
-        <div className="mb-8 flex justify-end">
+        <div className="mb-10 flex flex-wrap items-end justify-between gap-6">
+          <div>
+            <p
+              className="text-[10px] font-normal uppercase tracking-[0.28em]"
+              style={{ color: "#60544D" }}
+            >
+              Your Properties
+            </p>
+            <div
+              className="mt-3 h-px w-12"
+              style={{ backgroundColor: "#C4A35A" }}
+              aria-hidden="true"
+            />
+          </div>
           <DashboardPortfolioActions />
         </div>
         <Suspense fallback={null}>
           <DashboardPortfolio
             properties={
-              propertiesWithStatus as (Property & { status: ComplianceStatus })[]
+              propertiesWithStatus as (Property & {
+                status: ComplianceStatus;
+                nextExpiry: string | null;
+              })[]
             }
           />
         </Suspense>

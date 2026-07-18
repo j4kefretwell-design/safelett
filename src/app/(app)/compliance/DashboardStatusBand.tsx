@@ -66,6 +66,7 @@ export function DashboardStatsRow({
       className="grid w-full grid-cols-2 lg:grid-cols-4"
       style={{
         marginTop: "32px",
+        marginBottom: "48px",
         backgroundColor: "#33181C",
         borderTop: "1px solid #C4A35A",
         borderLeft: "1px solid #C4A35A",

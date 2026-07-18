@@ -12,18 +12,17 @@ export default function TenancyStatusBand({
 }: TenancyStatusBandProps) {
   return (
     <div
-      className="absolute inset-x-4 bottom-4 z-10 max-w-md px-6 py-5 sm:inset-x-auto sm:bottom-10 sm:left-10 sm:max-w-sm sm:px-8 sm:py-6"
-      style={{ backgroundColor: "rgba(27,35,57,0.85)" }}
+      className="absolute bottom-8 left-4 z-10 max-w-md px-6 py-5 sm:bottom-12 sm:left-10 sm:px-7 sm:py-6"
+      style={{ backgroundColor: "rgba(27,35,57,0.6)" }}
     >
-      <div className="h-px w-10 bg-gold" aria-hidden="true" />
       <p
-        className="mt-4 text-[10px] font-normal uppercase tracking-[0.28em]"
-        style={{ color: "#F8F4EE" }}
+        className="text-[9px] font-normal uppercase tracking-[0.32em]"
+        style={{ color: "#C4A35A" }}
       >
-        Tenancy Portfolio
+        Tenancy
       </p>
       <h1
-        className="mt-4 font-display text-2xl font-normal leading-snug tracking-wide sm:text-3xl"
+        className="mt-3 font-serif text-xl font-normal leading-snug tracking-wide sm:text-2xl"
         style={{ color: "#F8F4EE" }}
       >
         {renewalsDue > 0
@@ -31,8 +30,8 @@ export default function TenancyStatusBand({
           : "All Tenancies in Good Standing"}
       </h1>
       <p
-        className="mt-3 text-sm italic leading-relaxed"
-        style={{ color: "#F8F4EE" }}
+        className="mt-2 text-xs italic leading-relaxed"
+        style={{ color: "rgba(248,244,238,0.75)" }}
       >
         {renewalsDue > 0
           ? "Review the affected tenancies below."
@@ -48,75 +47,53 @@ export function TenancyStatsRow({
   rentReviewsDue,
   depositsUnprotected,
 }: TenancyStatusBandProps) {
-  function handleViewRenewals() {
-    document.getElementById("tenancy-grid")?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-  }
-
   const cards = [
-    {
-      status: "Portfolio Overview",
-      value: `${total} ${total === 1 ? "tenancy" : "tenancies"}`,
-      description: "Across your portfolio",
-    },
-    {
-      status: "Renewals Due",
-      value: `${renewalsDue} ending or expired`,
-      description: "Review upcoming renewals",
-      actionable: renewalsDue > 0,
-    },
-    {
-      status: "Rent Reviews Due",
-      value: `${rentReviewsDue} within 60 days`,
-      description: "Upcoming review dates",
-    },
-    {
-      status: "Deposit Protection",
-      value: `${depositsUnprotected} unprotected`,
-      description: depositsUnprotected > 0 ? "Immediate action required" : "All deposits protected",
-    },
+    { value: total, line: total === 1 ? "Tenancy" : "Tenancies" },
+    { value: renewalsDue, line: "Renewals Due" },
+    { value: rentReviewsDue, line: "Rent Reviews Due" },
+    { value: depositsUnprotected, line: "Deposits Unprotected" },
   ];
 
   return (
     <div
-      className="grid w-full grid-cols-2 bg-[#1B2339] lg:grid-cols-4"
+      className="grid w-full grid-cols-2 lg:grid-cols-4"
       style={{
         marginTop: "32px",
-        borderTop: "2px solid #C4A35A",
+        marginBottom: "48px",
+        backgroundColor: "#1B2339",
+        borderTop: "1px solid #C4A35A",
         borderLeft: "1px solid #C4A35A",
         borderRight: "1px solid #C4A35A",
       }}
     >
       {cards.map((card, index) => (
         <div
-          key={card.status}
-          className={`flex min-h-[190px] flex-col justify-center px-6 py-8 text-center ${
-            index % 2 === 1 ? "border-l border-gold" : ""
-          } ${index > 0 ? "lg:border-l lg:border-gold" : ""}`}
+          key={card.line}
+          className="flex flex-col items-center justify-center px-6 py-12 text-center sm:py-14"
+          style={
+            index > 0
+              ? { borderLeft: "1px solid rgba(196,163,90,0.55)" }
+              : undefined
+          }
         >
-          <p className="text-[10px] font-normal uppercase tracking-[0.28em] text-dusty-cream/70">
+          <p
+            className="text-[9px] font-normal uppercase tracking-[0.32em]"
+            style={{ color: "#C4A35A" }}
+          >
             Tenancy
           </p>
-          <p className="mt-4 font-display text-2xl leading-tight tracking-wide text-dusty-cream">
-            {card.status}
-          </p>
-          <p className="mt-3 font-serif text-base tracking-wide text-dusty-cream">
+          <p
+            className="mt-5 font-display text-5xl font-normal tracking-wide sm:text-6xl"
+            style={{ color: "#F8F4EE" }}
+          >
             {card.value}
           </p>
-          <p className="mt-2 text-xs italic leading-relaxed text-dusty-cream/65">
-            {card.description}
+          <p
+            className="mt-4 text-[11px] font-normal uppercase tracking-[0.18em]"
+            style={{ color: "rgba(248,244,238,0.75)" }}
+          >
+            {card.line}
           </p>
-          {card.actionable ? (
-            <button
-              type="button"
-              onClick={handleViewRenewals}
-              className="mx-auto mt-3 min-h-8 text-[10px] font-normal uppercase tracking-[0.16em] text-gold transition hover:text-dusty-cream"
-            >
-              View tenancies →
-            </button>
-          ) : null}
         </div>
       ))}
     </div>
