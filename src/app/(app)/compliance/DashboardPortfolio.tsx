@@ -7,7 +7,6 @@ import PropertyCard from "@/components/PropertyCard";
 import { ScrollRevealGroup } from "@/components/ScrollReveal";
 import {
   btnGoldClassName,
-  capsLabelClassName,
   dashboardWarmCardClassName,
   searchInputClassName,
 } from "@/lib/ui";
@@ -117,9 +116,10 @@ export default function DashboardPortfolio({ properties }: DashboardPortfolioPro
         />
 
         <div
-          className="flex flex-wrap gap-x-4 gap-y-3 sm:gap-x-5"
+          className="flex flex-wrap gap-1 px-2 py-2"
           role="group"
           aria-label="Filter properties by status"
+          style={{ backgroundColor: "#33181C" }}
         >
           {STATUS_FILTERS.map((filter) => {
             const isActive =
@@ -132,11 +132,20 @@ export default function DashboardPortfolio({ properties }: DashboardPortfolioPro
                 type="button"
                 onClick={() => setStatusFilter(filter.key)}
                 aria-pressed={statusFilter === filter.key}
-                className={`min-h-11 px-1 pb-1 ${capsLabelClassName} transition ${
+                className="min-h-11 px-4 text-[11px] font-normal uppercase tracking-[0.14em] transition"
+                style={
                   isActive
-                    ? "border-b border-gold text-leather"
-                    : "text-leather/70 hover:text-leather"
-                }`}
+                    ? {
+                        backgroundColor: "#F8F4EE",
+                        color: "#33181C",
+                        borderBottom: "2px solid #C4A35A",
+                      }
+                    : {
+                        backgroundColor: "transparent",
+                        color: "rgba(234,230,223,0.7)",
+                        borderBottom: "2px solid transparent",
+                      }
+                }
               >
                 {filter.label}
               </button>

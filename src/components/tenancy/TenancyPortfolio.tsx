@@ -75,7 +75,12 @@ export default function TenancyPortfolio({ tenancies }: TenancyPortfolioProps) {
           className={`${searchInputClassName} max-w-md text-tenancy-text placeholder:text-steel/50 focus:border-navy`}
         />
 
-        <div className="flex flex-wrap gap-2">
+        <div
+          className="flex flex-wrap gap-1 px-2 py-2"
+          role="group"
+          aria-label="Filter tenancies by status"
+          style={{ backgroundColor: "#1B2339" }}
+        >
           {(
             [
               ["all", "All"],
@@ -93,11 +98,21 @@ export default function TenancyPortfolio({ tenancies }: TenancyPortfolioProps) {
                 key={value}
                 type="button"
                 onClick={() => setStatusFilter(value)}
-                className={`min-h-10 border px-4 py-2 text-[11px] font-normal uppercase tracking-[0.1em] transition ${
+                aria-pressed={statusFilter === value}
+                className="min-h-11 px-4 text-[11px] font-normal uppercase tracking-[0.14em] transition"
+                style={
                   isActive
-                    ? "border-navy bg-navy text-dusty-cream"
-                    : "border-taupe bg-dune text-steel hover:border-navy"
-                }`}
+                    ? {
+                        backgroundColor: "#F8F4EE",
+                        color: "#1B2339",
+                        borderBottom: "2px solid #C4A35A",
+                      }
+                    : {
+                        backgroundColor: "transparent",
+                        color: "rgba(234,230,223,0.7)",
+                        borderBottom: "2px solid transparent",
+                      }
+                }
               >
                 {label}
               </button>
