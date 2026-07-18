@@ -18,17 +18,29 @@ export default function DashboardStatusBand({
   const isCompliant = needsAttention === 0;
 
   return (
-    <div className="absolute inset-x-4 bottom-4 z-10 max-w-md bg-[#33181C] px-6 py-5 sm:inset-x-auto sm:bottom-10 sm:left-10 sm:max-w-sm sm:px-8 sm:py-6">
+    <div
+      className="absolute inset-x-4 bottom-4 z-10 max-w-md px-6 py-5 sm:inset-x-auto sm:bottom-10 sm:left-10 sm:max-w-sm sm:px-8 sm:py-6"
+      style={{ backgroundColor: "rgba(51,24,28,0.85)" }}
+    >
       <div className="h-px w-10 bg-gold" aria-hidden="true" />
-      <p className="mt-4 text-[10px] font-normal uppercase tracking-[0.28em] text-gold">
+      <p
+        className="mt-4 text-[10px] font-normal uppercase tracking-[0.28em]"
+        style={{ color: "#F8F4EE" }}
+      >
         Compliance Portfolio
       </p>
-      <h1 className="mt-4 font-display text-2xl font-normal leading-snug tracking-wide text-dusty-cream sm:text-3xl">
+      <h1
+        className="mt-4 font-display text-2xl font-normal leading-snug tracking-wide sm:text-3xl"
+        style={{ color: "#F8F4EE" }}
+      >
         {isCompliant
           ? "All Properties Compliant"
           : `${needsAttention} ${needsAttention === 1 ? "Property" : "Properties"} Need Attention`}
       </h1>
-      <p className="mt-3 text-sm italic leading-relaxed text-dusty-cream/80">
+      <p
+        className="mt-3 text-sm italic leading-relaxed"
+        style={{ color: "#F8F4EE" }}
+      >
         {isCompliant
           ? `${compliant} current and protected`
           : "Review the affected properties below."}
@@ -80,7 +92,7 @@ export function DashboardStatsRow({
     <div
       className="grid w-full grid-cols-2 bg-[#33181C] lg:grid-cols-4"
       style={{
-        marginTop: "2px",
+        marginTop: "32px",
         borderTop: "2px solid #C4A35A",
         borderLeft: "1px solid #C4A35A",
         borderRight: "1px solid #C4A35A",
